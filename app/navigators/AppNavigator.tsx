@@ -10,16 +10,17 @@ import {
   NavigationContainer,
   NavigatorScreenParams,
 } from "@react-navigation/native"
-import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
+import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
+import * as Screens from "app/screens"
+import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
+import { colors } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
-import * as Screens from "app/screens"
 import Config from "../config"
 import { useStores } from "../models"
 import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
-import { colors } from "app/theme"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -39,6 +40,9 @@ export type AppStackParamList = {
   Login: undefined
   Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
+  SignUp: undefined
+  RestorePassword: undefined
+  UserInfo: undefined
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -57,6 +61,7 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
+  useFetchAuthUser()
   const {
     authenticationStore: { isAuthenticated },
   } = useStores()
@@ -64,17 +69,19 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Welcome" : "Login"}
+      initialRouteName={isAuthenticated ? "Demo" : "Welcome"}
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-
           <Stack.Screen name="Demo" component={DemoNavigator} />
+          <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
         </>
       ) : (
         <>
+          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
           <Stack.Screen name="Login" component={Screens.LoginScreen} />
+          <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
+          <Stack.Screen name="RestorePassword" component={Screens.RestorePasswordScreen} />
         </>
       )}
 

@@ -35,6 +35,8 @@ const palette: Record<string, string> = {
 
   overlay20: "rgba(25, 16, 21, 0.2)",
   overlay50: "rgba(25, 16, 21, 0.5)",
+
+  white: "#FFFFFF",
 } as const
 
 export const colors = {
@@ -52,6 +54,10 @@ export const colors = {
    * The default text color in many components.
    */
   text: palette.neutral800,
+  /**
+   * The text color light on dark backgrounds.
+   */
+  textInverted: palette.white,
   /**
    * Secondary text information.
    */

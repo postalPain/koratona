@@ -1,105 +1,129 @@
-import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
-import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { Button, Text } from "app/components"
-import { isRTL } from "../i18n"
-import { useStores } from "../models"
+import { observer } from "mobx-react-lite"
+import React, { FC, useState } from "react"
+import { Image, ImageBackground, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
-import { useHeader } from "../utils/useHeader"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
+import { SwipeablePanel } from "rn-swipeable-panel"
+import { AuthController } from "./Auth/AuthController"
 
 const welcomeLogo = require("../../assets/images/logo.png")
-const welcomeFace = require("../../assets/images/welcome-face.png")
+const welcomeBackGround = require("../../assets/backgrounds/welcome-screen.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 
 export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
-  const { navigation } = _props
-  const {
-    authenticationStore: { logout },
-  } = useStores()
-
-  function goNext() {
-    navigation.navigate("Demo", { screen: "DemoShowroom", params: {} })
-  }
-
-  useHeader(
-    {
-      rightTx: "common.logOut",
-      onRightPress: logout,
-    },
-    [logout],
-  )
-
+  const [activeAuthContent, setActiveAuthContent] = useState<
+    "login" | "signUp" | "restorePassword"
+  >("login")
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
+  const $topContainerInsets = useSafeAreaInsetsStyle(["top"])
+
+  const closePanel = () => {
+    setIsPanelActive(false)
+  }
+  const [isPanelActive, setIsPanelActive] = useState(false)
+
+  const openPanel =
+    (contentKey: "login" | "signUp" | "restorePassword" = "login") =>
+    () => {
+      setActiveAuthContent(contentKey)
+      setIsPanelActive(true)
+    }
 
   return (
     <View style={$container}>
-      <View style={$topContainer}>
-        <Image style={$welcomeLogo} source={welcomeLogo} resizeMode="contain" />
-        <Text
-          testID="welcome-heading"
-          style={$welcomeHeading}
-          tx="welcomeScreen.readyForLaunch"
-          preset="heading"
-        />
-        <Text tx="welcomeScreen.exciting" preset="subheading" />
-        <Image style={$welcomeFace} source={welcomeFace} resizeMode="contain" />
-      </View>
+      <ImageBackground style={$aspectRatioBox} source={welcomeBackGround}>
+        <View style={[$topContainer, $topContainerInsets]}>
+          <Image style={$welcomeLogo} source={welcomeLogo} resizeMode="center" />
+        </View>
 
-      <View style={[$bottomContainer, $bottomContainerInsets]}>
-        <Text tx="welcomeScreen.postscript" size="md" />
+        <View style={$sloganWrapper}>
+          <Text
+            style={$slogan}
+            text="Engage with your team like never before."
+            size="xl"
+            preset="bold"
+          />
+        </View>
 
-        <Button
-          testID="next-screen-button"
-          preset="reversed"
-          tx="welcomeScreen.letsGo"
-          onPress={goNext}
-        />
-      </View>
+        <View style={[$bottomContainer, $bottomContainerInsets]}>
+          <Button
+            testID="next-screen-button"
+            preset="filled"
+            tx="welcomeScreen.joinApp"
+            style={buttonSignUp}
+            textStyle={buttonSignUpText}
+            onPress={openPanel("signUp")}
+          />
+          <Button
+            testID="next-screen-button"
+            preset="reversed"
+            style={buttonLogin}
+            tx="welcomeScreen.login"
+            onPress={openPanel("login")}
+          />
+        </View>
+      </ImageBackground>
+      <SwipeablePanel
+        fullWidth
+        openLarge={false}
+        showCloseButton={false}
+        onClose={closePanel}
+        smallPanelHeight={
+          activeAuthContent === "restorePassword" || activeAuthContent === "login" ? 550 : 650
+        }
+        isActive={isPanelActive}
+        closeOnTouchOutside
+        scrollViewProps={{ automaticallyAdjustKeyboardInsets: true }}
+      >
+        <AuthController contentKey={activeAuthContent} />
+      </SwipeablePanel>
     </View>
   )
 })
 
+const $aspectRatioBox: ViewStyle & ImageStyle = {
+  flex: 1,
+  justifyContent: "space-between",
+  paddingBottom: spacing.xl,
+}
+
 const $container: ViewStyle = {
   flex: 1,
-  backgroundColor: colors.background,
 }
 
 const $topContainer: ViewStyle = {
-  flexShrink: 1,
-  flexGrow: 1,
-  flexBasis: "57%",
   justifyContent: "center",
-  paddingHorizontal: spacing.lg,
 }
 
 const $bottomContainer: ViewStyle = {
-  flexShrink: 1,
-  flexGrow: 0,
-  flexBasis: "43%",
-  backgroundColor: colors.palette.neutral100,
-  borderTopLeftRadius: 16,
-  borderTopRightRadius: 16,
+  gap: spacing.sm,
   paddingHorizontal: spacing.lg,
-  justifyContent: "space-around",
 }
 const $welcomeLogo: ImageStyle = {
-  height: 88,
+  paddingTop: 130,
   width: "100%",
-  marginBottom: spacing.xxl,
 }
 
-const $welcomeFace: ImageStyle = {
-  height: 169,
-  width: 269,
-  position: "absolute",
-  bottom: -47,
-  right: -80,
-  transform: [{ scaleX: isRTL ? -1 : 1 }],
+const $slogan: TextStyle = {
+  color: colors.textInverted,
+  textAlign: "center",
 }
 
-const $welcomeHeading: TextStyle = {
-  marginBottom: spacing.md,
+const $sloganWrapper: ViewStyle = {
+  paddingHorizontal: spacing.lg,
+}
+
+const buttonSignUp: ViewStyle = {
+  backgroundColor: "#FADFD7",
+}
+
+const buttonLogin: ViewStyle = {
+  backgroundColor: "#333865",
+}
+
+const buttonSignUpText: TextStyle = {
+  color: "#333865",
 }

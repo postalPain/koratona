@@ -137,7 +137,7 @@ const $baseViewStyle: ViewStyle = {
 const $baseTextStyle: TextStyle = {
   fontSize: 16,
   lineHeight: 20,
-  fontFamily: typography.primary.medium,
+  fontFamily: typography.primary.bold,
   textAlign: "center",
   flexShrink: 1,
   flexGrow: 0,

@@ -10,6 +10,7 @@ import { colors, spacing } from "../../theme"
 import { useSafeAreaInsetsStyle } from "../../utils/useSafeAreaInsetsStyle"
 import * as Demos from "./demos"
 import { DrawerIconButton } from "./DrawerIconButton"
+import { useStores } from "app/models/helpers/useStores"
 
 const logo = require("../../../assets/images/logo.png")
 
@@ -75,6 +76,7 @@ const ShowroomListItem = Platform.select({ web: WebListItem, default: NativeList
 export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
   function DemoShowroomScreen(_props) {
     const [open, setOpen] = useState(false)
+    const { authUser } = useStores()
     const timeout = useRef<ReturnType<typeof setTimeout>>()
     const listRef = useRef<SectionList>(null)
     const menuRef = useRef<ListViewRef<DemoListItem["item"]>>(null)
@@ -174,7 +176,7 @@ export const DemoShowroomScreen: FC<DemoTabScreenProps<"DemoShowroom">> =
       >
         <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
           <DrawerIconButton onPress={toggleDrawer} />
-
+          <Text text={authUser.authUser.fullName} preset="subheading" />
           <SectionList
             ref={listRef}
             contentContainerStyle={$sectionListContentContainer}
