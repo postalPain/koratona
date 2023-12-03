@@ -21,6 +21,7 @@ import Config from "../config"
 import { useStores } from "../models"
 import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUserSettings"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -37,13 +38,13 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  */
 export type AppStackParamList = {
   Welcome: undefined
-  Login: undefined
   Demo: NavigatorScreenParams<DemoTabParamList>
   // 🔥 Your screens go here
-  SignUp: undefined
   RestorePassword: undefined
   UserInfo: undefined
-  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  Onboarding: undefined
+  InitialProfileSettings: undefined
+	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -61,32 +62,34 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
-  useFetchAuthUser()
   const {
     authenticationStore: { isAuthenticated },
   } = useStores()
 
+  useFetchAuthUser()
+  useInitApplyUserSettings()
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Demo" : "Welcome"}
+      initialRouteName={isAuthenticated ? "Onboarding" : "Welcome"}
     >
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Demo" component={DemoNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
+          <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
+          <Stack.Screen name="InitialProfileSettings" component={Screens.InitialProfileSettingsScreen} />
         </>
       ) : (
         <>
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-          <Stack.Screen name="Login" component={Screens.LoginScreen} />
-          <Stack.Screen name="SignUp" component={Screens.SignUpScreen} />
           <Stack.Screen name="RestorePassword" component={Screens.RestorePasswordScreen} />
         </>
       )}
 
       {/** 🔥 Your screens go here */}
-      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })

@@ -1,23 +1,26 @@
 import React, { FC } from "react"
-import { LoginContent } from "./LoginContent"
-import { SignUpContent } from "./SignUpContent"
+
+import { ForgotPasswordContent, LoginContent, SignUpContent } from "./AuthContent"
+
+export type AuthContentKey = "login" | "signUp" | "restorePassword"
 
 type AuthControllerProps = {
-  contentKey: "login" | "signUp" | "restorePassword"
+  contentKey: AuthContentKey
+  setContentKey: (key: AuthContentKey) => () => void
+  onClose: () => void
 }
 
-export const AuthController: FC<AuthControllerProps> = ({ contentKey }) => {
+export const AuthController: FC<AuthControllerProps> = ({ contentKey, setContentKey, onClose }) => {
   const getContent = () => {
     switch (contentKey) {
       case "login":
-        return <LoginContent />
+        return <LoginContent setContentKey={setContentKey} />
       case "signUp":
-        return <SignUpContent />
+        return <SignUpContent onClose={onClose} />
       case "restorePassword":
-        return <SignUpContent />
-      // return <RestorePasswordContent />
+        return <ForgotPasswordContent setContentKey={setContentKey} />
       default:
-        return <LoginContent />
+        return <LoginContent setContentKey={setContentKey} />
     }
   }
 

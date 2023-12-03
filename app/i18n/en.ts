@@ -4,16 +4,36 @@ const en = {
     cancel: "Cancel",
     back: "Back",
     logOut: "Log Out",
+    and: " & ",
+    login: "Login",
+    skipText: "Maybe later",
+  },
+  policies: {
+    agreement: "By creating an account, you agree to our",
+    privacy: " Privacy Policy",
+    terms: "Terms of Service",
   },
   welcomeScreen: {
+    slogan: "Engage with your team like never before.",
     joinApp: "Join Koratona",
-    login: "Login",
   },
   signUp: {
     slogan: "Be part of your favorite club",
+    signUp: "Create Account",
   },
   signIn: {
     slogan: "Welcome back",
+    forgotPassword: "Reset password",
+  },
+  forgotPassword: {
+    slogan: "Password reset",
+    hint: "Email password reset link",
+  },
+  resetPassword: {
+    slogan: "Create new password",
+    passwordFieldLabel: "New password",
+    repeatPasswordField: "Repeat new password",
+    savePassword: "Save password",
   },
   errorScreen: {
     title: "Something went wrong!",
@@ -32,6 +52,30 @@ const en = {
 
   errors: {
     invalidEmail: "Invalid email address.",
+  },
+
+  onboardingCarousel: {
+    getExclusiveAccess: {
+      heading: "Get exclusive access",
+      subHeading: "Stay in the game with instant scores, highlights, and breaking news",
+      actionButtonText: "Continue",
+    },
+    pickYourFavorites: {
+      heading: "Pick your favorites",
+      subHeading: "Stay in the game with instant scores, highlights, and breaking news",
+      actionButtonText: "Continue",
+    },
+    neverMissABeat: {
+      heading: "Never miss a beat",
+      subHeading: "Unlock the ultimate fan experience and enjoy exclusive perks",
+      actionButtonText: "Enable notifications",
+      skipButton: "Maybe later",
+    },
+    setProfile: {
+      heading: "Never miss a beat",
+      subHeading: "Unlock the ultimate fan experience and enjoy exclusive perks",
+      actionButtonText: "Set up profile",
+    },
   },
   loginScreen: {
     signIn: "Sign In",

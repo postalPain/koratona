@@ -38,16 +38,11 @@ const prefix = Linking.createURL("/")
 const config = {
   screens: {
     Welcome: { path: "welcome" },
-    Login: {
-      path: "login",
-    },
-    SignUp: {
-      path: "signUp",
-    },
     RestorePassword: {
       path: "RestorePassword",
     },
     UserInfo: { path: "userInfo" },
+    Onboarding: { path: "onboarding" },
     Demo: {
       screens: {
         DemoShowroom: {

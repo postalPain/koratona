@@ -7,4 +7,5 @@
  */
 export default {
   API_URL: "https://dev-um.koratona.stryber.io/v1/",
+  PRIVACY_POLICIES_URL: "https://google.com",
 }

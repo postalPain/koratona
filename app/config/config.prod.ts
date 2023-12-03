@@ -7,4 +7,5 @@
  */
 export default {
   API_URL: "CHANGEME",
+  PRIVACY_POLICIES_URL: "https://google.com",
 }

@@ -81,3 +81,10 @@ export type AuthUser = {
 export type GetAuthUserResponse = AuthUser
 
 export type GetAuthUserService = () => Promise<{ kind: "ok"; data: AuthUser } | GeneralApiProblem>
+
+/**
+ * The types that represent the applying user settings
+*/
+
+export type ApplyUserSettingsResponse = AuthUser
+export type ApplyUserSettingsService = () => Promise<{ kind: "ok" } | GeneralApiProblem>

@@ -5,21 +5,26 @@ import * as Auth from "./authTypes"
 import { Alert } from "react-native"
 
 export const loginService: Auth.LoginService = async (credentials) => {
-  let response = {} as ApiResponse<Auth.AuthLoginResponse>
+  let response = {} as ApiResponse<Auth.AuthLoginResponse, { statusCode: number; error: string }>
   try {
     response = await api.apisauce.post(`auth/login`, credentials)
 
     // the typical ways to die when calling an api
     if (!response.ok) {
+      Alert.alert("Error", JSON.stringify(response.data?.error))
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
+    if (response.ok) {
+      const accessToken = response.data?.data?.accessToken
 
-    if (!response.data?.data?.accessToken) {
-      return { kind: "bad-data" }
+      if (!accessToken) {
+        return { kind: "bad-data" }
+      }
+
+      return { kind: "ok", token: accessToken }
     }
-
-    return { kind: "ok", token: response.data?.data.accessToken }
+    return { kind: "bad-data" }
   } catch (e) {
     if (__DEV__ && e instanceof Error) {
       console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)
@@ -88,6 +93,31 @@ export const getAuthUser: Auth.GetAuthUserService = async () => {
     }
     const userData = response.data
     return { kind: "ok", data: userData }
+  } catch (e) {
+    if (__DEV__ && e instanceof Error) {
+      console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)
+    }
+    return { kind: "bad-data" }
+  }
+}
+
+export const setUserSettings: Auth.ApplyUserSettingsService = async () => {
+  let response = {} as ApiResponse<Auth.GetAuthUserResponse>
+
+  try {
+    response = await api.apisauce.post(`auth/settings`)
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    if (!response.data) {
+      return { kind: "bad-data" }
+    }
+    Alert.alert("Success", `Settings applied ${JSON.stringify(response.data)}`)
+    return { kind: "ok" }
   } catch (e) {
     if (__DEV__ && e instanceof Error) {
       console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)

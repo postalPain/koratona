@@ -1,129 +1,115 @@
+import BottomSheet from "@gorhom/bottom-sheet"
+import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
 import { observer } from "mobx-react-lite"
-import React, { FC, useState } from "react"
-import { Image, ImageBackground, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import React from "react"
+import { Image, ImageBackground, View } from "react-native"
 import { AppStackScreenProps } from "../navigators"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
-import { SwipeablePanel } from "rn-swipeable-panel"
-import { AuthController } from "./Auth/AuthController"
+import { AuthContentKey } from "./Auth/AuthController"
+import AuthPanel from "./Auth/AuthPanel"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeBackGround = require("../../assets/backgrounds/welcome-screen.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
-  const [activeAuthContent, setActiveAuthContent] = useState<
-    "login" | "signUp" | "restorePassword"
-  >("login")
+export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
+  const [panelContentKey, setPanelContentKey] = React.useState<AuthContentKey>("login")
+  const sheetRef = React.useRef<BottomSheet>(null)
+
+  const styles = useStyles()
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
   const $topContainerInsets = useSafeAreaInsetsStyle(["top"])
 
-  const closePanel = () => {
-    setIsPanelActive(false)
-  }
-  const [isPanelActive, setIsPanelActive] = useState(false)
-
   const openPanel =
-    (contentKey: "login" | "signUp" | "restorePassword" = "login") =>
+    (contentKey: AuthContentKey = "login") =>
     () => {
-      setActiveAuthContent(contentKey)
-      setIsPanelActive(true)
+      setPanelContentKey(contentKey)
+      sheetRef.current?.expand()
     }
 
   return (
-    <View style={$container}>
-      <ImageBackground style={$aspectRatioBox} source={welcomeBackGround}>
-        <View style={[$topContainer, $topContainerInsets]}>
-          <Image style={$welcomeLogo} source={welcomeLogo} resizeMode="center" />
+    <View style={styles.container}>
+      <ImageBackground style={styles.aspectRatioBox} source={welcomeBackGround}>
+        <View style={[styles.topContainer, $topContainerInsets]}>
+          <Image style={styles.welcomeLogo} source={welcomeLogo} resizeMode="center" />
+        </View>
+        <View style={styles.sloganWrapper}>
+          <Text style={styles.slogan} tx="welcomeScreen.slogan" size="xl" preset="bold" />
         </View>
 
-        <View style={$sloganWrapper}>
-          <Text
-            style={$slogan}
-            text="Engage with your team like never before."
-            size="xl"
-            preset="bold"
-          />
-        </View>
-
-        <View style={[$bottomContainer, $bottomContainerInsets]}>
+        <View style={[styles.bottomContainer, $bottomContainerInsets]}>
           <Button
             testID="next-screen-button"
             preset="filled"
             tx="welcomeScreen.joinApp"
-            style={buttonSignUp}
-            textStyle={buttonSignUpText}
+            style={styles.buttonSignUp}
+            textStyle={styles.buttonSignUpText}
             onPress={openPanel("signUp")}
           />
           <Button
             testID="next-screen-button"
             preset="reversed"
-            style={buttonLogin}
-            tx="welcomeScreen.login"
+            style={styles.buttonLogin}
+            tx="common.login"
             onPress={openPanel("login")}
           />
         </View>
       </ImageBackground>
-      <SwipeablePanel
-        fullWidth
-        openLarge={false}
-        showCloseButton={false}
-        onClose={closePanel}
-        smallPanelHeight={
-          activeAuthContent === "restorePassword" || activeAuthContent === "login" ? 550 : 650
-        }
-        isActive={isPanelActive}
-        closeOnTouchOutside
-        scrollViewProps={{ automaticallyAdjustKeyboardInsets: true }}
-      >
-        <AuthController contentKey={activeAuthContent} />
-      </SwipeablePanel>
+      <AuthPanel
+        ref={sheetRef}
+        contentKey={panelContentKey}
+        openPanel={openPanel}
+        onClose={() => sheetRef.current?.close()}
+      />
     </View>
   )
 })
 
-const $aspectRatioBox: ViewStyle & ImageStyle = {
-  flex: 1,
-  justifyContent: "space-between",
-  paddingBottom: spacing.xl,
-}
+const useStyles = createUseStyles(() => ({
+  container: {
+    flex: 1,
+  },
 
-const $container: ViewStyle = {
-  flex: 1,
-}
+  aspectRatioBox: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingBottom: spacing.xl,
+  },
 
-const $topContainer: ViewStyle = {
-  justifyContent: "center",
-}
+  topContainer: {
+    justifyContent: "center",
+  },
 
-const $bottomContainer: ViewStyle = {
-  gap: spacing.sm,
-  paddingHorizontal: spacing.lg,
-}
-const $welcomeLogo: ImageStyle = {
-  paddingTop: 130,
-  width: "100%",
-}
+  bottomContainer: {
+    gap: spacing.sm,
+    paddingHorizontal: spacing.lg,
+  },
+  welcomeLogo: {
+    paddingTop: 130,
+    width: "100%",
+  },
 
-const $slogan: TextStyle = {
-  color: colors.textInverted,
-  textAlign: "center",
-}
+  slogan: {
+    color: colors.textInverted,
+    textAlign: "center",
+  },
 
-const $sloganWrapper: ViewStyle = {
-  paddingHorizontal: spacing.lg,
-}
+  sloganWrapper: {
+    paddingHorizontal: spacing.lg,
+  },
 
-const buttonSignUp: ViewStyle = {
-  backgroundColor: "#FADFD7",
-}
+  buttonSignUp: {
+    backgroundColor: "#FADFD7",
+  },
 
-const buttonLogin: ViewStyle = {
-  backgroundColor: "#333865",
-}
+  buttonLogin: {
+    backgroundColor: "#333865",
+  },
 
-const buttonSignUpText: TextStyle = {
-  color: "#333865",
-}
+  buttonSignUpText: {
+    color: "#333865",
+  },
+}))
