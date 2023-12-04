@@ -44,7 +44,7 @@ export type AppStackParamList = {
   UserInfo: undefined
   Onboarding: undefined
   InitialProfileSettings: undefined
-	// IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
+  // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
 /**
@@ -64,22 +64,33 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack() {
   const {
     authenticationStore: { isAuthenticated },
+    authUser: { isOnboardingCompleted },
   } = useStores()
 
   useFetchAuthUser()
   useInitApplyUserSettings()
 
+  const getInitialAuthRoute = () => {
+    if (isOnboardingCompleted) {
+      return "Demo"
+    }
+    return "Onboarding"
+  }
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Onboarding" : "Welcome"}
+      initialRouteName={isAuthenticated ? getInitialAuthRoute() : "Welcome"}
     >
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Demo" component={DemoNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
-          <Stack.Screen name="InitialProfileSettings" component={Screens.InitialProfileSettingsScreen} />
+          <Stack.Screen
+            name="InitialProfileSettings"
+            component={Screens.InitialProfileSettingsScreen}
+          />
         </>
       ) : (
         <>
@@ -89,7 +100,7 @@ const AppStack = observer(function AppStack() {
       )}
 
       {/** 🔥 Your screens go here */}
-			{/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
+      {/* IGNITE_GENERATOR_ANCHOR_APP_STACK_SCREENS */}
     </Stack.Navigator>
   )
 })

@@ -46,6 +46,12 @@ export const DemoDebugScreen: FC<DemoTabScreenProps<"DemoDebug">> = function Dem
           text="My info"
           onPress={() => _props.navigation.navigate("UserInfo")}
         />
+        <Button
+            text="go to onboarding"
+            onPress={() => {
+              _props.navigation.navigate('Onboarding')
+            }}
+          />
         <ListItem
           LeftComponent={
             <View style={$item}>

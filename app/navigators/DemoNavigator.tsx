@@ -5,7 +5,7 @@ import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
 import { translate } from "../i18n"
-import { DemoDebugScreen, DemoShowroomScreen } from "../screens"
+import { DemoDebugScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
@@ -43,7 +43,7 @@ export function DemoNavigator() {
         tabBarItemStyle: $tabBarItem,
       }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="DemoShowroom"
         component={DemoShowroomScreen}
         options={{
@@ -52,7 +52,7 @@ export function DemoNavigator() {
             <Icon icon="settings" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="DemoDebug"

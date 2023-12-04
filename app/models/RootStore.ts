@@ -11,6 +11,8 @@ export const RootStoreModel = types.model("RootStore").props({
     authUser: {
       firstName: "Unknown",
     },
+    isOnboardingCompleted: false,
+
   }),
 })
 

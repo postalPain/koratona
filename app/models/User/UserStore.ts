@@ -14,6 +14,7 @@ export const UserStoreModel = types
     isErrored: types.optional(types.boolean, false),
     notificationToken: types.optional(types.maybeNull(types.string), null),
     notificationPermissionAsked: types.optional(types.boolean, false),
+    isOnboardingCompleted: types.optional(types.boolean, false),
   })
   .actions(withSetPropAction)
   .actions((self) => ({
@@ -41,6 +42,9 @@ export const UserStoreModel = types
     setNotificationToken: (token: string | null) => {
       self.notificationToken = token
       self.notificationPermissionAsked = true
+    },
+    setOnboardingCompleted: (isCompleted: boolean) => {
+      self.isOnboardingCompleted = isCompleted
     },
   }))
 

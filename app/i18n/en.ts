@@ -54,6 +54,18 @@ const en = {
     invalidEmail: "Invalid email address.",
   },
 
+  onboardingScreen: {
+    yourProfile: "Your profile",
+    moreDetails: "We need a few more details so we can complete your fan profile",
+    personalDetails: "Personal details",
+    firstName: "First name",
+    lastName: "Last name",
+    DOB: "Date of birth",
+    phoneNumber: "Phone number",
+    chooseYourTeam: "Choose your team",
+    join: "Join the",
+  },
+
   onboardingCarousel: {
     getExclusiveAccess: {
       heading: "Get exclusive access",
