@@ -52,7 +52,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
                 <Icon icon="back" color="#98A2B3" />
                 <Text text="Go back" style={styles.leftHeaderComponentText} />
               </Pressable>
-              <Icon icon="heartIcon" color="98A2B3" />
+              <Icon icon="heartIcon" color="#98A2B3" />
             </View>
             <View>
               {!!post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
