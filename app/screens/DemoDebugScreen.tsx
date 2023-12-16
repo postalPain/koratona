@@ -3,13 +3,11 @@ import React, { FC } from "react"
 import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { Button, ListItem, Screen, Text } from "../components"
 import { isRTL } from "../i18n"
-import { useStores } from "../models"
-import { DemoTabScreenProps } from "../navigators/DemoNavigator"
+
+import { useStores } from "app/models"
 import { colors, spacing } from "../theme"
 
-export const DemoDebugScreen: FC<DemoTabScreenProps<"DemoDebug">> = function DemoDebugScreen(
-  _props,
-) {
+export const DemoDebugScreen: FC<any> = function DemoDebugScreen(_props) {
   const {
     authenticationStore: { logout },
   } = useStores()
@@ -47,11 +45,11 @@ export const DemoDebugScreen: FC<DemoTabScreenProps<"DemoDebug">> = function Dem
           onPress={() => _props.navigation.navigate("UserInfo")}
         />
         <Button
-            text="go to onboarding"
-            onPress={() => {
-              _props.navigation.navigate('Onboarding')
-            }}
-          />
+          text="go to onboarding"
+          onPress={() => {
+            _props.navigation.navigate("Onboarding")
+          }}
+        />
         <ListItem
           LeftComponent={
             <View style={$item}>

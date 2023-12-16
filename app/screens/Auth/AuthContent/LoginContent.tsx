@@ -25,7 +25,7 @@ export const LoginContent: FC<LoginProps> = ({ setContentKey }) => {
   const { shouldHandleKeyboardEvents } = useBottomSheetInternal()
 
   const {
-    authenticationStore: { setAuthToken, distributeAuthToken },
+    authenticationStore: { setAuthToken, setAuthEmail, distributeAuthToken },
   } = useStores()
 
   React.useEffect(() => {
@@ -51,6 +51,7 @@ export const LoginContent: FC<LoginProps> = ({ setContentKey }) => {
 
     const token = result.token
     setAuthToken(token)
+    setAuthEmail(values.email)
     distributeAuthToken(token)
   }
 
@@ -64,6 +65,10 @@ export const LoginContent: FC<LoginProps> = ({ setContentKey }) => {
           setError(undefined)
         }}
         onSubmit={login}
+        initialValues={{
+          email: "vladyslav.levchenko@stryber.com",
+          password: "StrictPass12345!",
+        }}
       >
         <View style={styles.formContent}>
           <View style={styles.inputContainer}>

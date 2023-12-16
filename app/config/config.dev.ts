@@ -6,6 +6,7 @@
  * https://reactnative.dev/docs/security#storing-sensitive-info
  */
 export default {
-  API_URL: "https://dev-um.koratona.stryber.io/v1/",
+  API_AUTH_URL: "https://dev-um.koratona.stryber.io/v1/",
+  BASE_API_URL: "https://dev-be.koratona.stryber.io/api/",
   PRIVACY_POLICIES_URL: "https://google.com",
 }

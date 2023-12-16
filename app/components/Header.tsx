@@ -123,10 +123,20 @@ export interface HeaderProps {
    * Override the default edges for the safe area.
    */
   safeAreaEdges?: ExtendedEdge[]
+  /**
+   * An optional icon size for the right icon
+   * @default 24
+   * */
+  rightIconSize?: number
+  /**
+   * Children components to render in the header.
+   */
+  children?: ReactElement
 }
 
 interface HeaderActionProps {
   backgroundColor?: string
+  iconSize?: number
   icon?: IconTypes
   iconColor?: string
   text?: TextProps["text"]
@@ -155,6 +165,7 @@ export function Header(props: HeaderProps) {
     onRightPress,
     RightActionComponent,
     rightIcon,
+    rightIconSize,
     rightIconColor,
     rightText,
     rightTx,
@@ -205,11 +216,13 @@ export function Header(props: HeaderProps) {
             />
           </View>
         )}
+        {!!props.children && <View style={$headerChildren}>{props.children}</View>}
 
         <HeaderAction
           tx={rightTx}
           text={rightText}
           icon={rightIcon}
+          iconSize={rightIconSize}
           iconColor={rightIconColor}
           onPress={onRightPress}
           txOptions={rightTxOptions}
@@ -222,7 +235,17 @@ export function Header(props: HeaderProps) {
 }
 
 function HeaderAction(props: HeaderActionProps) {
-  const { backgroundColor, icon, text, tx, txOptions, onPress, ActionComponent, iconColor } = props
+  const {
+    backgroundColor,
+    icon,
+    text,
+    tx,
+    txOptions,
+    onPress,
+    ActionComponent,
+    iconColor,
+    iconSize = 24,
+  } = props
 
   const content = tx ? translate(tx, txOptions) : text
 
@@ -244,7 +267,7 @@ function HeaderAction(props: HeaderActionProps) {
   if (icon) {
     return (
       <Icon
-        size={24}
+        size={iconSize}
         icon={icon}
         color={iconColor}
         onPress={onPress}
@@ -312,3 +335,9 @@ const $titleWrapperFlex: ViewStyle = {
   justifyContent: "center",
   flexGrow: 1,
 }
+
+const $headerChildren: ViewStyle = {
+  justifyContent: "center",
+
+}
+

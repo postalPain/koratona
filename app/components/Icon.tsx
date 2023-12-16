@@ -84,6 +84,19 @@ export function Icon(props: IconProps) {
   )
 }
 
+const bottomTabNavigatorRegistry = {
+  home: require("../../assets/icons/home.png"),
+  homeActive: require("../../assets/icons/home-active.png"),
+  bag: require("../../assets/icons/bag.png"),
+  bagActive: require("../../assets/icons/bag-active.png"),
+  profile: require("../../assets/icons/profileIcon.png"),
+  profileActive: require("../../assets/icons/profileIcon-active.png"),
+}
+
+const commonIcons = {
+  teamsIcon: require("../../assets/icons/team.png"),
+}
+
 export const iconRegistry = {
   back: require("../../assets/icons/back.png"),
   bell: require("../../assets/icons/bell.png"),
@@ -98,6 +111,10 @@ export const iconRegistry = {
   settings: require("../../assets/icons/settings.png"),
   view: require("../../assets/icons/view.png"),
   x: require("../../assets/icons/x.png"),
+  alhilal: require("../../assets/icons/teamsLogo/Al-hilal.png"),
+  heartIcon: require("../../assets/icons/heartIcon.png"),
+  ...bottomTabNavigatorRegistry,
+  ...commonIcons,
 }
 
 const $imageStyleBase: ImageStyle = {

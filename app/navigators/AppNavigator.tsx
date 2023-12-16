@@ -19,7 +19,7 @@ import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
-import { DemoNavigator, DemoTabParamList } from "./DemoNavigator"
+import { HomeNavigator, AppHomeTabParamList } from "./HomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUserSettings"
 
@@ -38,12 +38,15 @@ import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUse
  */
 export type AppStackParamList = {
   Welcome: undefined
-  Demo: NavigatorScreenParams<DemoTabParamList>
+  Home: NavigatorScreenParams<AppHomeTabParamList>
   // 🔥 Your screens go here
-  RestorePassword: undefined
+  restorePassword: undefined
   UserInfo: undefined
-  Onboarding: undefined
+  Onboarding: Partial<{
+    currentStep?: number
+  }>
   InitialProfileSettings: undefined
+  PostDetails: undefined
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -72,7 +75,7 @@ const AppStack = observer(function AppStack() {
 
   const getInitialAuthRoute = () => {
     if (isOnboardingCompleted) {
-      return "Demo"
+      return "Home"
     }
     return "Onboarding"
   }
@@ -84,7 +87,7 @@ const AppStack = observer(function AppStack() {
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="Demo" component={DemoNavigator} />
+          <Stack.Screen name="Home" component={HomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
           <Stack.Screen
@@ -95,7 +98,7 @@ const AppStack = observer(function AppStack() {
       ) : (
         <>
           <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-          <Stack.Screen name="RestorePassword" component={Screens.RestorePasswordScreen} />
+          <Stack.Screen name="restorePassword" component={Screens.RestorePasswordScreen} />
         </>
       )}
 

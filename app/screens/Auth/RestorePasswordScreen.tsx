@@ -15,7 +15,7 @@ import { ActivityIndicator, Alert, View, ViewStyle } from "react-native"
 import * as yup from "yup"
 import { passwordRegEx, signUpPasswordHintMessage } from "./helpers/validation"
 
-interface RestorePasswordScreenProps extends AppStackScreenProps<"RestorePassword"> {}
+interface RestorePasswordScreenProps extends AppStackScreenProps<"restorePassword"> {}
 
 const validationSchema = yup.object().shape({
   password: yup.string().matches(passwordRegEx, signUpPasswordHintMessage).required(),

@@ -1,8 +1,10 @@
-import { getAuthUser, setUserSettings } from "app/services/api/auth/auth"
+import { getAuthUser, setUserSettings, updateUserSettings } from "app/services/api/auth/auth"
 import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { UserModel } from "./User"
 import { saveString } from "app/utils/storage"
+import { UpdateUserPayloadData } from "app/services/api/auth/authTypes"
+import { navigate } from "app/navigators/navigationUtilities"
 
 export const USER_SETTINGS_APPLIED_KEY = "userSettingsApplied"
 
@@ -14,7 +16,7 @@ export const UserStoreModel = types
     isErrored: types.optional(types.boolean, false),
     notificationToken: types.optional(types.maybeNull(types.string), null),
     notificationPermissionAsked: types.optional(types.boolean, false),
-    isOnboardingCompleted: types.optional(types.boolean, false),
+    isOnboardingCompleted: types.optional(types.maybeNull(types.string), null),
   })
   .actions(withSetPropAction)
   .actions((self) => ({
@@ -39,12 +41,32 @@ export const UserStoreModel = types
         self.isLoading = false
       }
     }),
+    updateUser: flow(function* (user: UpdateUserPayloadData) {
+      self.isLoading = true
+      self.isErrored = false
+      try {
+        const response = yield updateUserSettings(self.authUser.id, user)
+        self.authUser = { ...self.authUser, ...response.data }
+        self.isOnboardingCompleted = `${self.authUser.email}_done`
+        navigate('Home', { screen: "FeedNavigator" })
+      } catch (error) {
+        self.isErrored = true
+        console.tron.error?.(`Error updating authUser: ${JSON.stringify(error)}`, [])
+      } finally {
+        self.isLoading = false
+      }
+    }),
     setNotificationToken: (token: string | null) => {
       self.notificationToken = token
       self.notificationPermissionAsked = true
     },
-    setOnboardingCompleted: (isCompleted: boolean) => {
-      self.isOnboardingCompleted = isCompleted
+    setOnboardingCompleted: () => {
+      self.isOnboardingCompleted = `${self.authUser.email}_done`
+    },
+  }))
+  .views((self) => ({
+    get isUserOnboardingCompleted() {
+      return self.isOnboardingCompleted === `${self.authUser.email}_done`
     },
   }))
 

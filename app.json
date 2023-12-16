@@ -2,9 +2,10 @@
   "name": "FootballApp",
   "displayName": "FootballApp",
   "expo": {
+    "owner": "vuldislav",
     "name": "FootballApp",
-    "slug": "FootballApp",
-    "scheme": "FootballApp",
+    "slug": "football-app",
+    "scheme": ["football-app"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-all.png",
@@ -34,7 +35,7 @@
     "ios": {
       "icon": "./assets/images/app-icon-ios.png",
       "supportsTablet": true,
-      "bundleIdentifier": "com.FootballApp",
+      "bundleIdentifier": "com.FootballAppCoratona",
       "splash": {
         "image": "./assets/images/splash-logo-ios-mobile.png",
         "tabletImage": "./assets/images/splash-logo-ios-tablet.png",

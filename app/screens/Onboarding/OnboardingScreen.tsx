@@ -1,63 +1,125 @@
-import { Screen } from "app/components"
+import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { Button, Screen, Text } from "app/components"
+import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { ViewStyle } from "react-native"
-import { SwiperFlatList } from "react-native-swiper-flatlist"
-import { SwiperFlatListRefProps } from "react-native-swiper-flatlist/src/components/SwiperFlatList/SwiperFlatListProps"
-import { OnboardingCarouselItem } from "./components/OnboardingCarouselItem"
+import { Dimensions, View } from "react-native"
+import Pagination from "./components/Pagination"
 import onboardingData from "./constants/onboardingData"
 import { registerForPushNotificationsAsync } from "./utils/notification"
-import { useStores } from "app/models"
+import debounce from "lodash.debounce"
 
-interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {}
+interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {
+  currentStep?: number
+}
 
-export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function OnboardingScreen(
-  _props,
-) {
+export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function OnboardingScreen({
+  navigation,
+  route,
+}) {
+  const styles = useStyles()
   const { authUser } = useStores()
-  const [currentStep, setCurrentStep] = React.useState(0)
-  const scrollRef = React.useRef<SwiperFlatListRefProps>(null)
+  const isNotificationTurnedOn = authUser.notificationToken
 
-  const goToNextIndex = () => {
-    const isLast = currentStep === onboardingData.length - 1
-    if (!scrollRef.current || isLast) {
-      _props.navigation.navigate("InitialProfileSettings")
-      return
-    }
-    scrollRef.current.scrollToIndex({ index: currentStep + 1 })
-    setCurrentStep(currentStep + 1)
-  }
+  const currentStep = route.params?.currentStep || 0
+  const { heading, subHeading, actionButtonText, skipButton } = onboardingData[currentStep]
+  const isNotificationScreen = onboardingData[currentStep].notifications
 
   const handleSetNotifications = async () => {
-    const token = await registerForPushNotificationsAsync(goToNextIndex)
+    const token = await registerForPushNotificationsAsync(onNextButtonPress)
     authUser.setNotificationToken(token)
   }
 
+  const onNextButtonPress = () => {
+
+    const isLast = currentStep === onboardingData.length - 1
+    if (isLast) {
+      navigation.navigate("InitialProfileSettings")
+    } else {
+      navigation.push("Onboarding", { currentStep: currentStep + 1 })
+    }
+  }
+
+  const debouncedOnNextButtonPress = React.useCallback(
+    debounce(onNextButtonPress, 500, { leading: true }),
+    [],
+  )
+
   return (
-    <Screen style={$root} preset="scroll">
-      <SwiperFlatList onChangeIndex={({ index }) => setCurrentStep(index)} ref={scrollRef}>
-        {onboardingData.map((dataItem) => (
-          <OnboardingCarouselItem
-            key={dataItem.id}
-            heading={dataItem.heading}
-            subHeading={dataItem.subHeading}
-            paginationSize={onboardingData.length}
-            paginationIndex={currentStep}
-            actionButtonText={dataItem.actionButtonText}
-            onActionButtonPress={dataItem.notifications ? handleSetNotifications : goToNextIndex}
-            skipButton={!!dataItem.skipButton}
-            onSkipButtonPress={goToNextIndex}
-            actionButtonDisabled={
-              dataItem.notifications ? authUser.notificationPermissionAsked : false
-            }
+    <Screen
+      preset="auto"
+      safeAreaEdges={["top", "bottom"]}
+      contentContainerStyle={styles.contentContainer}
+    >
+      <View style={styles.grow}>
+        <View style={styles.imagePlaceholder} />
+        <Text style={styles.text} text={heading} preset="heading" />
+        <Text style={[styles.text, styles.subHeading]} text={subHeading} preset="subheading" />
+        <Pagination size={onboardingData.length} paginationIndex={currentStep} />
+      </View>
+      <View>
+        {skipButton && !isNotificationTurnedOn && (
+          <Text
+            style={styles.skipButton}
+            onPress={debouncedOnNextButtonPress}
+            tx="common.skipText"
+            weight="bold"
           />
-        ))}
-      </SwiperFlatList>
+        )}
+        <Button
+          onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
+          text={isNotificationScreen && isNotificationTurnedOn ? "Continue" : actionButtonText}
+          textStyle={styles.actionButtonText}
+          pressedStyle={styles.actionButton}
+          style={styles.actionButton}
+        />
+      </View>
     </Screen>
   )
 })
 
-const $root: ViewStyle = {
-  flex: 1,
-}
+const { width } = Dimensions.get("window")
+
+const useStyles = createUseStyles((theme) => ({
+  contentContainer: {
+    flex: 1,
+    width,
+    paddingHorizontal: theme.spacing[24],
+    justifyContent: "space-between",
+    paddingBottom: theme.spacing[40],
+  },
+  imagePlaceholder: {
+    backgroundColor: "#D9D9D9",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginVertical: theme.spacing[64],
+    height: 200,
+    width: 200,
+  },
+  text: {
+    textAlign: "center",
+  },
+  subHeading: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: "#7D706C",
+    marginBottom: theme.spacing[48],
+  },
+  actionButton: {
+    backgroundColor: "#333865",
+  },
+  actionButtonText: {
+    color: "#FFFFFF",
+  },
+  grow: {
+    flex: 1,
+  },
+  skipButton: {
+    color: "#333865",
+    fontWeight: "bold",
+    lineHeight: 24,
+    textAlign: "center",
+    marginBottom: theme.spacing[24],
+  },
+}))

@@ -1,19 +1,42 @@
+import DateTimePicker, {
+  DateTimePickerAndroid,
+  DateTimePickerEvent,
+} from "@react-native-community/datetimepicker"
 import Button from "@stryberventures/gaia-react-native.button"
-import Combobox from "@stryberventures/gaia-react-native.combobox"
 import Form from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Screen, Text } from "app/components"
+import { Icon, Screen, Text } from "app/components"
 import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
 import { useHeader } from "app/utils/useHeader"
+import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { ActivityIndicator, View, ViewStyle } from "react-native"
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "app/models"
+import { ActivityIndicator, Platform, Pressable, View, ViewStyle } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
+
+const teams = [
+  "Manchester United",
+  "Manchester City",
+  "Liverpool",
+  "Chelsea",
+  "Arsenal",
+  "Tottenham",
+  "Leicester City",
+  "West Ham United",
+  "Everton",
+  "Aston Villa",
+  "Leeds United",
+  "Newcastle United",
+  "Wolverhampton Wanderers",
+  "Crystal Palace",
+  "Southampton",
+  "Brighton & Hove Albion",
+  "Burnley",
+]
 
 interface InitialProfileSettingsScreenProps extends AppStackScreenProps<"InitialProfileSettings"> {}
 
@@ -21,26 +44,38 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
   function InitialProfileSettingsScreen(_props) {
     const styles = useStyles()
     const [disabled, setDisabled] = React.useState(true)
-    const [isLoading, setIsLoading] = React.useState(false)
+
+    const { authUser } = useStores()
+    const [date, setDate] = React.useState<Date>(
+      new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
+    )
+    const [selectedTeam, setSelectedTeam] = React.useState<string>("Manchester United")
 
     useHeader({
       leftIcon: "back",
       onLeftPress: () => _props.navigation.pop(),
     })
-    // Pull in one of our MST stores
-    const { authUser } = useStores()
 
-    // Pull in navigation via hook
-    // const navigation = useNavigation()
+    const handleSubmitForm = async (values: {
+      firstName: string
+      lastName: string
+      dob: string
+      phone: string
+    }) => {
+      authUser.updateUser({
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phone: values.phone,
+      })
+    }
 
-    const handleSubmitForm = async (values: any) => {
-      setIsLoading(true)
-      console.log("values", values)
-      setTimeout(() => {
-        setIsLoading(false)
-        _props.navigation.navigate("Demo", { screen:'DemoDebug' })
-        authUser.setOnboardingCompleted(true)
-      }, 2000)
+    const onDOBFieldChange: (event: DateTimePickerEvent, date?: Date) => void = (
+      event,
+      selectedDate,
+    ) => {
+      if (selectedDate && isValid(new Date(selectedDate))) {
+        setDate(selectedDate)
+      }
     }
 
     return (
@@ -48,7 +83,6 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
         <KeyboardAwareScrollView
           resetScrollToCoords={{ x: 0, y: 0 }}
           contentContainerStyle={styles.container}
-          scrollEnabled={false}
         >
           <Text style={styles.title} preset="heading" tx="onboardingScreen.yourProfile" />
           <Text style={styles.subTitle} tx="onboardingScreen.moreDetails" />
@@ -80,13 +114,31 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                   errorStyle={styles.hintsStyles}
                   hintStyle={styles.hintsStyles}
                 />
-                <Input
-                  name="dob"
-                  label="Date of birth"
-                  placeholder="Date of birth"
-                  errorStyle={styles.hintsStyles}
-                  hintStyle={styles.hintsStyles}
-                />
+                <Pressable
+                  style={styles.datePickerContainer}
+                  onPress={() => {
+                    if (Platform.OS === "android") {
+                      DateTimePickerAndroid.open({
+                        value: date,
+                        onChange: onDOBFieldChange,
+                      })
+                    }
+                  }}
+                >
+                  <Text text="Date of birth" style={styles.datePickerLabel} />
+                  {Platform.OS === "android" && (
+                    <Text text={format(date, "dd MMMM yyyy")} style={styles.datePickerText} />
+                  )}
+                  {Platform.OS === "ios" && (
+                    <DateTimePicker
+                      value={date}
+                      onChange={onDOBFieldChange}
+                      style={styles.datePicker}
+                      maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 1))}
+                    />
+                  )}
+                </Pressable>
+
                 <Input
                   name="phone"
                   label="Phone Number"
@@ -105,52 +157,44 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                 tx="onboardingScreen.chooseYourTeam"
                 weight="semiBold"
               />
-              <Combobox
-                color="primary"
-                label="Team"
-                noOptionsFoundText="No teams found"
-                clearButtonMode="never"
-                options={[
-                  {
-                    label: "New York",
-                    value: 1,
-                  },
-                  {
-                    label: "Los Angeles",
-                    value: 2,
-                  },
-                  {
-                    label: "Chicago",
-                    value: 3,
-                  },
-                  {
-                    label: "Houston",
-                    value: 4,
-                  },
-                  {
-                    label: "Philadelphia",
-                    value: 5,
-                  },
-                  {
-                    label: "Phoenix",
-                    value: 6,
-                  },
-                  {
-                    label: "San Antonio",
-                    value: 7,
-                  },
-                  {
-                    label: "San Diego",
-                    value: 8,
-                  },
-                  {
-                    label: "Dallas",
-                    value: 9,
-                  },
-                ]}
-                placeholder="Chose a city"
-                variant="floatingLabel"
+              <SelectDropdown
+                data={teams}
+                onSelect={(selectedItem, index) => {
+                  console.log(selectedItem, index)
+                  setSelectedTeam(selectedItem)
+                }}
+                defaultValueByIndex={0}
+                buttonStyle={styles.teamPickerButton}
+                buttonTextStyle={styles.teamPickerButtonText}
+                dropdownStyle={styles.teamPickerDropdown}
+                renderCustomizedButtonChild={() => (
+                  <View style={styles.teamPickerButtonListItem}>
+                    <Icon icon="alhilal" />
+                    <Text style={styles.teamPickerButtonText} text={selectedTeam} />
+                  </View>
+                )}
+                renderCustomizedRowChild={(item) => {
+                  const isSelected = item === selectedTeam
+                  return (
+                    <View
+                      style={[
+                        styles.teamPickerButtonListItem,
+                        isSelected ? styles.teamPickerListItemSelected : {},
+                      ]}
+                    >
+                      <Icon icon="alhilal" />
+                      <Text
+                        text={item}
+                        style={[
+                          styles.teamPickerButtonText,
+                          isSelected ? styles.teamPickerListItemTextSelected : {},
+                        ]}
+                      />
+                    </View>
+                  )
+                }}
               />
+
               <Button
                 type="submit"
                 style={{
@@ -166,11 +210,11 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                 }}
                 disabled={disabled}
               >
-                {isLoading ? (
+                {authUser.isLoading ? (
                   <ActivityIndicator />
                 ) : (
                   <Text weight="bold" style={styles.loginButtonText}>
-                    Join the team
+                    Join the team {selectedTeam}
                   </Text>
                 )}
               </Button>
@@ -184,7 +228,6 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
 
 const $root: ViewStyle = {
   flex: 1,
-  paddingHorizontal: 24,
 }
 
 const useStyles = createUseStyles((theme) => ({
@@ -198,6 +241,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   loginButtonText: {
     color: "#fff",
+    textAlign: "center",
   },
   hintsStyles: {
     position: "absolute",
@@ -206,6 +250,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   formContent: {
     justifyContent: "space-between",
+    paddingBottom: theme.spacing[40],
   },
   inputContainer: {
     gap: 15,
@@ -218,18 +263,74 @@ const useStyles = createUseStyles((theme) => ({
   subTitle: {
     textAlign: "center",
     color: "#7D706C",
-    marginBottom: theme.spacing[64],
+    marginBottom: theme.spacing[32],
   },
   formTitle: {
     textAlign: "center",
-    marginBottom: theme.spacing[8],
     fontSize: 14,
+  },
+  datePicker: {
+    marginBottom: -20,
+  },
+  datePickerContainer: {
+    width: "100%",
+    height: 58,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#D0D5DD",
+    backgroundColor: "#fff",
+    textAlign: "left",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    position: "relative",
+  },
+  datePickerLabel: {
+    fontSize: 12,
+    color: "#475567",
+    position: "absolute",
+    top: 0,
+    left: theme.spacing[12],
+  },
+  datePickerText: {
+    fontSize: 16,
+    color: "#101828",
+    marginLeft: theme.spacing[12],
+    marginTop: theme.spacing[12],
+  },
+  teamPickerButton: {
+    width: "100%",
+    height: 58,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#D0D5DD",
+    backgroundColor: "#fff",
+  },
+  teamPickerButtonText: {
+    fontSize: 16,
+    color: "#202223",
+    marginLeft: theme.spacing[12],
+  },
+  teamPickerButtonListItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: "100%",
+    backgroundColor: "#fff",
+    paddingHorizontal: theme.spacing[12],
+  },
+  teamPickerListItemSelected: {
+    backgroundColor: "#333865",
+  },
+  teamPickerListItemTextSelected: {
+    color: "#fff",
+  },
+
+  teamPickerDropdown: {
+    borderRadius: 10,
   },
 }))
 
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
-  dob: yup.string().required("Date of birth is required"),
   phone: yup.string().required("Phone number is required"),
 })

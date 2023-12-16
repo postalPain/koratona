@@ -88,7 +88,7 @@ export const ForgotPasswordContent: FC<ForgotPasswordProps> = ({ setContentKey }
             )}
           </Button>
           <TextLink style={styles.forgotPassword} onPress={setContentKey("login")}>
-            <Text weight="bold" style={styles.forgotPasswordText} tx="common.login" />
+            <Text weight="bold" style={styles.forgotPasswordText} tx="common.backToLogin" />
           </TextLink>
         </View>
       </Form>

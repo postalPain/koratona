@@ -1,19 +1,6 @@
+import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import React from "react"
-import { StyleSheet, TouchableOpacity, View } from "react-native"
-
-const styles = StyleSheet.create({
-  pagination: {
-    borderRadius: 2,
-    height: 4,
-    marginHorizontal: 4,
-    width: 4,
-  },
-  paginationContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-})
+import { TouchableOpacity, View } from "react-native"
 
 type PaginationProps = {
   size: number
@@ -21,16 +8,13 @@ type PaginationProps = {
 }
 
 const Pagination: React.FC<PaginationProps> = ({ size, paginationIndex }) => {
+  const styles = useStyles()
+
   return (
     <View style={styles.paginationContainer}>
       {Array.from({ length: size }).map((_, index) => (
         <TouchableOpacity
-          style={[
-            styles.pagination,
-            paginationIndex === index
-              ? { backgroundColor: "#7D706C", width: 6, height: 6, borderRadius: 5 }
-              : { backgroundColor: "#7D706C", opacity: 0.4 },
-          ]}
+          style={[styles.pagination, paginationIndex === index ? styles.activeItem : {}]}
           key={index}
         />
       ))}
@@ -39,3 +23,20 @@ const Pagination: React.FC<PaginationProps> = ({ size, paginationIndex }) => {
 }
 
 export default Pagination
+
+const useStyles = createUseStyles((theme) => ({
+  pagination: {
+    borderRadius: 2,
+    height: theme.spacing[4],
+    marginHorizontal: theme.spacing[4],
+    width: theme.spacing[4],
+    backgroundColor: "#333865",
+    opacity: 0.4,
+  },
+  activeItem: { backgroundColor: "#333865", opacity: 1, width: 6, height: 6, borderRadius: 5 },
+  paginationContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+}))

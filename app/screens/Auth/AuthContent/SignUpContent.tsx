@@ -9,13 +9,13 @@ import { signUpService } from "app/services/api/auth/auth"
 import { spacing } from "app/theme"
 import React, { FC, useState } from "react"
 import { ActivityIndicator, Alert, TextStyle, View, ViewStyle } from "react-native"
-import { Policies } from "./../Policies"
+import { Policies } from "../Policies"
 import {
   SignUpValues,
   signUpPasswordHintMessage,
   signUpValidationSchema,
-} from "./../helpers/validation"
-import { getUserNameFromEmail } from "./../utils/getUserNameFromEmail"
+} from "../helpers/validation"
+import { getUserNameFromEmail } from "../utils/getUserNameFromEmail"
 
 type SignUpProps = {
   onClose: () => void

@@ -6,6 +6,7 @@ const en = {
     logOut: "Log Out",
     and: " & ",
     login: "Login",
+    backToLogin: "Back to Login",
     skipText: "Maybe later",
   },
   policies: {
@@ -105,6 +106,11 @@ const en = {
     debugTab: "Debug",
     communityTab: "Community",
     podcastListTab: "Podcast",
+  },
+  appHomeNavigator: {
+    home: "Home",
+    experiences: "Experiences",
+    userProfile: "Profile",
   },
   demoCommunityScreen: {
     title: "Connect with the community",

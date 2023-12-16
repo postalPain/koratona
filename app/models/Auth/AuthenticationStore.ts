@@ -1,4 +1,4 @@
-import { api } from "app/services/api"
+import { api, authApi } from "app/services/api"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 
 export const AuthenticationStoreModel = types
@@ -20,6 +20,7 @@ export const AuthenticationStoreModel = types
       // optionally grab the store's authToken if not passing a value
       const token = value || store.authToken
       api.apisauce.setHeader("Authorization", `Bearer ${token}`)
+      authApi.apisauce.setHeader("Authorization", `Bearer ${token}`)
     },
     setAuthEmail(value: string) {
       store.authEmail = value.replace(/ /g, "")
