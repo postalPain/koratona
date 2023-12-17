@@ -40,19 +40,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
         <View style={styles.sloganWrapper}>
           <Text style={styles.slogan} tx="welcomeScreen.slogan" size="xl" preset="bold" />
         </View>
-
-          <Button
-            testID="next-screen-button"
-            preset="filled"
-            text="forgotPassword"
-            style={styles.buttonSignUp}
-            textStyle={styles.buttonSignUpText}
-            onPress={
-              () => {
-                Linking.openURL("football-app://restorePassword?token=123secrettoken")
-              }
-            }
-          />
         <View style={[styles.bottomContainer, $bottomContainerInsets]}>
           <Button
             testID="next-screen-button"
