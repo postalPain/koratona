@@ -37,12 +37,27 @@ export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 const prefix = Linking.createURL("/")
 const config = {
   screens: {
-    Welcome: { path: "welcome" },
-    RestorePassword: {
-      path: "RestorePassword",
+    Welcome: "welcome",
+    RestorePassword: "restorePassword",
+    UserInfo: "userInfo",
+    Onboarding: "onboarding",
+    Home: {
+      screens: {
+        FeedNavigator: {
+          screens: {
+            Feed: {
+              path: "feed",
+            },
+            PostDetails: {
+              path: "postDetails/:id",
+            },
+          },
+          path: "",
+        },
+        UserProfile: "userProfile",
+        Experiences: "experiences",
+      },
     },
-    UserInfo: { path: "userInfo" },
-    Onboarding: { path: "onboarding" },
     Demo: {
       screens: {
         DemoShowroom: {

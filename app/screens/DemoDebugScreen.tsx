@@ -3,11 +3,14 @@ import React, { FC } from "react"
 import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { Button, ListItem, Screen, Text } from "../components"
 import { isRTL } from "../i18n"
-
-import { useStores } from "app/models"
+import { useStores } from "../models"
+import { AppTabScreenProps } from "../navigators/HomeNavigator"
 import { colors, spacing } from "../theme"
+import { clear } from "app/utils/storage"
 
-export const DemoDebugScreen: FC<any> = function DemoDebugScreen(_props) {
+export const DemoDebugScreen: FC<AppTabScreenProps<"DemoDebug">> = function DemoDebugScreen(
+  _props,
+) {
   const {
     authenticationStore: { logout },
   } = useStores()
@@ -45,9 +48,27 @@ export const DemoDebugScreen: FC<any> = function DemoDebugScreen(_props) {
           onPress={() => _props.navigation.navigate("UserInfo")}
         />
         <Button
+          text="go to user profile setup"
+          onPress={() => {
+            _props.navigation.navigate("InitialProfileSettings")
+          }}
+        />
+        <Button
           text="go to onboarding"
           onPress={() => {
-            _props.navigation.navigate("Onboarding")
+            _props.navigation.navigate("Onboarding", { currentStep: 0 })
+          }}
+        />
+        <Button
+          text="go to reset pass"
+          onPress={() => {
+            _props.navigation.navigate('RestorePassword', {token:'123secrettoken'})
+          }}
+        />
+        <Button
+          text="reset storage"
+          onPress={() => {
+            clear()
           }}
         />
         <ListItem

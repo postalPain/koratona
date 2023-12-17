@@ -9,11 +9,12 @@ import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { AuthContentKey } from "./Auth/AuthController"
 import AuthPanel from "./Auth/AuthPanel"
+import * as Linking from "expo-linking"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeBackGround = require("../../assets/backgrounds/welcome-screen.png")
 
-interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
+interface WelcomeScreenProps extends AppStackScreenProps<"welcome"> {}
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
   const [panelContentKey, setPanelContentKey] = React.useState<AuthContentKey>("login")
@@ -40,6 +41,18 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
           <Text style={styles.slogan} tx="welcomeScreen.slogan" size="xl" preset="bold" />
         </View>
 
+          <Button
+            testID="next-screen-button"
+            preset="filled"
+            text="forgotPassword"
+            style={styles.buttonSignUp}
+            textStyle={styles.buttonSignUpText}
+            onPress={
+              () => {
+                Linking.openURL("football-app://restorePassword?token=123secrettoken")
+              }
+            }
+          />
         <View style={[styles.bottomContainer, $bottomContainerInsets]}>
           <Button
             testID="next-screen-button"

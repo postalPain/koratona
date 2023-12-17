@@ -15,7 +15,7 @@ import { ActivityIndicator, Alert, View, ViewStyle } from "react-native"
 import * as yup from "yup"
 import { passwordRegEx, signUpPasswordHintMessage } from "./helpers/validation"
 
-interface RestorePasswordScreenProps extends AppStackScreenProps<"restorePassword"> {}
+interface RestorePasswordScreenProps extends AppStackScreenProps<"RestorePassword"> {}
 
 const validationSchema = yup.object().shape({
   password: yup.string().matches(passwordRegEx, signUpPasswordHintMessage).required(),
@@ -23,15 +23,16 @@ const validationSchema = yup.object().shape({
 })
 
 export const RestorePasswordScreen: FC<RestorePasswordScreenProps> = observer(
-  function RestorePasswordScreen({ navigation }) {
+  function RestorePasswordScreen({ navigation, route }) {
     const [disabled, setDisabled] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
+console.log('route.params.token', route.params.token);
 
     const styles = useStyles()
 
     useHeader({
       leftIcon: "back",
-      onLeftPress: () => navigation.navigate("Welcome"),
+      onLeftPress: () => navigation.navigate("welcome"),
     })
 
     const handleSendPasswordInstructions = async (values: { email: string }) => {
@@ -46,7 +47,7 @@ export const RestorePasswordScreen: FC<RestorePasswordScreenProps> = observer(
             {
               text: "OK",
               onPress: () => {
-                navigation.navigate("Welcome")
+                navigation.navigate("welcome")
               },
             },
           ],

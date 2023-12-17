@@ -13,12 +13,10 @@ import { ExperiencesScreen } from "app/screens/Experiences/ExperiencesScreen"
 import { ProfileScreen } from "app/screens/Profile/ProfileScreen"
 
 export type AppHomeTabParamList = {
-  DemoCommunity: undefined
-  DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   FeedNavigator: undefined
   Experiences: undefined
-  userProfile: undefined
+  UserProfile: undefined
 }
 
 /**
@@ -68,7 +66,7 @@ export function HomeNavigator() {
         }}
       />
       <Tab.Screen
-        name="userProfile"
+        name="UserProfile"
         component={ProfileScreen}
         options={{
           tabBarLabel: translate("appHomeNavigator.userProfile"),

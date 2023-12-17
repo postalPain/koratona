@@ -37,10 +37,10 @@ import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUse
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  Welcome: undefined
+  welcome: undefined
   Home: NavigatorScreenParams<AppHomeTabParamList>
   // 🔥 Your screens go here
-  restorePassword: undefined
+  RestorePassword: { token: string }
   UserInfo: undefined
   Onboarding: Partial<{
     currentStep?: number
@@ -83,13 +83,12 @@ const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? getInitialAuthRoute() : "Welcome"}
+      initialRouteName={isAuthenticated ? getInitialAuthRoute() : "welcome"}
     >
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Home" component={HomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
-          <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
           <Stack.Screen
             name="InitialProfileSettings"
             component={Screens.InitialProfileSettingsScreen}
@@ -97,8 +96,8 @@ const AppStack = observer(function AppStack() {
         </>
       ) : (
         <>
-          <Stack.Screen name="Welcome" component={Screens.WelcomeScreen} />
-          <Stack.Screen name="restorePassword" component={Screens.RestorePasswordScreen} />
+          <Stack.Screen name="welcome" component={Screens.WelcomeScreen} />
+          <Stack.Screen name="RestorePassword" component={Screens.RestorePasswordScreen} />
         </>
       )}
 
