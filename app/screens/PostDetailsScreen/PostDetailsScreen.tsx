@@ -32,7 +32,6 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
         <RefreshControl
           refreshing={postsStore.isFetchingPosts}
           onRefresh={() => postsStore.fetchPostById(_props.route.params.id)}
-          progressBackgroundColor="pink"
         />
       }
     >

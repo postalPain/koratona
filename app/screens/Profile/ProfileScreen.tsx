@@ -4,7 +4,7 @@ import { Screen, Text } from "../../components"
 import { AppTabScreenProps } from "../../navigators/HomeNavigator"
 import { spacing } from "../../theme"
 
-export const ProfileScreen: FC<AppTabScreenProps<"userProfile">> = function DemoDebugScreen(
+export const ProfileScreen: FC<AppTabScreenProps<"UserProfile">> = function DemoDebugScreen(
   _props,
 ) {
   return (
