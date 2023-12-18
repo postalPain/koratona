@@ -332,5 +332,5 @@ const useStyles = createUseStyles((theme) => ({
 const validationSchema = yup.object().shape({
   firstName: yup.string().required("First name is required"),
   lastName: yup.string().required("Last name is required"),
-  phone: yup.string().required("Phone number is required"),
+  phone: yup.string().length(12, "Phone number is invalid").required("Phone number is required"),
 })
