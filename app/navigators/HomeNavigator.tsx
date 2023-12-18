@@ -89,8 +89,8 @@ export function HomeNavigator() {
 }
 
 const $tabBar: ViewStyle = {
-  backgroundColor: colors.background,
-  borderTopColor: colors.transparent,
+  backgroundColor: "#F9FAFB",
+  borderTopColor: "#98A2B3",
 }
 
 const $tabBarItem: ViewStyle = {
