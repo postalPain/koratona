@@ -35,62 +35,60 @@ export interface FeedCardProps {
 /**
  * Describe your component here
  */
-export const FeedCard = observer(function FeedCard({
-  post,
-  bgImage,
-  underTitleIcon,
-  onPress,
-}: FeedCardProps) {
-  const styles = useStyles()
+export const FeedCard = React.memo(
+  observer(function FeedCard({ post, bgImage, underTitleIcon, onPress }: FeedCardProps) {
+    const styles = useStyles()
+console.log('Rendering component');
 
-  return (
-    <Pressable style={styles.container} onPress={onPress}>
-      <ImageBackground
-        style={styles.bgImage}
-        source={
-          bgImage
-            ? {
-                uri: bgImage,
-              }
-            : require("assets/temp/cardBg.png")
-        }
-      >
-        <LinearGradient
-          colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
-          style={styles.gradient}
-          start={{ x: 0.1, y: 0.3 }}
-          end={{ x: 0.1, y: 0.7 }}
+    return (
+      <Pressable style={styles.container} onPress={onPress}>
+        <ImageBackground
+          style={styles.bgImage}
+          source={
+            bgImage
+              ? {
+                  uri: bgImage,
+                }
+              : require("assets/temp/cardBg.png")
+          }
         >
-          {underTitleIcon && <Image style={styles.underTitleIcon} source={underTitleIcon} />}
-          {post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
-        </LinearGradient>
-      </ImageBackground>
-      <View style={styles.footer}>
-        <LinearGradient
-          colors={["rgba(255, 255, 255, 0.8)", "rgba(247, 247, 247, 1)"]}
-          style={styles.footerGradient}
-          start={{ x: 0.1, y: 0.3 }}
-          end={{ x: 0.1, y: 0.7 }}
-        >
-          {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
-          <View style={styles.basement}>
-            {!!post?.updatedAt && (
-              <Text
-                style={styles.basementDate}
-                weight="medium"
-                text={getPostCreationTime(post.updatedAt)}
-              />
-            )}
-            <View style={styles.likesContainer}>
-              <Text style={styles.likesCounter} weight="medium" text="23" />
-              <Icon icon="heartIcon" />
+          <LinearGradient
+            colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
+            style={styles.gradient}
+            start={{ x: 0.1, y: 0.3 }}
+            end={{ x: 0.1, y: 0.7 }}
+          >
+            {underTitleIcon && <Image style={styles.underTitleIcon} source={underTitleIcon} />}
+            {post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
+          </LinearGradient>
+        </ImageBackground>
+        <View style={styles.footer}>
+          <LinearGradient
+            colors={["rgba(255, 255, 255, 0.8)", "rgba(247, 247, 247, 1)"]}
+            style={styles.footerGradient}
+            start={{ x: 0.1, y: 0.3 }}
+            end={{ x: 0.1, y: 0.7 }}
+          >
+            {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
+            <View style={styles.basement}>
+              {!!post?.updatedAt && (
+                <Text
+                  style={styles.basementDate}
+                  weight="medium"
+                  text={getPostCreationTime(post.updatedAt)}
+                />
+              )}
+              <View style={styles.likesContainer}>
+                <Text style={styles.likesCounter} weight="medium" text="23" />
+                <Icon icon="heartIcon" />
+              </View>
             </View>
-          </View>
-        </LinearGradient>
-      </View>
-    </Pressable>
-  )
-})
+          </LinearGradient>
+        </View>
+      </Pressable>
+    )
+  }),
+)
 
 const useStyles = createUseStyles(() => ({
   container: {
