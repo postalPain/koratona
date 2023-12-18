@@ -3,14 +3,15 @@ import { Icon, Screen, Text } from "app/components"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { ImageBackground, Pressable, View } from "react-native"
-import { HomeFeedStackScreenProps } from "./Home/HomeScreen"
-// import { useNavigation } from "@react-navigation/native"
+import { ImageBackground, Pressable, View, useWindowDimensions } from "react-native"
+import { HomeFeedStackScreenProps } from "../Home/HomeScreen"
+import RenderHtml from "react-native-render-html"
 import { useStores } from "app/models"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { RefreshControl, ScrollView } from "react-native-gesture-handler"
 import { WebView } from "react-native-webview"
 import YoutubePlayer from "react-native-youtube-iframe"
+import { getYouTubeVideoId } from "../Onboarding/utils/getYouTubeVideoId"
 
 interface PostDetailsScreenProps extends HomeFeedStackScreenProps<"postDetails"> {}
 
@@ -22,6 +23,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const post = postsStore.getPostById(_props.route.params.id)
   const headerInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
+  const { width } = useWindowDimensions()
 
   return (
     <ScrollView
@@ -61,13 +63,24 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           </LinearGradient>
         </ImageBackground>
         <View style={styles.articleContainer}>
-          {!!post?.content && <Text text={post?.content} />}
-          <View style={styles.videoContainer}>
-            <YoutubePlayer height={255} videoId="gYYra2xpoN8" play={false} />
-          </View>
-          <View style={styles.quizContainer}>
-            <WebView source={{ uri: "https://tally.so/r/mJO0DJ" }} />
-          </View>
+          {!!post?.content && (
+            <RenderHtml
+              contentWidth={width}
+              source={{
+                html: post?.content || "",
+              }}
+            />
+          )}
+          {post?.video && (
+            <View style={styles.videoContainer}>
+              <YoutubePlayer height={255} videoId={getYouTubeVideoId(post.video)} play={false} />
+            </View>
+          )}
+          {post?.quiz && (
+            <View style={styles.quizContainer}>
+              <WebView source={{ uri: post.quiz }} />
+            </View>
+          )}
         </View>
       </Screen>
     </ScrollView>

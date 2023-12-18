@@ -1,13 +1,12 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components/Text"
-import { observer } from "mobx-react-lite"
-import * as React from "react"
-import { ImageBackground, Pressable, View } from "react-native"
-import { Icon } from "./Icon"
-import { LinearGradient } from "expo-linear-gradient"
 import { Post } from "app/models/Posts/Post"
 import { getPostCreationTime } from "app/utils/formatCreatedTime"
-
+import { LinearGradient } from "expo-linear-gradient"
+import { observer } from "mobx-react-lite"
+import * as React from "react"
+import { Image, ImageBackground, ImageSourcePropType, Pressable, View } from "react-native"
+import { Icon } from "./Icon"
 export interface FeedCardProps {
   /**
    *  Post entity
@@ -18,6 +17,10 @@ export interface FeedCardProps {
    */
   bgImage: any
 
+  /**
+   * Icon that will be displayed under the title
+   */
+  underTitleIcon?: ImageSourcePropType
   /**
    * Callback that fires when the user taps the card
    * @default undefined
@@ -32,18 +35,33 @@ export interface FeedCardProps {
 /**
  * Describe your component here
  */
-export const FeedCard = observer(function FeedCard({ post, bgImage, onPress }: FeedCardProps) {
+export const FeedCard = observer(function FeedCard({
+  post,
+  bgImage,
+  underTitleIcon,
+  onPress,
+}: FeedCardProps) {
   const styles = useStyles()
 
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <ImageBackground style={styles.bgImage} source={bgImage}>
+      <ImageBackground
+        style={styles.bgImage}
+        source={
+          bgImage
+            ? {
+                uri: bgImage,
+              }
+            : require("assets/temp/cardBg.png")
+        }
+      >
         <LinearGradient
           colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
           style={styles.gradient}
           start={{ x: 0.1, y: 0.3 }}
           end={{ x: 0.1, y: 0.7 }}
         >
+          {underTitleIcon && <Image style={styles.underTitleIcon} source={underTitleIcon} />}
           {post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
         </LinearGradient>
       </ImageBackground>
@@ -95,6 +113,9 @@ const useStyles = createUseStyles(() => ({
     color: "#fff",
     fontSize: 36,
     lineHeight: 43,
+  },
+  underTitleIcon: {
+    marginBottom: 18,
   },
   footer: {
     borderBottomLeftRadius: 10,

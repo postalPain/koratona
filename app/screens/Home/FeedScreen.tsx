@@ -9,6 +9,7 @@ import { FeedCard, Screen, Text } from "../../components"
 import { spacing } from "../../theme"
 import { HomeFeedStackScreenProps } from "./HomeScreen"
 
+const YouTubeIcon = require("assets/images/youtube.png")
 const circleLogo = require("assets/images/circleLogo.png")
 
 export const FeedScreen: FC<HomeFeedStackScreenProps<"feed">> = observer(function DemoDebugScreen(
@@ -28,8 +29,6 @@ export const FeedScreen: FC<HomeFeedStackScreenProps<"feed">> = observer(functio
     postsStore.fetchPosts()
   }, [])
 
-  console.log("From feed screen", postsStore.postsCount, postsStore.posts.map((p) => p.id))
-
   return (
     <Screen backgroundColor="#fff" preset="fixed" contentContainerStyle={$container}>
       {postsStore.isFetchingPostsErrored && (
@@ -48,8 +47,9 @@ export const FeedScreen: FC<HomeFeedStackScreenProps<"feed">> = observer(functio
         renderItem={({ item }) => (
           <FeedCard
             onPress={() => _props.navigation.navigate("postDetails", { id: item.id })}
-            bgImage={require("assets/temp/cardBg.png")}
+            bgImage={item.coverImageUrl}
             post={item}
+            underTitleIcon={item.video ? YouTubeIcon : undefined}
           />
         )}
       />
