@@ -65,10 +65,6 @@ export const LoginContent: FC<LoginProps> = ({ setContentKey }) => {
           setError(undefined)
         }}
         onSubmit={login}
-        initialValues={{
-          email: "vladyslav.levchenko@stryber.com",
-          password: "StrictPass12345!",
-        }}
       >
         <View style={styles.formContent}>
           <View style={styles.inputContainer}>
