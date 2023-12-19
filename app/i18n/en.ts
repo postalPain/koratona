@@ -163,6 +163,10 @@ const en = {
     windowsReactotronHint:
       "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
   },
+  experiencesScreen: {
+    exclusive: "Koratona exclusive",
+    purchaseExperience: "Purchase experience",
+  }
 }
 
 export default en
