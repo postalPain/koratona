@@ -36,7 +36,7 @@ export function HomeNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName="FeedNavigator"
+      initialRouteName="Experiences"
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
