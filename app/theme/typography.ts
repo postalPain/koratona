@@ -10,12 +10,21 @@ import {
   Inter_700Bold as interBold,
 } from "@expo-google-fonts/inter"
 
+import instrumentalSansRegular from "assets/fonts/instrumentalSans/InstrumentSans-Regular.ttf"
+import instrumentalSansBold from "assets/fonts/instrumentalSans/InstrumentSans-Bold.ttf"
+import instrumentalSansMedium from "assets/fonts/instrumentalSans/InstrumentSans-Medium.ttf"
+import instrumentalSansSemiBold from "assets/fonts/instrumentalSans/InstrumentSans-SemiBold.ttf"
+
 export const customFontsToLoad = {
   interLight,
   interRegular,
   interMedium,
   interSemiBold,
   interBold,
+  instrumentalSansRegular,
+  instrumentalSansBold,
+  instrumentalSansMedium,
+  instrumentalSansSemiBold,
 }
 
 const fonts = {
@@ -48,6 +57,12 @@ const fonts = {
   monospace: {
     // Android only font.
     normal: "monospace",
+  },
+  instrumentSans: {
+    regular: "instrumentalSansRegular",
+    bold: "instrumentalSansBold",
+    medium: "instrumentalSansMedium",
+    semiBold: "instrumentalSansSemiBold",
   },
 }
 
