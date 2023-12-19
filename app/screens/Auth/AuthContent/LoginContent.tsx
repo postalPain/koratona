@@ -12,6 +12,7 @@ import { Text } from "../../../components"
 import { useStores } from "../../../models"
 import { spacing } from "../../../theme"
 import { loginValidationSchema } from "../helpers/validation"
+import { getButtonStyle } from "../helpers/buttonStyles"
 
 type LoginProps = {
   setContentKey: (key: any) => () => void
@@ -104,17 +105,7 @@ export const LoginContent: FC<LoginProps> = ({ setContentKey }) => {
 
           <Button
             type="submit"
-            style={{
-              ...styles.button,
-              ...(disabled
-                ? {
-                    borderColor: "transparent",
-                  }
-                : {
-                    backgroundColor: "#333865",
-                    borderColor: "#333865",
-                  }),
-            }}
+            style={{ ...styles.button, ...getButtonStyle(disabled) }}
             disabled={disabled}
           >
             {isLoading ? (

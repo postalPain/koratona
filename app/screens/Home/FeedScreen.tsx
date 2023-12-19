@@ -3,12 +3,13 @@ import { useStores } from "app/models"
 import { useHeader } from "app/utils/useHeader"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { FlatList, Image, View, ViewStyle } from "react-native"
+import {  Image, View, ViewStyle } from "react-native"
 import { FeedCard, Screen, Text } from "../../components"
 
 import { Post } from "app/models/Posts/Post"
 import { spacing } from "../../theme"
 import { HomeFeedStackScreenProps } from "./HomeScreen"
+import { FlatList } from "react-native-gesture-handler"
 
 const YouTubeIcon = require("assets/images/youtube.png")
 const circleLogo = require("assets/images/circleLogo.png")

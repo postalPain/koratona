@@ -38,7 +38,6 @@ export interface FeedCardProps {
 export const FeedCard = React.memo(
   observer(function FeedCard({ post, bgImage, underTitleIcon, onPress }: FeedCardProps) {
     const styles = useStyles()
-console.log('Rendering component');
 
     return (
       <Pressable style={styles.container} onPress={onPress}>
