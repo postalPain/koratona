@@ -19,7 +19,7 @@ import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
-import { HomeNavigator, AppHomeTabParamList } from "./HomeNavigator"
+import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUserSettings"
 
@@ -89,7 +89,7 @@ const AppStack = observer(function AppStack() {
     >
       {isAuthenticated ? (
         <>
-          <Stack.Screen name="Home" component={HomeNavigator} />
+          <Stack.Screen name="Home" component={AppHomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen
             name="InitialProfileSettings"

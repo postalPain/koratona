@@ -1,7 +1,7 @@
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { AppTabScreenProps } from "../../navigators/HomeNavigator"
+import { AppTabScreenProps } from "../../navigators/AppHomeNavigator"
 import { ExperiencePurchaseScreen } from "./ExperiencePurchaseScreen"
 import { ExperiencesScreen } from "./ExperiencesScreen"
 import { PurchaseResultScreen } from "./PurchaseResultScreen"

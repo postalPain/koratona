@@ -4,7 +4,7 @@ import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { Button, ListItem, Screen, Text } from "../components"
 import { isRTL } from "../i18n"
 import { useStores } from "../models"
-import { AppTabScreenProps } from "../navigators/HomeNavigator"
+import { AppTabScreenProps } from "../navigators/AppHomeNavigator"
 import { colors, spacing } from "../theme"
 import { clear } from "app/utils/storage"
 

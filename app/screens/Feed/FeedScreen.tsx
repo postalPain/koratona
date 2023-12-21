@@ -8,7 +8,7 @@ import { FeedCard, Screen, Text } from "../../components"
 
 import { Post } from "app/models/Posts/Post"
 import { spacing } from "../../theme"
-import { HomeFeedStackScreenProps } from "./HomeStackNavigator"
+import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { FlatList } from "react-native-gesture-handler"
 
 const YouTubeIcon = require("assets/images/youtube.png")

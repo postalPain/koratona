@@ -1,7 +1,7 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
 import { ExperiencesStackNavigator } from "app/screens/Experiences/ExperiencesStackNavigator"
-import { HomeStackNavigator } from "app/screens/Home/HomeStackNavigator"
+import { HomeStackNavigator } from "app/navigators/HomeStackNavigator"
 import { ProfileScreen } from "app/screens/Profile/ProfileScreen"
 import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
@@ -31,7 +31,7 @@ export type AppTabScreenProps<T extends keyof AppHomeTabParamList> = CompositeSc
 
 const Tab = createBottomTabNavigator<AppHomeTabParamList>()
 
-export function HomeNavigator() {
+export function AppHomeNavigator() {
   const { bottom } = useSafeAreaInsets()
 
   return (

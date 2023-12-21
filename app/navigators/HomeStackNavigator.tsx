@@ -1,8 +1,8 @@
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import React, { FC } from "react"
-import { AppTabScreenProps } from "../../navigators/HomeNavigator"
-import { FeedScreen } from "./FeedScreen"
-import { PostDetailsScreen } from "../PostDetailsScreen/PostDetailsScreen"
+import { AppTabScreenProps } from "./AppHomeNavigator"
+import { FeedScreen } from "../screens/Feed/FeedScreen"
+import { PostDetailsScreen } from "../screens/Feed/PostDetailsScreen"
 import { observer } from "mobx-react-lite"
 
 type HomeFeedStackParamList = {

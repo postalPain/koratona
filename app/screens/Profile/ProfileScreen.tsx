@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { Screen, Text } from "../../components"
-import { AppTabScreenProps } from "../../navigators/HomeNavigator"
+import { AppTabScreenProps } from "../../navigators/AppHomeNavigator"
 import { spacing } from "../../theme"
 
 export const ProfileScreen: FC<AppTabScreenProps<"UserProfile">> = function (_props) {
