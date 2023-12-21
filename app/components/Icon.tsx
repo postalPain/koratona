@@ -113,6 +113,7 @@ export const iconRegistry = {
   x: require("../../assets/icons/x.png"),
   alhilal: require("../../assets/icons/teamsLogo/Al-hilal.png"),
   heartIcon: require("../../assets/icons/heartIcon.png"),
+  circleCheck: require("../../assets/icons/circleCheck.png"),
   ...bottomTabNavigatorRegistry,
   ...commonIcons,
 }
