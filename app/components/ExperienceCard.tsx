@@ -1,11 +1,11 @@
+import Button from "@stryberventures/gaia-react-native.button"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { typography } from "app/theme"
 import { observer } from "mobx-react-lite"
 import * as React from "react"
 import { Image, StyleProp, View, ViewStyle } from "react-native"
 import { ExclusiveBadge } from "./ExclusiveBadge"
 import { Text } from "./Text"
-import Button from "@stryberventures/gaia-react-native.button"
-import { typography } from "app/theme"
 
 export interface ExperienceProps {
   /**
@@ -13,18 +13,38 @@ export interface ExperienceProps {
    */
   style?: StyleProp<ViewStyle>
 
+  /**
+   * Name of the experience
+   * @example "Training Day (DEC 21)"
+   */
   name: string
+
+  /**
+   * Price of the experience
+   * @example "SAR 1,500"
+   */
   price: string
+
+  /**
+   * Description of the experience
+   * @example "Watch Al Hilal team’s training the day before this weeks match"
+   */
   description: string
+  /**
+   * Function to be called when user presses the action button
+   * @example () => console.log("pressed")
+   * @default undefined
+   * @optional
+   * @param {void} void
+   */
+  onActionPress: () => void
 }
 
-/**
- * Describe your component here
- */
 export const ExperienceCard = observer(function Experience({
   name,
   price,
   description,
+  onActionPress,
 }: ExperienceProps) {
   const styles = useStyles()
 
@@ -38,7 +58,7 @@ export const ExperienceCard = observer(function Experience({
         <Text style={styles.price} text={price} weight="semiBold" />
       </View>
       <View style={styles.buttonContainer}>
-        <Button type="submit" style={styles.button}>
+        <Button style={styles.button} onPress={onActionPress}>
           <Text weight="bold" style={styles.buttonText} tx="experiencesScreen.purchaseExperience" />
         </Button>
       </View>
@@ -71,7 +91,7 @@ const useStyles = createUseStyles((theme) => ({
     fontFamily: typography.fonts.instrumentSans.bold,
     color: "#101828",
     textTransform: "uppercase",
-    letterSpacing: -2,
+    letterSpacing: -1,
   },
   description: {
     paddingVertical: theme.spacing[12],
