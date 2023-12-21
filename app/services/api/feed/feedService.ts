@@ -57,3 +57,33 @@ export const fetchPostById: FeedTypes.FetchPostByIdService = async (id) => {
     return { kind: "bad-data" }
   }
 }
+
+export const toggleFavorite: FeedTypes.TogglePostFavoriteService = async ({
+  postId,
+  userId,
+}) => {
+  let response = {} as ApiResponse<Post>
+
+  try {
+    response = await api.apisauce.post(`user/favorite/post/${postId}`, {
+      userId,
+    })
+
+    // the typical ways to die when calling an api
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    if (!response.data) {
+      return { kind: "bad-data" }
+    }
+
+    return { kind: "ok", data: response.data }
+  } catch (e) {
+    if (__DEV__ && e instanceof Error) {
+      console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)
+    }
+    return { kind: "bad-data" }
+  }
+}

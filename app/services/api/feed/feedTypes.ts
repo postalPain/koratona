@@ -30,3 +30,12 @@ export type FetchPostsService = ({
 export type FetchPostByIdService = (
   id: number,
 ) => Promise<{ kind: "ok"; data: Post } | GeneralApiProblem>
+
+export type TogglePostFavoritePayload = {
+  postId: number
+  userId: string
+}
+export type TogglePostFavoriteService = ({
+  postId,
+  userId,
+}: TogglePostFavoritePayload) => Promise<{ kind: "ok" } | GeneralApiProblem>

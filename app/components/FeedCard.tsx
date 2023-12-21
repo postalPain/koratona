@@ -30,13 +30,44 @@ export interface FeedCardProps {
    * */
 
   onPress?: () => void
+
+  /**
+   * If true, the card will be displayed as a favorite
+   * @default false
+   * @example addedToFavorite
+   * */
+  addedToFavorite?: boolean
+
+  /**
+   * Count of favorites
+   * @default undefined
+   * @example favoriteCount={23}
+   * */
+  favoriteCount?: number
+
+  /**
+   * Callback that fires when the user taps the favorite icon
+   * @default undefined
+   * @param event - React Native PressEvent
+   * @returns void
+   * @example onFavoritePress={event => console.log(event)}
+   * */
+  onFavoritePress?: () => void
 }
 
 /**
  * Describe your component here
  */
 export const FeedCard = React.memo(
-  observer(function FeedCard({ post, bgImage, underTitleIcon, onPress }: FeedCardProps) {
+  observer(function FeedCard({
+    post,
+    bgImage,
+    underTitleIcon,
+    onPress,
+    addedToFavorite,
+    favoriteCount,
+    onFavoritePress
+  }: FeedCardProps) {
     const styles = useStyles()
 
     return (
@@ -78,8 +109,10 @@ export const FeedCard = React.memo(
                 />
               )}
               <View style={styles.likesContainer}>
-                <Text style={styles.likesCounter} weight="medium" text="23" />
-                <Icon icon="heartIcon" />
+                <Text style={styles.likesCounter} weight="medium" text={`${favoriteCount || ""}`} />
+                <Pressable onPress={onFavoritePress}>
+                  <Icon icon={addedToFavorite ? "heardIconFilled" : "heartIcon"} />
+                </Pressable>
               </View>
             </View>
           </LinearGradient>

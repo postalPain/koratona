@@ -1,6 +1,6 @@
-import { fetchPostById, fetchPosts } from "app/services/api/feed/feedService"
+import { fetchPostById, fetchPosts, toggleFavorite } from "app/services/api/feed/feedService"
 import { PostsResponse } from "app/services/api/feed/feedTypes"
-import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, types } from "mobx-state-tree"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { PostModel, PostsPaginationMetaModel } from "./Post"
 
@@ -48,7 +48,6 @@ export const PostsStoreModel = types
           return
         }
         let nextPage = self.postsPaginationMeta.page
-
         if (self.postsPaginationMeta.page < self.postsPaginationMeta.pageCount) {
           nextPage++
         }
@@ -80,6 +79,43 @@ export const PostsStoreModel = types
         console.tron.error?.(`Error fetching post by id: ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingPost = false
+      }
+    }),
+    toggleFavorite: flow(function* (postId: number) {
+      try {
+        const {
+          authUser: { authUser },
+        } = getRoot(self) as any
+        const post = self.posts.find((post) => post.id === postId)
+        if (post) {
+          const updatedPostFavoriteInfo: any = {
+            userId: authUser.id,
+            name: authUser.name,
+            email: authUser.email,
+          }
+          const ifPostWasAlreadyFavorited = post.usersToFavoritePosts.find(
+            (user) => user.userId === authUser.id,
+          )
+          if (ifPostWasAlreadyFavorited) {
+            post.usersToFavoritePosts = post.usersToFavoritePosts.filter(
+              (user) => user.userId !== authUser.id,
+            ) as any
+            post.favoriteCount--
+            console.log('UnLiked');
+
+          } else {
+            console.log('Liked');
+            post.usersToFavoritePosts.push(updatedPostFavoriteInfo)
+            post.favoriteCount++
+          }
+        }
+        yield toggleFavorite({
+          postId,
+          userId: authUser.id,
+        })
+      } catch (error) {
+        console.log("Error adding post to favorite: ", error)
+        console.tron.error?.(`Error adding post to favorite: ${JSON.stringify(error)}`, [])
       }
     }),
   }))

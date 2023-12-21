@@ -19,11 +19,14 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   _props,
 ) {
   const styles = useStyles()
-  const { postsStore } = useStores()
+  const { postsStore, authUser } = useStores()
   const post = postsStore.getPostById(_props.route.params.id)
   const headerInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width } = useWindowDimensions()
+  const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
+    (user) => user.userId === authUser.authUser.id,
+  )
 
   return (
     <ScrollView
@@ -53,7 +56,17 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
                 <Icon icon="back" color="#98A2B3" />
                 <Text text="Go back" style={styles.leftHeaderComponentText} />
               </Pressable>
-              <Icon icon="heartIcon" color="#98A2B3" />
+              <Pressable
+                onPress={() => {
+                  if (post) {
+                    postsStore.toggleFavorite(post.id)
+                  }
+                }}
+              >
+                <Icon
+                  icon={isPostAddedToFavorite ? "heardIconFilled" : "heartIcon"}
+                />
+              </Pressable>
             </View>
             <View>
               {!!post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}

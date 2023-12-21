@@ -3,20 +3,20 @@ import { useStores } from "app/models"
 import { useHeader } from "app/utils/useHeader"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { Image, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Image, View, ViewStyle } from "react-native"
 import { FeedCard, Screen, Text } from "../../components"
 
 import { Post } from "app/models/Posts/Post"
-import { spacing } from "../../theme"
+import { spacing, typography } from "../../theme"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
-import { FlatList } from "react-native-gesture-handler"
+import { FlashList } from "@shopify/flash-list"
 
 const YouTubeIcon = require("assets/images/youtube.png")
 const circleLogo = require("assets/images/circleLogo.png")
 
 export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(function (_props) {
   const styles = useStyles()
-  const { postsStore } = useStores()
+  const { postsStore, authUser } = useStores()
 
   useHeader({
     rightIcon: "teamsIcon",
@@ -33,6 +33,11 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         bgImage={item.coverImageUrl}
         post={item}
         underTitleIcon={item.video ? YouTubeIcon : undefined}
+        favoriteCount={item.favoriteCount}
+        addedToFavorite={item.usersToFavoritePosts.some(
+          (user) => user.userId === authUser.authUser.id,
+        )}
+        onFavoritePress={() => postsStore.toggleFavorite(item.id)}
       />
     ),
     [],
@@ -44,25 +49,32 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         <Text text="Something went wrong, please try again..." />
       )}
 
-      <FlatList
-        data={postsStore.posts}
+      <FlashList
+        data={[...postsStore.posts]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         onRefresh={postsStore.fetchPosts}
         refreshing={postsStore.isFetchingPosts}
         onEndReached={postsStore.fetchMorePosts}
         ListEmptyComponent={() => <Text preset="subheading" text="No posts yet..." />}
-        extraData={postsStore.postsCount}
-        keyExtractor={(item) => item.id.toString()}
+        extraData={JSON.stringify(postsStore.posts)}
+        keyExtractor={(item) => item?.id?.toString()}
         onEndReachedThreshold={0.3}
-        maxToRenderPerBatch={5}
         renderItem={renderItem}
-        getItemLayout={(_data, index) => ({
-          length: 476,
-          offset: 476 * index,
-          index,
-        })}
+        estimatedItemSize={448}
+        ListFooterComponent={
+          <>
+            {postsStore.isFetchingMorePosts && (
+              <View style={styles.fetchingMorePosts}>
+                <ActivityIndicator color="#333865" />
+                <Text style={styles.fetchingMorePostsText} text="Loading more posts..." />
+              </View>
+            )}
+            {!postsStore.postsPaginationMeta.hasNextPage && !postsStore.isFetchingMorePosts && (
+              <Text weight="bold" text="No more posts" />
+            )}
+          </>
+        }
       />
-      {postsStore.isFetchingMorePosts && <Text text="Loading..." />}
     </Screen>
   )
 })
@@ -79,5 +91,16 @@ const useStyles = createUseStyles(() => ({
   },
   separator: {
     height: spacing.xl,
+  },
+  fetchingMorePosts: {
+    paddingVertical: spacing.xl,
+    textAlign: "center",
+    justifyContent: "center",
+  },
+  fetchingMorePostsText: {
+    textAlign: "center",
+    color: "#333865",
+    marginTop: spacing.sm,
+    fontFamily: typography.fonts.instrumentSans.medium
   },
 }))
