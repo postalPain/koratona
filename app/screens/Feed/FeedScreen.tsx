@@ -2,7 +2,7 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { useStores } from "app/models"
 import { useHeader } from "app/utils/useHeader"
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useEffect } from "react"
 import { ActivityIndicator, Image, View, ViewStyle } from "react-native"
 import { FeedCard, Screen, Text } from "../../components"
 
@@ -10,6 +10,7 @@ import { Post } from "app/models/Posts/Post"
 import { spacing, typography } from "../../theme"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { FlashList } from "@shopify/flash-list"
+import useFetchPosts from "./hooks/posts"
 
 const YouTubeIcon = require("assets/images/youtube.png")
 const circleLogo = require("assets/images/circleLogo.png")
@@ -17,6 +18,7 @@ const circleLogo = require("assets/images/circleLogo.png")
 export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(function (_props) {
   const styles = useStyles()
   const { postsStore, authUser } = useStores()
+  useFetchPosts()
 
   useHeader({
     rightIcon: "teamsIcon",
@@ -69,9 +71,9 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
                 <Text style={styles.fetchingMorePostsText} text="Loading more posts..." />
               </View>
             )}
-            {!postsStore.postsPaginationMeta.hasNextPage && !postsStore.isFetchingMorePosts && (
-              <Text weight="bold" text="No more posts" />
-            )}
+            {postsStore.postsCount > 0 &&
+              !postsStore.postsPaginationMeta.hasNextPage &&
+              !postsStore.isFetchingMorePosts && <Text weight="bold" text="No more posts" />}
           </>
         }
       />
@@ -101,6 +103,6 @@ const useStyles = createUseStyles(() => ({
     textAlign: "center",
     color: "#333865",
     marginTop: spacing.sm,
-    fontFamily: typography.fonts.instrumentSans.medium
+    fontFamily: typography.fonts.instrumentSans.medium,
   },
 }))

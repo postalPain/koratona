@@ -88,7 +88,7 @@ export const PostsStoreModel = types
         } = getRoot(self) as any
         const post = self.posts.find((post) => post.id === postId)
         if (post) {
-          const updatedPostFavoriteInfo: any = {
+          const updatedPostFavoriteInfo = {
             userId: authUser.id,
             name: authUser.name,
             email: authUser.email,
@@ -101,10 +101,7 @@ export const PostsStoreModel = types
               (user) => user.userId !== authUser.id,
             ) as any
             post.favoriteCount--
-            console.log('UnLiked');
-
           } else {
-            console.log('Liked');
             post.usersToFavoritePosts.push(updatedPostFavoriteInfo)
             post.favoriteCount++
           }
