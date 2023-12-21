@@ -47,6 +47,8 @@ export type AppStackParamList = {
   }>
   InitialProfileSettings: undefined
   PostDetails: undefined
+  ExperiencePurchase: undefined
+  PurchaseResult: undefined
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 

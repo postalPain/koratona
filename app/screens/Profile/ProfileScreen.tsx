@@ -4,12 +4,10 @@ import { Screen, Text } from "../../components"
 import { AppTabScreenProps } from "../../navigators/HomeNavigator"
 import { spacing } from "../../theme"
 
-export const ProfileScreen: FC<AppTabScreenProps<"UserProfile">> = function DemoDebugScreen(
-  _props,
-) {
+export const ProfileScreen: FC<AppTabScreenProps<"UserProfile">> = function (_props) {
   return (
     <Screen preset="scroll" safeAreaEdges={["top"]} contentContainerStyle={$container}>
-      <Text style={$title} preset="heading" tx='appHomeNavigator.userProfile' />
+      <Text style={$title} preset="heading" tx="appHomeNavigator.userProfile" />
     </Screen>
   )
 }

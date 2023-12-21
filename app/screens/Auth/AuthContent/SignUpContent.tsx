@@ -9,7 +9,7 @@ import { signUpService } from "app/services/api/auth/auth"
 import { spacing } from "app/theme"
 import React, { FC, useState } from "react"
 import { ActivityIndicator, Alert, TextStyle, View, ViewStyle } from "react-native"
-import { Policies } from "../Policies"
+import { AuthPolicies } from "../AuthPolicies"
 import {
   SignUpValues,
   signUpPasswordHintMessage,
@@ -148,7 +148,7 @@ export const SignUpContent: FC<SignUpProps> = ({ onClose }) => {
           </View>
         </Form>
       </View>
-      <Policies />
+      <AuthPolicies />
     </View>
   )
 }

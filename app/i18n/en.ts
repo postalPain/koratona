@@ -166,7 +166,18 @@ const en = {
   experiencesScreen: {
     exclusive: "Koratona exclusive",
     purchaseExperience: "Purchase experience",
-  }
+    completePurchase: "Complete purchase",
+    deliverPassesTo: "Deliver passes to",
+    makePayment: "Make payment",
+    policiesByMakingPurchase: "By making a purchase, you agree to our",
+    termsOfOfConditions: " Terms & Conditions",
+    thankYouForYour: "Thank you for your",
+    purchase: "purchase!",
+    checkYourEmailInboxForRedemptionDetails: "Check your email inbox for redemption details.",
+    experience: "Experience",
+    validUntil: "Valid until",
+    viewMyPurchases: "View my purchases",
+  },
 }
 
 export default en

@@ -3,7 +3,7 @@ import Config from "app/config"
 import React from "react"
 import { Alert, Linking, TextStyle } from "react-native"
 
-export const Policies = () => {
+export const AuthPolicies = () => {
   const handleOpenPolicies = async () => {
     const url = Config.PRIVACY_POLICIES_URL
     const supported = await Linking.canOpenURL(url)

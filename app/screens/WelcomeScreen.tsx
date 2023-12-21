@@ -9,7 +9,6 @@ import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import { AuthContentKey } from "./Auth/AuthController"
 import AuthPanel from "./Auth/AuthPanel"
-import * as Linking from "expo-linking"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeBackGround = require("../../assets/backgrounds/welcome-screen.png")

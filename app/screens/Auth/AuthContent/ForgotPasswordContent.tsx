@@ -34,10 +34,11 @@ export const ForgotPasswordContent: FC<ForgotPasswordProps> = ({ setContentKey }
     const result = await passwordRestoreService({ username: values.email })
     if (result.kind !== "ok") {
       Alert.alert("Error", result.kind)
+    } else {
+      Alert.alert("Success", "Check your email")
+      formRef.current?.reset()
     }
     setIsLoading(false)
-    formRef.current?.reset()
-    Alert.alert("Success", "Check your email")
   }
 
   return (

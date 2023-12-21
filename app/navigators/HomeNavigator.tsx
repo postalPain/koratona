@@ -1,5 +1,8 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
+import { ExperiencesStackNavigator } from "app/screens/Experiences/ExperiencesStackNavigator"
+import { HomeStackNavigator } from "app/screens/Home/HomeStackNavigator"
+import { ProfileScreen } from "app/screens/Profile/ProfileScreen"
 import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -8,14 +11,11 @@ import { translate } from "../i18n"
 import { DemoDebugScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
-import { HomeStackNavigator } from "app/screens/Home/HomeScreen"
-import { ExperiencesScreen } from "app/screens/Experiences/ExperiencesScreen"
-import { ProfileScreen } from "app/screens/Profile/ProfileScreen"
 
 export type AppHomeTabParamList = {
   DemoDebug: undefined
   FeedNavigator: undefined
-  Experiences: undefined
+  ExperiencesNavigator: undefined
   UserProfile: undefined
 }
 
@@ -36,7 +36,7 @@ export function HomeNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Experiences"
+      initialRouteName="ExperiencesNavigator"
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -48,8 +48,8 @@ export function HomeNavigator() {
       }}
     >
       <Tab.Screen
-        name="Experiences"
-        component={ExperiencesScreen}
+        name="ExperiencesNavigator"
+        component={ExperiencesStackNavigator}
         options={{
           tabBarLabel: translate("appHomeNavigator.experiences"),
           tabBarIcon: ({ focused }) =>

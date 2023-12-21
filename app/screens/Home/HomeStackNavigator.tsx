@@ -17,25 +17,25 @@ export type HomeFeedStackScreenProps<T extends keyof HomeFeedStackParamList> =
 
 const Stack = createNativeStackNavigator<HomeFeedStackParamList>()
 
-export const HomeStackNavigator: FC<AppTabScreenProps<"FeedNavigator">> = observer(
-  function DemoDebugScreen(_props: AppTabScreenProps<"FeedNavigator">) {
-    return (
-      <Stack.Navigator initialRouteName="feed">
-        <Stack.Screen
-          name="feed"
-          component={FeedScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="postDetails"
-          component={PostDetailsScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    )
-  },
-)
+export const HomeStackNavigator: FC<AppTabScreenProps<"FeedNavigator">> = observer(function (
+  _props: AppTabScreenProps<"FeedNavigator">,
+) {
+  return (
+    <Stack.Navigator initialRouteName="feed">
+      <Stack.Screen
+        name="feed"
+        component={FeedScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="postDetails"
+        component={PostDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  )
+})
