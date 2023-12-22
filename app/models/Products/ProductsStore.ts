@@ -1,13 +1,13 @@
-import { fetchPostById, fetchPosts } from "app/services/api/feed/feedService"
-import { PostsResponse } from "app/services/api/feed/feedTypes"
 import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { ProductModel, ProductPaginationMetaModel } from "./Product"
+import { fetchProductById, fetchProducts } from "app/services/api/products/productService"
+import { ProductsResponse } from "app/services/api/products/productTypes"
 
-export const PostsStoreModel = types
-  .model("PostsStore")
+export const ProductsStoreModel = types
+  .model("ProductStore")
   .props({
-    product: types.optional(types.array(ProductModel), []),
+    products: types.optional(types.array(ProductModel), []),
     productPaginationMeta: types.optional(ProductPaginationMetaModel, {
       page: 1,
       take: 5,
@@ -25,24 +25,26 @@ export const PostsStoreModel = types
   })
   .actions(withSetPropAction)
   .actions((self) => ({
-    fetchPosts: flow(function* () {
+    fetchProducts: flow(function* () {
       self.isFetchingProducts = true
       self.isFetchingProductsErrored = false
       try {
-        const response = yield fetchPosts({ take: self.productPaginationMeta.take })
-        self.product = response?.data?.data
+        const response = yield fetchProducts({ take: self.productPaginationMeta.take })
+
+        self.products = response?.data?.data
         self.productPaginationMeta = response?.data?.meta
       } catch (error) {
         self.isFetchingProductsErrored = true
-        console.log("Error fetching posts: ", error)
-        console.tron.error?.(`Error fetching posts: ${JSON.stringify(error)}`, [])
+        console.log("Error fetching products: ", error)
+        console.tron.error?.(`Error fetching products: ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingProducts = false
       }
     }),
-    fetchMorePosts: flow(function* () {
+    fetchMoreProducts: flow(function* () {
       self.isFetchingMoreProducts = true
       self.isFetchingProductsErrored = false
+
       try {
         if (!self.productPaginationMeta.hasNextPage) {
           return
@@ -52,31 +54,31 @@ export const PostsStoreModel = types
           nextPage++
         }
 
-        const { data: response }: { data: PostsResponse } = yield fetchPosts({
+        const { data: response }: { data: ProductsResponse } = yield fetchProducts({
           page: nextPage,
           take: self.productPaginationMeta.take,
         })
-        const validatedPosts = response.data.map((postData) => ProductModel.create(postData))
-        self.product.push(...validatedPosts)
+        const validatedProduct = response.data.map((productData) => ProductModel.create(productData))
+        self.products.push(...validatedProduct)
         self.productPaginationMeta = response.meta
       } catch (error) {
         self.isFetchingProductsErrored = true
-        console.log("Error fetching posts more: ", error)
-        console.tron.error?.(`Error fetching more posts: ${JSON.stringify(error)}`, [])
+        console.log("Error fetching more products: ", error)
+        console.tron.error?.(`Error fetching more: products ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingMoreProducts = false
       }
     }),
-    fetchPostById: flow(function* (id: number) {
+    fetchProductById: flow(function* (id: number) {
       self.isFetchingProductById = true
       self.isFetchingProductByIdErrored = false
       try {
-        const response = yield fetchPostById(id)
+        const response = yield fetchProductById(id)
         self.openedProductDetails = response.data.data
       } catch (error) {
         self.isFetchingProductByIdErrored = true
-        console.log("Error fetching post by id: ", error)
-        console.tron.error?.(`Error fetching post by id: ${JSON.stringify(error)}`, [])
+        console.log("Error fetching product by id: ", error)
+        console.tron.error?.(`Error fetching product by id: ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingProductById = false
       }
@@ -84,10 +86,11 @@ export const PostsStoreModel = types
   }))
   .views((self) => ({
     get getProductById() {
-      return (id: number) => self.product.find((product) => product.id.toString() === id.toString())
+      return (id: number) =>
+        self.products.find((product) => product.id.toString() === id.toString())
     },
   }))
 
-export interface PostStore extends Instance<typeof PostsStoreModel> {}
-export interface PostStoreSnapshotOut extends SnapshotOut<typeof PostsStoreModel> {}
-export interface PostStoreSnapshotIn extends SnapshotIn<typeof PostsStoreModel> {}
+export interface ProductStore extends Instance<typeof ProductsStoreModel> {}
+export interface ProductStoreSnapshotOut extends SnapshotOut<typeof ProductsStoreModel> {}
+export interface ProductStoreSnapshotIn extends SnapshotIn<typeof ProductsStoreModel> {}

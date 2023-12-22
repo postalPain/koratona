@@ -10,18 +10,22 @@ import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import { getButtonStyle } from "../Auth/helpers/buttonStyles"
 import { typography } from "app/theme"
 import { ProductPurchasePolicies } from "./ProductsPurchasePolicies"
+import { useStores } from "app/models"
 
-interface ProductPurchaseScreenProps extends ProductsStackScreenProps<'productPurchase'> {}
+interface ProductPurchaseScreenProps extends ProductsStackScreenProps<"productPurchase"> {}
 
 export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
   function ProductPurchaseScreen(_props) {
     const styles = useStyles()
+    const { id } = _props.route.params
+    const { productsStore } = useStores()
+    const product = productsStore.getProductById(id)
+
     const [disabled] = React.useState<boolean>(false)
     const [isLoading] = React.useState<boolean>(false)
-
     const onSubmit = () => {
       console.log("submit")
-      _props.navigation.navigate('productPurchaseResult')
+      _props.navigation.navigate("productPurchaseResult")
     }
 
     return (
@@ -63,9 +67,9 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
               <Banner>
                 <Text
                   style={styles.purchaseDescription}
-                  text="You are purchasing the “Training day + Team access” experience for"
+                  text={`You are purchasing the “${product?.name}“`}
                 />
-                <Text style={styles.purchasePrice} weight="bold" text="SAR 2,500" />
+                <Text style={styles.purchasePrice} weight="bold" text={`SAR ${product?.price}`} />
               </Banner>
               <Button
                 type="submit"

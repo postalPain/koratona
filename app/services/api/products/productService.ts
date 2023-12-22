@@ -7,7 +7,7 @@ import * as ProductTypes from "./productTypes"
 export const fetchProducts: ProductTypes.FetchProductsService = async ({
   page = 1,
   take = 50,
-  order = "DESC",
+  order = "ASC",
 }) => {
   let response = {} as ApiResponse<ProductTypes.ProductsResponse>
 

@@ -6,11 +6,11 @@ import React from "react"
 import { ActivityIndicator, Image, View, ViewStyle } from "react-native"
 import { FeedCard, Screen, Text } from "../../components"
 
-import { FlashList } from "@shopify/flash-list"
+import { FlashList, ListRenderItem } from "@shopify/flash-list"
 import { Post } from "app/models/Posts/Post"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { spacing, typography } from "../../theme"
-import useFetchPosts from "./hooks/posts"
+import useFetchPosts from "../hooks/usePosts"
 
 const YouTubeIcon = require("assets/images/youtube.png")
 const circleLogo = require("assets/images/circleLogo.png")
@@ -28,7 +28,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
     backgroundColor: "#fff",
   })
 
-  const renderItem = React.useCallback(
+  const renderItem: ListRenderItem<Post> = React.useCallback(
     ({ item }: { item: Post }) => (
       <FeedCard
         onPress={() => _props.navigation.navigate("postDetails", { id: item.id })}
@@ -50,8 +50,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
       {postsStore.isFetchingPostsErrored && (
         <Text text="Something went wrong, please try again..." />
       )}
-
-      <FlashList
+      <FlashList<Post>
         data={[...postsStore.posts]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         onRefresh={postsStore.fetchPosts}

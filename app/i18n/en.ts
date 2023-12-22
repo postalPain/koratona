@@ -177,6 +177,7 @@ const en = {
     experience: "Experience",
     validUntil: "Valid until",
     viewMyPurchases: "View my purchases",
+    outOfStock: "Sold out!",
   },
 }
 

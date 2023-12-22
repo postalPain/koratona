@@ -46,7 +46,16 @@ export interface ProductsProps {
    * @optional
    * @param {string} string
    */
-  bgImage?: string
+  bgImage: any
+
+  /**
+   * Is product out of stock
+   * @example true
+   * @default false
+   * @optional
+   * @param {boolean} boolean
+   */
+  outOfStock?: boolean
 }
 
 export const ProductCard = observer(function Products({
@@ -55,15 +64,21 @@ export const ProductCard = observer(function Products({
   description,
   onActionPress,
   bgImage,
+  outOfStock,
 }: ProductsProps) {
   const styles = useStyles()
 
   return (
     <View style={styles.container}>
       <Image
-        source={bgImage ? { uri: bgImage } : require("assets/temp/experienceBg.png")}
+        source={
+          bgImage ? { uri: bgImage, cache: "force-cache" } : require("assets/temp/cardBg.png")
+        }
+        height={400}
+        width={400}
         resizeMode="contain"
       />
+
       <ExclusiveBadge />
       <View style={styles.infoBox}>
         <Text style={styles.name} text={name} weight="bold" />
@@ -71,8 +86,12 @@ export const ProductCard = observer(function Products({
         <Text style={styles.price} text={price} weight="semiBold" />
       </View>
       <View style={styles.buttonContainer}>
-        <Button style={styles.button} onPress={onActionPress}>
-          <Text weight="bold" style={styles.buttonText} tx="productsScreen.purchaseExperience" />
+        <Button style={outOfStock ? styles.disabledButton : styles.button} onPress={onActionPress}>
+          <Text
+            weight="bold"
+            style={outOfStock ? styles.disabledButtonText : styles.buttonText}
+            tx={outOfStock ? "productsScreen.outOfStock" : "productsScreen.purchaseExperience"}
+          />
         </Button>
       </View>
     </View>
@@ -90,12 +109,21 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: "#1A1F51",
     borderColor: "#333865",
   },
+  disabledButton: {
+    marginTop: theme.spacing["32"],
+    minHeight: 59,
+    backgroundColor: "#F2F4F7",
+    borderColor: "#F2F4F7",
+  },
   buttonText: {
     color: "#fff",
   },
   buttonContainer: {
     width: "100%",
     paddingHorizontal: theme.spacing[32],
+  },
+  disabledButtonText: {
+    color: "#98A2B3",
   },
   name: {
     fontSize: 32,
@@ -123,5 +151,10 @@ const useStyles = createUseStyles((theme) => ({
   infoBox: {
     paddingTop: theme.spacing[40],
     paddingHorizontal: theme.spacing[16],
+  },
+  imageContainer: {
+    height: 400,
+    alignItems: "center",
+    justifyContent: "center",
   },
 }))
