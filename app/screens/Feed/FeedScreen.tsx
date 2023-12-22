@@ -2,14 +2,14 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { useStores } from "app/models"
 import { useHeader } from "app/utils/useHeader"
 import { observer } from "mobx-react-lite"
-import React, { useEffect } from "react"
+import React from "react"
 import { ActivityIndicator, Image, View, ViewStyle } from "react-native"
 import { FeedCard, Screen, Text } from "../../components"
 
-import { Post } from "app/models/Posts/Post"
-import { spacing, typography } from "../../theme"
-import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { FlashList } from "@shopify/flash-list"
+import { Post } from "app/models/Posts/Post"
+import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
+import { spacing, typography } from "../../theme"
 import useFetchPosts from "./hooks/posts"
 
 const YouTubeIcon = require("assets/images/youtube.png")

@@ -109,7 +109,7 @@ const en = {
   },
   appHomeNavigator: {
     home: "Home",
-    experiences: "Experiences",
+    products: "Experiences",
     userProfile: "Profile",
   },
   demoCommunityScreen: {
@@ -163,7 +163,7 @@ const en = {
     windowsReactotronHint:
       "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
   },
-  experiencesScreen: {
+  productsScreen: {
     exclusive: "Koratona exclusive",
     purchaseExperience: "Purchase experience",
     completePurchase: "Complete purchase",

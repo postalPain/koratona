@@ -2,22 +2,22 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import React, { FC } from "react"
 import { View, ViewStyle } from "react-native"
 import { FlatList } from "react-native-gesture-handler"
-import { ExperienceCard, Text } from "../../components"
+import { ProductCard, Text } from "../../components"
 import { spacing } from "../../theme"
-import { ExperiencesStackScreenProps } from "./ExperiencesStackNavigator"
+import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 
 const data = Array.from({ length: 10 }, (_, i) => i)
 
-export const ExperiencesScreen: FC<ExperiencesStackScreenProps<"experiencesScreen">> =
+export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> =
   function DemoDebugScreen(_props) {
     const styles = useStyles()
 
     const handlePurchase = () => {
-      _props.navigation.navigate("experiencePurchase", { id: 1 })
+      _props.navigation.navigate('productPurchase', { id: 1 })
     }
 
     const renderItem = () => (
-      <ExperienceCard
+      <ProductCard
         name="Training Day (DEC 21)"
         description="Watch Al Hilal team’s training the day before this weeks match"
         price="SAR 1,500"

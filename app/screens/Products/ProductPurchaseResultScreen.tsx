@@ -5,15 +5,15 @@ import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Image, ImageBackground, View } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { ExperiencesStackScreenProps } from "./ExperiencesStackNavigator"
+import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import DashedLine from "react-native-dashed-line"
 
 const screenBackgroundImage = require("assets/backgrounds/welcome-screen.png")
 
-interface PurchaseResultScreenProps extends ExperiencesStackScreenProps<"purchaseResult"> {}
+interface ProductResultScreenProps extends ProductsStackScreenProps<'productPurchaseResult'> {}
 
-export const PurchaseResultScreen: FC<PurchaseResultScreenProps> = observer(
-  function PurchaseResultScreen(_props) {
+export const ProductPurchaseResultScreen: FC<ProductResultScreenProps> = observer(
+  function ProductResultScreen(_props) {
     const styles = useStyles()
     const { top: topInset } = useSafeAreaInsets()
 
@@ -22,18 +22,18 @@ export const PurchaseResultScreen: FC<PurchaseResultScreenProps> = observer(
         <ImageBackground style={styles.aspectRatioBox} source={screenBackgroundImage}>
           <View style={{ marginTop: topInset }}>
             <Icon icon="circleCheck" containerStyle={styles.checkIconContainer} size={30} />
-            <Text style={styles.title} tx="experiencesScreen.thankYouForYour" />
-            <Text style={[styles.title, styles.titleHighlighted]} tx="experiencesScreen.purchase" />
+            <Text style={styles.title} tx="productsScreen.thankYouForYour" />
+            <Text style={[styles.title, styles.titleHighlighted]} tx="productsScreen.purchase" />
             <View style={styles.hintContainer}>
               <Text
                 style={styles.hint}
-                tx="experiencesScreen.checkYourEmailInboxForRedemptionDetails"
+                tx="productsScreen.checkYourEmailInboxForRedemptionDetails"
               />
             </View>
             <View style={styles.ticketWrapper}>
               <View style={styles.ticket}>
                 <View style={styles.ticketTopPart}>
-                  <Text style={styles.ticketLabel} tx="experiencesScreen.experience" />
+                  <Text style={styles.ticketLabel} tx="productsScreen.experience" />
                   <Text
                     style={styles.ticketExperienceName}
                     text="Training Day + Team Access"
@@ -51,17 +51,17 @@ export const PurchaseResultScreen: FC<PurchaseResultScreenProps> = observer(
                 </View>
                 <View style={styles.ticketBottomPart}>
                   <Image source={require("assets/temp/qrCode_example.png")} />
-                  <Text style={styles.ticketLabel} tx="experiencesScreen.validUntil" />
+                  <Text style={styles.ticketLabel} tx="productsScreen.validUntil" />
                   <Text style={styles.ticketValidToDate} text="July 2024" />
                 </View>
               </View>
               <View style={styles.goToPurchasesButtonWrapper}>
                 <Button
                   style={styles.goToPurchasesButton}
-                  tx="experiencesScreen.viewMyPurchases"
+                  tx="productsScreen.viewMyPurchases"
                   textStyle={styles.goToPurchasesButtonText}
                   onPress={() => {
-                    _props.navigation.navigate("experiencesScreen")
+                    _props.navigation.navigate('productsScreen')
                   }}
                 />
               </View>

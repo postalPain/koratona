@@ -1,6 +1,6 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
-import { ExperiencesStackNavigator } from "app/screens/Experiences/ExperiencesStackNavigator"
+import { ProductsStackNavigator } from "app/screens/Products/ProductsStackNavigator"
 import { HomeStackNavigator } from "app/navigators/HomeStackNavigator"
 import { ProfileScreen } from "app/screens/Profile/ProfileScreen"
 import React from "react"
@@ -15,7 +15,7 @@ import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 export type AppHomeTabParamList = {
   DemoDebug: undefined
   FeedNavigator: undefined
-  ExperiencesNavigator: undefined
+  ProductsNavigator: undefined
   UserProfile: undefined
 }
 
@@ -36,7 +36,7 @@ export function AppHomeNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName="ExperiencesNavigator"
+      initialRouteName='FeedNavigator'
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -48,10 +48,10 @@ export function AppHomeNavigator() {
       }}
     >
       <Tab.Screen
-        name="ExperiencesNavigator"
-        component={ExperiencesStackNavigator}
+        name="ProductsNavigator"
+        component={ProductsStackNavigator}
         options={{
-          tabBarLabel: translate("appHomeNavigator.experiences"),
+          tabBarLabel: translate("appHomeNavigator.products"),
           tabBarIcon: ({ focused }) =>
             focused ? <Icon icon="bagActive" size={30} /> : <Icon icon="bag" size={30} />,
         }}

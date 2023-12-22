@@ -7,26 +7,26 @@ import { Image, StyleProp, View, ViewStyle } from "react-native"
 import { ExclusiveBadge } from "./ExclusiveBadge"
 import { Text } from "./Text"
 
-export interface ExperienceProps {
+export interface ProductsProps {
   /**
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
 
   /**
-   * Name of the experience
+   * Name of the product
    * @example "Training Day (DEC 21)"
    */
   name: string
 
   /**
-   * Price of the experience
+   * Price of the product
    * @example "SAR 1,500"
    */
   price: string
 
   /**
-   * Description of the experience
+   * Description of the product
    * @example "Watch Al Hilal team’s training the day before this weeks match"
    */
   description: string
@@ -38,19 +38,32 @@ export interface ExperienceProps {
    * @param {void} void
    */
   onActionPress: () => void
+
+  /**
+   * Background image of the product
+   * @example require("assets/temp/experienceBg.png")
+   * @default undefined
+   * @optional
+   * @param {string} string
+   */
+  bgImage?: string
 }
 
-export const ExperienceCard = observer(function Experience({
+export const ProductCard = observer(function Products({
   name,
   price,
   description,
   onActionPress,
-}: ExperienceProps) {
+  bgImage,
+}: ProductsProps) {
   const styles = useStyles()
 
   return (
     <View style={styles.container}>
-      <Image source={require("assets/temp/experienceBg.png")} resizeMode="contain" />
+      <Image
+        source={bgImage ? { uri: bgImage } : require("assets/temp/experienceBg.png")}
+        resizeMode="contain"
+      />
       <ExclusiveBadge />
       <View style={styles.infoBox}>
         <Text style={styles.name} text={name} weight="bold" />
@@ -59,7 +72,7 @@ export const ExperienceCard = observer(function Experience({
       </View>
       <View style={styles.buttonContainer}>
         <Button style={styles.button} onPress={onActionPress}>
-          <Text weight="bold" style={styles.buttonText} tx="experiencesScreen.purchaseExperience" />
+          <Text weight="bold" style={styles.buttonText} tx="productsScreen.purchaseExperience" />
         </Button>
       </View>
     </View>

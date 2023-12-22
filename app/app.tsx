@@ -55,7 +55,7 @@ const config = {
           path: "",
         },
         UserProfile: "userProfile",
-        Experiences: "experiences",
+        ProductsNavigator: "ProductsNavigator",
       },
     },
     Demo: {

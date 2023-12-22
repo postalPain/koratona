@@ -3,7 +3,7 @@ import Config from "app/config"
 import React from "react"
 import { Alert, Linking, TextStyle } from "react-native"
 
-export const PurchasePolicies = () => {
+export const ProductPurchasePolicies = () => {
   const handleOpenPolicies = async () => {
     const url = Config.PRIVACY_POLICIES_URL
     const supported = await Linking.canOpenURL(url)
@@ -17,8 +17,8 @@ export const PurchasePolicies = () => {
 
   return (
     <Text onPress={handleOpenPolicies} style={$textWrapper}>
-      <Text style={$lighter} size="xs" tx='experiencesScreen.policiesByMakingPurchase' />
-      <Text style={$darker} size="xs" tx='experiencesScreen.termsOfOfConditions' />
+      <Text style={$lighter} size="xs" tx='productsScreen.policiesByMakingPurchase' />
+      <Text style={$darker} size="xs" tx='productsScreen.termsOfOfConditions' />
     </Text>
   )
 }

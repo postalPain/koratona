@@ -10,9 +10,13 @@ import {
   Inter_700Bold as interBold,
 } from "@expo-google-fonts/inter"
 
+// @ts-ignore
 import instrumentalSansRegular from "assets/fonts/instrumentalSans/InstrumentSans-Regular.ttf"
+// @ts-ignore
 import instrumentalSansBold from "assets/fonts/instrumentalSans/InstrumentSans-Bold.ttf"
+// @ts-ignore
 import instrumentalSansMedium from "assets/fonts/instrumentalSans/InstrumentSans-Medium.ttf"
+// @ts-ignore
 import instrumentalSansSemiBold from "assets/fonts/instrumentalSans/InstrumentSans-SemiBold.ttf"
 
 export const customFontsToLoad = {

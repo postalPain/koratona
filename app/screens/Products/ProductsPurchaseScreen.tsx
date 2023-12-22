@@ -6,22 +6,22 @@ import { Banner, Icon, Screen, Text } from "app/components"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { ActivityIndicator, Pressable, View } from "react-native"
-import { ExperiencesStackScreenProps } from "./ExperiencesStackNavigator"
+import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import { getButtonStyle } from "../Auth/helpers/buttonStyles"
 import { typography } from "app/theme"
-import { PurchasePolicies } from "./PurchasePolicies"
+import { ProductPurchasePolicies } from "./ProductsPurchasePolicies"
 
-interface ExperiencePurchaseScreenProps extends ExperiencesStackScreenProps<'experiencePurchase'> {}
+interface ProductPurchaseScreenProps extends ProductsStackScreenProps<'productPurchase'> {}
 
-export const ExperiencePurchaseScreen: FC<ExperiencePurchaseScreenProps> = observer(
-  function ExperiencePurchaseScreen(_props) {
+export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
+  function ProductPurchaseScreen(_props) {
     const styles = useStyles()
     const [disabled] = React.useState<boolean>(false)
     const [isLoading] = React.useState<boolean>(false)
 
     const onSubmit = () => {
       console.log("submit")
-      _props.navigation.navigate("purchaseResult")
+      _props.navigation.navigate('productPurchaseResult')
     }
 
     return (
@@ -43,10 +43,10 @@ export const ExperiencePurchaseScreen: FC<ExperiencePurchaseScreenProps> = obser
                   <Text text="Go back" style={styles.leftHeaderComponentText} />
                 </Pressable>
               </View>
-              <Text tx="experiencesScreen.completePurchase" weight="bold" style={styles.heading} />
+              <Text tx="productsScreen.completePurchase" weight="bold" style={styles.heading} />
 
               <View>
-                <Text tx="experiencesScreen.deliverPassesTo" style={styles.inputLabel} />
+                <Text tx="productsScreen.deliverPassesTo" style={styles.inputLabel} />
                 <Input
                   name="email"
                   variant="labelOutside"
@@ -78,11 +78,11 @@ export const ExperiencePurchaseScreen: FC<ExperiencePurchaseScreenProps> = obser
                   <Text
                     weight="bold"
                     style={styles.submitButtonText}
-                    tx="experiencesScreen.makePayment"
+                    tx="productsScreen.makePayment"
                   />
                 )}
               </Button>
-              <PurchasePolicies />
+              <ProductPurchasePolicies />
             </View>
           </View>
         </Form>

@@ -28,7 +28,7 @@ export const ExclusiveBadge = observer(function ExclusiveBadge(props: ExclusiveB
       end={{ x: 0.4, y: 0.9 }}
     >
       <StarIconSvg />
-      <Text style={styles.text} weight="bold" tx="experiencesScreen.exclusive" />
+      <Text style={styles.text} weight="bold" tx="productsScreen.exclusive" />
       <StarIconSvg />
     </LinearGradient>
   )

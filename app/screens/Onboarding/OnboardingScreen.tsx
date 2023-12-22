@@ -8,6 +8,7 @@ import { Dimensions, View } from "react-native"
 import Pagination from "./components/Pagination"
 import onboardingData from "./constants/onboardingData"
 import { registerForPushNotificationsAsync } from "./utils/notification"
+// @ts-ignore
 import debounce from "lodash.debounce"
 
 interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {
