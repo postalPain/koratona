@@ -3,7 +3,7 @@ const en = {
     ok: "OK!",
     cancel: "Cancel",
     back: "Back",
-    logOut: "Log Out",
+    logOut: "Logout",
     and: " & ",
     login: "Login",
     backToLogin: "Back to Login",
@@ -178,6 +178,17 @@ const en = {
     validUntil: "Valid until",
     viewMyPurchases: "View my purchases",
     outOfStock: "Sold out!",
+  },
+  profile: {
+    yourProfile: "Your profile",
+    editShirtNumber: "Edit shirt number",
+    editProfile: "Edit profile",
+    notifications: "Notifications",
+    getSupport: "Get support",
+    appLanguage: "App language",
+    editFavorites: "Edit favorites",
+    byUsing: "By using Koratona, you agree to our",
+    privacyPolicy: "\nPrivacy Policy & Terms & Conditions",
   },
 }
 

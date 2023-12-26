@@ -1,8 +1,8 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps } from "@react-navigation/native"
-import { ProductsStackNavigator } from "app/screens/Products/ProductsStackNavigator"
 import { HomeStackNavigator } from "app/navigators/HomeStackNavigator"
-import { ProfileScreen } from "app/screens/Profile/ProfileScreen"
+import { ProductsStackNavigator } from "app/screens/Products/ProductsStackNavigator"
+import { ProfileStackNavigator } from "app/screens/Profile/ProfileStackNavigator"
 import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -16,7 +16,7 @@ export type AppHomeTabParamList = {
   DemoDebug: undefined
   FeedNavigator: undefined
   ProductsNavigator: undefined
-  UserProfile: undefined
+  ProfileNavigator: undefined
 }
 
 /**
@@ -36,7 +36,7 @@ export function AppHomeNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName='FeedNavigator'
+      initialRouteName='ProfileNavigator'
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -66,8 +66,8 @@ export function AppHomeNavigator() {
         }}
       />
       <Tab.Screen
-        name="UserProfile"
-        component={ProfileScreen}
+        name="ProfileNavigator"
+        component={ProfileStackNavigator}
         options={{
           tabBarLabel: translate("appHomeNavigator.userProfile"),
           tabBarIcon: ({ focused }) =>

@@ -18,6 +18,8 @@ import instrumentalSansBold from "assets/fonts/instrumentalSans/InstrumentSans-B
 import instrumentalSansMedium from "assets/fonts/instrumentalSans/InstrumentSans-Medium.ttf"
 // @ts-ignore
 import instrumentalSansSemiBold from "assets/fonts/instrumentalSans/InstrumentSans-SemiBold.ttf"
+// @ts-ignore
+import instrumentalSansRegularItalic from "assets/fonts/instrumentalSans/InstrumentSans-Italic.ttf"
 
 export const customFontsToLoad = {
   interLight,
@@ -29,6 +31,7 @@ export const customFontsToLoad = {
   instrumentalSansBold,
   instrumentalSansMedium,
   instrumentalSansSemiBold,
+  instrumentalSansRegularItalic
 }
 
 const fonts = {
@@ -67,6 +70,7 @@ const fonts = {
     bold: "instrumentalSansBold",
     medium: "instrumentalSansMedium",
     semiBold: "instrumentalSansSemiBold",
+    regularItalic: "instrumentalSansRegularItalic"
   },
 }
 
