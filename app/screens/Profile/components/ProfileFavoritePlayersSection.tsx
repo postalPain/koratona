@@ -5,13 +5,17 @@ import { View } from "react-native"
 import { FavoritePlayerItem } from "./FavoritePlayerItem"
 import { typography } from "app/theme"
 import EditIcon from "assets/icons/svgs/EditIcon"
+import { useStores } from "app/models"
 
 export const ProfileFavoritePlayersSection = () => {
   const styles = useStyles()
+  const {
+    authUser: { authUser },
+  } = useStores()
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText} text="Ahmed’s favorite players" />
+      <Text style={styles.titleText} text={`${authUser.firstName}’s favorite players`} />
       <View style={styles.favoritePlayersSection}>
         <FavoritePlayerItem />
         <FavoritePlayerItem />
@@ -55,11 +59,11 @@ const useStyles = createUseStyles((theme) => ({
     paddingVertical: theme.spacing[8],
     paddingHorizontal: theme.spacing[16],
   },
-  addToFavoritesButtonText:{
+  addToFavoritesButtonText: {
     color: "#475467",
     fontSize: 16,
     lineHeight: 20,
-    fontFamily: typography.fonts.instrumentSans.medium,
+    fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
     marginLeft: theme.spacing[8],
-  }
+  },
 }))

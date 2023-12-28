@@ -35,7 +35,8 @@ const useStyles = createUseStyles((theme) => ({
     textAlign: "center",
     fontSize: 14,
     lineHeight: 14.5,
-    fontFamily: typography.fonts.instrumentSans.bold,
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
+    width: 80,
   },
   textWrapper: {
     position: "absolute",
@@ -43,5 +44,7 @@ const useStyles = createUseStyles((theme) => ({
     left: 0,
     right: 0,
     paddingVertical: theme.spacing[16],
+    justifyContent: "center",
+    alignItems: "center",
   },
 }))

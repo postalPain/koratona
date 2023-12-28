@@ -10,6 +10,8 @@ import {
   Inter_700Bold as interBold,
 } from "@expo-google-fonts/inter"
 
+// Instrumental Sans
+
 // @ts-ignore
 import instrumentalSansRegular from "assets/fonts/instrumentalSans/InstrumentSans-Regular.ttf"
 // @ts-ignore
@@ -21,17 +23,55 @@ import instrumentalSansSemiBold from "assets/fonts/instrumentalSans/InstrumentSa
 // @ts-ignore
 import instrumentalSansRegularItalic from "assets/fonts/instrumentalSans/InstrumentSans-Italic.ttf"
 
+// Instrumental Sans SemiCondensed
+// @ts-ignore
+import instrumentalSansSemiCondensedRegular from "assets/fonts/instrumentalSansSemiCondensed/InstrumentSans_SemiCondensed-Regular.ttf"
+// @ts-ignore
+import instrumentalSansSemiCondensedBold from "assets/fonts/instrumentalSansSemiCondensed/InstrumentSans_SemiCondensed-Bold.ttf"
+// @ts-ignore
+import instrumentalSansSemiCondensedMedium from "assets/fonts/instrumentalSansSemiCondensed/InstrumentSans_SemiCondensed-Medium.ttf"
+// @ts-ignore
+import instrumentalSansSemiCondensedSemiBold from "assets/fonts/instrumentalSansSemiCondensed/InstrumentSans_SemiCondensed-SemiBold.ttf"
+// @ts-ignore
+import instrumentalSansSemiCondensedRegularItalic from "assets/fonts/instrumentalSansSemiCondensed/InstrumentSans_SemiCondensed-Italic.ttf"
+
+// Instrumental Sans Condensed
+// @ts-ignore
+import instrumentalSansCondensedRegular from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-Regular.ttf"
+// @ts-ignore
+import instrumentalSansCondensedBold from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-Bold.ttf"
+// @ts-ignore
+import instrumentalSansCondensedMedium from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-Medium.ttf"
+// @ts-ignore
+import instrumentalSansCondensedSemiBold from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-SemiBold.ttf"
+// @ts-ignore
+import instrumentalSansCondensedRegularItalic from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-Italic.ttf"
+
+
 export const customFontsToLoad = {
   interLight,
   interRegular,
   interMedium,
   interSemiBold,
   interBold,
+  // Instrumental Sans,
   instrumentalSansRegular,
   instrumentalSansBold,
   instrumentalSansMedium,
   instrumentalSansSemiBold,
-  instrumentalSansRegularItalic
+  instrumentalSansRegularItalic,
+  // Instrumental Sans SemiCondensed,
+  instrumentalSansSemiCondensedRegular,
+  instrumentalSansSemiCondensedBold,
+  instrumentalSansSemiCondensedMedium,
+  instrumentalSansSemiCondensedSemiBold,
+  instrumentalSansSemiCondensedRegularItalic,
+  // Instrumental Sans Condensed,
+  instrumentalSansCondensedRegular,
+  instrumentalSansCondensedBold,
+  instrumentalSansCondensedMedium,
+  instrumentalSansCondensedSemiBold,
+  instrumentalSansCondensedRegularItalic,
 }
 
 const fonts = {
@@ -70,7 +110,21 @@ const fonts = {
     bold: "instrumentalSansBold",
     medium: "instrumentalSansMedium",
     semiBold: "instrumentalSansSemiBold",
-    regularItalic: "instrumentalSansRegularItalic"
+    regularItalic: "instrumentalSansRegularItalic",
+  },
+  instrumentSansSemiCondensed: {
+    regular: "instrumentalSansSemiCondensedRegular",
+    bold: "instrumentalSansSemiCondensedBold",
+    medium: "instrumentalSansSemiCondensedMedium",
+    semiBold: "instrumentalSansSemiCondensedSemiBold",
+    regularItalic: "instrumentalSansSemiCondensedRegularItalic",
+  },
+  instrumentSansCondensed: {
+    regular: "instrumentalSansCondensedRegular",
+    bold: "instrumentalSansCondensedBold",
+    medium: "instrumentalSansCondensedMedium",
+    semiBold: "instrumentalSansCondensedSemiBold",
+    regularItalic: "instrumentalSansCondensedRegularItalic",
   },
 }
 

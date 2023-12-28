@@ -1,20 +1,27 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import React from "react"
+import { Text } from "app/components"
+import { typography } from "app/theme"
 import EditIcon from "assets/icons/svgs/EditIcon"
 import NotificationIcon from "assets/icons/svgs/NotificationIcon"
-import SupportIcon from "assets/icons/svgs/SupportIcon"
 import SettingsIcon from "assets/icons/svgs/SettingsIcon"
-import { typography } from "app/theme"
-import { View } from "react-native"
-import { Text } from "app/components"
+import SupportIcon from "assets/icons/svgs/SupportIcon"
+import { observer } from "mobx-react-lite"
+import React from "react"
+import { Pressable, View } from "react-native"
+import { SettingsKey } from "../components/bottomPanels/SettingsContentController"
 
-export const ProfileEditingSection = () => {
+type Props = {
+  openSettingsBottomPanel: (key: SettingsKey) => () => void
+}
+
+export const ProfileEditingSection = observer(function (_props: Props) {
   const styles = useStyles()
 
   return (
     <View style={styles.buttonsContainer}>
       <View style={[styles.buttonsContainerRow, styles.buttonsContainerFirstRow]}>
-        <View
+        <Pressable
+          onPress={_props.openSettingsBottomPanel("profile")}
           style={[
             styles.buttonsContainerRowCell,
             styles.buttonsContainerFirstRowCell,
@@ -23,25 +30,34 @@ export const ProfileEditingSection = () => {
         >
           <EditIcon />
           <Text style={styles.editProfileButtonText} tx="profile.editProfile" />
-        </View>
-        <View style={[styles.buttonsContainerRowCell, styles.buttonsContainerFirstRowCell]}>
+        </Pressable>
+        <Pressable
+          onPress={_props.openSettingsBottomPanel("notifications")}
+          style={[styles.buttonsContainerRowCell, styles.buttonsContainerFirstRowCell]}
+        >
           <NotificationIcon />
           <Text style={styles.editProfileButtonText} tx="profile.notifications" />
-        </View>
+        </Pressable>
       </View>
       <View style={styles.buttonsContainerRow}>
-        <View style={[styles.buttonsContainerRowCell, styles.buttonsContainerFirstCell]}>
+        <Pressable
+          onPress={_props.openSettingsBottomPanel("support")}
+          style={[styles.buttonsContainerRowCell, styles.buttonsContainerFirstCell]}
+        >
           <SupportIcon />
           <Text style={styles.editProfileButtonText} tx="profile.getSupport" />
-        </View>
-        <View style={styles.buttonsContainerRowCell}>
+        </Pressable>
+        <Pressable
+          onPress={_props.openSettingsBottomPanel("language")}
+          style={styles.buttonsContainerRowCell}
+        >
           <SettingsIcon />
           <Text style={styles.editProfileButtonText} tx="profile.appLanguage" />
-        </View>
+        </Pressable>
       </View>
     </View>
   )
-}
+})
 
 const useStyles = createUseStyles((theme) => ({
   buttonsContainerRowCell: {
@@ -71,7 +87,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   editProfileButtonText: {
     color: "#475467",
-    fontFamily: typography.fonts.instrumentSans.medium,
+    fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
     fontSize: 16,
     lineHeight: 20,
     marginTop: 6,
