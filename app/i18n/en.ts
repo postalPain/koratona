@@ -8,6 +8,7 @@ const en = {
     login: "Login",
     backToLogin: "Back to Login",
     skipText: "Maybe later",
+    saveChanges: "Save changes",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
@@ -189,6 +190,12 @@ const en = {
     editFavorites: "Edit favorites",
     byUsing: "By using Koratona, you agree to our",
     privacyPolicy: "\nPrivacy Policy & Terms & Conditions",
+    yourTeam: "Your team",
+    age: "Age",
+    memberSince: "Member since",
+    enableNotifications: "Enable notifications",
+    sendEmail: "Send an email",
+    appLanguage: "App language",
   },
 }
 
