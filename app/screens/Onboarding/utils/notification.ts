@@ -3,7 +3,7 @@ import * as Device from "expo-device"
 import * as Notifications from "expo-notifications"
 import { Platform } from "react-native"
 
-export async function registerForPushNotificationsAsync(grantedCb: () => void): Promise<string | null> {
+export async function registerForPushNotificationsAsync(grantedCb?: () => void): Promise<string | null> {
   try {
     let token: Notifications.ExpoPushToken | null = null
 
@@ -30,7 +30,7 @@ export async function registerForPushNotificationsAsync(grantedCb: () => void): 
       token = await Notifications.getExpoPushTokenAsync({
         projectId: Constants?.expoConfig?.extra?.eas.projectId,
       })
-      grantedCb()
+      grantedCb && grantedCb()
     } else {
       alert("Must use physical device for Push Notifications")
       return null

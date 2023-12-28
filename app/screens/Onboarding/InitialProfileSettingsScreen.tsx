@@ -6,37 +6,19 @@ import Button from "@stryberventures/gaia-react-native.button"
 import Form from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Icon, Screen, Text } from "app/components"
+import { Screen, Text } from "app/components"
 import { useStores } from "app/models"
+import { Team } from "app/models/Team/Team"
 import { AppStackScreenProps } from "app/navigators"
 import { useHeader } from "app/utils/useHeader"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { ActivityIndicator, Platform, Pressable, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Image, Platform, Pressable, View, ViewStyle } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
-
-const teams = [
-  "Manchester United",
-  "Manchester City",
-  "Liverpool",
-  "Chelsea",
-  "Arsenal",
-  "Tottenham",
-  "Leicester City",
-  "West Ham United",
-  "Everton",
-  "Aston Villa",
-  "Leeds United",
-  "Newcastle United",
-  "Wolverhampton Wanderers",
-  "Crystal Palace",
-  "Southampton",
-  "Brighton & Hove Albion",
-  "Burnley",
-]
+import useFetchTeamList from "../hooks/useTeamList"
 
 interface InitialProfileSettingsScreenProps extends AppStackScreenProps<"InitialProfileSettings"> {}
 
@@ -44,13 +26,17 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
   function InitialProfileSettingsScreen(_props) {
     const styles = useStyles()
     const [disabled, setDisabled] = React.useState(true)
-
-    const { authUser } = useStores()
+    const { authUser, teamStore } = useStores()
+    const [selectedTeam, setSelectedTeam] = React.useState<Team>({
+      id: -1,
+      name: "",
+      logoUrl: "",
+    } as Team)
     const [date, setDate] = React.useState<Date>(
       new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
     )
-    const [selectedTeam, setSelectedTeam] = React.useState<string>("Manchester United")
 
+    useFetchTeamList()
     useHeader({
       leftIcon: "back",
       onLeftPress: () => _props.navigation.pop(),
@@ -62,11 +48,16 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
       dob: string
       phone: string
     }) => {
-      authUser.updateUser({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phone: values.phone,
-      })
+      authUser.updateUser(
+        {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phone: values.phone,
+        },
+        () => {
+          _props.navigation.navigate("Home", { screen: "FeedNavigator" })
+        },
+      )
     }
 
     const onDOBFieldChange: (event: DateTimePickerEvent, date?: Date) => void = (
@@ -77,6 +68,9 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
         setDate(selectedDate)
       }
     }
+
+    const getTeamLogoOrPlaceholder = (logo: string | null) =>
+      logo ? { uri: logo } : require("assets/icons/teamsLogo/emptyLogo.png")
 
     return (
       <Screen style={$root} preset="auto">
@@ -134,7 +128,6 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                       value={date}
                       onChange={onDOBFieldChange}
                       style={styles.datePicker}
-                      maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 1))}
                     />
                   )}
                 </Pressable>
@@ -158,7 +151,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                 weight="semiBold"
               />
               <SelectDropdown
-                data={teams}
+                data={teamStore.teamList}
                 onSelect={(selectedItem, index) => {
                   console.log(selectedItem, index)
                   setSelectedTeam(selectedItem)
@@ -169,12 +162,19 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                 dropdownStyle={styles.teamPickerDropdown}
                 renderCustomizedButtonChild={() => (
                   <View style={styles.teamPickerButtonListItem}>
-                    <Icon icon="alhilal" />
-                    <Text style={styles.teamPickerButtonText} text={selectedTeam} />
+                    <View style={styles.teamPickerButtonListItemLogo}>
+                      <Image
+                        width={25}
+                        height={25}
+                        resizeMode="contain"
+                        source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
+                      />
+                    </View>
+                    <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
                   </View>
                 )}
-                renderCustomizedRowChild={(item) => {
-                  const isSelected = item === selectedTeam
+                renderCustomizedRowChild={(item: Team) => {
+                  const isSelected = item.id === selectedTeam.id
                   return (
                     <View
                       style={[
@@ -182,9 +182,16 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                         isSelected ? styles.teamPickerListItemSelected : {},
                       ]}
                     >
-                      <Icon icon="alhilal" />
+                      <View style={styles.teamPickerButtonListItemLogo}>
+                        <Image
+                          width={25}
+                          height={25}
+                          resizeMode="contain"
+                          source={getTeamLogoOrPlaceholder(item.logoUrl)}
+                        />
+                      </View>
                       <Text
-                        text={item}
+                        text={item.name}
                         style={[
                           styles.teamPickerButtonText,
                           isSelected ? styles.teamPickerListItemTextSelected : {},
@@ -214,7 +221,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                   <ActivityIndicator />
                 ) : (
                   <Text weight="bold" style={styles.loginButtonText}>
-                    Join the team {selectedTeam}
+                    Join the team {selectedTeam?.name}
                   </Text>
                 )}
               </Button>
@@ -317,6 +324,12 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: "#fff",
     paddingHorizontal: theme.spacing[12],
   },
+  teamPickerButtonListItemLogo: {
+    height: 25,
+    width: 25,
+    overflow: "hidden",
+  },
+
   teamPickerListItemSelected: {
     backgroundColor: "#333865",
   },
