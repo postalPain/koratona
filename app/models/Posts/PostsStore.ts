@@ -2,13 +2,14 @@ import { fetchPostById, fetchPosts, toggleFavorite } from "app/services/api/feed
 import { PostsResponse } from "app/services/api/feed/feedTypes"
 import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, types } from "mobx-state-tree"
 import { withSetPropAction } from "../helpers/withSetPropAction"
-import { PostModel, PostsPaginationMetaModel } from "./Post"
+import { PostModel } from "./Post"
+import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
 
 export const PostsStoreModel = types
   .model("PostsStore")
   .props({
     posts: types.optional(types.array(PostModel), []),
-    postsPaginationMeta: types.optional(PostsPaginationMetaModel, {
+    postsPaginationMeta: types.optional(ListPaginationMetaModel, {
       page: 1,
       take: 5,
       itemCount: 0,
