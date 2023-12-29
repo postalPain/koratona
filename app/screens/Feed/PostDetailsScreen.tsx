@@ -21,7 +21,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const styles = useStyles()
   const { postsStore, authUserStore } = useStores()
   const post = postsStore.getPostById(_props.route.params.id)
-  const headerInsets = useSafeAreaInsetsStyle(["top"])
+  const topInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width } = useWindowDimensions()
   const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
@@ -30,7 +30,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.scrollViewContainer, bottomInsets]}
+      contentContainerStyle={[styles.scrollViewContainer, bottomInsets, topInsets]}
       refreshControl={
         <RefreshControl
           refreshing={postsStore.isFetchingPosts}
@@ -44,16 +44,17 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           source={
             post?.coverImageUrl ? { uri: post?.coverImageUrl } : require("assets/temp/cardBg.png")
           }
+          resizeMode="cover"
         >
           <LinearGradient
             colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
-            style={[styles.gradient, headerInsets]}
+            style={styles.gradient}
             start={{ x: 0.1, y: 0.3 }}
             end={{ x: 0.1, y: 0.7 }}
           >
             <View style={styles.header}>
               <Pressable style={styles.leftHeaderComponent} onPress={_props.navigation.goBack}>
-                <Icon icon="back" color="#98A2B3" />
+                <Icon icon="back" color="#B3BCCB" />
                 <Text text="Go back" style={styles.leftHeaderComponentText} />
               </Pressable>
               <Pressable
@@ -110,15 +111,16 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 const useStyles = createUseStyles(() => ({
   leftHeaderComponent: {
     flexDirection: "row",
+    justifyContent: "center",
   },
   leftHeaderComponentText: {
     paddingLeft: 8,
-    color: "#98A2B3",
+    color: "#B3BCCB",
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-start",
+    alignItems: "center",
     paddingTop: 12,
   },
   screenContainer: {
