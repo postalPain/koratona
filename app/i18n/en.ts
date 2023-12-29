@@ -179,6 +179,7 @@ const en = {
     validUntil: "Valid until",
     viewMyPurchases: "View my purchases",
     outOfStock: "Sold out!",
+    paymentDetails: "Payment details",
   },
   profile: {
     yourProfile: "Your profile",

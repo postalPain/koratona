@@ -69,12 +69,14 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
             {postsStore.isFetchingMorePosts && (
               <View style={styles.fetchingMorePosts}>
                 <ActivityIndicator color="#333865" />
-                <Text style={styles.fetchingMorePostsText} text="Loading more posts..." />
+                <Text style={styles.footerText} text="Loading more posts..." />
               </View>
             )}
             {postsStore.postsCount > 0 &&
               !postsStore.postsPaginationMeta.hasNextPage &&
-              !postsStore.isFetchingMorePosts && <Text weight="bold" text="No more posts" />}
+              !postsStore.isFetchingMorePosts && (
+                <Text style={styles.footerText} text="No more posts" />
+              )}
           </>
         }
       />
@@ -100,7 +102,7 @@ const useStyles = createUseStyles(() => ({
     textAlign: "center",
     justifyContent: "center",
   },
-  fetchingMorePostsText: {
+  footerText: {
     textAlign: "center",
     color: "#333865",
     marginTop: spacing.sm,

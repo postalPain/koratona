@@ -3,14 +3,15 @@ import Form from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Banner, Icon, Screen, Text } from "app/components"
+import { useStores } from "app/models"
+import { typography } from "app/theme"
+import { CardNumber, Cvv, ExpiryDate, Frames } from "frames-react-native"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { ActivityIndicator, Pressable, View } from "react-native"
-import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import { getButtonStyle } from "../Auth/helpers/buttonStyles"
-import { typography } from "app/theme"
 import { ProductPurchasePolicies } from "./ProductsPurchasePolicies"
-import { useStores } from "app/models"
+import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 
 interface ProductPurchaseScreenProps extends ProductsStackScreenProps<"productPurchase"> {}
 
@@ -49,7 +50,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
               </View>
               <Text tx="productsScreen.completePurchase" weight="bold" style={styles.heading} />
 
-              <View>
+              <View style={styles.inputsWrapper}>
                 <Text tx="productsScreen.deliverPassesTo" style={styles.inputLabel} />
                 <Input
                   name="email"
@@ -61,6 +62,28 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                   // errorStyle={styles.hintsStyles}
                 />
               </View>
+              <Frames
+                config={{
+                  debug: true,
+                  publicKey: "pk_test_4296fd52-efba-4a38-b6ce-cf0d93639d8a",
+                }}
+                cardTokenized={(e) => {
+                  alert(e.token)
+                }}
+              >
+                <Text tx="productsScreen.deliverPassesTo" style={styles.inputLabel} />
+
+                <CardNumber
+                  style={styles.cardNumber}
+                  placeholderTextColor="#9898A0"
+                  // showIcon={false} in case you don't want to see the card scheme logo
+                />
+
+                <View style={styles.dateAndCode}>
+                  <ExpiryDate style={styles.expiryDate} placeholderTextColor="#9898A0" />
+                  <Cvv style={styles.cvv} placeholderTextColor="#9898A0" />
+                </View>
+              </Frames>
             </View>
 
             <View>
@@ -149,5 +172,41 @@ const useStyles = createUseStyles((theme) => ({
   contentWrapper: {
     flex: 1,
     justifyContent: "space-between",
+  },
+
+  dateAndCode: {
+    marginTop: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  cardNumber: {
+    fontSize: 18,
+    height: 50,
+    color: "#FEFFFF",
+    borderColor: "#D0D5DD",
+    borderRadius: 5,
+  },
+  expiryDate: {
+    fontSize: 18,
+    height: 50,
+    width: "48%",
+    color: "#FEFFFF",
+    borderColor: "#D0D5DD",
+    borderRadius: 5,
+  },
+  cvv: {
+    borderRadius: 5,
+    fontSize: 18,
+    height: 50,
+    width: "48%",
+    color: "#FEFFFF",
+    borderColor: "#D0D5DD",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+  },
+  inputsWrapper: {
+    marginBottom: 20,
   },
 }))

@@ -70,6 +70,7 @@
     "expo-notifications": "~0.20.1",
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",
+    "frames-react-native": "^1.1.9",
     "i18n-js": "3.9.2",
     "mobx": "6.10.2",
     "mobx-react-lite": "4.0.5",
