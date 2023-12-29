@@ -3,22 +3,29 @@ import { Text } from "app/components"
 import { typography } from "app/theme"
 import { LinearGradient } from "expo-linear-gradient"
 import React from "react"
-import { View } from "react-native"
+import { Image, View } from "react-native"
 
-export const FavoritePlayerItem = () => {
+type Props = {
+  name: string
+  pictureURL: string | null
+}
+
+export const FavoritePlayerItem: React.FC<Props> = ({ name, pictureURL }) => {
   const styles = useStyles()
 
   return (
-    <LinearGradient
-      colors={["rgba(0, 0, 0, 0.5)", "#333865"]}
-      end={{ x: 0.1, y: 0.1 }}
-      start={{ x: 0.1, y: 0.9 }}
-      style={styles.container}
-    >
-      <View style={styles.textWrapper}>
-        <Text text="Nasser Al Dawesari" style={styles.playerName} />
-      </View>
-    </LinearGradient>
+    <View style={styles.container}>
+      {pictureURL && (
+        <View style={styles.pictureWrapper}>
+          <Image resizeMode="contain" source={{ uri: pictureURL, width: 100, height: 100 }} />
+        </View>
+      )}
+      <LinearGradient colors={["transparent", "rgba(0, 0, 0, 0.5)"]} style={styles.gradient}>
+        <View style={styles.textWrapper}>
+          <Text text={name} style={styles.playerName} />
+        </View>
+      </LinearGradient>
+    </View>
   )
 }
 
@@ -28,7 +35,10 @@ const useStyles = createUseStyles((theme) => ({
     height: 114,
     borderRadius: 114 / 2,
     backgroundColor: "#333865",
-    position: "relative",
+    overflow: "hidden",
+  },
+  gradient: {
+    height: "100%",
   },
   playerName: {
     color: "#fff",
@@ -46,5 +56,12 @@ const useStyles = createUseStyles((theme) => ({
     paddingVertical: theme.spacing[16],
     justifyContent: "center",
     alignItems: "center",
+  },
+  pictureWrapper: {
+    position: "absolute",
+    alignItems: "center",
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
 }))

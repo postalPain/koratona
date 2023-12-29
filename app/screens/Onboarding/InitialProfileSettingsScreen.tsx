@@ -19,6 +19,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
 import useFetchTeamList from "../hooks/useTeamList"
+import useFetchFavoriteTeam from "../hooks/useGetFavoriteTeam"
 
 interface InitialProfileSettingsScreenProps extends AppStackScreenProps<"InitialProfileSettings"> {}
 
@@ -27,16 +28,20 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
     const styles = useStyles()
     const [disabled, setDisabled] = React.useState(true)
     const { authUserStore, teamStore } = useStores()
-    const [selectedTeam, setSelectedTeam] = React.useState<Team>({
-      id: -1,
-      name: "",
-      logoUrl: "",
-    } as Team)
+    const [selectedTeam, setSelectedTeam] = React.useState<Team>(
+      teamStore.favoriteTeam ||
+        ({
+          id: -1,
+          name: "",
+          logoUrl: "",
+        } as Team),
+    )
     const [date, setDate] = React.useState<Date>(
       new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
     )
 
     useFetchTeamList()
+    useFetchFavoriteTeam()
     useHeader({
       leftIcon: "back",
       onLeftPress: () => _props.navigation.pop(),
@@ -55,7 +60,9 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
           phone: values.phone,
         },
         () => {
-          _props.navigation.navigate("Home", { screen: "FeedNavigator" })
+          teamStore.addTeamToFavorite(selectedTeam.id, () => {
+            _props.navigation.navigate("Home", { screen: "FeedNavigator" })
+          })
         },
       )
     }

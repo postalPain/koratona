@@ -4,12 +4,14 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker"
 import Button from "@stryberventures/gaia-react-native.button"
-import Form from "@stryberventures/gaia-react-native.form"
+import Form, { IFormActions } from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { useStores } from "app/models"
 import { Team } from "app/models/Team/Team"
+import useFetchFavoriteTeam from "app/screens/hooks/useGetFavoriteTeam"
+import useFetchTeamList from "app/screens/hooks/useTeamList"
 import { typography } from "app/theme"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
@@ -24,39 +26,26 @@ type Props = {
 
 export const EditProfile: React.FC<Props> = observer(function (_props) {
   const styles = useStyles()
-  const [disabled, setDisabled] = React.useState(true)
   const { authUserStore, teamStore } = useStores()
   const user = authUserStore.user
 
   const [date, setDate] = React.useState<Date>(
     new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
   )
-  const [selectedTeam, setSelectedTeam] = React.useState<Team>({
-    id: -1,
-    name: "",
-    logoUrl: "",
-  } as Team)
 
-  const handleSubmitForm = async (values: {
-    firstName: string
-    lastName: string
-    dob: string
-    phone: string
-  }) => {
-    authUserStore.updateUser(
-      {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phone: values.phone,
-      },
-      _props.onCloseBottomSheet,
-    )
-  }
+  const [selectedTeam, setSelectedTeam] = React.useState<Team>(
+    teamStore.favoriteTeam ||
+      ({
+        id: -1,
+        name: "",
+        logoUrl: "",
+      } as Team),
+  )
 
-  const onDOBFieldChange: (event: DateTimePickerEvent, date?: Date) => void = (
-    event,
-    selectedDate,
-  ) => {
+  useFetchTeamList()
+  useFetchFavoriteTeam()
+
+  const onDOBFieldChange: (event: DateTimePickerEvent, date?: Date) => void = (_, selectedDate) => {
     if (selectedDate && isValid(new Date(selectedDate))) {
       setDate(selectedDate)
     }
@@ -74,19 +63,42 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
     }
   }, [shouldHandleKeyboardEvents])
 
+  const handleSubmitForm = async (
+    values: {
+      firstName: string
+      lastName: string
+      dob: string
+      phone: string
+    },
+    formActions: IFormActions,
+  ) => {
+    if (!formActions.isValid) {
+      return
+    }
+    authUserStore.updateUser(
+      {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phone: values.phone,
+      },
+      () => {
+        teamStore.addTeamToFavorite(selectedTeam.id, () => {
+          _props.onCloseBottomSheet()
+        })
+      },
+    )
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title} tx="profile.editProfile" />
       <Form
         validationSchema={validationSchema}
-        onChange={(_, { isValid }) => {
-          setDisabled(!isValid)
-        }}
         onSubmit={handleSubmitForm}
         initialValues={{
           firstName: user?.firstName || "",
           lastName: user?.lastName || "",
-          dob: format(date, "dd MMMM yyyy"),
+          dob: isValid(new Date(date)) ? format(date, "dd MMMM yyyy") : "",
           phone: user?.phone || "",
         }}
       >
@@ -217,21 +229,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
             }}
           />
 
-          <Button
-            type="submit"
-            style={{
-              ...styles.button,
-              ...(disabled
-                ? {
-                    borderColor: "transparent",
-                  }
-                : {
-                    backgroundColor: "#333865",
-                    borderColor: "#333865",
-                  }),
-            }}
-            disabled={disabled}
-          >
+          <Button type="submit" style={styles.button}>
             {authUserStore.isLoading ? (
               <ActivityIndicator />
             ) : (
@@ -251,6 +249,9 @@ const useStyles = createUseStyles((theme) => ({
   },
   button: {
     marginTop: theme.spacing["32"],
+    backgroundColor: "#333865",
+    borderColor: "#333865",
+    minHeight: 58,
   },
   loginButtonText: {
     color: "#fff",

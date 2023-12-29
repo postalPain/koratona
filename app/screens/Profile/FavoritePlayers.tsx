@@ -1,83 +1,49 @@
 import { FlashList } from "@shopify/flash-list"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Screen, Text } from "app/components"
+import { useStores } from "app/models"
 import { spacing, typography } from "app/theme"
 import { observer } from "mobx-react-lite"
-import React, { useCallback } from "react"
+import React from "react"
 import { View } from "react-native"
+import { Player } from "../../models/Player/Player"
+import useFetchFavoritePlayerList from "../hooks/useGetFavoritePlayerList"
+import useFetchPlayerList from "../hooks/useGetPlayerList"
 import { ProfileStackScreenProps } from "./ProfileStackNavigator"
 import { PlayerCard } from "./components/PlayerCard"
 
 export const FavoritePlayersScreen: React.FC<ProfileStackScreenProps<"favoritePlayersScreen">> =
   observer(function (_props) {
     const styles = useStyles()
+    const { playerStore } = useStores()
 
-    const renderItem = useCallback(({ item }) => {
-      return <PlayerCard player={item} />
-    }, [])
+    useFetchPlayerList()
+    useFetchFavoritePlayerList()
+
 
     return (
       <Screen preset="fixed" contentContainerStyle={styles.container}>
-        {/* {productsStore.isFetchingProductsErrored && (
+        {playerStore.isPlayerListErrored && (
           <Text text="Something went wrong, please try again..." />
-        )} */}
+        )}
         <Text style={styles.title} tx="profile.editFavoritePlayers" />
-        <FlashList
+        <FlashList<Player>
           contentContainerStyle={styles.list}
-          data={[
-            {
-              id: 1,
-              name: "Nasser Al-Dawsari",
-              number: 19,
-            },
-            {
-              id: 2,
-              name: "Saud Abdulhamid",
-              number: 87,
-            },
-            {
-              id: 3,
-              name: "Abdullah Al-Mayouf",
-              number: 14,
-            },
-            {
-              id: 4,
-              name: "Abdullah Al-Hamdan",
-              number: 12,
-            },
-            {
-              id: 5,
-              name: "Abdullah Al-Hamdan",
-              number: 11,
-            },
-          ]}
+          data={[...playerStore.playerList]}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
-          // onRefresh={productsStore.fetchProducts}
-          // refreshing={productsStore.isFetchingProducts}
-          // onEndReached={productsStore.fetchMoreProducts}
-          // ListEmptyComponent={() =>
-          //   !productsStore.fetchProducts && <Text preset="subheading" text="No products yet..." />
-          // }
           numColumns={2}
           keyExtractor={(item) => item?.id?.toString()}
-          onEndReachedThreshold={0.3}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <PlayerCard
+              addedToFavorite={playerStore.isPlayerFavorited(item.id)}
+              player={item}
+              handleToggleFavorite={() => {
+                playerStore.togglePlayerFavorite(item.id)
+              }}
+            />
+          )}
           estimatedItemSize={220}
-          // ListFooterComponent={
-          //   <>
-          //     {productsStore.isFetchingMoreProducts && (
-          //       <View style={styles.fetchingMoreProducts}>
-          //         <ActivityIndicator color="#333865" />
-          //         <Text style={styles.fetchingMoreProductsText} text="Loading more posts..." />
-          //       </View>
-          //     )}
-          //     {productsStore.productPaginationMeta.itemCount > 0 &&
-          //       !productsStore.productPaginationMeta.hasNextPage &&
-          //       !productsStore.isFetchingMoreProducts && (
-          //         <Text weight="medium" style={styles.noMoreProductsText} text="No more posts" />
-          //       )}
-          //   </>
-          // }
+          extraData={JSON.stringify(playerStore.playerList)}
         />
       </Screen>
     )

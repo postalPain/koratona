@@ -1,23 +1,22 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Icon, Text } from "app/components"
+import { Player } from "app/models/Player/Player"
 import { typography } from "app/theme"
 import PentagonPlayerCardIcon from "assets/icons/svgs/PegtagonPlayerCard"
 import { LinearGradient } from "expo-linear-gradient"
 import React from "react"
 import { Image, Pressable, View } from "react-native"
 
-const playerPhoto = require("assets/temp/player_photo.png")
-
 type Props = {
-  player: any
+  player: Player
   addedToFavorite?: boolean
-  onFavoritePress?: () => void
+  handleToggleFavorite?: () => void
 }
 
 export const PlayerCard: React.FC<Props> = ({
   player,
   addedToFavorite = false,
-  onFavoritePress,
+  handleToggleFavorite,
 }) => {
   const styles = useStyles()
 
@@ -28,17 +27,22 @@ export const PlayerCard: React.FC<Props> = ({
           colors={["#1A1F51", "#1A1F51", "#1A1F51", "#080A18"]}
           style={styles.gradient}
         >
-          <Pressable onPress={onFavoritePress} style={styles.favoriteIcon}>
+          <Pressable onPress={handleToggleFavorite} style={styles.favoriteIcon}>
             <Icon icon={addedToFavorite ? "heardIconFilled" : "heartIcon"} />
           </Pressable>
           <View style={styles.pentagonContainer}>
             <PentagonPlayerCardIcon />
           </View>
           <View style={styles.imageContainer}>
-            <Image source={playerPhoto} />
+            {player.pictureUrl && (
+              <Image
+                resizeMode="contain"
+                source={{ uri: player.pictureUrl, width: 127, height: 199 }}
+              />
+            )}
           </View>
-          <Text style={styles.number} text={player.number} />
-          <Text style={styles.name} text={player.name} />
+          <Text style={styles.number} text={"09"} />
+          <Text style={styles.name} text={`${player.firstName} ${player.lastName}`} />
         </LinearGradient>
       </View>
     </View>
@@ -63,7 +67,7 @@ const useStyles = createUseStyles(() => ({
     height: "100%",
     borderRadius: 6,
     paddingHorizontal: 12,
-    paddingTop: 12,
+    paddingVertical: 12,
   },
   name: {
     color: "#fff",
@@ -92,12 +96,12 @@ const useStyles = createUseStyles(() => ({
     right: 9,
     zIndex: 2,
   },
-  imageContainer:{
+  imageContainer: {
     position: "absolute",
     right: 0,
     left: 0,
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 }))

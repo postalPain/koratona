@@ -7,21 +7,30 @@ import EditIcon from "assets/icons/svgs/EditIcon"
 import React from "react"
 import { View } from "react-native"
 import { FavoritePlayerItem } from "./FavoritePlayerItem"
+import useFetchFavoritePlayerList from "app/screens/hooks/useGetFavoritePlayerList"
+import { observer } from "mobx-react-lite"
 
-export const ProfileFavoritePlayersSection = () => {
+export const ProfileFavoritePlayersSection = observer(function () {
   const styles = useStyles()
   const navigation = useNavigation()
-
   const {
+    playerStore,
     authUserStore: { user },
   } = useStores()
+
+  useFetchFavoritePlayerList()
 
   return (
     <View style={styles.container}>
       <Text style={styles.titleText} text={`${user.firstName}’s favorite players`} />
       <View style={styles.favoritePlayersSection}>
-        <FavoritePlayerItem />
-        <FavoritePlayerItem />
+        {playerStore.favoritePlayerList.map((player) => (
+          <FavoritePlayerItem
+            name={`${player.firstName} ${player.lastName}`}
+            pictureURL={player.pictureUrl}
+            key={`favorite-player-${player.id}`}
+          />
+        ))}
       </View>
       <Button
         LeftAccessory={() => <EditIcon width={25} height={25} />}
@@ -34,7 +43,7 @@ export const ProfileFavoritePlayersSection = () => {
       />
     </View>
   )
-}
+})
 
 const useStyles = createUseStyles((theme) => ({
   container: {
@@ -52,6 +61,7 @@ const useStyles = createUseStyles((theme) => ({
     gap: theme.spacing[8],
     justifyContent: "center",
     alignItems: "center",
+    flexWrap: "wrap",
   },
   addToFavoritesButton: {
     backgroundColor: "#E6E6EC",

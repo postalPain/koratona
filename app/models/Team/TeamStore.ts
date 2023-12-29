@@ -1,14 +1,30 @@
-import { fetchTeamList } from "app/services/api/team/teamService"
-import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
-import { withSetPropAction } from "../helpers/withSetPropAction"
-import { TeamModel } from "./Team"
+import {
+  addTeamToFavorite,
+  fetchTeamList,
+  getUsersFavoriteTeamList,
+  removeTeamFromFavorite,
+} from "app/services/api/team/teamService"
+import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, types } from "mobx-state-tree"
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
+import { withSetPropAction } from "../helpers/withSetPropAction"
+import { Team, TeamModel } from "./Team"
 
 export const TeamStoreModel = types
   .model("TeamStore")
   .props({
     teamList: types.optional(types.array(TeamModel), []),
-    postsPaginationMeta: types.optional(ListPaginationMetaModel, {
+    favoriteTeam: types.optional(TeamModel, {
+      id: 0,
+      apiId: 0,
+      name: "",
+      description: "",
+      logoFilename: "",
+      logoUrl: "",
+      createdAt: "",
+      updatedAt: "",
+      deletedAt: "",
+    }),
+    paginationMeta: types.optional(ListPaginationMetaModel, {
       page: 1,
       take: 5,
       itemCount: 0,
@@ -28,7 +44,7 @@ export const TeamStoreModel = types
         const response = yield fetchTeamList({})
 
         self.teamList = response.data.data
-        self.postsPaginationMeta = response.data.meta
+        self.paginationMeta = response.data.meta
       } catch (error) {
         self.isTeamListErrored = true
         console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
@@ -36,8 +52,42 @@ export const TeamStoreModel = types
         self.isTeamListLoading = false
       }
     }),
+    addTeamToFavorite: flow(function* (id: number, successCallback?: () => void) {
+      self.isTeamListLoading = true
+      self.isTeamListErrored = false
+      try {
+        const {
+          authUserStore: { user },
+        } = getRoot(self) as any
+        if (self.favoriteTeam.id !== 0) {
+          yield removeTeamFromFavorite(self.favoriteTeam.id, user.id)
+        }
+        const response = yield addTeamToFavorite(id, user.id)
+
+        self.favoriteTeam = response.data.team
+        successCallback && successCallback()
+      } catch (error) {
+        console.log("adding to favorite, error", error)
+        self.isTeamListErrored = true
+        console.tron.error?.(`Error adding team to favorite: ${JSON.stringify(error)}`, [])
+      } finally {
+        self.isTeamListLoading = false
+      }
+    }),
+    getUserFavoriteTeam: flow(function* () {
+      try {
+        const {
+          authUserStore: { user },
+        } = getRoot(self) as any
+
+        const response = yield getUsersFavoriteTeamList(user.id)
+        const mappedData = response.data.data.map(({ team }: { team: Team }) => team)
+        self.favoriteTeam = mappedData[0]
+      } catch (error) {
+        console.tron.error?.(`Error fetching favorite team: ${JSON.stringify(error)}`, [])
+      }
+    }),
   }))
-// .views((self) => ({}))
 
 export interface TeamStore extends Instance<typeof TeamStoreModel> {}
 export interface TeamStoreSnapshot extends SnapshotOut<typeof TeamStoreModel> {}
