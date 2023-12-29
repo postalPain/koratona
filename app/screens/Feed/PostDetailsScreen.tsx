@@ -1,16 +1,16 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Icon, Screen, Text } from "app/components"
+import { useStores } from "app/models"
+import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { ImageBackground, Pressable, View, useWindowDimensions } from "react-native"
-import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
-import RenderHtml from "react-native-render-html"
-import { useStores } from "app/models"
-import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { RefreshControl, ScrollView } from "react-native-gesture-handler"
+import RenderHtml from "react-native-render-html"
 import { WebView } from "react-native-webview"
 import YoutubePlayer from "react-native-youtube-iframe"
+import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { getYouTubeVideoId } from "../Onboarding/utils/getYouTubeVideoId"
 
 interface PostDetailsScreenProps extends HomeFeedStackScreenProps<"postDetails"> {}
@@ -63,9 +63,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
                   }
                 }}
               >
-                <Icon
-                  icon={isPostAddedToFavorite ? "heardIconFilled" : "heartIcon"}
-                />
+                <Icon icon={isPostAddedToFavorite ? "heardIconFilled" : "heartIcon"} />
               </Pressable>
             </View>
             <View>
@@ -90,7 +88,17 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           )}
           {post?.quiz && (
             <View style={styles.quizContainer}>
-              <WebView source={{ uri: post.quiz }} />
+              <WebView
+                webviewDebuggingEnabled
+                source={{ uri: post.quiz}}
+                onError={(e) => {
+                  console.log("onError", e)
+                }}
+                onHttpError={(e) => {
+                  console.log("onHttpError", e)
+                }}
+                style={styles.webviewStyles}
+              />
             </View>
           )}
         </View>
@@ -111,6 +119,7 @@ const useStyles = createUseStyles(() => ({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
+    paddingTop: 12,
   },
   screenContainer: {
     height: "100%",
@@ -123,7 +132,6 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "space-between",
     height: "100%",
     padding: 18,
-    paddingTop: 40,
   },
   heading: {
     textTransform: "uppercase",
@@ -138,8 +146,8 @@ const useStyles = createUseStyles(() => ({
     marginTop: 6,
   },
   scrollViewContainer: {
-    flex: 1,
-    height: "100%",
+    // flex: 1,
+    // height: "100%",
   },
   articleContainer: {
     padding: 24,
@@ -150,5 +158,9 @@ const useStyles = createUseStyles(() => ({
   },
   videoContainer: {
     marginVertical: 24,
+  },
+  webviewStyles: {
+    opacity: 0.99,
+    overflow: "hidden",
   },
 }))

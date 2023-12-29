@@ -195,7 +195,7 @@ const en = {
     memberSince: "Member since",
     enableNotifications: "Enable notifications",
     sendEmail: "Send an email",
-    appLanguage: "App language",
+    editFavoritePlayers: "Edit favorite players",
   },
 }
 

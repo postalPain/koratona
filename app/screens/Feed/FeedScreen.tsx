@@ -56,7 +56,9 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         onRefresh={postsStore.fetchPosts}
         refreshing={postsStore.isFetchingPosts}
         onEndReached={postsStore.fetchMorePosts}
-        ListEmptyComponent={() => <Text preset="subheading" text="No posts yet..." />}
+        ListEmptyComponent={() =>
+          !postsStore.isFetchingPosts && <Text preset="subheading" text="No posts yet..." />
+        }
         extraData={JSON.stringify(postsStore.posts)}
         keyExtractor={(item) => item?.id?.toString()}
         onEndReachedThreshold={0.3}

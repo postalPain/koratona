@@ -9,7 +9,7 @@ import TShirtIcon from "assets/icons/svgs/TShirtIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { Image, View, useWindowDimensions } from "react-native"
+import { Image, Pressable, View, useWindowDimensions } from "react-native"
 import { Screen, Text } from "../../components"
 import { ProfileStackScreenProps } from "./ProfileStackNavigator"
 import { ProfileEditingSection } from "./components/ProfileEditingSection"
@@ -30,6 +30,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   const styles = useStyles()
   const {
     authUser: { authUser },
+    authenticationStore: { logout },
   } = useStores()
 
   const [settingBottomPanelKey, setSettingBottomPanelKey] = React.useState<SettingsKey>("profile")
@@ -47,16 +48,19 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
         <LinearGradient
           colors={["#047EEB", "#047EEB", "#333865"]}
           style={[
-            { ...styles.gradient, borderBottomLeftRadius: width, borderBottomRightRadius: width },
+            {
+              ...styles.gradient,
+               borderBottomLeftRadius: width, borderBottomRightRadius: width
+              },
             headerInsets,
           ]}
         >
           <View style={styles.header}>
             <Image source={welcomeLogo} style={styles.logo} resizeMode="contain" />
-            <View style={styles.logoutComposition}>
+            <Pressable style={styles.logoutComposition} onPress={logout}>
               <LogOutIconSvg />
               <Text tx="common.logOut" weight="medium" style={styles.logoutText} />
-            </View>
+            </Pressable>
           </View>
           <View>
             <View style={styles.pentagonContainer}>

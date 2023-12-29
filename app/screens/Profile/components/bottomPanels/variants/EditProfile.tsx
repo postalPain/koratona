@@ -166,8 +166,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
           <Text style={styles.formTitle} tx="profile.yourTeam" weight="semiBold" />
           <SelectDropdown
             data={teamStore.teamList}
-            onSelect={(selectedItem, index) => {
-              console.log(selectedItem, index)
+            onSelect={(selectedItem) => {
               setSelectedTeam(selectedItem)
             }}
             defaultValueByIndex={0}

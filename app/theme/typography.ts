@@ -45,8 +45,9 @@ import instrumentalSansCondensedMedium from "assets/fonts/instrumentalSansConden
 // @ts-ignore
 import instrumentalSansCondensedSemiBold from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-SemiBold.ttf"
 // @ts-ignore
+import instrumentalSansCondensedSemiBoldItalic from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-SemiBoldItalic.ttf"
+// @ts-ignore
 import instrumentalSansCondensedRegularItalic from "assets/fonts/instrumentalSansCondensed/InstrumentSans_Condensed-Italic.ttf"
-
 
 export const customFontsToLoad = {
   interLight,
@@ -71,6 +72,7 @@ export const customFontsToLoad = {
   instrumentalSansCondensedBold,
   instrumentalSansCondensedMedium,
   instrumentalSansCondensedSemiBold,
+  instrumentalSansCondensedSemiBoldItalic,
   instrumentalSansCondensedRegularItalic,
 }
 
@@ -124,6 +126,7 @@ const fonts = {
     bold: "instrumentalSansCondensedBold",
     medium: "instrumentalSansCondensedMedium",
     semiBold: "instrumentalSansCondensedSemiBold",
+    semiBoldItalic: "instrumentalSansCondensedSemiBoldItalic",
     regularItalic: "instrumentalSansCondensedRegularItalic",
   },
 }

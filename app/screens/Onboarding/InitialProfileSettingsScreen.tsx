@@ -152,8 +152,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
               />
               <SelectDropdown
                 data={teamStore.teamList}
-                onSelect={(selectedItem, index) => {
-                  console.log(selectedItem, index)
+                onSelect={(selectedItem) => {
                   setSelectedTeam(selectedItem)
                 }}
                 defaultValueByIndex={0}

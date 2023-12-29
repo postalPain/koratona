@@ -66,7 +66,7 @@ export const FeedCard = React.memo(
     onPress,
     addedToFavorite,
     favoriteCount,
-    onFavoritePress
+    onFavoritePress,
   }: FeedCardProps) {
     const styles = useStyles()
 
@@ -74,6 +74,7 @@ export const FeedCard = React.memo(
       <Pressable style={styles.container} onPress={onPress}>
         <ImageBackground
           style={styles.bgImage}
+          resizeMode="contain"
           source={
             bgImage
               ? {
@@ -125,9 +126,10 @@ export const FeedCard = React.memo(
 const useStyles = createUseStyles(() => ({
   container: {
     flex: 1,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    borderRadius: 10,
     overflow: "hidden",
+    borderWidth: 0.5,
+    borderColor: "#E8E8E8",
   },
   bgImage: {
     height: 342,
@@ -150,8 +152,6 @@ const useStyles = createUseStyles(() => ({
   footer: {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    borderWidth: 1,
-    borderColor: "#E8E8E8",
   },
   footerGradient: {
     padding: 18,

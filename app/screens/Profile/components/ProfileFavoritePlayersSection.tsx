@@ -1,14 +1,17 @@
+import { useNavigation } from "@react-navigation/native"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
+import { useStores } from "app/models"
+import { typography } from "app/theme"
+import EditIcon from "assets/icons/svgs/EditIcon"
 import React from "react"
 import { View } from "react-native"
 import { FavoritePlayerItem } from "./FavoritePlayerItem"
-import { typography } from "app/theme"
-import EditIcon from "assets/icons/svgs/EditIcon"
-import { useStores } from "app/models"
 
 export const ProfileFavoritePlayersSection = () => {
   const styles = useStyles()
+  const navigation = useNavigation()
+
   const {
     authUser: { authUser },
   } = useStores()
@@ -25,6 +28,9 @@ export const ProfileFavoritePlayersSection = () => {
         tx="profile.editFavorites"
         style={styles.addToFavoritesButton}
         textStyle={styles.addToFavoritesButtonText}
+        onPress={() => {
+          navigation.navigate("favoritePlayersScreen" as never)
+        }}
       />
     </View>
   )

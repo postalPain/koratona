@@ -45,7 +45,9 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
         onRefresh={productsStore.fetchProducts}
         refreshing={productsStore.isFetchingProducts}
         onEndReached={productsStore.fetchMoreProducts}
-        ListEmptyComponent={() => <Text preset="subheading" text="No products yet..." />}
+        ListEmptyComponent={() =>
+          !productsStore.fetchProducts && <Text preset="subheading" text="No products yet..." />
+        }
         keyExtractor={(item) => item?.id?.toString()}
         onEndReachedThreshold={0.3}
         renderItem={renderItem}

@@ -23,8 +23,8 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
 
     const [disabled] = React.useState<boolean>(false)
     const [isLoading] = React.useState<boolean>(false)
+
     const onSubmit = () => {
-      console.log("submit")
       _props.navigation.navigate("productPurchaseResult")
     }
 
