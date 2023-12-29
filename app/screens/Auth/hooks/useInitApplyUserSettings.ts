@@ -4,7 +4,7 @@ import { useEffect } from "react"
 
 export const useInitApplyUserSettings = () => {
   const {
-    authUser: { initApplyUserSettings },
+    authUserStore: { initApplyUserSettings },
     authenticationStore: { isAuthenticated },
   } = useStores()
 

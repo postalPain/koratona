@@ -19,13 +19,13 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   _props,
 ) {
   const styles = useStyles()
-  const { postsStore, authUser } = useStores()
+  const { postsStore, authUserStore } = useStores()
   const post = postsStore.getPostById(_props.route.params.id)
   const headerInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width } = useWindowDimensions()
   const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
-    (user) => user.userId === authUser.authUser.id,
+    (user) => user.userId === authUserStore.user.id,
   )
 
   return (
@@ -90,7 +90,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             <View style={styles.quizContainer}>
               <WebView
                 webviewDebuggingEnabled
-                source={{ uri: post.quiz}}
+                source={{ uri: post.quiz }}
                 onError={(e) => {
                   console.log("onError", e)
                 }}

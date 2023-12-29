@@ -75,7 +75,7 @@ const ShowroomListItem = Platform.select({ web: WebListItem, default: NativeList
 
 export const DemoShowroomScreen = function DemoShowroomScreen() {
   const [open, setOpen] = useState(false)
-  const { authUser } = useStores()
+  const { authUserStore } = useStores()
   const timeout = useRef<ReturnType<typeof setTimeout>>()
   const listRef = useRef<SectionList>(null)
   const menuRef = useRef<ListViewRef<DemoListItem["item"]>>(null)
@@ -175,7 +175,7 @@ export const DemoShowroomScreen = function DemoShowroomScreen() {
     >
       <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={$screenContainer}>
         <DrawerIconButton onPress={toggleDrawer} />
-        <Text text={authUser.authUser.fullName} preset="subheading" />
+        <Text text={authUserStore.user.fullName} preset="subheading" />
         <SectionList
           ref={listRef}
           contentContainerStyle={$sectionListContentContainer}

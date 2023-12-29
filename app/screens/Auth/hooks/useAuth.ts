@@ -3,7 +3,7 @@ import { useEffect } from "react"
 
 export const useFetchAuthUser = () => {
   const {
-    authUser: { fetchAuthUser, authUser, isLoading },
+    authUserStore: { fetchAuthUser, user, isLoading },
     authenticationStore: { isAuthenticated },
   } = useStores()
 
@@ -13,5 +13,5 @@ export const useFetchAuthUser = () => {
     }
   }, [isAuthenticated])
 
-  return { authUser, isLoading }
+  return { authUser: user, isLoading }
 }

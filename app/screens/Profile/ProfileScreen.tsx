@@ -29,7 +29,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   const { width } = useWindowDimensions()
   const styles = useStyles()
   const {
-    authUser: { authUser },
+    authUserStore: { user },
     authenticationStore: { logout },
   } = useStores()
 
@@ -70,7 +70,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
             <View style={styles.tShirtContainer}>
               <Image style={styles.tShirtImage} source={tShirtImage} />
               <View style={styles.shirtTextContainer}>
-                <Text style={styles.tShirtName} text={authUser.firstName} />
+                <Text style={styles.tShirtName} text={user.firstName} />
                 <Text style={styles.tShirtNumber} text="08" />
               </View>
               <View style={styles.editShirtNumberButton}>

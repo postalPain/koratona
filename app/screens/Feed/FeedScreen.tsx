@@ -17,7 +17,7 @@ const circleLogo = require("assets/images/circleLogo.png")
 
 export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(function (_props) {
   const styles = useStyles()
-  const { postsStore, authUser } = useStores()
+  const { postsStore, authUserStore } = useStores()
   useFetchPosts()
 
   useHeader({
@@ -37,7 +37,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         underTitleIcon={item.video ? YouTubeIcon : undefined}
         favoriteCount={item.favoriteCount}
         addedToFavorite={item.usersToFavoritePosts.some(
-          (user) => user.userId === authUser.authUser.id,
+          (user) => user.userId === authUserStore.user.id,
         )}
         onFavoritePress={() => postsStore.toggleFavorite(item.id)}
       />

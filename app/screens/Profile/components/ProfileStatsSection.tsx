@@ -9,14 +9,14 @@ import { View } from "react-native"
 export const ProfileStatsSection = observer(function () {
   const styles = useStyles()
   const {
-    authUser: { authUser },
+    authUserStore: { user },
   } = useStores()
 
   return (
     <View style={styles.playerDescription}>
       <Text
         style={styles.playerDescriptionText}
-        text={`${authUser.firstName} is one of our most passionate fans. The 21 year old’s Koratona x Al Hilal debut was on 5 Jan 2023.`}
+        text={`${user.firstName} is one of our most passionate fans. The 21 year old’s Koratona x Al Hilal debut was on 5 Jan 2023.`}
       />
       <View style={styles.playerStats}>
         <View style={[styles.playerStatsInfoBox, styles.playerStatsInfoBoxFirstChild]}>

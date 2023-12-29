@@ -1,8 +1,8 @@
 import { ApiResponse } from "apisauce"
+import { Alert } from "react-native"
 import { authApi } from "../api"
 import { getGeneralApiProblem } from "../apiProblem"
 import * as Auth from "./authTypes"
-import { Alert } from "react-native"
 
 export const loginService: Auth.LoginService = async (credentials) => {
   let response = {} as ApiResponse<Auth.AuthLoginResponse, { statusCode: number; error: string }>
@@ -75,30 +75,6 @@ export const passwordRestoreService: Auth.RestorePasswordService = async (restor
   }
 }
 
-export const getAuthUser: Auth.GetAuthUserService = async () => {
-  let response = {} as ApiResponse<Auth.GetAuthUserResponse>
-
-  try {
-    response = await authApi.apisauce.get(`users/me`)
-    // the typical ways to die when calling an api
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    if (!response.data) {
-      return { kind: "bad-data" }
-    }
-    const userData = response.data
-    return { kind: "ok", data: userData }
-  } catch (e) {
-    if (__DEV__ && e instanceof Error) {
-      console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)
-    }
-    return { kind: "bad-data" }
-  }
-}
-
 export const setUserSettings: Auth.ApplyUserSettingsService = async () => {
   let response = {} as ApiResponse<Auth.GetAuthUserResponse>
 
@@ -115,29 +91,6 @@ export const setUserSettings: Auth.ApplyUserSettingsService = async () => {
       return { kind: "bad-data" }
     }
     return { kind: "ok" }
-  } catch (e) {
-    if (__DEV__ && e instanceof Error) {
-      console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)
-    }
-    return { kind: "bad-data" }
-  }
-}
-
-export const updateUserSettings: Auth.UpdateUserService = async (id, payload) => {
-  let response = {} as ApiResponse<Auth.UpdateUserResponse>
-
-  try {
-    response = await authApi.apisauce.patch(`users/${id}`, payload)
-    // the typical ways to die when calling an api
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    if (!response.data) {
-      return { kind: "bad-data" }
-    }
-    return { kind: "ok", data: response.data }
   } catch (e) {
     if (__DEV__ && e instanceof Error) {
       console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)

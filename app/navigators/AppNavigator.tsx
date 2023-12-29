@@ -69,7 +69,7 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack() {
   const {
     authenticationStore: { isAuthenticated },
-    authUser: { isOnboardingCompleted },
+    authUserStore: { isOnboardingCompleted },
   } = useStores()
 
   useFetchAuthUser()

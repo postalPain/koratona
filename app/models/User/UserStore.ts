@@ -1,16 +1,18 @@
-import { getAuthUser, setUserSettings, updateUserSettings } from "app/services/api/auth/auth"
-import { UpdateUserPayloadData } from "app/services/api/auth/authTypes"
+import { setUserSettings } from "app/services/api/auth/auth"
+import {} from "app/services/api/auth/authTypes"
 import { saveString } from "app/utils/storage"
 import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { UserModel } from "./User"
+import { getAuthUser, updateUserSettings } from "app/services/api/user/user"
+import { UpdateUserPayloadData } from "app/services/api/user/userTypes"
 
 export const USER_SETTINGS_APPLIED_KEY = "userSettingsApplied"
 
 export const UserStoreModel = types
   .model("UserStore")
   .props({
-    authUser: types.optional(UserModel, {}),
+    user: types.optional(UserModel, {}),
     isLoading: types.optional(types.boolean, false),
     isErrored: types.optional(types.boolean, false),
     notificationToken: types.optional(types.maybeNull(types.string), null),
@@ -32,7 +34,7 @@ export const UserStoreModel = types
       self.isErrored = false
       try {
         const response = yield getAuthUser()
-        self.authUser = response.data
+        self.user = response.data
       } catch (error) {
         self.isErrored = true
         console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
@@ -44,9 +46,9 @@ export const UserStoreModel = types
       self.isLoading = true
       self.isErrored = false
       try {
-        const response = yield updateUserSettings(self.authUser.id, user)
-        self.authUser = { ...self.authUser, ...response.data }
-        self.isOnboardingCompleted = `${self.authUser.email}_done`
+        const response = yield updateUserSettings(self.user.id, user)
+        self.user = { ...self.user, ...response.data }
+        self.isOnboardingCompleted = `${self.user.email}_done`
         successCallback && successCallback()
       } catch (error) {
         self.isErrored = true
@@ -60,12 +62,12 @@ export const UserStoreModel = types
       self.notificationPermissionAsked = true
     },
     setOnboardingCompleted: () => {
-      self.isOnboardingCompleted = `${self.authUser.email}_done`
+      self.isOnboardingCompleted = `${self.user.email}_done`
     },
   }))
   .views((self) => ({
     get isUserOnboardingCompleted() {
-      return self.isOnboardingCompleted === `${self.authUser.email}_done`
+      return self.isOnboardingCompleted === `${self.user.email}_done`
     },
   }))
 

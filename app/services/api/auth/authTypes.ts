@@ -88,16 +88,3 @@ export type GetAuthUserService = () => Promise<{ kind: "ok"; data: AuthUser } | 
 
 export type ApplyUserSettingsResponse = AuthUser
 export type ApplyUserSettingsService = () => Promise<{ kind: "ok" } | GeneralApiProblem>
-
-/**
- * The types that represent the credentials needed to restore password
- */
-
-export type UpdateUserPayloadData = Partial<AuthUser>
-
-export type UpdateUserResponse = any
-
-export type UpdateUserService = (
-  id: string,
-  payload: UpdateUserPayloadData,
-) => Promise<{ kind: "ok" } | GeneralApiProblem>

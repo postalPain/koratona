@@ -26,7 +26,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
   function InitialProfileSettingsScreen(_props) {
     const styles = useStyles()
     const [disabled, setDisabled] = React.useState(true)
-    const { authUser, teamStore } = useStores()
+    const { authUserStore, teamStore } = useStores()
     const [selectedTeam, setSelectedTeam] = React.useState<Team>({
       id: -1,
       name: "",
@@ -48,7 +48,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
       dob: string
       phone: string
     }) => {
-      authUser.updateUser(
+      authUserStore.updateUser(
         {
           firstName: values.firstName,
           lastName: values.lastName,
@@ -216,7 +216,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                 }}
                 disabled={disabled}
               >
-                {authUser.isLoading ? (
+                {authUserStore.isLoading ? (
                   <ActivityIndicator />
                 ) : (
                   <Text weight="bold" style={styles.loginButtonText}>

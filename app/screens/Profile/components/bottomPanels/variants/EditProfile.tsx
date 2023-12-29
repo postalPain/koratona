@@ -25,7 +25,9 @@ type Props = {
 export const EditProfile: React.FC<Props> = observer(function (_props) {
   const styles = useStyles()
   const [disabled, setDisabled] = React.useState(true)
-  const { authUser, teamStore } = useStores()
+  const { authUserStore, teamStore } = useStores()
+  const user = authUserStore.user
+
   const [date, setDate] = React.useState<Date>(
     new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
   )
@@ -41,7 +43,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
     dob: string
     phone: string
   }) => {
-    authUser.updateUser(
+    authUserStore.updateUser(
       {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -82,10 +84,10 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
         }}
         onSubmit={handleSubmitForm}
         initialValues={{
-          firstName: authUser.authUser?.firstName || "",
-          lastName: authUser.authUser?.lastName || "",
+          firstName: user?.firstName || "",
+          lastName: user?.lastName || "",
           dob: format(date, "dd MMMM yyyy"),
-          phone: authUser.authUser?.phone || "",
+          phone: user?.phone || "",
         }}
       >
         <View style={styles.formContent}>
@@ -230,7 +232,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
             }}
             disabled={disabled}
           >
-            {authUser.isLoading ? (
+            {authUserStore.isLoading ? (
               <ActivityIndicator />
             ) : (
               <Text weight="bold" tx="common.saveChanges" style={styles.loginButtonText} />

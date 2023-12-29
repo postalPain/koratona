@@ -13,12 +13,12 @@ export const ProfileFavoritePlayersSection = () => {
   const navigation = useNavigation()
 
   const {
-    authUser: { authUser },
+    authUserStore: { user },
   } = useStores()
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText} text={`${authUser.firstName}’s favorite players`} />
+      <Text style={styles.titleText} text={`${user.firstName}’s favorite players`} />
       <View style={styles.favoritePlayersSection}>
         <FavoritePlayerItem />
         <FavoritePlayerItem />

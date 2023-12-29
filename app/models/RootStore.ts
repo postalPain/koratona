@@ -10,8 +10,8 @@ import { UserStoreModel } from "./User/UserStore"
  */
 export const RootStoreModel = types.model("RootStore").props({
   authenticationStore: types.optional(AuthenticationStoreModel, {}),
-  authUser: types.optional(UserStoreModel, {
-    authUser: {
+  authUserStore: types.optional(UserStoreModel, {
+    user: {
       firstName: "Unknown",
     },
   }),

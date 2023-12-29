@@ -85,21 +85,21 @@ export const PostsStoreModel = types
     toggleFavorite: flow(function* (postId: number) {
       try {
         const {
-          authUser: { authUser },
+          authUserStore: { user },
         } = getRoot(self) as any
         const post = self.posts.find((post) => post.id === postId)
         if (post) {
           const updatedPostFavoriteInfo = {
-            userId: authUser.id,
-            name: authUser.name,
-            email: authUser.email,
+            userId: user.id,
+            name: user.name,
+            email: user.email,
           }
           const ifPostWasAlreadyFavorited = post.usersToFavoritePosts.find(
-            (user) => user.userId === authUser.id,
+            ({ userId }) => userId === user.id,
           )
           if (ifPostWasAlreadyFavorited) {
             post.usersToFavoritePosts = post.usersToFavoritePosts.filter(
-              (user) => user.userId !== authUser.id,
+              ({ userId }) => userId !== user.id,
             ) as any
             post.favoriteCount--
           } else {
@@ -109,7 +109,7 @@ export const PostsStoreModel = types
         }
         yield toggleFavorite({
           postId,
-          userId: authUser.id,
+          userId: user.id,
         })
       } catch (error) {
         console.log("Error adding post to favorite: ", error)

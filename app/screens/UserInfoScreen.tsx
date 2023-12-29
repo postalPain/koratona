@@ -8,9 +8,9 @@ import { useStores } from "app/models"
 interface UserInfoScreenProps extends AppStackScreenProps<"UserInfo"> {}
 
 export const UserInfoScreen: FC<UserInfoScreenProps> = observer(function UserInfoScreen() {
-  const { authUser } = useStores()
+  const { authUserStore } = useStores()
 
-  const user = authUser.authUser
+  const user = authUserStore.user
 
   return (
     <Screen style={$root} preset="scroll" safeAreaEdges={["top", "bottom"]}>

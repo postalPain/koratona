@@ -10,12 +10,12 @@ import { View } from "react-native"
 export const Notification = observer(function () {
   const styles = useStyles()
 
-  const { authUser } = useStores()
-  const isNotificationTurnedOn = authUser.notificationToken
+  const { authUserStore } = useStores()
+  const isNotificationTurnedOn = authUserStore.notificationToken
 
   const handleSetNotifications = async () => {
     const token = await registerForPushNotificationsAsync()
-    authUser.setNotificationToken(token)
+    authUserStore.setNotificationToken(token)
   }
 
   return (
@@ -32,7 +32,7 @@ export const Notification = observer(function () {
           if (newValue) {
             handleSetNotifications()
           } else {
-            authUser.setNotificationToken(null)
+            authUserStore.setNotificationToken(null)
           }
         }}
       />

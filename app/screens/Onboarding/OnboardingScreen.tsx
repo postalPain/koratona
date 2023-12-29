@@ -20,8 +20,8 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
   route,
 }) {
   const styles = useStyles()
-  const { authUser } = useStores()
-  const isNotificationTurnedOn = authUser.notificationToken
+  const { authUserStore } = useStores()
+  const isNotificationTurnedOn = authUserStore.notificationToken
 
   const currentStep = route.params?.currentStep || 0
   const { heading, subHeading, actionButtonText, skipButton } = onboardingData[currentStep]
@@ -29,7 +29,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
 
   const handleSetNotifications = async () => {
     const token = await registerForPushNotificationsAsync(onNextButtonPress)
-    authUser.setNotificationToken(token)
+    authUserStore.setNotificationToken(token)
   }
 
   const onNextButtonPress = () => {
