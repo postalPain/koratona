@@ -36,7 +36,7 @@ export function AppHomeNavigator() {
 
   return (
     <Tab.Navigator
-      initialRouteName='ProfileNavigator'
+      initialRouteName='FeedNavigator'
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,

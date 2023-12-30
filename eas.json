@@ -42,6 +42,16 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "vladyslav.levchenko@stryber.com",
+        "ascAppId": "6473923229",
+        "appleTeamId": "NSST29B577"
+      }
+    }
   }
 }

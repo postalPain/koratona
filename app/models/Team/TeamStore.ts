@@ -4,10 +4,11 @@ import {
   getUsersFavoriteTeamList,
   removeTeamFromFavorite,
 } from "app/services/api/team/teamService"
-import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, isAlive, types } from "mobx-state-tree"
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { Team, TeamModel } from "./Team"
+import { showToast } from "app/utils/showToast"
 
 export const TeamStoreModel = types
   .model("TeamStore")
@@ -47,6 +48,7 @@ export const TeamStoreModel = types
         self.paginationMeta = response.data.meta
       } catch (error) {
         self.isTeamListErrored = true
+        showToast("Error fetching team list")
         console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
       } finally {
         self.isTeamListLoading = false
@@ -67,7 +69,7 @@ export const TeamStoreModel = types
         self.favoriteTeam = response.data.team
         successCallback && successCallback()
       } catch (error) {
-        console.log("adding to favorite, error", error)
+        showToast("Error adding team to favorite")
         self.isTeamListErrored = true
         console.tron.error?.(`Error adding team to favorite: ${JSON.stringify(error)}`, [])
       } finally {
@@ -79,14 +81,20 @@ export const TeamStoreModel = types
         const {
           authUserStore: { user },
         } = getRoot(self) as any
-
+        if (isAlive(user) && user.id === 0) return
         const response = yield getUsersFavoriteTeamList(user.id)
         const mappedData = response.data.data.map(({ team }: { team: Team }) => team)
         self.favoriteTeam = mappedData[0]
       } catch (error) {
+        showToast("Error fetching favorite team list")
         console.tron.error?.(`Error fetching favorite team: ${JSON.stringify(error)}`, [])
       }
     }),
+  }))
+  .views((self) => ({
+    get selectedFavoriteTeam() {
+      return self.favoriteTeam
+    },
   }))
 
 export interface TeamStore extends Instance<typeof TeamStoreModel> {}

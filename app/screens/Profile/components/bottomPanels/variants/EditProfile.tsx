@@ -34,7 +34,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
   )
 
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
-    teamStore.favoriteTeam ||
+    teamStore.selectedFavoriteTeam ||
       ({
         id: -1,
         name: "",
