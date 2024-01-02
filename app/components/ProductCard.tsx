@@ -6,6 +6,7 @@ import * as React from "react"
 import { Image, StyleProp, View, ViewStyle } from "react-native"
 import { ExclusiveBadge } from "./ExclusiveBadge"
 import { Text } from "./Text"
+import { formatPrice } from "app/utils/currencyFormatter"
 
 export interface ProductsProps {
   /**
@@ -78,18 +79,20 @@ export const ProductCard = observer(function Products({
         width={400}
         resizeMode="contain"
       />
-
       <ExclusiveBadge />
       <View style={styles.infoBox}>
         <Text style={styles.name} text={name} weight="bold" />
         <Text style={styles.description} text={description} />
-        <Text style={styles.price} text={price} weight="semiBold" />
+        <Text style={styles.price} text={formatPrice(+price)} weight="semiBold" />
       </View>
       <View style={styles.buttonContainer}>
         <Button style={outOfStock ? styles.disabledButton : styles.button} onPress={onActionPress}>
           <Text
             weight="bold"
-            style={outOfStock ? styles.disabledButtonText : styles.buttonText}
+            style={[
+              styles.actionButtonText,
+              outOfStock ? styles.disabledButtonText : styles.buttonText,
+            ]}
             tx={outOfStock ? "productsScreen.outOfStock" : "productsScreen.purchaseExperience"}
           />
         </Button>
@@ -102,6 +105,11 @@ const useStyles = createUseStyles((theme) => ({
   container: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  actionButtonText: {
+    fontFamily: typography.fonts.instrumentSans.bold,
+    fontSize: 16,
+    lineHeight: 24,
   },
   button: {
     marginTop: theme.spacing["32"],
@@ -129,10 +137,10 @@ const useStyles = createUseStyles((theme) => ({
     fontSize: 32,
     lineHeight: 32,
     textAlign: "center",
-    fontFamily: typography.fonts.instrumentSans.bold,
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     color: "#101828",
     textTransform: "uppercase",
-    letterSpacing: -1,
+    letterSpacing: -0.64,
   },
   description: {
     paddingVertical: theme.spacing[12],

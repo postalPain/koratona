@@ -2,13 +2,14 @@ import Button from "@stryberventures/gaia-react-native.button"
 import Form from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Banner, Icon, Screen, Text } from "app/components"
+import { Banner, Screen, Text } from "app/components"
+import { GoBackComponent } from "app/components/GoBack"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
 import { CardNumber, Cvv, ExpiryDate, Frames } from "frames-react-native"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { ActivityIndicator, Pressable, View } from "react-native"
+import { ActivityIndicator, View } from "react-native"
 import { getButtonStyle } from "../Auth/helpers/buttonStyles"
 import { ProductPurchasePolicies } from "./ProductsPurchasePolicies"
 import { ProductsStackScreenProps } from "./ProductsStackNavigator"
@@ -31,25 +32,11 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
 
     return (
       <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={styles.container}>
-        <Form
-          // validationSchema={loginValidationSchema}
-          // onChange={(_, { isValid }) => {
-          //   setDisabled(!isValid)
-          //   setError(undefined)
-          // }}
-
-          onSubmit={onSubmit}
-        >
+        <Form onSubmit={onSubmit}>
           <View style={styles.contentWrapper}>
             <View>
-              <View style={styles.header}>
-                <Pressable style={styles.leftHeaderComponent} onPress={_props.navigation.goBack}>
-                  <Icon icon="back" color="#98A2B3" />
-                  <Text text="Go back" style={styles.leftHeaderComponentText} />
-                </Pressable>
-              </View>
+              <GoBackComponent onPress={_props.navigation.goBack} />
               <Text tx="productsScreen.completePurchase" weight="bold" style={styles.heading} />
-
               <View style={styles.inputsWrapper}>
                 <Text tx="productsScreen.deliverPassesTo" style={styles.inputLabel} />
                 <Input
@@ -59,7 +46,6 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                   autoComplete="email"
                   keyboardType="email-address"
                   textContentType="emailAddress"
-                  // errorStyle={styles.hintsStyles}
                 />
               </View>
               <Frames
@@ -71,13 +57,8 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                   alert(e.token)
                 }}
               >
-                <Text tx="productsScreen.deliverPassesTo" style={styles.inputLabel} />
-
-                <CardNumber
-                  style={styles.cardNumber}
-                  placeholderTextColor="#9898A0"
-                  // showIcon={false} in case you don't want to see the card scheme logo
-                />
+                <Text tx="productsScreen.paymentsDetails" style={styles.inputLabel} />
+                <CardNumber style={styles.cardNumber} placeholderTextColor="#9898A0" />
 
                 <View style={styles.dateAndCode}>
                   <ExpiryDate style={styles.expiryDate} placeholderTextColor="#9898A0" />
@@ -103,7 +84,6 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                   <ActivityIndicator />
                 ) : (
                   <Text
-                    weight="bold"
                     style={styles.submitButtonText}
                     tx="productsScreen.makePayment"
                   />
@@ -124,29 +104,23 @@ const useStyles = createUseStyles((theme) => ({
     paddingHorizontal: theme.spacing[24],
     paddingBottom: theme.spacing[32],
   },
-  leftHeaderComponent: {
-    flexDirection: "row",
-  },
-  leftHeaderComponentText: {
-    paddingLeft: 8,
-    color: "#98A2B3",
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
   heading: {
     fontSize: 32,
     lineHeight: 32,
-    letterSpacing: -2,
+    letterSpacing: -0.64,
     marginTop: theme.spacing["24"],
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     marginBottom: theme.spacing["32"],
+    color: "#101828",
   },
   button: {
     marginTop: theme.spacing["8"],
     minHeight: 59,
   },
   submitButtonText: {
+    fontFamily: typography.fonts.instrumentSans.bold,
+    fontSize: 16,
+    lineHeight: 24,
     color: "#fff",
   },
   inputLabel: {
@@ -160,20 +134,20 @@ const useStyles = createUseStyles((theme) => ({
     textAlign: "center",
     fontSize: 14,
     lineHeight: 16.8,
-    marginBottom: theme.spacing["8"],
+    marginBottom: theme.spacing["12"],
   },
   purchasePrice: {
-    fontFamily: typography.fonts.instrumentSans.bold,
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
+    color: "#1A1F51",
     textAlign: "center",
     fontSize: 20,
     lineHeight: 20,
-    letterSpacing: -0.5,
+    letterSpacing: -0.4,
   },
   contentWrapper: {
     flex: 1,
     justifyContent: "space-between",
   },
-
   dateAndCode: {
     marginTop: 15,
     flexDirection: "row",
@@ -207,6 +181,6 @@ const useStyles = createUseStyles((theme) => ({
     fontSize: 16,
   },
   inputsWrapper: {
-    marginBottom: 20,
+    marginBottom: 40,
   },
 }))

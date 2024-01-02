@@ -1,16 +1,17 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Button, Icon, Screen, Text } from "app/components"
+import { Button, Screen, Text } from "app/components"
 import { typography } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Image, ImageBackground, View } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import DashedLine from "react-native-dashed-line"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+import CircleCheckIconIcon from "../../../assets/icons/svgs/CircleCheckIcon"
+import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 
 const screenBackgroundImage = require("assets/backgrounds/welcome-screen.png")
 
-interface ProductResultScreenProps extends ProductsStackScreenProps<'productPurchaseResult'> {}
+interface ProductResultScreenProps extends ProductsStackScreenProps<"productPurchaseResult"> {}
 
 export const ProductPurchaseResultScreen: FC<ProductResultScreenProps> = observer(
   function ProductResultScreen(_props) {
@@ -18,10 +19,12 @@ export const ProductPurchaseResultScreen: FC<ProductResultScreenProps> = observe
     const { top: topInset } = useSafeAreaInsets()
 
     return (
-      <Screen preset="fixed" contentContainerStyle={styles.screenContainer}>
+      <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={styles.screenContainer}>
         <ImageBackground style={styles.aspectRatioBox} source={screenBackgroundImage}>
           <View style={{ marginTop: topInset }}>
-            <Icon icon="circleCheck" containerStyle={styles.checkIconContainer} size={30} />
+            <View style={styles.checkIconContainer}>
+              <CircleCheckIconIcon />
+            </View>
             <Text style={styles.title} tx="productsScreen.thankYouForYour" />
             <Text style={[styles.title, styles.titleHighlighted]} tx="productsScreen.purchase" />
             <View style={styles.hintContainer}>
@@ -55,16 +58,14 @@ export const ProductPurchaseResultScreen: FC<ProductResultScreenProps> = observe
                   <Text style={styles.ticketValidToDate} text="July 2024" />
                 </View>
               </View>
-              <View style={styles.goToPurchasesButtonWrapper}>
-                <Button
-                  style={styles.goToPurchasesButton}
-                  tx="productsScreen.viewMyPurchases"
-                  textStyle={styles.goToPurchasesButtonText}
-                  onPress={() => {
-                    _props.navigation.navigate('productsScreen')
-                  }}
-                />
-              </View>
+              <Button
+                style={styles.goToPurchasesButton}
+                tx="productsScreen.viewMyPurchases"
+                textStyle={styles.goToPurchasesButtonText}
+                onPress={() => {
+                  _props.navigation.navigate("productsScreen")
+                }}
+              />
             </View>
           </View>
         </ImageBackground>
@@ -88,7 +89,7 @@ const useStyles = createUseStyles((theme) => ({
   title: {
     color: "#FFF",
     textAlign: "center",
-    fontFamily: typography.fonts.instrumentSans.bold,
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     fontSize: 32,
     lineHeight: 32,
     letterSpacing: -0.64,
@@ -127,19 +128,22 @@ const useStyles = createUseStyles((theme) => ({
     fontFamily: typography.fonts.instrumentSans.semiBold,
     color: "#80839F",
     textAlign: "center",
-    fontSize: 14,
+    fontSize: 10,
+    lineHeight: 12,
     textTransform: "uppercase",
   },
   ticketExperienceName: {
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 16,
+    lineHeight: 20,
   },
   ticketExperienceDescription: {
     textAlign: "center",
-    fontSize: 12,
+    fontSize: 10,
     marginTop: theme.spacing[8],
-    lineHeight: 14,
+    lineHeight: 12,
     color: "#80839F",
+    fontFamily: typography.fonts.instrumentSans.regular,
   },
   ticketBottomPart: {
     justifyContent: "center",
@@ -150,7 +154,10 @@ const useStyles = createUseStyles((theme) => ({
     paddingHorizontal: theme.spacing[24],
   },
   ticketValidToDate: {
+    fontFamily: typography.fonts.instrumentSans.regular,
+    color: "#101828",
     fontSize: 16,
+    lineHeight: 24,
   },
   separator: {
     position: "relative",
@@ -177,10 +184,7 @@ const useStyles = createUseStyles((theme) => ({
   goToPurchasesButtonText: {
     color: "#FFF",
     fontSize: 16,
-    lineHeight: 16,
+    lineHeight: 24,
     fontFamily: typography.fonts.instrumentSans.bold,
-  },
-  goToPurchasesButtonWrapper: {
-    paddingHorizontal: theme.spacing[8],
   },
 }))
