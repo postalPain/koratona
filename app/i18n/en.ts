@@ -186,6 +186,7 @@ const en = {
   profile: {
     yourProfile: "Your profile",
     editShirtNumber: "Edit shirt number",
+    saveShirtNumber: "Save shirt number",
     editProfile: "Edit profile",
     notifications: "Notifications",
     getSupport: "Get support",

@@ -9,8 +9,14 @@ import TShirtIcon from "assets/icons/svgs/TShirtIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { Image, Pressable, View, useWindowDimensions } from "react-native"
-import { Screen, Text } from "../../components"
+import {
+  Image,
+  Pressable,
+  TextInput,
+  View,
+  useWindowDimensions
+} from "react-native"
+import { Screen, Text, TextField } from "../../components"
 import { ProfileStackScreenProps } from "./ProfileStackNavigator"
 import { ProfileEditingSection } from "./components/ProfileEditingSection"
 import { ProfileFavoritePlayersSection } from "./components/ProfileFavoritePlayersSection"
@@ -34,8 +40,11 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   } = useStores()
 
   const [settingBottomPanelKey, setSettingBottomPanelKey] = React.useState<SettingsKey>("profile")
+  const [jerseyNumber, setJerseyNumber] = React.useState<string>("08")
+  const [isJerseyNumberEditing, setIsJerseyNumberEditing] = React.useState<boolean>(false)
 
   const settingBottomPanelRef = React.useRef<BottomSheet>(null)
+  const tShortNumberInputRef = React.useRef<TextInput>(null)
 
   const openSettingsBottomPanel = (key: SettingsKey) => () => {
     setSettingBottomPanelKey(key)
@@ -50,8 +59,9 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
           style={[
             {
               ...styles.gradient,
-               borderBottomLeftRadius: width, borderBottomRightRadius: width
-              },
+              borderBottomLeftRadius: width,
+              borderBottomRightRadius: width,
+            },
             headerInsets,
           ]}
         >
@@ -71,12 +81,45 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
               <Image style={styles.tShirtImage} source={tShirtImage} />
               <View style={styles.shirtTextContainer}>
                 <Text style={styles.tShirtName} text={user.firstName} />
-                <Text style={styles.tShirtNumber} text="08" />
+                {isJerseyNumberEditing && (
+                  <TextField
+                    ref={tShortNumberInputRef}
+                    inputWrapperStyle={styles.tShirtInputWrapperStyle}
+                    containerStyle={styles.tShirtNumberInputContainer}
+                    style={styles.tShirtNumberTextInput}
+                    inputMode="numeric"
+                    maxLength={2}
+                    value={jerseyNumber}
+                    onChangeText={(value) => {
+                      setJerseyNumber(value)
+                    }}
+                    onBlur={() => {
+                      if (jerseyNumber.length < 2) {
+                        setJerseyNumber(`0${jerseyNumber || 1}`)
+                      }
+                    }}
+                  />
+                )}
+                {!isJerseyNumberEditing && <Text style={styles.tShirtNumber} text={jerseyNumber} />}
               </View>
-              <View style={styles.editShirtNumberButton}>
+              <Pressable
+                style={styles.editShirtNumberButton}
+                onPress={() => {
+                  setIsJerseyNumberEditing((isJerseyNumberEditing) => !isJerseyNumberEditing)
+                  setTimeout(() => {
+                    tShortNumberInputRef.current?.focus()
+                  }, 100)
+                }}
+              >
                 <TShirtIcon />
-                <Text style={styles.editTShirtNumberText} tx="profile.editShirtNumber" />
-              </View>
+                <Text
+                  style={[
+                    styles.editTShirtNumberText,
+                    isJerseyNumberEditing && styles.editTShirtNumberTextBold,
+                  ]}
+                  tx={isJerseyNumberEditing ? "profile.saveShirtNumber" : "profile.editShirtNumber"}
+                />
+              </Pressable>
             </View>
           </View>
         </LinearGradient>
@@ -101,6 +144,24 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
 })
 
 const useStyles = createUseStyles((theme) => ({
+  tShirtNumberTextInput: {
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
+    fontSize: 96,
+    height: 117,
+    paddingTop: 18,
+    marginLeft: 14,
+    color: "#fff",
+    justifyContent: "flex-start",
+    borderColor: "red",
+  },
+  tShirtNumberInputContainer: {
+    justifyContent: "flex-end",
+  },
+  tShirtInputWrapperStyle: {
+    width: 120,
+    backgroundColor: "transparent",
+    borderWidth: 0,
+  },
   logo: {
     height: 20,
     marginRight: "auto",
@@ -185,6 +246,10 @@ const useStyles = createUseStyles((theme) => ({
     alignItems: "center",
     paddingTop: 20,
   },
+  editTShirtNumberTextBold: {
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
+    color: "#fff",
+  },
   editTShirtNumberText: {
     textTransform: "uppercase",
     textAlign: "center",
@@ -198,5 +263,13 @@ const useStyles = createUseStyles((theme) => ({
   policiesWrapper: {
     paddingTop: theme.spacing[64],
     paddingBottom: theme.spacing[32],
+  },
+  tShirtNumberInputAccessoryText: {
+    backgroundColor: "#fff",
+    textAlign: "right",
+    fontWeight: "bold",
+    color: "#1375FE",
+    marginRight: theme.spacing[12],
+    paddingBottom: theme.spacing[12],
   },
 }))
