@@ -22,7 +22,7 @@ export const Banner = (props: BannerProps) => {
 
 const useStyles = createUseStyles((theme) => ({
   container: {
-    padding: theme.spacing[12],
+    padding: 10,
     backgroundColor: "#FADFD7",
     borderRadius: 4,
   },
