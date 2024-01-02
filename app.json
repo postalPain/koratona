@@ -6,7 +6,7 @@
     "name": "FootballApp",
     "slug": "football-app",
     "scheme": "football-app",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-all.png",
     "splash": {
