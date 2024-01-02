@@ -50,6 +50,7 @@ const useStyles = createUseStyles(() => ({
     lineHeight: 16,
     marginLeft: 4,
     marginRight: 4,
-    fontFamily: typography.fonts.instrumentSans.bold,
+    letterSpacing: -0.32,
+    fontFamily: typography.fonts.instrumentSansSemiCondensed.bold,
   },
 }))
