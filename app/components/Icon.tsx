@@ -84,15 +84,6 @@ export function Icon(props: IconProps) {
   )
 }
 
-const bottomTabNavigatorRegistry = {
-  home: require("../../assets/icons/home.png"),
-  homeActive: require("../../assets/icons/home-active.png"),
-  bag: require("../../assets/icons/bag.png"),
-  bagActive: require("../../assets/icons/bag-active.png"),
-  profile: require("../../assets/icons/profileIcon.png"),
-  profileActive: require("../../assets/icons/profileIcon-active.png"),
-}
-
 const commonIcons = {
   teamsIcon: require("../../assets/icons/team.png"),
 }
@@ -115,7 +106,6 @@ export const iconRegistry = {
   heartIcon: require("../../assets/icons/heartIcon.png"),
   heardIconFilled: require("../../assets/icons/heartIconFilled.png"),
   circleCheck: require("../../assets/icons/circleCheck.png"),
-  ...bottomTabNavigatorRegistry,
   ...commonIcons,
 }
 
