@@ -14,7 +14,16 @@ import { useHeader } from "app/utils/useHeader"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { ActivityIndicator, Image, Platform, Pressable, View, ViewStyle } from "react-native"
+import {
+  ActivityIndicator,
+  Image,
+  InputAccessoryView,
+  Keyboard,
+  Platform,
+  Pressable,
+  View,
+  ViewStyle,
+} from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
@@ -138,7 +147,15 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                     />
                   )}
                 </Pressable>
-
+                <InputAccessoryView nativeID={"telephoneNumber01"}>
+                  <Pressable
+                    onPress={() => {
+                      Keyboard.dismiss()
+                    }}
+                  >
+                    <Text style={styles.inputAccessoryText} tx="common.done" weight="semiBold" />
+                  </Pressable>
+                </InputAccessoryView>
                 <Input
                   name="phone"
                   label="Phone Number"
@@ -146,6 +163,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                   placeholder="000 00000000"
                   mask="XXX XXXXXXXX"
                   autoComplete="tel"
+                  inputAccessoryViewID="telephoneNumber01"
                   keyboardType="phone-pad"
                   textContentType="telephoneNumber"
                   errorStyle={styles.hintsStyles}
@@ -342,9 +360,16 @@ const useStyles = createUseStyles((theme) => ({
   teamPickerListItemTextSelected: {
     color: "#fff",
   },
-
   teamPickerDropdown: {
     borderRadius: 10,
+  },
+  inputAccessoryText: {
+    backgroundColor: "#fff",
+    textAlign: "right",
+    fontWeight: "bold",
+    color: "#1375FE",
+    marginRight: theme.spacing[12],
+    paddingBottom: theme.spacing[12],
   },
 }))
 

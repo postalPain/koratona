@@ -16,7 +16,15 @@ import { typography } from "app/theme"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { ActivityIndicator, Image, Platform, Pressable, View } from "react-native"
+import {
+  ActivityIndicator,
+  Image,
+  InputAccessoryView,
+  Keyboard,
+  Platform,
+  Pressable,
+  View,
+} from "react-native"
 import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
 
@@ -157,7 +165,15 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
                 />
               )}
             </Pressable>
-
+            <InputAccessoryView nativeID={"telephoneNumber01"}>
+              <Pressable
+                onPress={() => {
+                  Keyboard.dismiss()
+                }}
+              >
+                <Text style={styles.inputAccessoryText} tx="common.done"  weight="semiBold"/>
+              </Pressable>
+            </InputAccessoryView>
             <Input
               name="phone"
               label="Phone Number"
@@ -168,6 +184,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
               keyboardType="phone-pad"
               textContentType="telephoneNumber"
               errorStyle={styles.hintsStyles}
+              inputAccessoryViewID="telephoneNumber01"
               hintStyle={styles.hintsStyles}
               onFocus={() => {
                 shouldHandleKeyboardEvents.value = true
@@ -351,6 +368,14 @@ const useStyles = createUseStyles((theme) => ({
   },
   teamPickerDropdown: {
     borderRadius: 10,
+  },
+  inputAccessoryText: {
+    backgroundColor: "#fff",
+    textAlign: "right",
+    fontWeight: "bold",
+    color: "#1375FE",
+    marginRight: theme.spacing[12],
+    paddingBottom: theme.spacing[12],
   },
 }))
 
