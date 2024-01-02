@@ -170,6 +170,7 @@ const en = {
     purchaseExperience: "Purchase experience",
     completePurchase: "Complete purchase",
     deliverPassesTo: "Deliver passes to",
+    paymentsDetails: "Payment details",
     makePayment: "Make payment",
     policiesByMakingPurchase: "By making a purchase, you agree to our",
     termsOfOfConditions: " Terms & Conditions",
