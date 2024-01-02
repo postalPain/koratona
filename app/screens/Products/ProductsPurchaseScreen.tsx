@@ -182,7 +182,7 @@ const useStyles = createUseStyles((theme) => ({
   cardNumber: {
     fontSize: 18,
     height: 50,
-    color: "#FEFFFF",
+    color: "#475467",
     borderColor: "#D0D5DD",
     borderRadius: 5,
   },
@@ -190,7 +190,7 @@ const useStyles = createUseStyles((theme) => ({
     fontSize: 18,
     height: 50,
     width: "48%",
-    color: "#FEFFFF",
+    color: "#475467",
     borderColor: "#D0D5DD",
     borderRadius: 5,
   },
@@ -199,7 +199,7 @@ const useStyles = createUseStyles((theme) => ({
     fontSize: 18,
     height: 50,
     width: "48%",
-    color: "#FEFFFF",
+    color: "#475467",
     borderColor: "#D0D5DD",
   },
   buttonText: {
