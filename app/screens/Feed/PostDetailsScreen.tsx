@@ -44,7 +44,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           source={
             post?.coverImageUrl ? { uri: post?.coverImageUrl } : require("assets/temp/cardBg.png")
           }
-          resizeMode="contain"
+          resizeMode="cover"
         >
           <LinearGradient
             colors={["transparent", "rgba(0, 0, 0, 0.8)"]}

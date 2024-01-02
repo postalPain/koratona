@@ -159,7 +159,6 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                 <Input
                   name="phone"
                   label="Phone Number"
-                  prefix="+49 "
                   placeholder="000 00000000"
                   mask="XXX XXXXXXXX"
                   autoComplete="tel"

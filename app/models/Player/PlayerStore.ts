@@ -4,7 +4,7 @@ import {
   getUsersFavoritePlayerList,
   removePlayerFromFavorite,
 } from "app/services/api/player/playerService"
-import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, clone, flow, getRoot, types } from "mobx-state-tree"
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { Player, PlayerModel } from "./Player"
@@ -53,13 +53,16 @@ export const PlayerStoreModel = types
           self.favoritePlayerList.length > 0 &&
           self.favoritePlayerList.find((player) => player.id === id)
         ) {
-          yield removePlayerFromFavorite(id, user.id)
           self.favoritePlayerList.replace(
             self.favoritePlayerList.filter((player) => player.id !== id),
           )
+          yield removePlayerFromFavorite(id, user.id)
         } else {
-          const response = yield addPlayerToFavorite(id, user.id)
-          self.favoritePlayerList.push(response.data.player)
+          const player = self.playerList.find((player) => player.id === id)
+          if (player) {
+            self.favoritePlayerList.push(clone(player))
+          }
+          yield addPlayerToFavorite(id, user.id)
         }
         successCallback && successCallback()
       } catch (error) {
@@ -86,7 +89,9 @@ export const PlayerStoreModel = types
   }))
   .views((self) => ({
     isPlayerFavorited(id: number) {
-      return self.favoritePlayerList.length > 0 && !!self.favoritePlayerList.find((p) => p.id === id)
+      return (
+        self.favoritePlayerList.length > 0 && !!self.favoritePlayerList.find((p) => p.id === id)
+      )
     },
   }))
 

@@ -74,7 +74,7 @@ export const FeedCard = React.memo(
       <Pressable style={styles.container} onPress={onPress}>
         <ImageBackground
           style={styles.bgImage}
-          resizeMode="contain"
+          resizeMode="cover"
           source={
             bgImage
               ? {

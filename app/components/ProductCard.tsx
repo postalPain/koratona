@@ -77,7 +77,7 @@ export const ProductCard = observer(function Products({
         }
         height={400}
         width={400}
-        resizeMode="contain"
+        resizeMode="cover"
       />
       <ExclusiveBadge />
       <View style={styles.infoBox}>

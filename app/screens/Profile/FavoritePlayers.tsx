@@ -20,7 +20,6 @@ export const FavoritePlayersScreen: React.FC<ProfileStackScreenProps<"favoritePl
     useFetchPlayerList()
     useFetchFavoritePlayerList()
 
-
     return (
       <Screen preset="fixed" contentContainerStyle={styles.container}>
         {playerStore.isPlayerListErrored && (
@@ -33,17 +32,29 @@ export const FavoritePlayersScreen: React.FC<ProfileStackScreenProps<"favoritePl
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           numColumns={2}
           keyExtractor={(item) => item?.id?.toString()}
-          renderItem={({ item }) => (
-            <PlayerCard
-              addedToFavorite={playerStore.isPlayerFavorited(item.id)}
-              player={item}
-              handleToggleFavorite={() => {
-                playerStore.togglePlayerFavorite(item.id)
-              }}
-            />
+          renderItem={({ item, index }) => (
+            <View
+              style={index % 2 === 0
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  ? {
+                      paddingRight: 10,
+                    }
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  : {
+                      paddingLeft: 10,
+                    }}
+            >
+              <PlayerCard
+                addedToFavorite={playerStore.isPlayerFavorited(item.id)}
+                player={item}
+                handleToggleFavorite={() => {
+                  playerStore.togglePlayerFavorite(item.id)
+                }}
+              />
+            </View>
           )}
           estimatedItemSize={220}
-          extraData={JSON.stringify(playerStore.playerList)}
+          extraData={JSON.stringify(playerStore.favoritePlayerList)}
         />
       </Screen>
     )
@@ -63,7 +74,7 @@ const useStyles = createUseStyles((theme) => ({
     marginBottom: theme.spacing[24],
   },
   separator: {
-    height: theme.spacing[12],
+    height: theme.spacing[16],
   },
   fetchingMoreProducts: {
     paddingVertical: spacing.xl,
