@@ -11,6 +11,7 @@ import { translate } from "../i18n"
 import { DemoDebugScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { useStores } from "app/models"
 
 export type AppHomeTabParamList = {
   DemoDebug: undefined
@@ -32,11 +33,16 @@ export type AppTabScreenProps<T extends keyof AppHomeTabParamList> = CompositeSc
 const Tab = createBottomTabNavigator<AppHomeTabParamList>()
 
 export function AppHomeNavigator() {
+  const {
+    authUserStore: { user },
+  } = useStores()
   const { bottom } = useSafeAreaInsets()
+
+  const isDebugPageAvailable = user.email?.toLocaleLowerCase()?.includes("vladyslav")
 
   return (
     <Tab.Navigator
-      initialRouteName='FeedNavigator'
+      initialRouteName="FeedNavigator"
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
@@ -74,16 +80,18 @@ export function AppHomeNavigator() {
             focused ? <Icon icon="profileActive" size={30} /> : <Icon icon="profile" size={30} />,
         }}
       />
-      <Tab.Screen
-        name="DemoDebug"
-        component={DemoDebugScreen}
-        options={{
-          tabBarLabel: translate("demoNavigator.debugTab"),
-          tabBarIcon: ({ focused }) => (
-            <Icon icon="settings" color={focused ? colors.tint : undefined} size={30} />
-          ),
-        }}
-      />
+      {isDebugPageAvailable && (
+        <Tab.Screen
+          name="DemoDebug"
+          component={DemoDebugScreen}
+          options={{
+            tabBarLabel: translate("demoNavigator.debugTab"),
+            tabBarIcon: ({ focused }) => (
+              <Icon icon="settings" color={focused ? colors.tint : undefined} size={30} />
+            ),
+          }}
+        />
+      )}
     </Tab.Navigator>
   )
 }
