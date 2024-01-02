@@ -12,6 +12,9 @@ import { DemoDebugScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 import { useStores } from "app/models"
+import BagIconSvg from "assets/icons/svgs/bottomNavbar/BagIcon"
+import HomeIconSvg from "assets/icons/svgs/bottomNavbar/HomeIcon"
+import ProfileIconSvg from "../../assets/icons/svgs/bottomNavbar/ProfileIcon"
 
 export type AppHomeTabParamList = {
   DemoDebug: undefined
@@ -58,8 +61,7 @@ export function AppHomeNavigator() {
         component={ProductsStackNavigator}
         options={{
           tabBarLabel: translate("appHomeNavigator.products"),
-          tabBarIcon: ({ focused }) =>
-            focused ? <Icon icon="bagActive" size={30} /> : <Icon icon="bag" size={30} />,
+          tabBarIcon: BagIconSvg,
         }}
       />
       <Tab.Screen
@@ -67,8 +69,7 @@ export function AppHomeNavigator() {
         component={HomeStackNavigator}
         options={{
           tabBarLabel: translate("appHomeNavigator.home"),
-          tabBarIcon: ({ focused }) =>
-            focused ? <Icon icon="homeActive" size={30} /> : <Icon icon="home" size={30} />,
+          tabBarIcon: HomeIconSvg,
         }}
       />
       <Tab.Screen
@@ -76,8 +77,7 @@ export function AppHomeNavigator() {
         component={ProfileStackNavigator}
         options={{
           tabBarLabel: translate("appHomeNavigator.userProfile"),
-          tabBarIcon: ({ focused }) =>
-            focused ? <Icon icon="profileActive" size={30} /> : <Icon icon="profile" size={30} />,
+          tabBarIcon: ProfileIconSvg,
         }}
       />
       {isDebugPageAvailable && (
@@ -98,16 +98,17 @@ export function AppHomeNavigator() {
 
 const $tabBar: ViewStyle = {
   backgroundColor: "#F9FAFB",
-  borderTopColor: "#98A2B3",
+  borderTopColor: "#0000001A",
 }
 
 const $tabBarItem: ViewStyle = {
-  paddingTop: spacing.md,
+  paddingTop: spacing.lg,
 }
 
 const $tabBarLabel: TextStyle = {
-  fontSize: 12,
-  fontFamily: typography.primary.medium,
-  lineHeight: 16,
+  fontSize: 14,
+  fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
+  lineHeight: 16.8,
   flex: 1,
+  marginTop: spacing.sm,
 }
