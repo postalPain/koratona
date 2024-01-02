@@ -9,6 +9,7 @@ const en = {
     backToLogin: "Back to Login",
     skipText: "Maybe later",
     saveChanges: "Save changes",
+    done: "Done",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
