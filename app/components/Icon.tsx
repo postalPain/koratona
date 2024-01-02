@@ -105,7 +105,6 @@ export const iconRegistry = {
   alhilal: require("../../assets/icons/teamsLogo/Al-hilal.png"),
   heartIcon: require("../../assets/icons/heartIcon.png"),
   heardIconFilled: require("../../assets/icons/heartIconFilled.png"),
-  circleCheck: require("../../assets/icons/circleCheck.png"),
   ...commonIcons,
 }
 
