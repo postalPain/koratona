@@ -9,13 +9,7 @@ import TShirtIcon from "assets/icons/svgs/TShirtIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import {
-  Image,
-  Pressable,
-  TextInput,
-  View,
-  useWindowDimensions
-} from "react-native"
+import { Image, Pressable, TextInput, View, useWindowDimensions } from "react-native"
 import { Screen, Text, TextField } from "../../components"
 import { ProfileStackScreenProps } from "./ProfileStackNavigator"
 import { ProfileEditingSection } from "./components/ProfileEditingSection"
@@ -78,7 +72,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
               <Text tx="profile.yourProfile" style={styles.pentagonText} />
             </View>
             <View style={styles.tShirtContainer}>
-              <Image style={styles.tShirtImage} source={tShirtImage} />
+              <Image source={tShirtImage} />
               <View style={styles.shirtTextContainer}>
                 <Text style={styles.tShirtName} text={user.firstName} />
                 {isJerseyNumberEditing && (
@@ -193,10 +187,6 @@ const useStyles = createUseStyles((theme) => ({
     left: 0,
     right: 0,
     alignItems: "center",
-  },
-  tShirtImage: {
-    marginLeft: "auto",
-    marginRight: "auto",
   },
   pentagonText: {
     position: "absolute",

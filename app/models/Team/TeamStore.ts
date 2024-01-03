@@ -4,7 +4,7 @@ import {
   getUsersFavoriteTeamList,
   removeTeamFromFavorite,
 } from "app/services/api/team/teamService"
-import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, isAlive, types } from "mobx-state-tree"
+import { Instance, SnapshotIn, SnapshotOut, detach, flow, getRoot, isAlive, types } from "mobx-state-tree"
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { Team, TeamModel } from "./Team"
@@ -65,7 +65,7 @@ export const TeamStoreModel = types
           yield removeTeamFromFavorite(self.favoriteTeam.id, user.id)
         }
         const response = yield addTeamToFavorite(id, user.id)
-
+        detach(self.favoriteTeam)
         self.favoriteTeam = response.data.team
         successCallback && successCallback()
       } catch (error) {
@@ -81,7 +81,9 @@ export const TeamStoreModel = types
         const {
           authUserStore: { user },
         } = getRoot(self) as any
-        if (isAlive(user) && user.id === 0) return
+        if (!isAlive(user)) {
+          return
+        }
         const response = yield getUsersFavoriteTeamList(user.id)
         const mappedData = response.data.data.map(({ team }: { team: Team }) => team)
         self.favoriteTeam = mappedData[0]

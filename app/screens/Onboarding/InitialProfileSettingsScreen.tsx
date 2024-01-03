@@ -106,6 +106,18 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
           >
             <View style={styles.formContent}>
               <View style={styles.inputContainer}>
+                <InputAccessoryView nativeID={"firstNameAccessoryId"}>
+                  <View style={styles.inputAccessoryBox}>
+                    <Text
+                      onPress={() => {
+                        Keyboard.dismiss()
+                      }}
+                      style={styles.inputAccessoryText}
+                      tx="common.done"
+                      weight="semiBold"
+                    />
+                  </View>
+                </InputAccessoryView>
                 <Input
                   name="firstName"
                   label="First name"
@@ -114,7 +126,20 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                   textContentType="givenName"
                   errorStyle={styles.hintsStyles}
                   hintStyle={styles.hintsStyles}
+                  inputAccessoryViewID="firstNameAccessoryId"
                 />
+                <InputAccessoryView nativeID={"lastNameAccessoryId"}>
+                  <View style={styles.inputAccessoryBox}>
+                    <Text
+                      onPress={() => {
+                        Keyboard.dismiss()
+                      }}
+                      style={styles.inputAccessoryText}
+                      tx="common.done"
+                      weight="semiBold"
+                    />
+                  </View>
+                </InputAccessoryView>
                 <Input
                   name="lastName"
                   label="Last name"
@@ -123,6 +148,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                   textContentType="familyName"
                   errorStyle={styles.hintsStyles}
                   hintStyle={styles.hintsStyles}
+                  inputAccessoryViewID="lastNameAccessoryId"
                 />
                 <Pressable
                   style={styles.datePickerContainer}
@@ -148,13 +174,16 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                   )}
                 </Pressable>
                 <InputAccessoryView nativeID={"telephoneNumber01"}>
-                  <Pressable
-                    onPress={() => {
-                      Keyboard.dismiss()
-                    }}
-                  >
-                    <Text style={styles.inputAccessoryText} tx="common.done" weight="semiBold" />
-                  </Pressable>
+                  <View style={styles.inputAccessoryBox}>
+                    <Text
+                      onPress={() => {
+                        Keyboard.dismiss()
+                      }}
+                      style={styles.inputAccessoryText}
+                      tx="common.done"
+                      weight="semiBold"
+                    />
+                  </View>
                 </InputAccessoryView>
                 <Input
                   name="phone"
@@ -362,13 +391,16 @@ const useStyles = createUseStyles((theme) => ({
   teamPickerDropdown: {
     borderRadius: 10,
   },
+  inputAccessoryBox: {
+    backgroundColor: "#F2F3F5",
+    paddingVertical: theme.spacing[12],
+    justifyContent: "center",
+  },
   inputAccessoryText: {
-    backgroundColor: "#fff",
     textAlign: "right",
     fontWeight: "bold",
     color: "#1375FE",
     marginRight: theme.spacing[12],
-    paddingBottom: theme.spacing[12],
   },
 }))
 

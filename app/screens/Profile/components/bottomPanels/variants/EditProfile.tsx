@@ -80,7 +80,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
     },
     formActions: IFormActions,
   ) => {
-    if (!formActions.isValid) {
+    if (!formActions.isValid || authUserStore.isLoading || teamStore.isTeamListLoading) {
       return
     }
     authUserStore.updateUser(
@@ -112,10 +112,23 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
       >
         <View style={styles.formContent}>
           <View style={styles.inputContainer}>
+            <InputAccessoryView nativeID={"firstNameAccessoryId"}>
+              <View style={styles.inputAccessoryBox}>
+                <Text
+                  onPress={() => {
+                    Keyboard.dismiss()
+                  }}
+                  style={styles.inputAccessoryText}
+                  tx="common.done"
+                  weight="semiBold"
+                />
+              </View>
+            </InputAccessoryView>
             <Input
               name="firstName"
               label="First name"
               placeholder="First name"
+              inputAccessoryViewID="firstNameAccessoryId"
               keyboardType="default"
               textContentType="givenName"
               errorStyle={styles.hintsStyles}
@@ -127,12 +140,25 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
                 shouldHandleKeyboardEvents.value = false
               }}
             />
+            <InputAccessoryView nativeID={"lastNameAccessoryId"}>
+              <View style={styles.inputAccessoryBox}>
+                <Text
+                  onPress={() => {
+                    Keyboard.dismiss()
+                  }}
+                  style={styles.inputAccessoryText}
+                  tx="common.done"
+                  weight="semiBold"
+                />
+              </View>
+            </InputAccessoryView>
             <Input
               name="lastName"
               label="Last name"
               placeholder="Last name"
               keyboardType="default"
               textContentType="familyName"
+              inputAccessoryViewID="lastNameAccessoryId"
               errorStyle={styles.hintsStyles}
               hintStyle={styles.hintsStyles}
               onFocus={() => {
@@ -166,13 +192,16 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
               )}
             </Pressable>
             <InputAccessoryView nativeID={"telephoneNumber01"}>
-              <Pressable
-                onPress={() => {
-                  Keyboard.dismiss()
-                }}
-              >
-                <Text style={styles.inputAccessoryText} tx="common.done"  weight="semiBold"/>
-              </Pressable>
+              <View style={styles.inputAccessoryBox}>
+                <Text
+                  onPress={() => {
+                    Keyboard.dismiss()
+                  }}
+                  style={styles.inputAccessoryText}
+                  tx="common.done"
+                  weight="semiBold"
+                />
+              </View>
             </InputAccessoryView>
             <Input
               name="phone"
@@ -194,57 +223,58 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
             />
           </View>
           <Text style={styles.formTitle} tx="profile.yourTeam" weight="semiBold" />
-          <SelectDropdown
-            data={teamStore.teamList}
-            onSelect={(selectedItem) => {
-              setSelectedTeam(selectedItem)
-            }}
-            defaultValueByIndex={0}
-            buttonStyle={styles.teamPickerButton}
-            buttonTextStyle={styles.teamPickerButtonText}
-            dropdownStyle={styles.teamPickerDropdown}
-            renderCustomizedButtonChild={() => (
-              <View style={styles.teamPickerButtonListItem}>
-                <View style={styles.teamPickerButtonListItemLogo}>
-                  <Image
-                    width={25}
-                    height={25}
-                    resizeMode="contain"
-                    source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
-                  />
-                </View>
-                <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
-              </View>
-            )}
-            renderCustomizedRowChild={(item: Team) => {
-              const isSelected = item.id === selectedTeam.id
-              return (
-                <View
-                  style={[
-                    styles.teamPickerButtonListItem,
-                    isSelected ? styles.teamPickerListItemSelected : {},
-                  ]}
-                >
+          {!teamStore.isTeamListLoading && (
+            <SelectDropdown
+              data={teamStore.teamList}
+              onSelect={(selectedItem) => {
+                setSelectedTeam(selectedItem)
+              }}
+              defaultValueByIndex={0}
+              buttonStyle={styles.teamPickerButton}
+              buttonTextStyle={styles.teamPickerButtonText}
+              dropdownStyle={styles.teamPickerDropdown}
+              renderCustomizedButtonChild={() => (
+                <View style={styles.teamPickerButtonListItem}>
                   <View style={styles.teamPickerButtonListItemLogo}>
                     <Image
                       width={25}
                       height={25}
                       resizeMode="contain"
-                      source={getTeamLogoOrPlaceholder(item.logoUrl)}
+                      source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
                     />
                   </View>
-                  <Text
-                    text={item.name}
-                    style={[
-                      styles.teamPickerButtonText,
-                      isSelected ? styles.teamPickerListItemTextSelected : {},
-                    ]}
-                  />
+                  <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
                 </View>
-              )
-            }}
-          />
-
+              )}
+              renderCustomizedRowChild={(item: Team) => {
+                const isSelected = item.id === selectedTeam.id
+                return (
+                  <View
+                    style={[
+                      styles.teamPickerButtonListItem,
+                      isSelected ? styles.teamPickerListItemSelected : {},
+                    ]}
+                  >
+                    <View style={styles.teamPickerButtonListItemLogo}>
+                      <Image
+                        width={25}
+                        height={25}
+                        resizeMode="contain"
+                        source={getTeamLogoOrPlaceholder(item.logoUrl)}
+                      />
+                    </View>
+                    <Text
+                      text={item.name}
+                      style={[
+                        styles.teamPickerButtonText,
+                        isSelected ? styles.teamPickerListItemTextSelected : {},
+                      ]}
+                    />
+                  </View>
+                )
+              }}
+            />
+          )}
           <Button type="submit" style={styles.button}>
             {authUserStore.isLoading ? (
               <ActivityIndicator />
@@ -368,13 +398,16 @@ const useStyles = createUseStyles((theme) => ({
   teamPickerDropdown: {
     borderRadius: 10,
   },
+  inputAccessoryBox: {
+    backgroundColor: "#F2F3F5",
+    paddingVertical: theme.spacing[12],
+    justifyContent: "center",
+  },
   inputAccessoryText: {
-    backgroundColor: "#fff",
     textAlign: "right",
     fontWeight: "bold",
     color: "#1375FE",
     marginRight: theme.spacing[12],
-    paddingBottom: theme.spacing[12],
   },
 }))
 
