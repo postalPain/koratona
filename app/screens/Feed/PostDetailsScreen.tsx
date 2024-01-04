@@ -12,6 +12,7 @@ import { WebView } from "react-native-webview"
 import YoutubePlayer from "react-native-youtube-iframe"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { getYouTubeVideoId } from "../Onboarding/utils/getYouTubeVideoId"
+import { GoBackComponent } from "app/components/GoBack"
 
 interface PostDetailsScreenProps extends HomeFeedStackScreenProps<"postDetails"> {}
 
@@ -53,10 +54,11 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             end={{ x: 0.1, y: 0.7 }}
           >
             <View style={styles.header}>
-              <Pressable style={styles.leftHeaderComponent} onPress={_props.navigation.goBack}>
-                <Icon icon="back" color="#B3BCCB" />
-                <Text text="Go back" style={styles.leftHeaderComponentText} />
-              </Pressable>
+              <GoBackComponent
+                onPress={() => {
+                  _props.navigation.goBack()
+                }}
+              />
               <Pressable
                 onPress={() => {
                   if (post) {

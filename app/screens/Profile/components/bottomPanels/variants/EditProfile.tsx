@@ -15,7 +15,7 @@ import useFetchTeamList from "app/screens/hooks/useTeamList"
 import { typography } from "app/theme"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useEffect } from "react"
 import {
   ActivityIndicator,
   Image,
@@ -52,6 +52,10 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
 
   useFetchTeamList()
   useFetchFavoriteTeam()
+
+  useEffect(() => {
+    setSelectedTeam(teamStore.selectedFavoriteTeam)
+  }, [teamStore.selectedFavoriteTeam])
 
   const onDOBFieldChange: (event: DateTimePickerEvent, date?: Date) => void = (_, selectedDate) => {
     if (selectedDate && isValid(new Date(selectedDate))) {
