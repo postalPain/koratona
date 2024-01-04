@@ -201,6 +201,16 @@ const en = {
     sendEmail: "Send an email",
     editFavoritePlayers: "Edit favorite players",
   },
+  widgets: {
+    tabs: {
+      fixtures: "Fixtures",
+      standings: "Standings",
+      team: "Team",
+    },
+  },
+  teams: {
+    meetTeam: "Meet the team",
+  },
 }
 
 export default en
