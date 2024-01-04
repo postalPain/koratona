@@ -24,6 +24,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
     rightIcon: "teamsIcon",
     LeftActionComponent: <View style={styles.headerLeftContentPlaceholder} />,
     rightIconSize: 32,
+    onRightPress: () => _props.navigation.navigate("widgets"),
     children: <Image source={circleLogo} />,
     backgroundColor: "#fff",
   })

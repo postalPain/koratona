@@ -1,14 +1,24 @@
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
+import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { AppTabScreenProps } from "./AppHomeNavigator"
 import { FeedScreen } from "../screens/Feed/FeedScreen"
 import { PostDetailsScreen } from "../screens/Feed/PostDetailsScreen"
-import { observer } from "mobx-react-lite"
+import { AppTabScreenProps } from "./AppHomeNavigator"
+import { WidgetsScreen } from "app/screens/WidgetsScreen/WidgetsScreen"
+import { PlayerScreen } from "app/screens/WidgetsScreen/PlayerScreen"
+import { MatchWidgetScreen } from "app/screens/WidgetsScreen/MatchWidgetScreen"
 
 type HomeFeedStackParamList = {
   feed: undefined
   postDetails: {
     id: number
+  }
+  widgets: undefined
+  player: {
+    id: number
+  }
+  matchCenter: {
+    fixtureId: number
   }
 }
 
@@ -32,6 +42,27 @@ export const HomeStackNavigator: FC<AppTabScreenProps<"FeedNavigator">> = observ
       <Stack.Screen
         name="postDetails"
         component={PostDetailsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="widgets"
+        component={WidgetsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="player"
+        component={PlayerScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="matchCenter"
+        component={MatchWidgetScreen}
         options={{
           headerShown: false,
         }}
