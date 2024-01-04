@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native"
 import { FlashList } from "@shopify/flash-list"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
@@ -10,10 +11,6 @@ import { Player } from "../../models/Player/Player"
 import { PlayerCard } from "../Profile/components/PlayerCard"
 import useFetchFavoritePlayerList from "../hooks/useGetFavoritePlayerList"
 import useFetchPlayerList from "../hooks/useGetPlayerList"
-import { useNavigation } from "@react-navigation/native"
-import { HomeFeedStackScreenProps } from "app/navigators/HomeStackNavigator"
-
-interface WidgetsScreenProps extends HomeFeedStackScreenProps<"widgets"> {}
 
 export const TeamPlayersTab = observer(function (_props) {
   const styles = useStyles()
@@ -57,7 +54,7 @@ export const TeamPlayersTab = observer(function (_props) {
           >
             <Pressable
               onPress={() => {
-                navigation.navigate<WidgetsScreenProps>("player", { id: item.id })
+                // navigation.navigate("player", { id: item.id })
               }}
             >
               <PlayerCard

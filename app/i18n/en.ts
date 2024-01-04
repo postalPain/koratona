@@ -210,6 +210,13 @@ const en = {
   },
   teams: {
     meetTeam: "Meet the team",
+    player: {
+      country: "Country",
+      position: "Position",
+      age: "Age",
+      height: "Height",
+      weight: "Weight",
+    },
   },
 }
 
