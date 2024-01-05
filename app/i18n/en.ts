@@ -201,6 +201,23 @@ const en = {
     sendEmail: "Send an email",
     editFavoritePlayers: "Edit favorite players",
   },
+  widgets: {
+    tabs: {
+      fixtures: "Fixtures",
+      standings: "Standings",
+      team: "Team",
+    },
+  },
+  teams: {
+    meetTeam: "Meet the team",
+    player: {
+      country: "Country",
+      position: "Position",
+      age: "Age",
+      height: "Height",
+      weight: "Weight",
+    },
+  },
 }
 
 export default en

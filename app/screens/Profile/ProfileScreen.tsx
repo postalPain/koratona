@@ -118,7 +118,9 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
           </View>
         </LinearGradient>
         <View style={styles.contentWrapper}>
-          <ProfileEditingSection openSettingsBottomPanel={openSettingsBottomPanel} />
+          <View style={styles.profileEditingSectionWrapper}>
+            <ProfileEditingSection openSettingsBottomPanel={openSettingsBottomPanel} />
+          </View>
           <ProfileStatsSection />
           <ProfileFavoritePlayersSection />
           <View style={styles.policiesWrapper}>
@@ -261,5 +263,9 @@ const useStyles = createUseStyles((theme) => ({
     color: "#1375FE",
     marginRight: theme.spacing[12],
     paddingBottom: theme.spacing[12],
+  },
+  profileEditingSectionWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 }))

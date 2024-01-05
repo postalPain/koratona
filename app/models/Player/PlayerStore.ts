@@ -93,6 +93,9 @@ export const PlayerStoreModel = types
         self.favoritePlayerList.length > 0 && !!self.favoritePlayerList.find((p) => p.id === id)
       )
     },
+    getPlayerById(id: number) {
+      return self.playerList.find((p) => p.id === id)
+    },
   }))
 
 export interface PlayerStore extends Instance<typeof PlayerStoreModel> {}

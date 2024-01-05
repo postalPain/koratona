@@ -43,7 +43,7 @@ export class Api {
     // Add response interceptor to handle 401 errors
     this.apisauce.addResponseTransform((response) => {
       // Check if the response has a 401 status code and the error message is "TOKEN INVALID!"
-      if (response.status === 401 && response.data?.error === "TOKEN INVALID!") {
+      if (response.status === 401 || response.data?.error === "TOKEN INVALID!") {
         if (this.store) {
           this.store.authenticationStore.logout()
         }

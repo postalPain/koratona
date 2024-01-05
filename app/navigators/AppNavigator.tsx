@@ -69,14 +69,14 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack() {
   const {
     authenticationStore: { isAuthenticated },
-    authUserStore: { isOnboardingCompleted },
+    authUserStore: { isUserOnboardingCompleted },
   } = useStores()
 
   useFetchAuthUser()
   useInitApplyUserSettings()
 
   const getInitialAuthRoute = () => {
-    if (isOnboardingCompleted) {
+    if (isUserOnboardingCompleted) {
       return "Home"
     }
     return "Onboarding"
