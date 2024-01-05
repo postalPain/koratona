@@ -9,7 +9,16 @@ import TShirtIcon from "assets/icons/svgs/TShirtIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { Image, Pressable, TextInput, View, useWindowDimensions } from "react-native"
+import {
+  Image,
+  InputAccessoryView,
+  Keyboard,
+  Platform,
+  Pressable,
+  TextInput,
+  View,
+  useWindowDimensions,
+} from "react-native"
 import { Screen, Text, TextField } from "../../components"
 import { ProfileStackScreenProps } from "./ProfileStackNavigator"
 import { ProfileEditingSection } from "./components/ProfileEditingSection"
@@ -76,23 +85,40 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
               <View style={styles.shirtTextContainer}>
                 <Text style={styles.tShirtName} text={user.firstName} />
                 {isJerseyNumberEditing && (
-                  <TextField
-                    ref={tShortNumberInputRef}
-                    inputWrapperStyle={styles.tShirtInputWrapperStyle}
-                    containerStyle={styles.tShirtNumberInputContainer}
-                    style={styles.tShirtNumberTextInput}
-                    inputMode="numeric"
-                    maxLength={2}
-                    value={jerseyNumber}
-                    onChangeText={(value) => {
-                      setJerseyNumber(value)
-                    }}
-                    onBlur={() => {
-                      if (jerseyNumber.length < 2) {
-                        setJerseyNumber(`0${jerseyNumber || 1}`)
-                      }
-                    }}
-                  />
+                  <>
+                    {Platform.OS === "ios" && (
+                      <InputAccessoryView nativeID="userTShirtNumberID">
+                        <View style={styles.inputAccessoryBox}>
+                          <Text
+                            onPress={() => {
+                              Keyboard.dismiss()
+                            }}
+                            style={styles.inputAccessoryText}
+                            tx="common.done"
+                            weight="semiBold"
+                          />
+                        </View>
+                      </InputAccessoryView>
+                    )}
+                    <TextField
+                      ref={tShortNumberInputRef}
+                      inputAccessoryViewID="userTShirtNumberID"
+                      inputWrapperStyle={styles.tShirtInputWrapperStyle}
+                      containerStyle={styles.tShirtNumberInputContainer}
+                      style={styles.tShirtNumberTextInput}
+                      inputMode="numeric"
+                      maxLength={2}
+                      value={jerseyNumber}
+                      onChangeText={(value) => {
+                        setJerseyNumber(value)
+                      }}
+                      onBlur={() => {
+                        if (jerseyNumber.length < 2) {
+                          setJerseyNumber(`0${jerseyNumber || 1}`)
+                        }
+                      }}
+                    />
+                  </>
                 )}
                 {!isJerseyNumberEditing && <Text style={styles.tShirtNumber} text={jerseyNumber} />}
               </View>
@@ -267,5 +293,16 @@ const useStyles = createUseStyles((theme) => ({
   profileEditingSectionWrapper: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  inputAccessoryBox: {
+    backgroundColor: "#F2F3F5",
+    paddingVertical: theme.spacing[12],
+    justifyContent: "center",
+  },
+  inputAccessoryText: {
+    textAlign: "right",
+    fontWeight: "bold",
+    color: "#1375FE",
+    marginRight: theme.spacing[12],
   },
 }))
