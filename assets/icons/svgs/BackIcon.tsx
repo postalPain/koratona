@@ -5,7 +5,7 @@ type Props = {
   color?: string
 }
 
-const BackIconSvg: React.FC<Props> = ({ color = "#ffffff" }) => {
+const BackIconSvg: React.FC<Props> = ({ color = "#000" }) => {
   return (
     <Svg width="30" height="30" viewBox="0 0 30 30" fill="none">
       <Path
