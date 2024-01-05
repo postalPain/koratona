@@ -10,6 +10,7 @@ const en = {
     skipText: "Maybe later",
     saveChanges: "Save changes",
     done: "Done",
+    goBack: "Go back",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
