@@ -33,7 +33,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 
   return (
     <ScrollView
-      contentContainerStyle={[bottomInsets, topInsets]}
+      contentContainerStyle={[bottomInsets, topInsets, styles.contentContainerStyle]}
       refreshControl={
         <RefreshControl
           refreshing={postsStore.isFetchingPosts}
@@ -55,23 +55,31 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             start={{ x: 0.1, y: 0.3 }}
             end={{ x: 0.1, y: 0.7 }}
           >
-            <View style={styles.header}>
-              <GoBackComponent
-                onPress={() => {
-                  _props.navigation.goBack()
-                }}
-              />
-              <Pressable
-                onPress={() => {
-                  if (post) {
-                    postsStore.toggleFavorite(post.id)
-                  }
-                }}
-              >
-                <HeartIconIcon focused={!!isPostAddedToFavorite} />
-              </Pressable>
-            </View>
-            <View>
+            <LinearGradient
+              colors={["transparent", "rgba(0, 0, 0, 0.7)"]}
+              style={styles.headerGradient}
+              end={{ x: 0.1, y: 0.1 }}
+              start={{ x: 0.1, y: 0.9 }}
+            >
+              <View style={styles.header}>
+                <GoBackComponent
+                  color="#fff"
+                  onPress={() => {
+                    _props.navigation.goBack()
+                  }}
+                />
+                <Pressable
+                  onPress={() => {
+                    if (post) {
+                      postsStore.toggleFavorite(post.id)
+                    }
+                  }}
+                >
+                  <HeartIconIcon focused={!!isPostAddedToFavorite} />
+                </Pressable>
+              </View>
+            </LinearGradient>
+            <View style={styles.headerText}>
               {!!post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
               {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
             </View>
@@ -107,11 +115,16 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 })
 
 const useStyles = createUseStyles(() => ({
+  leftHeaderComponentText: {
+    paddingLeft: 8,
+    color: "#B3BCCB",
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingTop: 12,
+    paddingHorizontal: 18,
   },
   screenContainer: {
     height: "100%",
@@ -123,8 +136,8 @@ const useStyles = createUseStyles(() => ({
   gradient: {
     justifyContent: "space-between",
     height: "100%",
-    padding: 18,
   },
+  headerGradient: {},
   heading: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     textTransform: "uppercase",
@@ -137,7 +150,8 @@ const useStyles = createUseStyles(() => ({
     fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
     color: "#D0D5DD",
     fontSize: 14,
-    lineHeight: 16.8,
+    lineHeight: 17,
+    marginTop: 6,
   },
   articleContainer: {
     padding: 24,
@@ -152,5 +166,12 @@ const useStyles = createUseStyles(() => ({
   webviewStyles: {
     opacity: 0.99,
     overflow: "hidden",
+  },
+  headerText: {
+    paddingHorizontal: 18,
+    paddingBottom: 18,
+  },
+  contentContainerStyle: {
+    backgroundColor: "#fff",
   },
 }))
