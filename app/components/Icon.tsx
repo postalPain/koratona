@@ -103,8 +103,6 @@ export const iconRegistry = {
   view: require("../../assets/icons/view.png"),
   x: require("../../assets/icons/x.png"),
   alhilal: require("../../assets/icons/teamsLogo/Al-hilal.png"),
-  heartIcon: require("../../assets/icons/heartIcon.png"),
-  heardIconFilled: require("../../assets/icons/heartIconFilled.png"),
   ...commonIcons,
 }
 

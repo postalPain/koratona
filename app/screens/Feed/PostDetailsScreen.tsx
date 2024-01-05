@@ -13,6 +13,8 @@ import YoutubePlayer from "react-native-youtube-iframe"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { getYouTubeVideoId } from "../Onboarding/utils/getYouTubeVideoId"
 import { GoBackComponent } from "app/components/GoBack"
+import HeartIconIcon from "assets/icons/svgs/HeartIcon"
+import { typography } from "app/theme"
 
 interface PostDetailsScreenProps extends HomeFeedStackScreenProps<"postDetails"> {}
 
@@ -31,7 +33,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.scrollViewContainer, bottomInsets, topInsets]}
+      contentContainerStyle={[bottomInsets, topInsets]}
       refreshControl={
         <RefreshControl
           refreshing={postsStore.isFetchingPosts}
@@ -66,7 +68,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
                   }
                 }}
               >
-                <Icon icon={isPostAddedToFavorite ? "heardIconFilled" : "heartIcon"} />
+                <HeartIconIcon focused={!!isPostAddedToFavorite} />
               </Pressable>
             </View>
             <View>
@@ -94,12 +96,6 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
               <WebView
                 webviewDebuggingEnabled
                 source={{ uri: post.quiz }}
-                onError={(e) => {
-                  console.log("onError", e)
-                }}
-                onHttpError={(e) => {
-                  console.log("onHttpError", e)
-                }}
                 style={styles.webviewStyles}
               />
             </View>
@@ -111,14 +107,6 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 })
 
 const useStyles = createUseStyles(() => ({
-  leftHeaderComponent: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  leftHeaderComponentText: {
-    paddingLeft: 8,
-    color: "#B3BCCB",
-  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -138,20 +126,18 @@ const useStyles = createUseStyles(() => ({
     padding: 18,
   },
   heading: {
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     textTransform: "uppercase",
     color: "#fff",
-    fontSize: 36,
-    lineHeight: 43,
+    fontSize: 48,
+    lineHeight: 48,
+    letterSpacing: -0.96,
   },
   subHeading: {
+    fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
     color: "#D0D5DD",
     fontSize: 14,
-    lineHeight: 17,
-    marginTop: 6,
-  },
-  scrollViewContainer: {
-    // flex: 1,
-    // height: "100%",
+    lineHeight: 16.8,
   },
   articleContainer: {
     padding: 24,
