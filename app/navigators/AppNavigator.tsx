@@ -89,6 +89,7 @@ const AppStack = observer(function AppStack() {
     >
       {isAuthenticated ? (
         <>
+          <Stack.Screen name='Onboarding' component={Screens.OnboardingScreen} />
           <Stack.Screen name="Home" component={AppHomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen
