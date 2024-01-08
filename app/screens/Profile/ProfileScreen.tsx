@@ -277,6 +277,7 @@ const useStyles = createUseStyles((theme) => ({
     fontSize: 24,
   },
   tShirtNumber: {
+    textAlign: "center",
     textTransform: "uppercase",
     color: "#fff",
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
