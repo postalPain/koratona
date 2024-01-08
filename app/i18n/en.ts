@@ -11,6 +11,7 @@ const en = {
     saveChanges: "Save changes",
     done: "Done",
     goBack: "Go back",
+    skip: "Skip",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
