@@ -14,7 +14,7 @@ type Props = {
   /**
    * Optional color override.
    */
-  color: string
+  color?: string
 }
 
 export const GoBackComponent: React.FC<Props> = ({
