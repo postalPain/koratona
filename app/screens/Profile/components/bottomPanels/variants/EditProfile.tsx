@@ -31,11 +31,9 @@ type Props = {
 export const EditProfile: React.FC<Props> = observer(function (_props) {
   const styles = useStyles()
   const { authUserStore, teamStore } = useStores()
-  const user = authUserStore.user
-
-  const [date, setDate] = React.useState<Date>(
-    new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-  )
+  const user = authUserStore.user;
+  const initialDateOfBirth = new Date(user.customAttributes.dateOfBirth) || new Date(new Date().setFullYear(new Date().getFullYear() - 18))
+  const [date, setDate] = React.useState<Date>(initialDateOfBirth)
 
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
     teamStore.selectedFavoriteTeam ||
@@ -55,7 +53,9 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
   }, [teamStore.selectedFavoriteTeam])
   const onDatePickerConfirm: (date?: Date) => void = (selectedDate) => {
     setDateBirthPickerVisible(false);
-
+    if (selectedDate && isValid(new Date(selectedDate))) {
+      setDate(selectedDate)
+    }
   };
   const onDatePickerCancel = () => {
     setDateBirthPickerVisible(false);
@@ -85,11 +85,15 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
     if (!formActions.isValid || authUserStore.isLoading || teamStore.isTeamListLoading) {
       return
     }
+
     authUserStore.updateUser(
       {
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phone,
+        customAttributes: {
+          dateOfBirth: format(date, 'yyyy-MM-dd')
+        }
       },
       () => {
         teamStore.addTeamToFavorite(selectedTeam.id, () => {

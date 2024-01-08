@@ -14,6 +14,9 @@ export type AuthUser = {
   phone: string
   enabled: string
   roles: string[]
+  customAttributes: {
+    dateOfBirth: string;
+  };
 }
 
 export type GetAuthUserResponse = AuthUser
