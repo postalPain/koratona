@@ -1,12 +1,13 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components/Text"
 import { Post } from "app/models/Posts/Post"
+import { typography } from "app/theme"
 import { getPostCreationTime } from "app/utils/formatCreatedTime"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import * as React from "react"
 import { Image, ImageBackground, ImageSourcePropType, Pressable, View } from "react-native"
-import { Icon } from "./Icon"
+import HeartIconIcon from "../../assets/icons/svgs/HeartIcon"
 export interface FeedCardProps {
   /**
    *  Post entity
@@ -103,18 +104,12 @@ export const FeedCard = React.memo(
             {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
             <View style={styles.basement}>
               {!!post?.updatedAt && (
-                <Text
-                  style={styles.basementDate}
-                  weight="medium"
-                  text={getPostCreationTime(post.updatedAt)}
-                />
+                <Text style={styles.basementText} text={getPostCreationTime(post.updatedAt)} />
               )}
-              <View style={styles.likesContainer}>
-                <Text style={styles.likesCounter} weight="medium" text={`${favoriteCount || ""}`} />
-                <Pressable onPress={onFavoritePress}>
-                  <Icon icon={addedToFavorite ? "heardIconFilled" : "heartIcon"} />
-                </Pressable>
-              </View>
+              <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
+                <Text style={styles.basementText} weight="medium" text={`${favoriteCount || ""}`} />
+                <HeartIconIcon focused={addedToFavorite} />
+              </Pressable>
             </View>
           </LinearGradient>
         </View>
@@ -141,10 +136,12 @@ const useStyles = createUseStyles(() => ({
     padding: 18,
   },
   heading: {
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     textTransform: "uppercase",
     color: "#fff",
     fontSize: 36,
-    lineHeight: 43,
+    lineHeight: 36,
+    letterSpacing: -0.32,
   },
   underTitleIcon: {
     marginBottom: 18,
@@ -159,7 +156,8 @@ const useStyles = createUseStyles(() => ({
   subHeading: {
     color: "#475467",
     fontSize: 14,
-    lineHeight: 16.5,
+    lineHeight: 16.8,
+    fontFamily: typography.fonts.instrumentSans.regular,
   },
   basement: {
     alignItems: "center",
@@ -167,17 +165,13 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "space-between",
     marginTop: 12,
   },
-  basementDate: {
-    color: "#D0D5DD",
-    fontSize: 14,
-    lineHeight: 16.5,
-  },
   likesContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
-  likesCounter: {
-    color: "#D0D5DD",
+  basementText: {
+    fontFamily: typography.fonts.instrumentSans.medium,
+    color: "#98A2B3",
     fontSize: 14,
     lineHeight: 16.8,
     marginRight: 4,

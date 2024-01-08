@@ -13,6 +13,8 @@ import YoutubePlayer from "react-native-youtube-iframe"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { getYouTubeVideoId } from "../Onboarding/utils/getYouTubeVideoId"
 import { GoBackComponent } from "app/components/GoBack"
+import HeartIconIcon from "assets/icons/svgs/HeartIcon"
+import { typography } from "app/theme"
 
 interface PostDetailsScreenProps extends HomeFeedStackScreenProps<"postDetails"> {}
 
@@ -31,7 +33,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 
   return (
     <ScrollView
-      contentContainerStyle={[styles.scrollViewContainer, bottomInsets, topInsets]}
+      contentContainerStyle={[bottomInsets, topInsets, styles.contentContainerStyle]}
       refreshControl={
         <RefreshControl
           refreshing={postsStore.isFetchingPosts}
@@ -53,23 +55,31 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             start={{ x: 0.1, y: 0.3 }}
             end={{ x: 0.1, y: 0.7 }}
           >
-            <View style={styles.header}>
-              <GoBackComponent
-                onPress={() => {
-                  _props.navigation.goBack()
-                }}
-              />
-              <Pressable
-                onPress={() => {
-                  if (post) {
-                    postsStore.toggleFavorite(post.id)
-                  }
-                }}
-              >
-                <Icon icon={isPostAddedToFavorite ? "heardIconFilled" : "heartIcon"} />
-              </Pressable>
-            </View>
-            <View>
+            <LinearGradient
+              colors={["transparent", "rgba(0, 0, 0, 0.7)"]}
+              style={styles.headerGradient}
+              end={{ x: 0.1, y: 0.1 }}
+              start={{ x: 0.1, y: 0.9 }}
+            >
+              <View style={styles.header}>
+                <GoBackComponent
+                  color="#fff"
+                  onPress={() => {
+                    _props.navigation.goBack()
+                  }}
+                />
+                <Pressable
+                  onPress={() => {
+                    if (post) {
+                      postsStore.toggleFavorite(post.id)
+                    }
+                  }}
+                >
+                  <HeartIconIcon focused={!!isPostAddedToFavorite} />
+                </Pressable>
+              </View>
+            </LinearGradient>
+            <View style={styles.headerText}>
               {!!post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
               {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
             </View>
@@ -94,12 +104,6 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
               <WebView
                 webviewDebuggingEnabled
                 source={{ uri: post.quiz }}
-                onError={(e) => {
-                  console.log("onError", e)
-                }}
-                onHttpError={(e) => {
-                  console.log("onHttpError", e)
-                }}
                 style={styles.webviewStyles}
               />
             </View>
@@ -111,10 +115,6 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 })
 
 const useStyles = createUseStyles(() => ({
-  leftHeaderComponent: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
   leftHeaderComponentText: {
     paddingLeft: 8,
     color: "#B3BCCB",
@@ -124,6 +124,7 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "space-between",
     alignItems: "center",
     paddingTop: 12,
+    paddingHorizontal: 18,
   },
   screenContainer: {
     height: "100%",
@@ -135,23 +136,22 @@ const useStyles = createUseStyles(() => ({
   gradient: {
     justifyContent: "space-between",
     height: "100%",
-    padding: 18,
   },
+  headerGradient: {},
   heading: {
+    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     textTransform: "uppercase",
     color: "#fff",
-    fontSize: 36,
-    lineHeight: 43,
+    fontSize: 48,
+    lineHeight: 48,
+    letterSpacing: -0.96,
   },
   subHeading: {
+    fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
     color: "#D0D5DD",
     fontSize: 14,
     lineHeight: 17,
     marginTop: 6,
-  },
-  scrollViewContainer: {
-    // flex: 1,
-    // height: "100%",
   },
   articleContainer: {
     padding: 24,
@@ -166,5 +166,12 @@ const useStyles = createUseStyles(() => ({
   webviewStyles: {
     opacity: 0.99,
     overflow: "hidden",
+  },
+  headerText: {
+    paddingHorizontal: 18,
+    paddingBottom: 18,
+  },
+  contentContainerStyle: {
+    backgroundColor: "#fff",
   },
 }))

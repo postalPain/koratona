@@ -89,7 +89,6 @@ const commonIcons = {
 }
 
 export const iconRegistry = {
-  back: require("../../assets/icons/back.png"),
   bell: require("../../assets/icons/bell.png"),
   caretLeft: require("../../assets/icons/caretLeft.png"),
   caretRight: require("../../assets/icons/caretRight.png"),
@@ -103,8 +102,6 @@ export const iconRegistry = {
   view: require("../../assets/icons/view.png"),
   x: require("../../assets/icons/x.png"),
   alhilal: require("../../assets/icons/teamsLogo/Al-hilal.png"),
-  heartIcon: require("../../assets/icons/heartIcon.png"),
-  heardIconFilled: require("../../assets/icons/heartIconFilled.png"),
   ...commonIcons,
 }
 

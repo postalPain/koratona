@@ -8,6 +8,7 @@ import { Image, Pressable, View } from "react-native"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { LinearGradient } from "expo-linear-gradient"
 import { typography } from "app/theme"
+import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 
 interface PlayerScreenProps extends HomeFeedStackScreenProps<"player"> {}
 
@@ -33,9 +34,7 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
               playerStore.togglePlayerFavorite(playerId)
             }}
           >
-            <Icon
-              icon={playerStore.isPlayerFavorited(playerId) ? "heardIconFilled" : "heartIcon"}
-            />
+            <HeartIconIcon focused={playerStore.isPlayerFavorited(playerId)} />
           </Pressable>
         </View>
         <View style={styles.generalPlayerInfo}>

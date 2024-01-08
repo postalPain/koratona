@@ -122,18 +122,20 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
       >
         <View style={styles.formContent}>
           <View style={styles.inputContainer}>
-            <InputAccessoryView nativeID={"firstNameAccessoryId"}>
-              <View style={styles.inputAccessoryBox}>
-                <Text
-                  onPress={() => {
-                    Keyboard.dismiss()
-                  }}
-                  style={styles.inputAccessoryText}
-                  tx="common.done"
-                  weight="semiBold"
-                />
-              </View>
-            </InputAccessoryView>
+            {Platform.OS === "ios" && (
+              <InputAccessoryView nativeID="firstNameAccessoryId">
+                <View style={styles.inputAccessoryBox}>
+                  <Text
+                    onPress={() => {
+                      Keyboard.dismiss()
+                    }}
+                    style={styles.inputAccessoryText}
+                    tx="common.done"
+                    weight="semiBold"
+                  />
+                </View>
+              </InputAccessoryView>
+            )}
             <Input
               name="firstName"
               label="First name"
@@ -150,18 +152,20 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
                 shouldHandleKeyboardEvents.value = false
               }}
             />
-            <InputAccessoryView nativeID={"lastNameAccessoryId"}>
-              <View style={styles.inputAccessoryBox}>
-                <Text
-                  onPress={() => {
-                    Keyboard.dismiss()
-                  }}
-                  style={styles.inputAccessoryText}
-                  tx="common.done"
-                  weight="semiBold"
-                />
-              </View>
-            </InputAccessoryView>
+            {Platform.OS === "ios" && (
+              <InputAccessoryView nativeID="lastNameAccessoryId">
+                <View style={styles.inputAccessoryBox}>
+                  <Text
+                    onPress={() => {
+                      Keyboard.dismiss()
+                    }}
+                    style={styles.inputAccessoryText}
+                    tx="common.done"
+                    weight="semiBold"
+                  />
+                </View>
+              </InputAccessoryView>
+            )}
             <Input
               name="lastName"
               label="Last name"
@@ -191,18 +195,20 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
                 isVisible={dateBirthPickerVisible}
               />
             </Pressable>
-            <InputAccessoryView nativeID={"telephoneNumber01"}>
-              <View style={styles.inputAccessoryBox}>
-                <Text
-                  onPress={() => {
-                    Keyboard.dismiss()
-                  }}
-                  style={styles.inputAccessoryText}
-                  tx="common.done"
-                  weight="semiBold"
-                />
-              </View>
-            </InputAccessoryView>
+            {Platform.OS === "ios" && (
+              <InputAccessoryView nativeID="telephoneNumber01">
+                <View style={styles.inputAccessoryBox}>
+                  <Text
+                    onPress={() => {
+                      Keyboard.dismiss()
+                    }}
+                    style={styles.inputAccessoryText}
+                    tx="common.done"
+                    weight="semiBold"
+                  />
+                </View>
+              </InputAccessoryView>
+            )}
             <Input
               name="phone"
               label="Phone Number"

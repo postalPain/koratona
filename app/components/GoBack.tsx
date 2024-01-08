@@ -1,9 +1,9 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { typography } from "app/theme"
+import BackIconSvg from "assets/icons/svgs/BackIcon"
 import React from "react"
 import { Pressable, StyleProp, View, ViewStyle } from "react-native"
-import { Icon } from "./Icon"
 import { Text } from "./Text"
-import { typography } from "app/theme"
 
 type Props = {
   onPress: () => void
@@ -11,16 +11,24 @@ type Props = {
    * Optional inner header wrapper style override.
    */
   style?: StyleProp<ViewStyle>
+  /**
+   * Optional color override.
+   */
+  color: string
 }
 
-export const GoBackComponent: React.FC<Props> = ({ onPress, style: $styleOverride }) => {
+export const GoBackComponent: React.FC<Props> = ({
+  onPress,
+  style: $styleOverride,
+  color = "#98A2B3",
+}) => {
   const styles = useStyles()
 
   return (
     <View style={[styles.header, $styleOverride]}>
       <Pressable style={styles.leftHeaderComponent} onPress={onPress}>
-        <Icon icon="back" color="#667085" />
-        <Text text="Go back" style={styles.leftHeaderComponentText} />
+        <BackIconSvg color={color} />
+        <Text tx='common.goBack' style={[styles.leftHeaderComponentText, { color }]} />
       </Pressable>
     </View>
   )
@@ -29,6 +37,7 @@ export const GoBackComponent: React.FC<Props> = ({ onPress, style: $styleOverrid
 const useStyles = createUseStyles(() => ({
   leftHeaderComponent: {
     flexDirection: "row",
+    alignItems: "center",
   },
   leftHeaderComponentText: {
     paddingLeft: 8,

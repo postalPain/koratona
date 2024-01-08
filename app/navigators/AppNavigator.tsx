@@ -15,7 +15,7 @@ import * as Screens from "app/screens"
 import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
 import { colors } from "app/theme"
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useEffect } from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
@@ -66,7 +66,7 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
-const AppStack = observer(function AppStack() {
+const AppStack = observer(function AppStack(_props) {
   const {
     authenticationStore: { isAuthenticated },
     authUserStore: { isUserOnboardingCompleted },
@@ -75,20 +75,20 @@ const AppStack = observer(function AppStack() {
   useFetchAuthUser()
   useInitApplyUserSettings()
 
-  const getInitialAuthRoute = () => {
-    if (isUserOnboardingCompleted) {
-      return "Home"
+  useEffect(() => {
+    if (!isUserOnboardingCompleted) {
+      navigationRef.current?.navigate("Onboarding" as any)
     }
-    return "Onboarding"
-  }
+  }, [isUserOnboardingCompleted])
 
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? getInitialAuthRoute() : "welcome"}
+      initialRouteName={isAuthenticated ? "Home" : "welcome"}
     >
       {isAuthenticated ? (
         <>
+          <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
           <Stack.Screen name="Home" component={AppHomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen

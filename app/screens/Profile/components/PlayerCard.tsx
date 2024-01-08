@@ -1,7 +1,8 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Icon, Text } from "app/components"
+import { Text } from "app/components"
 import { Player } from "app/models/Player/Player"
 import { typography } from "app/theme"
+import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 import PentagonPlayerCardIcon from "assets/icons/svgs/PegtagonPlayerCard"
 import { LinearGradient } from "expo-linear-gradient"
 import React from "react"
@@ -28,7 +29,7 @@ export const PlayerCard: React.FC<Props> = ({
           style={styles.gradient}
         >
           <Pressable onPress={handleToggleFavorite} style={styles.favoriteIcon}>
-            <Icon icon={addedToFavorite ? "heardIconFilled" : "heartIcon"} />
+            <HeartIconIcon focused={addedToFavorite} />
           </Pressable>
           <View style={styles.pentagonContainer}>
             <PentagonPlayerCardIcon />

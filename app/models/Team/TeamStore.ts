@@ -86,6 +86,7 @@ export const TeamStoreModel = types
         }
         const response = yield getUsersFavoriteTeamList(user.id)
         const mappedData = response.data.data.map(({ team }: { team: Team }) => team)
+        detach(self.favoriteTeam)
         self.favoriteTeam = mappedData[0]
       } catch (error) {
         showToast("Error fetching favorite team list")
