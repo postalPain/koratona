@@ -95,23 +95,16 @@ export const FeedCard = React.memo(
           </LinearGradient>
         </ImageBackground>
         <View style={styles.footer}>
-          <LinearGradient
-            colors={["rgba(255, 255, 255, 0.8)", "rgba(247, 247, 247, 1)"]}
-            style={styles.footerGradient}
-            start={{ x: 0.1, y: 0.3 }}
-            end={{ x: 0.1, y: 0.7 }}
-          >
-            {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
-            <View style={styles.basement}>
-              {!!post?.updatedAt && (
-                <Text style={styles.basementText} text={getPostCreationTime(post.updatedAt)} />
-              )}
-              <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
-                <Text style={styles.basementText} weight="medium" text={`${favoriteCount || ""}`} />
-                <HeartIconIcon focused={addedToFavorite} />
-              </Pressable>
-            </View>
-          </LinearGradient>
+          {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
+          <View style={styles.basement}>
+            {!!post?.updatedAt && (
+              <Text style={styles.basementText} text={getPostCreationTime(post.updatedAt)} />
+            )}
+            <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
+              <Text style={styles.basementText} weight="medium" text={`${favoriteCount || ""}`} />
+              <HeartIconIcon focused={addedToFavorite} />
+            </Pressable>
+          </View>
         </View>
       </Pressable>
     )
@@ -147,11 +140,10 @@ const useStyles = createUseStyles(() => ({
     marginBottom: 18,
   },
   footer: {
+    padding: 18,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-  },
-  footerGradient: {
-    padding: 18,
+    backgroundColor: '#fff',
   },
   subHeading: {
     color: "#475467",

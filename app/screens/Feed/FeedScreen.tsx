@@ -88,7 +88,8 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
 const $container: ViewStyle = {
   paddingHorizontal: spacing.lg,
   flex: 1,
-  paddingTop: spacing.sm
+  paddingTop: spacing.sm,
+  backgroundColor: '#efefef',
 }
 
 const useStyles = createUseStyles(() => ({
