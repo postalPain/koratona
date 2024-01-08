@@ -69,17 +69,17 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack(_props) {
   const {
     authenticationStore: { isAuthenticated },
-    authUserStore: { isUserOnboardingCompleted },
+    authUserStore: { user, isUserOnboardingCompleted },
   } = useStores()
 
   useFetchAuthUser()
   useInitApplyUserSettings()
 
   useEffect(() => {
-    if (isAuthenticated && !isUserOnboardingCompleted) {
+    if (isAuthenticated && user.email && !isUserOnboardingCompleted) {
       navigationRef.current?.navigate("Onboarding" as any)
     }
-  }, [isUserOnboardingCompleted, isAuthenticated])
+  }, [isUserOnboardingCompleted, isAuthenticated, user.email])
 
   return (
     <Stack.Navigator
