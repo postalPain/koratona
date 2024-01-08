@@ -43,7 +43,9 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
     authenticationStore: { logout },
   } = useStores()
 
-  const [settingBottomPanelKey, setSettingBottomPanelKey] = React.useState<SettingsKey>("profile")
+  const [settingBottomPanelKey, setSettingBottomPanelKey] = React.useState<SettingsKey | null>(
+    "profile",
+  )
 
   const [jerseyNumber, setJerseyNumber] = React.useState<string>("00")
 
@@ -55,7 +57,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   useEffect(() => {
     storage.load("jerseyNumber").then((value) => {
       if (value) {
-        setJerseyNumber(value as string)
+        setJerseyNumber((value as string).length < 2 ? `0${value}` : (value as string))
       }
     })
   }, [])
@@ -63,6 +65,14 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   const openSettingsBottomPanel = (key: SettingsKey) => () => {
     setSettingBottomPanelKey(key)
     settingBottomPanelRef.current?.expand()
+  }
+
+  const handleSaveTheNumber = () => {
+    if (jerseyNumber.length < 2) {
+      setJerseyNumber(`0${jerseyNumber || 1}`)
+    }
+    storage.save("jerseyNumber", jerseyNumber)
+    setIsJerseyNumberEditing(false)
   }
 
   return (
@@ -103,6 +113,8 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
                           <Text
                             onPress={() => {
                               Keyboard.dismiss()
+                              handleSaveTheNumber()
+                              setIsJerseyNumberEditing(false)
                             }}
                             style={styles.inputAccessoryText}
                             tx="common.done"
@@ -124,9 +136,13 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
                         setJerseyNumber(value)
                       }}
                       onBlur={() => {
-                        if (jerseyNumber.length < 2) {
-                          setJerseyNumber(`0${jerseyNumber || 1}`)
-                        }
+                        handleSaveTheNumber()
+                        setIsJerseyNumberEditing(false)
+                      }}
+                      onFocus={() => {
+                        tShortNumberInputRef.current?.setNativeProps({
+                          selection: { start: 0, end: 2 },
+                        })
                       }}
                     />
                   </>
@@ -169,7 +185,10 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
       <SettingsBottomPanel
         ref={settingBottomPanelRef}
         contentKey={settingBottomPanelKey}
-        onClose={() => {
+        resetContentKey={() => {
+          setSettingBottomPanelKey(null)
+        }}
+        handleClose={() => {
           settingBottomPanelRef.current?.close()
         }}
       />

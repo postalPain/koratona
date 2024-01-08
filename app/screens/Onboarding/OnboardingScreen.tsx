@@ -33,8 +33,9 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
     authUserStore.setNotificationToken(token)
   }
 
+  const isLast = currentStep === onboardingData.length - 1
+
   const onNextButtonPress = () => {
-    const isLast = currentStep === onboardingData.length - 1
     if (isLast) {
       navigation.navigate("InitialProfileSettings")
     } else {
@@ -69,13 +70,15 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
           />
         )}
         <View>
-          <Pressable
-            onPress={() => {
-              navigation.navigate("InitialProfileSettings")
-            }}
-          >
-            <Text tx="common.skip" style={styles.skipButton} />
-          </Pressable>
+          {!skipButton && !isLast && (
+            <Pressable
+              onPress={() => {
+                navigation.navigate("InitialProfileSettings")
+              }}
+            >
+              <Text tx="common.skip" style={styles.skipButton} />
+            </Pressable>
+          )}
           <Button
             onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
             text={isNotificationScreen && isNotificationTurnedOn ? "Continue" : actionButtonText}

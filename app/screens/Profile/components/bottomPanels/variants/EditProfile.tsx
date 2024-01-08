@@ -1,5 +1,5 @@
 import { useBottomSheetInternal } from "@gorhom/bottom-sheet"
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker"
 import Button from "@stryberventures/gaia-react-native.button"
 import Form, { IFormActions } from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
@@ -26,14 +26,16 @@ import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
 
 type Props = {
-  onCloseBottomSheet: () => void
+  handleCloseBottomSheet: () => void
 }
 
 export const EditProfile: React.FC<Props> = observer(function (_props) {
   const styles = useStyles()
   const { authUserStore, teamStore } = useStores()
-  const user = authUserStore.user;
-  const initialDateOfBirth = new Date(user.customAttributes.dateOfBirth) || new Date(new Date().setFullYear(new Date().getFullYear() - 18))
+  const user = authUserStore.user
+  const initialDateOfBirth = user.customAttributes.dateOfBirth
+    ? new Date(user.customAttributes.dateOfBirth)
+    : new Date(new Date().setFullYear(new Date().getFullYear() - 18))
   const [date, setDate] = React.useState<Date>(initialDateOfBirth)
 
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
@@ -44,7 +46,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
         logoUrl: "",
       } as Team),
   )
-  const [dateBirthPickerVisible, setDateBirthPickerVisible] = React.useState<boolean>(false);
+  const [dateBirthPickerVisible, setDateBirthPickerVisible] = React.useState<boolean>(false)
 
   useFetchTeamList()
   useFetchFavoriteTeam()
@@ -53,14 +55,14 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
     setSelectedTeam(teamStore.selectedFavoriteTeam)
   }, [teamStore.selectedFavoriteTeam])
   const onDatePickerConfirm: (date?: Date) => void = (selectedDate) => {
-    setDateBirthPickerVisible(false);
+    setDateBirthPickerVisible(false)
     if (selectedDate && isValid(new Date(selectedDate))) {
       setDate(selectedDate)
     }
-  };
+  }
   const onDatePickerCancel = () => {
-    setDateBirthPickerVisible(false);
-  };
+    setDateBirthPickerVisible(false)
+  }
 
   const getTeamLogoOrPlaceholder = (logo: string | null) =>
     logo ? { uri: logo } : require("assets/icons/teamsLogo/emptyLogo.png")
@@ -71,6 +73,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
     return () => {
       // Reset the flag on unmount
       shouldHandleKeyboardEvents.value = false
+
     }
   }, [shouldHandleKeyboardEvents])
 
@@ -93,20 +96,20 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
         lastName: values.lastName,
         phone: values.phone,
         customAttributes: {
-          dateOfBirth: format(date, 'yyyy-MM-dd')
-        }
+          dateOfBirth: format(date, "yyyy-MM-dd"),
+        },
       },
       () => {
         teamStore.addTeamToFavorite(selectedTeam.id, () => {
-          _props.onCloseBottomSheet()
+          _props.handleCloseBottomSheet()
         })
       },
     )
   }
 
   const onDateBirthPress = () => {
-    setDateBirthPickerVisible(true);
-  };
+    setDateBirthPickerVisible(true)
+  }
 
   return (
     <View style={styles.container}>
@@ -183,10 +186,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
                 shouldHandleKeyboardEvents.value = false
               }}
             />
-            <Pressable
-              style={styles.datePickerContainer}
-              onPress={onDateBirthPress}
-            >
+            <Pressable style={styles.datePickerContainer} onPress={onDateBirthPress}>
               <Text text="Date of birth" style={styles.datePickerLabel} />
               <Text text={format(date, "dd MMMM yyyy")} style={styles.datePickerText} />
               <DateTimePickerModal
