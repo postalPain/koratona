@@ -1,45 +1,38 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Icon, Screen, Text } from "app/components"
-import { GoBackComponent } from "app/components/GoBack"
+import { Text } from "app/components"
 import { useStores } from "app/models"
-import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
-import { Image, Pressable, View } from "react-native"
-import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
-import { LinearGradient } from "expo-linear-gradient"
 import { typography } from "app/theme"
-import HeartIconIcon from "assets/icons/svgs/HeartIcon"
+import PentagonIcon from "assets/icons/svgs/Pegtagon"
+import { LinearGradient } from "expo-linear-gradient"
+import React from "react"
+import { Image, View } from "react-native"
 
-interface PlayerScreenProps extends HomeFeedStackScreenProps<"player"> {}
+type Props = {
+  playerId: number
+}
 
-export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
+const TopContentContainer: React.FC<Props> = ({ playerId }) => {
   const styles = useStyles()
-  const playerId = _props.route.params.id
   const { playerStore } = useStores()
   const player = playerStore.getPlayerById(playerId)
 
-  const playerName = player ? `${player.firstName} ${player.lastName}` : "Unknown"
-
   return (
-    <Screen preset="fixed" safeAreaEdges={["top"]} style={styles.screenContainer}>
-      <LinearGradient colors={["#1A1F51", "#1A1F51", "#1A1F51", "#080A18"]} style={styles.gradient}>
-        <View style={styles.header}>
-          <GoBackComponent
-            onPress={() => {
-              _props.navigation.goBack()
-            }}
+    <>
+      <View style={styles.bgLayoutContainer}>
+        <PentagonIcon />
+        <View style={styles.bgLayoutImageContainer}>
+          <Image
+            source={require("assets/temp/player_photo_big.png")}
+            style={styles.bgLayoutImage}
+            resizeMode="contain"
           />
-          <Pressable
-            onPress={() => {
-              playerStore.togglePlayerFavorite(playerId)
-            }}
-          >
-            <HeartIconIcon focused={playerStore.isPlayerFavorited(playerId)} />
-          </Pressable>
         </View>
+      </View>
+      <LinearGradient colors={["transparent", "transparent", "#080A18"]} style={styles.gradient}>
+        <View />
         <View style={styles.generalPlayerInfo}>
           <Text text="09" style={styles.playerNumber} />
-          <Text text={playerName} style={styles.playerName} />
+          <Text text={player?.fullName} style={styles.playerName} />
           <View style={styles.generalPlayerStats}>
             <Text tx="teams.player.country" style={styles.generalPlayerStatsTitle} />
             <Image source={require("assets/images/flags/ar.png")} />
@@ -57,27 +50,11 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
           </View>
         </View>
       </LinearGradient>
-    </Screen>
+    </>
   )
-})
+}
 
 const useStyles = createUseStyles(() => ({
-  screenContainer: {
-    height: "100%",
-    flex: 1,
-  },
-  goBackComponent: {
-    position: "absolute",
-    left: 24,
-    bottom: 0,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: 12,
-    paddingHorizontal: 24,
-  },
   gradient: {
     justifyContent: "space-between",
     position: "relative",
@@ -86,7 +63,7 @@ const useStyles = createUseStyles(() => ({
   },
   generalPlayerInfo: {
     paddingHorizontal: 24,
-    paddingBottom: 24,
+    paddingBottom: 12,
   },
   playerNumber: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
@@ -149,4 +126,23 @@ const useStyles = createUseStyles(() => ({
     letterSpacing: -0.32,
     marginLeft: 4,
   },
+  bgLayoutContainer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 50,
+    alignItems: "center",
+  },
+  bgLayoutImageContainer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+  },
+  bgLayoutImage: {
+    width: "auto",
+    height: 550,
+  },
 }))
+
+export default TopContentContainer

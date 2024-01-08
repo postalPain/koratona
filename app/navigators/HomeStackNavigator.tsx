@@ -5,7 +5,7 @@ import { FeedScreen } from "../screens/Feed/FeedScreen"
 import { PostDetailsScreen } from "../screens/Feed/PostDetailsScreen"
 import { AppTabScreenProps } from "./AppHomeNavigator"
 import { WidgetsScreen } from "app/screens/WidgetsScreen/WidgetsScreen"
-import { PlayerScreen } from "app/screens/WidgetsScreen/PlayerScreen"
+import { PlayerScreen } from "app/screens/Player/PlayerScreen"
 import { MatchWidgetScreen } from "app/screens/WidgetsScreen/MatchWidgetScreen"
 
 type HomeFeedStackParamList = {
