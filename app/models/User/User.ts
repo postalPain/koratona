@@ -9,6 +9,9 @@ export const UserModel = types.model("AuthUser").props({
   id: types.optional(types.string, ""),
   roles: types.optional(types.array(types.string), []),
   enabled: types.optional(types.boolean, false),
+  customAttributes: types.optional(types.model({
+    dateOfBirth: types.optional(types.string, ""),
+  }), {}),
 }).views((self) => ({
   get fullName() {
     return `${self.firstName} ${self.lastName}`

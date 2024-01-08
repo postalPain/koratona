@@ -1,8 +1,5 @@
 import { useBottomSheetInternal } from "@gorhom/bottom-sheet"
-import DateTimePicker, {
-  DateTimePickerAndroid,
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker"
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import Button from "@stryberventures/gaia-react-native.button"
 import Form, { IFormActions } from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
@@ -21,9 +18,9 @@ import {
   Image,
   InputAccessoryView,
   Keyboard,
-  Platform,
   Pressable,
   View,
+  Platform,
 } from "react-native"
 import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
@@ -35,11 +32,9 @@ type Props = {
 export const EditProfile: React.FC<Props> = observer(function (_props) {
   const styles = useStyles()
   const { authUserStore, teamStore } = useStores()
-  const user = authUserStore.user
-
-  const [date, setDate] = React.useState<Date>(
-    new Date(new Date().setFullYear(new Date().getFullYear() - 18)),
-  )
+  const user = authUserStore.user;
+  const initialDateOfBirth = new Date(user.customAttributes.dateOfBirth) || new Date(new Date().setFullYear(new Date().getFullYear() - 18))
+  const [date, setDate] = React.useState<Date>(initialDateOfBirth)
 
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
     teamStore.selectedFavoriteTeam ||
@@ -49,6 +44,7 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
         logoUrl: "",
       } as Team),
   )
+  const [dateBirthPickerVisible, setDateBirthPickerVisible] = React.useState<boolean>(false);
 
   useFetchTeamList()
   useFetchFavoriteTeam()
@@ -56,12 +52,15 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
   useEffect(() => {
     setSelectedTeam(teamStore.selectedFavoriteTeam)
   }, [teamStore.selectedFavoriteTeam])
-
-  const onDOBFieldChange: (event: DateTimePickerEvent, date?: Date) => void = (_, selectedDate) => {
+  const onDatePickerConfirm: (date?: Date) => void = (selectedDate) => {
+    setDateBirthPickerVisible(false);
     if (selectedDate && isValid(new Date(selectedDate))) {
       setDate(selectedDate)
     }
-  }
+  };
+  const onDatePickerCancel = () => {
+    setDateBirthPickerVisible(false);
+  };
 
   const getTeamLogoOrPlaceholder = (logo: string | null) =>
     logo ? { uri: logo } : require("assets/icons/teamsLogo/emptyLogo.png")
@@ -87,11 +86,15 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
     if (!formActions.isValid || authUserStore.isLoading || teamStore.isTeamListLoading) {
       return
     }
+
     authUserStore.updateUser(
       {
         firstName: values.firstName,
         lastName: values.lastName,
         phone: values.phone,
+        customAttributes: {
+          dateOfBirth: format(date, 'yyyy-MM-dd')
+        }
       },
       () => {
         teamStore.addTeamToFavorite(selectedTeam.id, () => {
@@ -100,6 +103,10 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
       },
     )
   }
+
+  const onDateBirthPress = () => {
+    setDateBirthPickerVisible(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -178,26 +185,16 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
             />
             <Pressable
               style={styles.datePickerContainer}
-              onPress={() => {
-                if (Platform.OS === "android") {
-                  DateTimePickerAndroid.open({
-                    value: date,
-                    onChange: onDOBFieldChange,
-                  })
-                }
-              }}
+              onPress={onDateBirthPress}
             >
               <Text text="Date of birth" style={styles.datePickerLabel} />
-              {Platform.OS === "android" && (
-                <Text text={format(date, "dd MMMM yyyy")} style={styles.datePickerText} />
-              )}
-              {Platform.OS === "ios" && (
-                <DateTimePicker
-                  value={date}
-                  onChange={onDOBFieldChange}
-                  style={styles.datePicker}
-                />
-              )}
+              <Text text={format(date, "dd MMMM yyyy")} style={styles.datePickerText} />
+              <DateTimePickerModal
+                date={date}
+                onConfirm={onDatePickerConfirm}
+                onCancel={onDatePickerCancel}
+                isVisible={dateBirthPickerVisible}
+              />
             </Pressable>
             {Platform.OS === "ios" && (
               <InputAccessoryView nativeID="telephoneNumber01">
