@@ -76,10 +76,10 @@ const AppStack = observer(function AppStack(_props) {
   useInitApplyUserSettings()
 
   useEffect(() => {
-    if (!isUserOnboardingCompleted) {
+    if (isAuthenticated && !isUserOnboardingCompleted) {
       navigationRef.current?.navigate("Onboarding" as any)
     }
-  }, [isUserOnboardingCompleted])
+  }, [isUserOnboardingCompleted, isAuthenticated])
 
   return (
     <Stack.Navigator
