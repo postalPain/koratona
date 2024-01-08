@@ -27,6 +27,9 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
         price={item.price}
         bgImage={item.imageUrl}
         onActionPress={() => {
+          if (item.outOfStock) {
+            return
+          }
           _props.navigation.navigate("productPurchase", { id: item.id })
         }}
       />
@@ -46,7 +49,9 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
         refreshing={productsStore.isFetchingProducts}
         onEndReached={productsStore.fetchMoreProducts}
         ListEmptyComponent={() =>
-          !productsStore.isFetchingProducts && <Text preset="subheading" text="No products yet..." />
+          !productsStore.isFetchingProducts && (
+            <Text preset="subheading" text="No products yet..." />
+          )
         }
         keyExtractor={(item) => item?.id?.toString()}
         onEndReachedThreshold={0.3}
@@ -57,13 +62,13 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
             {productsStore.isFetchingMoreProducts && (
               <View style={styles.fetchingMoreProducts}>
                 <ActivityIndicator color="#333865" />
-                <Text style={styles.fetchingMoreProductsText} text="Loading more posts..." />
+                <Text style={styles.fetchingMoreProductsText} text="Loading more products..." />
               </View>
             )}
             {productsStore.productPaginationMeta.itemCount > 0 &&
               !productsStore.productPaginationMeta.hasNextPage &&
               !productsStore.isFetchingMoreProducts && (
-                <Text weight="medium" style={styles.noMoreProductsText} text="No more posts" />
+                <Text weight="medium" style={styles.noMoreProductsText} text="No more products" />
               )}
           </>
         }
@@ -74,7 +79,7 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
 
 const useStyles = createUseStyles(() => ({
   separator: {
-    height: spacing.xl,
+    height: spacing.lg,
   },
   fetchingMoreProducts: {
     paddingVertical: spacing.xl,

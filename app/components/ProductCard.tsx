@@ -105,6 +105,7 @@ const useStyles = createUseStyles((theme) => ({
   container: {
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom:theme.spacing[16],
   },
   actionButtonText: {
     fontFamily: typography.fonts.instrumentSans.bold,
