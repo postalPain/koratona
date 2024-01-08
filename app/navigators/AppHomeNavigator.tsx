@@ -41,8 +41,6 @@ export function AppHomeNavigator() {
   } = useStores()
   const { bottom } = useSafeAreaInsets()
 
-  const isDebugPageAvailable = user.email?.toLocaleLowerCase()?.includes("vladyslav")
-
   return (
     <Tab.Navigator
       initialRouteName="FeedNavigator"
@@ -80,7 +78,7 @@ export function AppHomeNavigator() {
           tabBarIcon: ProfileIconSvg,
         }}
       />
-      {isDebugPageAvailable && (
+      {user.isSuperAdmin && (
         <Tab.Screen
           name="DemoDebug"
           component={DemoDebugScreen}

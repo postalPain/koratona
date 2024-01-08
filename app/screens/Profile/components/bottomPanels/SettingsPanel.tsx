@@ -17,7 +17,7 @@ const SettingsPanel = React.forwardRef<BottomSheet, Props>(({ contentKey, onClos
       enablePanDownToClose
       index={-1}
       topInset={40}
-      keyboardBlurBehavior="restore"
+      keyboardBlurBehavior="none"
       enableDynamicSizing
       backdropComponent={(props) => (
         <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />

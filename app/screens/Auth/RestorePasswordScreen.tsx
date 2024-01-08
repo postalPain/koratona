@@ -8,10 +8,11 @@ import { AppStackScreenProps } from "app/navigators"
 import { passwordRestoreService } from "app/services/api/auth/auth"
 import { spacing } from "app/theme"
 import { useHeader } from "app/utils/useHeader"
+import BackIconSvg from "assets/icons/svgs/BackIcon"
 import i18n from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
-import { ActivityIndicator, Alert, View, ViewStyle } from "react-native"
+import { ActivityIndicator, Alert, Pressable, View, ViewStyle } from "react-native"
 import * as yup from "yup"
 import { passwordRegEx, signUpPasswordHintMessage } from "./helpers/validation"
 
@@ -26,12 +27,16 @@ export const RestorePasswordScreen: FC<RestorePasswordScreenProps> = observer(
   function RestorePasswordScreen({ navigation, route }) {
     const [disabled, setDisabled] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
-console.log('route.params.token', route.params.token);
+    console.log("route.params.token", route.params.token)
 
     const styles = useStyles()
 
     useHeader({
-      leftIcon: "back",
+      LeftActionComponent: (
+        <Pressable onPress={() => navigation.navigate('welcome')} style={styles.headerBackButton}>
+          <BackIconSvg color="#000" />
+        </Pressable>
+      ),
       onLeftPress: () => navigation.navigate("welcome"),
     })
 
@@ -134,6 +139,9 @@ const $screenContentContainer: ViewStyle = {
 }
 
 const useStyles = createUseStyles((theme) => ({
+  headerBackButton: {
+    paddingLeft: theme.spacing[24],
+  },
   title: {
     textAlign: "center",
     width: 230,

@@ -230,60 +230,59 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
             />
           </View>
           <Text style={styles.formTitle} tx="profile.yourTeam" weight="semiBold" />
-          {!teamStore.isTeamListLoading && (
-            <SelectDropdown
-              data={teamStore.teamList}
-              onSelect={(selectedItem) => {
-                setSelectedTeam(selectedItem)
-              }}
-              defaultValueByIndex={0}
-              buttonStyle={styles.teamPickerButton}
-              buttonTextStyle={styles.teamPickerButtonText}
-              dropdownStyle={styles.teamPickerDropdown}
-              renderCustomizedButtonChild={() => (
-                <View style={styles.teamPickerButtonListItem}>
+
+          <SelectDropdown
+            data={teamStore.teamList}
+            onSelect={(selectedItem) => {
+              setSelectedTeam(selectedItem)
+            }}
+            defaultValueByIndex={0}
+            buttonStyle={styles.teamPickerButton}
+            buttonTextStyle={styles.teamPickerButtonText}
+            dropdownStyle={styles.teamPickerDropdown}
+            renderCustomizedButtonChild={() => (
+              <View style={styles.teamPickerButtonListItem}>
+                <View style={styles.teamPickerButtonListItemLogo}>
+                  <Image
+                    width={25}
+                    height={25}
+                    resizeMode="contain"
+                    source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
+                  />
+                </View>
+                <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
+              </View>
+            )}
+            renderCustomizedRowChild={(item: Team) => {
+              const isSelected = item.id === selectedTeam.id
+              return (
+                <View
+                  style={[
+                    styles.teamPickerButtonListItem,
+                    isSelected ? styles.teamPickerListItemSelected : {},
+                  ]}
+                >
                   <View style={styles.teamPickerButtonListItemLogo}>
                     <Image
                       width={25}
                       height={25}
                       resizeMode="contain"
-                      source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
+                      source={getTeamLogoOrPlaceholder(item.logoUrl)}
                     />
                   </View>
-                  <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
-                </View>
-              )}
-              renderCustomizedRowChild={(item: Team) => {
-                const isSelected = item.id === selectedTeam.id
-                return (
-                  <View
+                  <Text
+                    text={item.name}
                     style={[
-                      styles.teamPickerButtonListItem,
-                      isSelected ? styles.teamPickerListItemSelected : {},
+                      styles.teamPickerButtonText,
+                      isSelected ? styles.teamPickerListItemTextSelected : {},
                     ]}
-                  >
-                    <View style={styles.teamPickerButtonListItemLogo}>
-                      <Image
-                        width={25}
-                        height={25}
-                        resizeMode="contain"
-                        source={getTeamLogoOrPlaceholder(item.logoUrl)}
-                      />
-                    </View>
-                    <Text
-                      text={item.name}
-                      style={[
-                        styles.teamPickerButtonText,
-                        isSelected ? styles.teamPickerListItemTextSelected : {},
-                      ]}
-                    />
-                  </View>
-                )
-              }}
-            />
-          )}
+                  />
+                </View>
+              )
+            }}
+          />
           <Button type="submit" style={styles.button}>
-            {authUserStore.isLoading ? (
+            {authUserStore.isLoading || teamStore.isTeamListLoading ? (
               <ActivityIndicator />
             ) : (
               <Text weight="bold" tx="common.saveChanges" style={styles.loginButtonText} />
