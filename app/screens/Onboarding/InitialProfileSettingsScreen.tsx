@@ -3,7 +3,7 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker"
 import Button from "@stryberventures/gaia-react-native.button"
-import Form from "@stryberventures/gaia-react-native.form"
+import Form, { IFormActions } from "@stryberventures/gaia-react-native.form"
 import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Screen, Text } from "app/components"
@@ -37,8 +37,9 @@ interface InitialProfileSettingsScreenProps extends AppStackScreenProps<"Initial
 export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreenProps> = observer(
   function InitialProfileSettingsScreen(_props) {
     const styles = useStyles()
-    const [disabled, setDisabled] = React.useState(true)
     const { authUserStore, teamStore } = useStores()
+    const user = authUserStore.user
+
     const [selectedTeam, setSelectedTeam] = React.useState<Team>(
       teamStore.favoriteTeam ||
         ({
@@ -62,12 +63,18 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
       ),
     })
 
-    const handleSubmitForm = async (values: {
-      firstName: string
-      lastName: string
-      dob: string
-      phone: string
-    }) => {
+    const handleSubmitForm = async (
+      values: {
+        firstName: string
+        lastName: string
+        dob: string
+        phone: string
+      },
+      formActions: IFormActions,
+    ) => {
+      if (!formActions.isValid || authUserStore.isLoading || teamStore.isTeamListLoading) {
+        return
+      }
       authUserStore.updateUser(
         {
           firstName: values.firstName,
@@ -105,10 +112,13 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
           <Text style={styles.formTitle} tx="onboardingScreen.personalDetails" weight="semiBold" />
           <Form
             validationSchema={validationSchema}
-            onChange={(_, { isValid }) => {
-              setDisabled(!isValid)
-            }}
             onSubmit={handleSubmitForm}
+            initialValues={{
+              firstName: user?.firstName || "",
+              lastName: user?.lastName || "",
+              dob: isValid(new Date(date)) ? format(date, "dd MMMM yyyy") : "",
+              phone: user?.phone || "",
+            }}
           >
             <View style={styles.formContent}>
               <View style={styles.inputContainer}>
@@ -266,21 +276,7 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
                 }}
               />
 
-              <Button
-                type="submit"
-                style={{
-                  ...styles.button,
-                  ...(disabled
-                    ? {
-                        borderColor: "transparent",
-                      }
-                    : {
-                        backgroundColor: "#333865",
-                        borderColor: "#333865",
-                      }),
-                }}
-                disabled={disabled}
-              >
+              <Button type="submit" style={styles.button}>
                 {authUserStore.isLoading ? (
                   <ActivityIndicator />
                 ) : (
@@ -311,10 +307,15 @@ const useStyles = createUseStyles((theme) => ({
   button: {
     marginTop: theme.spacing["32"],
     minHeight: 59,
+    backgroundColor: "#333865",
+    borderColor: "#333865",
   },
   loginButtonText: {
     color: "#fff",
     textAlign: "center",
+    fontFamily: typography.fonts.instrumentSans.bold,
+    fontSize: 16,
+    lineHeight: 24,
   },
   hintsStyles: {
     position: "absolute",

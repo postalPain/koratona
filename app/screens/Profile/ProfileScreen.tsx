@@ -8,7 +8,7 @@ import PentagonIcon from "assets/icons/svgs/Pegtagon"
 import TShirtIcon from "assets/icons/svgs/TShirtIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import {
   Image,
   InputAccessoryView,
@@ -27,6 +27,7 @@ import { ProfilePolicies } from "./components/ProfilePolicies"
 import { ProfileStatsSection } from "./components/ProfileStatsSection"
 import { SettingsKey } from "./components/bottomPanels/SettingsContentController"
 import SettingsBottomPanel from "./components/bottomPanels/SettingsPanel"
+import * as storage from "../../utils/storage"
 
 const welcomeLogo = require("assets/images/logo.png")
 const tShirtImage = require("assets/images/tShirt.png")
@@ -43,11 +44,21 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   } = useStores()
 
   const [settingBottomPanelKey, setSettingBottomPanelKey] = React.useState<SettingsKey>("profile")
-  const [jerseyNumber, setJerseyNumber] = React.useState<string>("08")
+
+  const [jerseyNumber, setJerseyNumber] = React.useState<string>("00")
+
   const [isJerseyNumberEditing, setIsJerseyNumberEditing] = React.useState<boolean>(false)
 
   const settingBottomPanelRef = React.useRef<BottomSheet>(null)
   const tShortNumberInputRef = React.useRef<TextInput>(null)
+
+  useEffect(() => {
+    storage.load("jerseyNumber").then((value) => {
+      if (value) {
+        setJerseyNumber(value as string)
+      }
+    })
+  }, [])
 
   const openSettingsBottomPanel = (key: SettingsKey) => () => {
     setSettingBottomPanelKey(key)
@@ -83,7 +94,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
             <View style={styles.tShirtContainer}>
               <Image source={tShirtImage} />
               <View style={styles.shirtTextContainer}>
-                <Text style={styles.tShirtName} text={user.firstName} />
+                <Text style={styles.tShirtName} text={user.lastName} />
                 {isJerseyNumberEditing && (
                   <>
                     {Platform.OS === "ios" && (
@@ -126,6 +137,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
                 style={styles.editShirtNumberButton}
                 onPress={() => {
                   setIsJerseyNumberEditing((isJerseyNumberEditing) => !isJerseyNumberEditing)
+                  storage.save("jerseyNumber", jerseyNumber)
                   setTimeout(() => {
                     tShortNumberInputRef.current?.focus()
                   }, 100)

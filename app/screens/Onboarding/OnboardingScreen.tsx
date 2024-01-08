@@ -4,12 +4,13 @@ import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { Dimensions, View } from "react-native"
+import { Dimensions, Pressable, View } from "react-native"
 import Pagination from "./components/Pagination"
 import onboardingData from "./constants/onboardingData"
 import { registerForPushNotificationsAsync } from "./utils/notification"
 // @ts-ignore
 import debounce from "lodash.debounce"
+import { typography } from "app/theme"
 
 interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {
   currentStep?: number
@@ -33,7 +34,6 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
   }
 
   const onNextButtonPress = () => {
-
     const isLast = currentStep === onboardingData.length - 1
     if (isLast) {
       navigation.navigate("InitialProfileSettings")
@@ -62,19 +62,28 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
       <View>
         {skipButton && !isNotificationTurnedOn && (
           <Text
-            style={styles.skipButton}
+            style={styles.maybeLaterButton}
             onPress={debouncedOnNextButtonPress}
             tx="common.skipText"
             weight="bold"
           />
         )}
-        <Button
-          onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
-          text={isNotificationScreen && isNotificationTurnedOn ? "Continue" : actionButtonText}
-          textStyle={styles.actionButtonText}
-          pressedStyle={styles.actionButton}
-          style={styles.actionButton}
-        />
+        <View>
+          <Pressable
+            onPress={() => {
+              navigation.navigate("InitialProfileSettings")
+            }}
+          >
+            <Text tx="common.skip" style={styles.skipButton} />
+          </Pressable>
+          <Button
+            onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
+            text={isNotificationScreen && isNotificationTurnedOn ? "Continue" : actionButtonText}
+            textStyle={styles.actionButtonText}
+            pressedStyle={styles.actionButton}
+            style={styles.actionButton}
+          />
+        </View>
       </View>
     </Screen>
   )
@@ -116,11 +125,17 @@ const useStyles = createUseStyles((theme) => ({
   grow: {
     flex: 1,
   },
-  skipButton: {
+  maybeLaterButton: {
     color: "#333865",
     fontWeight: "bold",
     lineHeight: 24,
     textAlign: "center",
+    marginBottom: theme.spacing[24],
+  },
+  skipButton: {
+    textAlign: "center",
+    fontFamily: typography.fonts.instrumentSans.semiBold,
+    color: "#333865",
     marginBottom: theme.spacing[24],
   },
 }))
