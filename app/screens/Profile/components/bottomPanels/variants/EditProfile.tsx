@@ -20,6 +20,7 @@ import {
   Keyboard,
   Pressable,
   View,
+  Platform,
 } from "react-native"
 import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
