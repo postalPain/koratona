@@ -4,7 +4,16 @@ import {
   getUsersFavoriteTeamList,
   removeTeamFromFavorite,
 } from "app/services/api/team/teamService"
-import { Instance, SnapshotIn, SnapshotOut, detach, flow, getRoot, isAlive, types } from "mobx-state-tree"
+import {
+  Instance,
+  SnapshotIn,
+  SnapshotOut,
+  detach,
+  flow,
+  getRoot,
+  isAlive,
+  types,
+} from "mobx-state-tree"
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { Team, TeamModel } from "./Team"
@@ -85,7 +94,10 @@ export const TeamStoreModel = types
           return
         }
         const response = yield getUsersFavoriteTeamList(user.id)
-        const mappedData = response.data.data.map(({ team }: { team: Team }) => team)
+        const mappedData = response.data.data
+          .filter(({ team }: { team: Team }) => !!team)
+          .map(({ team }: { team: Team }) => team)
+
         detach(self.favoriteTeam)
         self.favoriteTeam = mappedData[0]
       } catch (error) {
