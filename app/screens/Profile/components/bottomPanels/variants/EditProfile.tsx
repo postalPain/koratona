@@ -213,8 +213,9 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
             <Input
               name="phone"
               label="Phone Number"
-              placeholder="000 00000000"
-              mask="XXX XXXXXXXX"
+              placeholder="00 000000000"
+              mask="XX XXXXXXXXX"
+              prefix="+"
               autoComplete="tel"
               keyboardType="phone-pad"
               textContentType="telephoneNumber"

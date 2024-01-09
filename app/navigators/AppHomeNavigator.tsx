@@ -47,7 +47,7 @@ export function AppHomeNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarStyle: [$tabBar, { height: bottom + 70 }],
+        tabBarStyle: [$tabBar, { height: bottom + 82 }],
         tabBarActiveTintColor: "#333865",
         tabBarInactiveTintColor: "#98A2B3",
         tabBarLabelStyle: $tabBarLabel,
@@ -97,6 +97,7 @@ export function AppHomeNavigator() {
 const $tabBar: ViewStyle = {
   backgroundColor: "#F9FAFB",
   borderTopColor: "#0000001A",
+  paddingBottom: spacing.sm,
 }
 
 const $tabBarItem: ViewStyle = {
