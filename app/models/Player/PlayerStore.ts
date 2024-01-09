@@ -79,8 +79,10 @@ export const PlayerStoreModel = types
           authUserStore: { user },
         } = getRoot(self) as any
 
+
         const response = yield getUsersFavoritePlayerList(user.id)
-        const mappedData = response.data.data.map(({ player }: { player: Player }) => player)
+        const mappedData = response.data.data.filter(({ player }: { player: Player }) => !!player)
+        .map(({ player }: { player: Player }) => player)
         self.favoritePlayerList = mappedData
       } catch (error) {
         console.tron.error?.(`Error fetching favorite team: ${JSON.stringify(error)}`, [])
