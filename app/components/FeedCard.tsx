@@ -19,6 +19,11 @@ export interface FeedCardProps {
   bgImage: any
 
   /**
+   * Background color. Requires to optimize shadows rendering on iOS.
+   */
+  bgColor?: string;
+
+  /**
    * Icon that will be displayed under the title
    */
   underTitleIcon?: ImageSourcePropType
@@ -63,16 +68,20 @@ export const FeedCard = React.memo(
   observer(function FeedCard({
     post,
     bgImage,
+    bgColor = 'transparent',
     underTitleIcon,
     onPress,
     addedToFavorite,
     favoriteCount,
     onFavoritePress,
   }: FeedCardProps) {
-    const styles = useStyles()
+    const styles = useStyles();
+    const extraContainerWrapperStyles = {
+      backgroundColor: bgColor,
+    };
 
     return (
-      <Pressable style={styles.containerWrapper} onPress={onPress}>
+      <Pressable style={[styles.containerWrapper, extraContainerWrapperStyles]} onPress={onPress}>
         <View style={styles.container}>
           <ImageBackground
             style={styles.bgImage}
