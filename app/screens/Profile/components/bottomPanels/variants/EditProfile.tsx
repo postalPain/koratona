@@ -24,6 +24,7 @@ import {
 } from "react-native"
 import SelectDropdown from "react-native-select-dropdown"
 import * as yup from "yup"
+import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
 
 type Props = {
   handleCloseBottomSheet: () => void
@@ -48,12 +49,14 @@ export const EditProfile: React.FC<Props> = observer(function (_props) {
   )
   const [dateBirthPickerVisible, setDateBirthPickerVisible] = React.useState<boolean>(false)
 
+  useFetchAuthUser()
   useFetchTeamList()
   useFetchFavoriteTeam()
 
   useEffect(() => {
     setSelectedTeam(teamStore.selectedFavoriteTeam)
   }, [teamStore.selectedFavoriteTeam])
+
   const onDatePickerConfirm: (date?: Date) => void = (selectedDate) => {
     setDateBirthPickerVisible(false)
     if (selectedDate && isValid(new Date(selectedDate))) {
