@@ -109,5 +109,5 @@ const $tabBarLabel: TextStyle = {
   fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
   lineHeight: 16.8,
   flex: 1,
-  marginTop: spacing.sm,
+  marginTop: 4
 }
