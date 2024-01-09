@@ -139,7 +139,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
                       }}
                       onFocus={() => {
                         tShortNumberInputRef.current?.setNativeProps({
-                          selection: { start: 0, end: 2 },
+                          selection: { start: 0, end: jerseyNumber.length },
                         })
                       }}
                     />
