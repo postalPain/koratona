@@ -72,38 +72,40 @@ export const FeedCard = React.memo(
     const styles = useStyles()
 
     return (
-      <Pressable style={styles.container} onPress={onPress}>
-        <ImageBackground
-          style={styles.bgImage}
-          resizeMode="cover"
-          source={
-            bgImage
-              ? {
+      <Pressable style={styles.containerWrapper} onPress={onPress}>
+        <View style={styles.container}>
+          <ImageBackground
+            style={styles.bgImage}
+            resizeMode="cover"
+            source={
+              bgImage
+                ? {
                   uri: bgImage,
                 }
-              : require("assets/temp/cardBg.png")
-          }
-        >
-          <LinearGradient
-            colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
-            style={styles.gradient}
-            start={{ x: 0.1, y: 0.3 }}
-            end={{ x: 0.1, y: 0.7 }}
+                : require("assets/temp/cardBg.png")
+            }
           >
-            {underTitleIcon && <Image style={styles.underTitleIcon} source={underTitleIcon} />}
-            {post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
-          </LinearGradient>
-        </ImageBackground>
-        <View style={styles.footer}>
-          {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
-          <View style={styles.basement}>
-            {!!post?.updatedAt && (
-              <Text style={styles.basementText} text={getPostCreationTime(post.updatedAt)} />
-            )}
-            <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
-              <Text style={styles.basementText} weight="medium" text={`${favoriteCount || ""}`} />
-              <HeartIconIcon focused={addedToFavorite} />
-            </Pressable>
+            <LinearGradient
+              colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
+              style={styles.gradient}
+              start={{ x: 0.1, y: 0.3 }}
+              end={{ x: 0.1, y: 0.7 }}
+            >
+              {underTitleIcon && <Image style={styles.underTitleIcon} source={underTitleIcon} />}
+              {post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
+            </LinearGradient>
+          </ImageBackground>
+          <View style={styles.footer}>
+            {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
+            <View style={styles.basement}>
+              {!!post?.updatedAt && (
+                <Text style={styles.basementText} text={getPostCreationTime(post.updatedAt)} />
+              )}
+              <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
+                <Text style={styles.basementText} weight="medium" text={`${favoriteCount || ""}`} />
+                <HeartIconIcon focused={addedToFavorite} />
+              </Pressable>
+            </View>
           </View>
         </View>
       </Pressable>
@@ -112,12 +114,23 @@ export const FeedCard = React.memo(
 )
 
 const useStyles = createUseStyles(() => ({
+  containerWrapper: {
+    shadowColor: "rgba(0, 0, 0, 0.1)",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.30,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
   container: {
     flex: 1,
     borderRadius: 10,
     overflow: "hidden",
     borderWidth: 0.5,
-    borderColor: "#E8E8E8",
+    borderColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#fff",
   },
   bgImage: {
     height: 342,
@@ -143,7 +156,6 @@ const useStyles = createUseStyles(() => ({
     padding: 18,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    backgroundColor: '#fff',
   },
   subHeading: {
     color: "#475467",

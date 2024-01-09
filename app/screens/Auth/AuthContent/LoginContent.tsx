@@ -102,7 +102,6 @@ export const LoginContent: FC<LoginProps> = ({ setContentKey }) => {
               }}
             />
           </View>
-
           <Button
             type="submit"
             style={{ ...styles.button, ...getButtonStyle(disabled) }}
