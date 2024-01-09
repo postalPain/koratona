@@ -37,11 +37,12 @@ export const ScheduleWidget: React.FC<Props> = ({ onMatchPress }) => {
         id="sportmonks-widget"
         data-widget="team-schedule"
         data-team="7011"
-        data-info="JC8hgO8PovvJJ/NJkUK+IapJlbumDQ7lrrCwDiOeXEf4YfhnogrjIIDP63rexWxAGIvDICTer3p3jji2ie37nUsiN8qrjDSwl4SMqUE+no53Sn83MVI15YLmOhtWIjT4NmnLsWLMttBOG+S12fakgX1JM4ToDUHGbl+I8QIdl2sFl4K2MdI0Mrw7OCO6jLQnMmuM1E59UYCkpDBRuwNiE95wGhn/OFU8wwQGL92v6KTiieTRmvhRkFIhOnMVTDkI6hoHUvkPY8z8PS8NP3BsLid7b0uTFV7Kq+UNiSWi36Swn4tEvAuZJ4BQG1F9Mzb7avseQ1RgQRJGcvCALCsrL/cZZ0ERfobkTKcT9zVACPoMJUUOpnBCfLT5PQ0SQGtYDwyq+Lui0jh5XBZAUxKTp/NpBA7eLZnuFnnGeeXsy89OyM5+LoGaqaaNZRIU7l4KLVeetVmAU88pRYq49QA0/168drbV1SnWj7JNnLu9PkaCfZf9PwhyLkWb3IO/yCXYNW0FYjXKDnaypE59kv4XBMPPGkD1s29kAsOFniGhh3xA7xg0ZdPMt0R1ALqBRDoNt/f3NRgFy62gaGM84UrTIVPSdoyaBRU8LeN/IgTa4hQTFC4+zMvNL9jsq5gAXacRBppuhctMfV4WApJSde6MmOZNyBrs6cwxl4Cb+DlJyBg="
+        data-info="Akz+5Vd6n/4SrlMQvrpfL/nZm9ywX20M7vRb5qZ71+CV2ILbnxUejLgB9Kq+vUZQ+xvl9WIlWb6T5cHhivldBmUC3Wq7T3YKUg35evLIkG39ZbvZPrqXCugPuGcJHTNfvFaX23hFwAtqIwV0jXXZEyD5pJzFOvApu9IufVEQsSIiFElX4HWO/UcVgUB4t4CpHmF+l9J/XB7LdNsgQIODCNuXX2V0w9VK+fys3xZ0NazcMwck8uL0el8/ajk+8KR0eNsZTatzk6yLNSUdJBrHZoPe/iwzBh775zp4yeN9+bi1EelEgqdhslqgaNpgybScSgqhIqGdClDYw7XHtcAKOABa2t/6wAeHHAGhJYtgWwiUDRdgS+xzOHdQbEoIOtyXQxL6Fzz9enstNizLE50Zy0gw+3hpBAYL9N/Bjjh1D8JsA/QkDjSdDtncpUIVmMmoxW0bU/54aSkOwA6UQvGdemz4wHW9hJCqX9SYqAcVgxcz9DB7hyKW2gqitwZA04emEggU5yCyyUstWU+JEIhyKkDOSTJcu5namHkzahoR9wvdZMnJxSN5x6pE7UZYoLJy6kZqcpnrH5EWfNBzEXzfKC9lQ23N9VRMX4+0N7vpI/bwfdjm+pCII4xBf0J5eYb8arEiivzo5daqR5t/0VBEnBaZxX8QC0Je4Ds5Zf0GUuY="
+        data-colors="#00063E,#00063E,#D0D0D9,#1A1F51"
         data-switchtheme="false"
         data-tz="Asia/Riyadh"
         data-paginated="false"
-        data-brand="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axfbamifisvy/b/bucket-20231126-2014/o/logowidget%20logo%20(2).png"
+        data-brand="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axfbamifisvy/b/bucket-20231126-2014/o/Logo1widget%20logo%20(4).png"
       ></div>
       <script>
         document.querySelector('script[src="https://widgets.sportmonks.com/js/team/seasonSchedule.js"]').addEventListener("load", () => {
