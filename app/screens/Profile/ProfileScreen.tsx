@@ -57,7 +57,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   useEffect(() => {
     storage.load("jerseyNumber").then((value) => {
       if (value) {
-        setJerseyNumber((value as string).length < 2 ? `0${value}` : (value as string))
+        setJerseyNumber(value as string)
       }
     })
   }, [])
@@ -68,9 +68,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   }
 
   const handleSaveTheNumber = () => {
-    if (jerseyNumber.length < 2) {
-      setJerseyNumber(`0${jerseyNumber || 1}`)
-    }
+    setJerseyNumber(jerseyNumber)
     storage.save("jerseyNumber", jerseyNumber)
     setIsJerseyNumberEditing(false)
   }
