@@ -237,7 +237,6 @@ const useStyles = createUseStyles((theme) => ({
     fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
   },
   gradient: {
-    height: 500,
     flex: 1,
     zIndex: 1,
   },
