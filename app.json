@@ -42,7 +42,8 @@
             "DEFAULT"
           ]
         }
-      ]
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "ios": {
       "icon": "./assets/images/app-icon-ios.png",

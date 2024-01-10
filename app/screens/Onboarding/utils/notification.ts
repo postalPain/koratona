@@ -29,8 +29,20 @@ export async function registerForPushNotificationsAsync(grantedCb?: () => void):
       }
       token = await Notifications.getExpoPushTokenAsync({
         projectId: Constants?.expoConfig?.extra?.eas.projectId,
-      })
-      grantedCb && grantedCb()
+      });
+      console.log(`EXPO token: ${token.data}`);
+      const deviceToken = await Notifications.getDevicePushTokenAsync();
+      console.log(`FCN/APN token: ${deviceToken.data}`);
+
+      Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+          shouldShowAlert: true,
+          shouldPlaySound: false,
+          shouldSetBadge: false,
+        })
+      });
+
+      grantedCb && grantedCb();
     } else {
       alert("Must use physical device for Push Notifications")
       return null
