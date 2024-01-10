@@ -15,10 +15,7 @@ import useFetchPlayerList from "../hooks/useGetPlayerList"
 export const TeamPlayersTab = observer(function (_props) {
   const styles = useStyles()
   const navigation = useNavigation()
-  const {
-    playerStore,
-    authUserStore: { user },
-  } = useStores()
+  const { playerStore } = useStores()
 
   useFetchPlayerList()
   useFetchFavoritePlayerList()
@@ -57,9 +54,8 @@ export const TeamPlayersTab = observer(function (_props) {
           >
             <Pressable
               onPress={() => {
-                if (user.isSuperAdmin) {
-                  navigation.navigate("player", { id: item.id })
-                }
+                // @ts-ignore
+                navigation.navigate("player", { id: item.id })
               }}
             >
               <PlayerCard
