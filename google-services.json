@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "728485491932",
+    "project_id": "koratona-9791a",
+    "storage_bucket": "koratona-9791a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728485491932:android:4daf627c41baacff253019",
+        "android_client_info": {
+          "package_name": "com.footballappcortona.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOpY5DLmVW9o3s4TAmb82zVyhYFZcwrNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
