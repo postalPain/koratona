@@ -4,13 +4,20 @@ import { GoBackComponent } from "app/components/GoBack"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
 import HeartIconIcon from "assets/icons/svgs/HeartIcon"
+import { t } from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Pressable, View } from "react-native"
+import FootballIconAreaIconSvg from "../../../assets/icons/svgs/FootballAreaIcon"
 import { Text } from "../../components/Text"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import AchievementList from "./components/AchievementList"
+import { CircularProgressComposition } from "./components/CircularProgressComposition"
+import { StatsSection } from "./components/StatsSection"
 import TopContentContainer from "./components/TopContentContainer"
+import { LinearProgressComposition } from "./components/LinearProgressComposition"
+import DefenseIcon from "../../../assets/icons/svgs/DefenseIcon"
+import FoulsIcon from "../../../assets/icons/svgs/FoulsIcon"
 
 interface PlayerScreenProps extends HomeFeedStackScreenProps<"player"> {}
 
@@ -18,10 +25,11 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
   const styles = useStyles()
   const playerId = _props.route.params.id
   const { playerStore } = useStores()
-  const player = playerStore.getPlayerById(playerId)
+  // const player = playerStore.getPlayerById(playerId)
+  // console.log("player", player)
 
   return (
-    <Screen preset="scroll" safeAreaEdges={["top"]} style={styles.screenContainer}>
+    <Screen preset="scroll" safeAreaEdges={["top"]}>
       <View style={styles.topContentContainer}>
         <View style={styles.header}>
           <GoBackComponent
@@ -58,33 +66,110 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
           />
         </View>
         <AchievementList />
-        <View style={styles.overViewSection}>
-          <Text tx="teams.player.overview" style={styles.overViewSectionTitle} />
-          <View style={styles.overviewStats}>
-            <View style={styles.overviewStatsItem}>
-              <Text style={styles.overviewStatsItemValue} text="8.05" />
-              <Text style={styles.overviewStatsItemTitle} tx="teams.player.rating" />
-            </View>
-            <View style={[styles.overviewStatsItem,styles.overviewStatsItemMiddle]}>
-              <Text style={styles.overviewStatsItemValue} text="15" />
-              <Text style={styles.overviewStatsItemTitle} tx="teams.player.appearances" />
-            </View>
-            <View style={styles.overviewStatsItem}>
-              <Text style={styles.overviewStatsItemValue} text="3342" />
-              <Text style={styles.overviewStatsItemTitle} tx="teams.player.minutes" />
-            </View>
-          </View>
-        </View>
+        <StatsSection
+          title={t("teams.player.overview")}
+          data={[
+            { title: t("teams.player.rating"), value: "8.05" },
+            { title: t("teams.player.appearances"), value: "15" },
+            { title: t("teams.player.minutes"), value: "3342" },
+          ]}
+        />
       </View>
+      <View style={styles.highlights}>
+        <View style={styles.sectionTitleContainer}>
+          <FootballIconAreaIconSvg />
+          <Text tx="teams.player.offense" style={styles.sectionTitle} />
+        </View>
+
+        <StatsSection
+          style={styles.statsSectionWrapper}
+          title={t("teams.player.performance")}
+          data={[
+            { title: t("teams.player.shots"), value: "66" },
+            { title: t("teams.player.onTarget"), value: "36" },
+            { title: t("teams.player.goals"), value: "15" },
+          ]}
+        />
+        <View style={styles.accuracyProgressContainer}>
+          <CircularProgressComposition value={98} title={t("teams.player.shotAccuracy")} />
+          <CircularProgressComposition value={27} title={t("teams.player.passAccuracy")} />
+        </View>
+        <StatsSection
+          style={styles.statsSectionWrapper}
+          data={[
+            { title: t("teams.player.assists"), value: "7" },
+            { title: t("teams.player.passes"), value: "436" },
+          ]}
+        />
+        <LinearProgressComposition
+          value={76}
+          textContent={{
+            left: t("teams.player.successfulDribbles"),
+            right: {
+              currentNumber: 9,
+              totalNumber: 22,
+            },
+          }}
+        />
+        <LinearProgressComposition
+          value={4}
+          textContent={{
+            left: t("teams.player.keyPasses"),
+            right: {
+              currentNumber: 16,
+              totalNumber: 475,
+            },
+          }}
+        />
+      </View>
+      <View style={[styles.sectionTitleContainer, styles.sectionTitleOffsets]}>
+        <DefenseIcon />
+        <Text tx="teams.player.defense" style={styles.sectionTitle} />
+      </View>
+      <StatsSection
+        title={t("teams.player.tackles")}
+        data={[
+          { title: t("teams.player.total"), value: "5" },
+          { title: t("teams.player.interceptions"), value: "1" },
+          { title: t("teams.player.blocks"), value: "0" },
+        ]}
+      />
+      <LinearProgressComposition
+        value={31}
+        textContent={{
+          left: t("teams.player.duelsWon"),
+          right: {
+            currentNumber: 35,
+            totalNumber: 81,
+          },
+        }}
+      />
+      <View style={[styles.sectionTitleContainer, styles.sectionTitleOffsets]}>
+        <FoulsIcon />
+        <Text tx="teams.player.fouls" style={styles.sectionTitle} />
+      </View>
+      <View style={[styles.centered, styles.bottomSpace]}>
+        <CircularProgressComposition
+          value={2}
+          total={6}
+          title={t("teams.player.foulCards")}
+          emptyColor="#ECCF21"
+          filledColor="#BB2C2C"
+          avoidPercentage
+        />
+      </View>
+      <StatsSection
+        title={t("teams.player.fouls")}
+        data={[
+          { title: t("teams.player.drawn"), value: "14" },
+          { title: t("teams.player.committed"), value: "11" },
+        ]}
+      />
     </Screen>
   )
 })
 
 const useStyles = createUseStyles(() => ({
-  screenContainer: {
-    height: "100%",
-    flex: 1,
-  },
   topContentContainer: {
     backgroundColor: "#1A1F51",
     overflow: "hidden",
@@ -122,44 +207,43 @@ const useStyles = createUseStyles(() => ({
     lineHeight: 20,
     color: "#475467",
   },
-  overViewSection: {
-    paddingHorizontal: 24,
-    paddingTop: 30,
-    paddingBottom: 50,
-  },
-  overViewSectionTitle: {
-    textAlign: "center",
-    marginBottom: 24,
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.regularItalic,
-    fontSize: 14,
-    lineHeight: 20,
-    letterSpacing: 1.64,
-    textTransform: "uppercase",
-    color: "#98A2B3",
-  },
-  overviewStats: {
-    flexDirection: "row",
-  },
-  overviewStatsItem: {
+  sectionTitleContainer: {
     alignItems: "center",
-    width: "33%",
+    justifyContent: "center",
   },
-  overviewStatsItemMiddle:{
-
-  },
-  overviewStatsItemValue: {
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    fontSize: 28,
-    lineHeight: 28,
-    letterSpacing: -0.56,
+  sectionTitle: {
+    fontFamily: typography.fonts.instrumentSansCondensed.boldItalic,
+    fontSize: 24,
+    textTransform: "uppercase",
     color: "#101828",
   },
-  overviewStatsItemTitle: {
-    fontFamily: typography.fonts.instrumentSansCondensed.medium,
-    fontSize: 16,
-    lineHeight: 20,
-    color: "#98A2B3",
-    textTransform: "uppercase",
-    marginTop: 2,
+  highlights: {
+    paddingTop: 72,
+    borderTopColor: "rgba(0, 0, 0, 0.10)",
+    borderTopWidth: 0.5,
+    borderBottomColor: "rgba(0, 0, 0, 0.10)",
+    borderBottomWidth: 0.5,
+    backgroundColor: "#FBFBFB",
   },
+  statsSectionWrapper: {
+    marginVertical: 24,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  accuracyProgressContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 36,
+    paddingHorizontal: 24,
+  },
+  sectionTitleOffsets: {
+    marginTop: 72,
+    marginBottom: 48,
+  },
+  centered: {
+    alignItems: "center",
+  },
+  bottomSpace:{
+    marginBottom: 24,
+  }
 }))

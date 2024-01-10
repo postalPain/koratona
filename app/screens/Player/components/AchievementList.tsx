@@ -20,7 +20,7 @@ const AchievementList: React.FC = () => {
           </View>
         </View>
       )}
-      estimatedItemSize={140}
+      estimatedItemSize={150}
       ItemSeparatorComponent={() => <View style={styles.achievementsItemSeparator} />}
     />
   )
@@ -28,12 +28,22 @@ const AchievementList: React.FC = () => {
 
 const useStyles = createUseStyles(() => ({
   achievementItem: {
-    backgroundColor: "beige",
+    backgroundColor: "#fff",
     borderRadius: 7,
     borderColor: "#0000001A",
     borderWidth: 0.5,
     flexDirection: "row",
     padding: 12,
+    marginVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.10,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   achievementsItemSeparator: {
     width: 16,
