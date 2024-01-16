@@ -176,6 +176,8 @@ const en = {
       foulCards: "Foul cards",
       drawn: "Drawn",
       committed: "Committed",
+      yellow: "Yellow",
+      red: "Red",
     },
   },
   // NOT TRANSLATE THIS

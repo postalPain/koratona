@@ -1,10 +1,9 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import React from "react"
-import { View } from "react-native"
-
 import { Text } from "app/components"
 import LinearProgressBar from "app/components/LinearProgressBar"
 import { typography } from "app/theme"
+import React from "react"
+import { View, useWindowDimensions } from "react-native"
 
 type Props = {
   textContent: {
@@ -19,12 +18,23 @@ type Props = {
 
 export const LinearProgressComposition: React.FC<Props> = ({ value, textContent }) => {
   const styles = useStyles()
+  const { width } = useWindowDimensions()
+
+  const calculatedCenteredPosition = (width - 48) / 2 - 13
 
   return (
     <View style={styles.contentContainer}>
       <View style={[styles.rowDirection, styles.textContentContainer]}>
         <Text text={textContent.left} style={styles.title} />
-        <View style={styles.rowDirection}>
+        <View
+          style={[
+            styles.rowDirection,
+            styles.centered,
+            {
+              right: calculatedCenteredPosition,
+            },
+          ]}
+        >
           <Text text={`${value}`} style={styles.valuePercentageText} />
           <Text text="%" style={styles.valuePercentageSymbol} />
         </View>
@@ -45,11 +55,18 @@ const useStyles = createUseStyles(() => ({
     paddingHorizontal: 24,
     paddingBottom: 30,
   },
+  centered: {
+    alignItems: "center",
+    position: "absolute",
+  },
   rowDirection: {
     flexDirection: "row",
   },
   textContentContainer: {
+    position: "relative",
     justifyContent: "space-between",
+    alignItems: "flex-end",
+    paddingBottom: 13,
   },
   title: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,

@@ -61,6 +61,7 @@ const useStyles = createUseStyles(() => ({
   statsStatsItem: {
     alignItems: "center",
     minWidth: 115,
+    paddingVertical: 20,
   },
   statsStatsItemWithLeftBorder: {
     borderLeftWidth: 0.5,

@@ -53,7 +53,7 @@ const useStyles = createUseStyles(() => ({
     position: "relative",
     alignItems: "center",
     justifyContent: "center",
-    width: 100,
+    width: 115,
   },
   circularProgressText: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
@@ -82,7 +82,7 @@ const useStyles = createUseStyles(() => ({
   circularProgressTopContentWrapper: {
     position: "absolute",
     top: "30%",
-    left: "23%",
+    left: "27%",
     transform: [{ translateX: -10 }, { translateY: -10 }],
   },
   circularProgressValueContent: {

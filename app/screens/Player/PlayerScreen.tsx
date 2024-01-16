@@ -3,21 +3,22 @@ import { Screen } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
+import DefenseIcon from "assets/icons/svgs/DefenseIcon"
+import FootballIconAreaIconSvg from "assets/icons/svgs/FootballAreaIcon"
+import FoulCardIcon from "assets/icons/svgs/FoulCard"
+import FoulsIcon from "assets/icons/svgs/FoulsIcon"
 import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 import { t } from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Pressable, View } from "react-native"
-import FootballIconAreaIconSvg from "../../../assets/icons/svgs/FootballAreaIcon"
 import { Text } from "../../components/Text"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import AchievementList from "./components/AchievementList"
 import { CircularProgressComposition } from "./components/CircularProgressComposition"
+import { LinearProgressComposition } from "./components/LinearProgressComposition"
 import { StatsSection } from "./components/StatsSection"
 import TopContentContainer from "./components/TopContentContainer"
-import { LinearProgressComposition } from "./components/LinearProgressComposition"
-import DefenseIcon from "../../../assets/icons/svgs/DefenseIcon"
-import FoulsIcon from "../../../assets/icons/svgs/FoulsIcon"
 
 interface PlayerScreenProps extends HomeFeedStackScreenProps<"player"> {}
 
@@ -158,8 +159,19 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
           avoidPercentage
         />
       </View>
+      <View style={styles.foulsDetails}>
+        <View style={styles.foulsDetailsItem}>
+          <FoulCardIcon color="#ECCF21" />
+          <Text text="4" style={styles.foulsDetailsItemValue} />
+          <Text tx="teams.player.yellow" style={styles.foulsDetailsItemTitle} />
+        </View>
+        <View style={styles.foulsDetailsItem}>
+          <FoulCardIcon color="#BB2C2C" />
+          <Text text="2" style={styles.foulsDetailsItemValue} />
+          <Text tx="teams.player.red" style={styles.foulsDetailsItemTitle} />
+        </View>
+      </View>
       <StatsSection
-        title={t("teams.player.fouls")}
         data={[
           { title: t("teams.player.drawn"), value: "14" },
           { title: t("teams.player.committed"), value: "11" },
@@ -243,7 +255,31 @@ const useStyles = createUseStyles(() => ({
   centered: {
     alignItems: "center",
   },
-  bottomSpace:{
+  bottomSpace: {
     marginBottom: 24,
-  }
+  },
+  foulsDetails: {
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    gap: 18,
+  },
+  foulsDetailsItem: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 3,
+  },
+  foulsDetailsItemValue: {
+    fontFamily: typography.fonts.instrumentSansCondensed.semiBold,
+    fontSize: 16,
+    textTransform: "uppercase",
+    color: "#101828",
+  },
+  foulsDetailsItemTitle: {
+    fontFamily: typography.fonts.instrumentSansCondensed.medium,
+    fontSize: 16,
+    textTransform: "uppercase",
+    color: "#98A2B3",
+  },
 }))
