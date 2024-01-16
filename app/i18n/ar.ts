@@ -2,19 +2,6 @@
 
 // const ar: Translations = {
 const ar = {
-  common: {
-    ok: "نعم",
-    cancel: "حذف",
-    back: "خلف",
-    logOut: "تسجيل خروج",
-  },
-  welcomeScreen: {
-    postscript:
-      "ربما لا يكون هذا هو الشكل الذي يبدو عليه تطبيقك مالم يمنحك المصمم هذه الشاشات وشحنها في هذه الحالة",
-    readyForLaunch: "تطبيقك تقريبا جاهز للتشغيل",
-    exciting: "اوه هذا مثير",
-    letsGo: "لنذهب",
-  },
   errorScreen: {
     title: "هناك خطأ ما",
     friendlySubtitle:
@@ -29,58 +16,13 @@ const ar = {
       button: "لنحاول هذا مرّة أخرى",
     },
   },
-
-  errors: {
-    invalidEmail: "عنوان البريد الالكتروني غير صالح",
-  },
-  loginScreen: {
-    signIn: "تسجيل الدخول",
-    enterDetails:
-      ".ادخل التفاصيل الخاصة بك ادناه لفتح معلومات سرية للغاية. لن تخمن ابداً ما الذي ننتظره. او ربما ستفعل انها انها ليست علم الصواريخ",
-    emailFieldLabel: "البريد الالكتروني",
-    passwordFieldLabel: "كلمة السر",
-    emailFieldPlaceholder: "ادخل بريدك الالكتروني",
-    passwordFieldPlaceholder: "كلمة السر هنا فائقة السر",
-    tapToSignIn: "انقر لتسجيل الدخول!",
-    hint: "(: تلميح: يمكنك استخدام اي عنوان بريد الكتروني وكلمة السر المفضلة لديك",
-  },
   demoNavigator: {
     componentsTab: "عناصر",
     debugTab: "تصحيح",
     communityTab: "واصل اجتماعي",
     podcastListTab: "البودكاست",
   },
-  demoCommunityScreen: {
-    title: "تواصل مع المجتمع",
-    tagLine:
-      "قم بالتوصيل لمنتدى Infinite Red الذي يضم تفاعل المهندسين المحلّيين ورفع مستوى تطوير تطبيقك معنا",
-    joinUsOnSlackTitle: "انضم الينا على Slack",
-    joinUsOnSlack:
-      "هل ترغب في وجود مكان للتواصل مع مهندسي React Native حول العالم؟ الانضمام الى المحادثة في سلاك المجتمع الاحمر اللانهائي! مجتمعناالمتنامي هو مساحةآمنة لطرح الاسئلة والتعلم من الآخرين وتنمية شبكتك.",
-    joinSlackLink: "انضم الي مجتمع Slack",
-    makeIgniteEvenBetterTitle: "اجعل Ignite افضل",
-    makeIgniteEvenBetter:
-      "هل لديك فكرة لجعل Ignite افضل؟ نحن سعداء لسماع ذلك! نحن نبحث دائماً عن الآخرين الذين يرغبون في مساعدتنا في بناء افضل الادوات المحلية التفاعلية المتوفرة هناك. انضم الينا عبر GitHub للانضمام الينا في بناء مستقبل Ignite",
-    contributeToIgniteLink: "ساهم في Ignite",
-    theLatestInReactNativeTitle: "الاحدث في React Native",
-    theLatestInReactNative: "نخن هنا لنبقيك محدثاً على جميع React Native التي تعرضها",
-    reactNativeRadioLink: "راديو React Native",
-    reactNativeNewsletterLink: "نشرة اخبار React Native",
-    reactNativeLiveLink: "مباشر React Native",
-    chainReactConferenceLink: "مؤتمر Chain React",
-    hireUsTitle: "قم بتوظيف Infinite Red لمشروعك القادم",
-    hireUs:
-      "سواء كان الامر يتعلّق بتشغيل مشروع كامل او اعداد الفرق بسرعة من خلال التدريب العلمي لدينا، يمكن ان يساعد Infinite Red اللامتناهي في اي مشروع محلي يتفاعل معه.",
-    hireUsLink: "ارسل لنا رسالة",
-  },
-  demoShowroomScreen: {
-    jumpStart: "مكونات او عناصر لبدء مشروعك",
-    lorem2Sentences:
-      "عامل الناس بأخلاقك لا بأخلاقهم. عامل الناس بأخلاقك لا بأخلاقهم. عامل الناس بأخلاقك لا بأخلاقهم",
-    demoHeaderTxExample: "ياي",
-    demoViaTxProp: "عبر `tx` Prop",
-    demoViaSpecifiedTxProp: "Prop `{{prop}}Tx` عبر",
-  },
+
   demoDebugScreen: {
     howTo: "كيف",
     title: "التصحيح",
@@ -97,26 +39,6 @@ const ar = {
     webReactotronHint: "اذا لم ينجح ذلك، فتأكد من تشغيل الحاسوب ب Reactotron وأعد تحميل التطبيق",
     windowsReactotronHint:
       "اذا لم ينجح ذلك، فتأكد من تشغيل الحاسوب ب Reactotron وأعد تحميل التطبيق",
-  },
-  demoPodcastListScreen: {
-    title: "حلقات إذاعية React Native",
-    onlyFavorites: "المفضلة فقط",
-    favoriteButton: "المفضل",
-    unfavoriteButton: "غير مفضل",
-    accessibility: {
-      cardHint: "انقر مرّتين للاستماع على الحلقة. انقر مرّتين وانتظر لتفعيل {{action}} هذه الحلقة.",
-      switch: "قم بالتبديل لاظهار المفضّلة فقط.",
-      favoriteAction: "تبديل المفضلة",
-      favoriteIcon: "الحلقة الغير مفضّلة",
-      unfavoriteIcon: "الحلقة المفضّلة",
-      publishLabel: "نشرت {{date}}",
-      durationLabel: "المدّة: {{hours}} ساعات {{minutes}} دقائق {{seconds}} ثواني",
-    },
-    noFavoritesEmptyState: {
-      heading: "هذا يبدو فارغاً بعض الشيء.",
-      content:
-        "لم تتم اضافة اي مفضلات حتى الان. اضغط على القلب في إحدى الحلقات لإضافته الى المفضلة.",
-    },
   },
 }
 

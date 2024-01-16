@@ -13,15 +13,15 @@ import {
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import * as Screens from "app/screens"
 import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
+import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUserSettings"
 import { colors } from "app/theme"
 import { observer } from "mobx-react-lite"
-import React, { useEffect } from "react"
+import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
-import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUserSettings"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
