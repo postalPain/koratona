@@ -203,6 +203,7 @@ const useStyles = createUseStyles((theme) => ({
     marginLeft: 14,
     color: "#fff",
     justifyContent: "flex-start",
+    textAlign: "center",
     borderColor: "red",
   },
   tShirtNumberInputContainer: {
