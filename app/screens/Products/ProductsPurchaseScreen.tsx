@@ -13,6 +13,7 @@ import { ActivityIndicator, View } from "react-native"
 import { getButtonStyle } from "../Auth/helpers/buttonStyles"
 import { ProductPurchasePolicies } from "./ProductsPurchasePolicies"
 import { ProductsStackScreenProps } from "./ProductsStackNavigator"
+import { formatPrice } from "app/utils/currencyFormatter"
 
 interface ProductPurchaseScreenProps extends ProductsStackScreenProps<"productPurchase"> {}
 
@@ -29,6 +30,8 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
     const onSubmit = () => {
       _props.navigation.navigate("productPurchaseResult")
     }
+
+    const productPrice = +(product?.price || 0)
 
     return (
       <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={styles.container}>
@@ -73,7 +76,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                   style={styles.purchaseDescription}
                   text={`You are purchasing the “${product?.name}“`}
                 />
-                <Text style={styles.purchasePrice} weight="bold" text={`SAR ${product?.price}`} />
+                <Text style={styles.purchasePrice} weight="bold" text={formatPrice(productPrice)} />
               </Banner>
               <Button
                 type="submit"
@@ -83,10 +86,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                 {isLoading ? (
                   <ActivityIndicator />
                 ) : (
-                  <Text
-                    style={styles.submitButtonText}
-                    tx="productsScreen.makePayment"
-                  />
+                  <Text style={styles.submitButtonText} tx="productsScreen.makePayment" />
                 )}
               </Button>
               <ProductPurchasePolicies />
