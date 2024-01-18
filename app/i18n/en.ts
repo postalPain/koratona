@@ -13,6 +13,7 @@ const en = {
     goBack: "Go back",
     skip: "Skip",
     continue: "Continue",
+    in: "in",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
@@ -30,6 +31,9 @@ const en = {
   signIn: {
     slogan: "Welcome back",
     forgotPassword: "Reset password",
+    enterLoginCode: "Enter login code",
+    weHaveSentCodeTo: "We’ve sent a code to",
+    resendCode: "Resend code",
   },
   forgotPassword: {
     slogan: "Password reset",

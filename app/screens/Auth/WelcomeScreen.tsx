@@ -4,8 +4,8 @@ import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { Image, ImageBackground, View } from "react-native"
-import { AppStackScreenProps } from "../navigators"
-import { typography } from "../theme"
+import { AppStackScreenProps } from "../../navigators"
+import { typography } from "../../theme"
 import { LoginOTA } from "./LoginOTA"
 
 const welcomeLogo = require("assets/images/logo.png")
@@ -15,6 +15,10 @@ interface WelcomeScreenProps extends AppStackScreenProps<"welcome"> {}
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
   const styles = useStyles()
+
+  const navigateToOTAConfirmation = (phoneNumber: string) => {
+    _props.navigation.navigate("OTAConfirmation", { phoneNumber })
+  }
 
   return (
     <View style={styles.container}>
@@ -29,7 +33,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
             <Image style={styles.logoImage} source={welcomeLogo} resizeMode="contain" />
             <Text style={styles.slogan} tx="welcomeScreen.slogan" />
           </View>
-          <LoginOTA />
+          <LoginOTA goToOTAConfirmation={navigateToOTAConfirmation} />
         </LinearGradient>
       </ImageBackground>
     </View>

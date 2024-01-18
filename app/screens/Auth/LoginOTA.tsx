@@ -1,27 +1,35 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
 import { typography } from "app/theme"
+import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
+import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
 import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View } from "react-native"
 import PhoneInput from "react-native-phone-number-input"
 import { Colors } from "react-native/Libraries/NewAppScreen"
-import { AuthPolicies } from "./Auth/AuthPolicies"
-import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
+import { AuthPolicies } from "./AuthPolicies"
 
-export const LoginOTA = () => {
+type Props = {
+  goToOTAConfirmation: (phoneNumber: string) => void
+}
+
+export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmation }) {
   const styles = useStyles()
 
   const [value, setValue] = useState("")
   const [formattedValue, setFormattedValue] = useState("")
-  const [valid, setValid] = useState(false)
+  const [valid, setValid] = useState(true)
   const phoneInput = useRef<PhoneInput>(null)
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
 
   const goToOTALoginScreen = () => {
     const checkValid = phoneInput.current?.isValidNumber(value)
     setValid(checkValid || false)
+    if (!checkValid) {
+      return
+    }
 
-    console.log(checkValid, formattedValue)
+    goToOTAConfirmation(formattedValue)
   }
 
   return (
@@ -83,7 +91,7 @@ export const LoginOTA = () => {
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   )
-}
+})
 
 const useStyles = createUseStyles(() => ({
   container: {

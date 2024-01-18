@@ -49,6 +49,7 @@ export type AppStackParamList = {
   PostDetails: undefined
   ExperiencePurchase: undefined
   PurchaseResult: undefined
+  OTAConfirmation: { phoneNumber: string }
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -99,6 +100,7 @@ const AppStack = observer(function AppStack(_props) {
         </>
       ) : (
         <>
+          <Stack.Screen name="OTAConfirmation" component={Screens.OTAConfirmation} />
           <Stack.Screen name="welcome" component={Screens.WelcomeScreen} />
           <Stack.Screen name="RestorePassword" component={Screens.RestorePasswordScreen} />
         </>
