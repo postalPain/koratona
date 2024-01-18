@@ -12,6 +12,7 @@ const en = {
     done: "Done",
     goBack: "Go back",
     skip: "Skip",
+    continue: "Continue",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
@@ -20,7 +21,7 @@ const en = {
   },
   welcomeScreen: {
     slogan: "Engage with your team like never before.",
-    joinApp: "Join Koratona",
+    letsGetStarted: "Let’s get started.",
   },
   signUp: {
     slogan: "Be part of your favorite club",

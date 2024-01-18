@@ -1,68 +1,37 @@
-import BottomSheet from "@gorhom/bottom-sheet"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Button, Text } from "app/components"
+import { Text } from "app/components"
+import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { Image, ImageBackground, View } from "react-native"
 import { AppStackScreenProps } from "../navigators"
-import { colors, spacing } from "../theme"
-import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
-import { AuthContentKey } from "./Auth/AuthController"
-import AuthPanel from "./Auth/AuthPanel"
+import { typography } from "../theme"
+import { LoginOTA } from "./LoginOTA"
 
-const welcomeLogo = require("../../assets/images/logo.png")
-const welcomeBackGround = require("../../assets/backgrounds/welcome-screen.png")
+const welcomeLogo = require("assets/images/logo.png")
+const welcomeBackGround = require("assets/backgrounds/welcome-screen.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"welcome"> {}
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
-  const [panelContentKey, setPanelContentKey] = React.useState<AuthContentKey>("login")
-  const sheetRef = React.useRef<BottomSheet>(null)
-
   const styles = useStyles()
-  const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
-  const $topContainerInsets = useSafeAreaInsetsStyle(["top"])
-
-  const openPanel =
-    (contentKey: AuthContentKey = "login") =>
-    () => {
-      setPanelContentKey(contentKey)
-      sheetRef.current?.expand()
-    }
 
   return (
     <View style={styles.container}>
-      <ImageBackground style={styles.aspectRatioBox} source={welcomeBackGround}>
-        <View style={[styles.topContainer, $topContainerInsets]}>
-          <Image style={styles.welcomeLogo} source={welcomeLogo} resizeMode="center" />
-        </View>
-        <View style={styles.sloganWrapper}>
-          <Text style={styles.slogan} tx="welcomeScreen.slogan" size="xl" preset="bold" />
-        </View>
-        <View style={[styles.bottomContainer, $bottomContainerInsets]}>
-          <Button
-            testID="next-screen-button"
-            preset="filled"
-            tx="welcomeScreen.joinApp"
-            style={styles.buttonSignUp}
-            textStyle={styles.buttonSignUpText}
-            onPress={openPanel("signUp")}
-          />
-          <Button
-            testID="next-screen-button"
-            preset="reversed"
-            style={styles.buttonLogin}
-            tx="common.login"
-            onPress={openPanel("login")}
-          />
-        </View>
+      <ImageBackground source={welcomeBackGround}>
+        <LinearGradient
+          colors={["rgba(26, 31, 81, 0.9)", "rgba(0, 6, 62, 0.4)", "transparent", "transparent"]}
+          style={styles.gradient}
+          start={{ x: 0.1, y: 0.1 }}
+          end={{ x: 0.1, y: 0.5 }}
+        >
+          <View style={styles.sloganWrapper}>
+            <Image style={styles.logoImage} source={welcomeLogo} resizeMode="contain" />
+            <Text style={styles.slogan} tx="welcomeScreen.slogan" />
+          </View>
+          <LoginOTA />
+        </LinearGradient>
       </ImageBackground>
-      <AuthPanel
-        ref={sheetRef}
-        contentKey={panelContentKey}
-        openPanel={openPanel}
-        onClose={() => sheetRef.current?.close()}
-      />
     </View>
   )
 })
@@ -71,44 +40,25 @@ const useStyles = createUseStyles(() => ({
   container: {
     flex: 1,
   },
-
-  aspectRatioBox: {
-    flex: 1,
+  gradient: {
     justifyContent: "space-between",
-    paddingBottom: spacing.xl,
+    height: "100%",
   },
-
-  topContainer: {
-    justifyContent: "center",
-  },
-
-  bottomContainer: {
-    gap: spacing.sm,
-    paddingHorizontal: spacing.lg,
-  },
-  welcomeLogo: {
-    paddingTop: 130,
+  logoImage: {
     width: "100%",
+    height: 26,
   },
-
   slogan: {
-    color: colors.textInverted,
+    color: "#fff",
     textAlign: "center",
+    fontSize: 22,
+    letterSpacing: -0.44,
+    fontFamily: typography.fonts.instrumentSans.bold,
+    marginTop: 47,
   },
-
   sloganWrapper: {
-    paddingHorizontal: spacing.lg,
-  },
-
-  buttonSignUp: {
-    backgroundColor: "#FADFD7",
-  },
-
-  buttonLogin: {
-    backgroundColor: "#333865",
-  },
-
-  buttonSignUpText: {
-    color: "#333865",
+    paddingTop: 160,
+    width: 220,
+    alignSelf: "center",
   },
 }))
