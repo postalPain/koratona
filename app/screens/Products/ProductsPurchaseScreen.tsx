@@ -14,6 +14,7 @@ import { ProductPurchasePolicies } from "./ProductsPurchasePolicies";
 import { ProductsStackScreenProps } from "./ProductsStackNavigator";
 import * as yup from "yup";
 import { isDateValid, isMonthValid } from "app/utils/validation";
+import { formatPrice } from "app/utils/currencyFormatter"
 const masterCard = require('../../../assets/images/mc.jpg');
 const visa = require('../../../assets/images/visa.png');
 const cvc = require('../../../assets/images/cvc.png');
@@ -92,6 +93,8 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
       }
     };
 
+    const productPrice = +(product?.price || 0)
+
     return (
       <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={styles.container}>
         <View style={styles.contentWrapper}>
@@ -156,7 +159,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                     style={styles.purchaseDescription}
                     text={`You are purchasing the “${product?.name}“`}
                   />
-                  <Text style={styles.purchasePrice} weight="bold" text={`SAR ${product?.price}`} />
+                  <Text style={styles.purchasePrice} weight="bold" text={formatPrice(productPrice)} />
                 </Banner>
                 <Button
                   type="submit"

@@ -30,6 +30,5 @@ const $textWrapper: TextStyle = {
 
 const $text: TextStyle = {
   color: "#808080",
-  lineHeight: 14.4,
   opacity: 0.5,
 }

@@ -35,7 +35,10 @@ const TopContentContainer: React.FC<Props> = ({ playerId }) => {
           <Text text={player?.fullName} style={styles.playerName} />
           <View style={styles.generalPlayerStats}>
             <Text tx="teams.player.country" style={styles.generalPlayerStatsTitle} />
-            <Image source={require("assets/images/flags/ar.png")} />
+            <Image
+              source={require("assets/images/flags/ar.png")}
+              style={styles.flagIcon}
+            />
             <Text text="Saudi Arabia" style={styles.generalPlayerStatsValue} />
             <Text tx="teams.player.position" style={styles.generalPlayerStatsTitle} />
             <Text text="Attacker" style={styles.generalPlayerStatsValue} />
@@ -72,6 +75,7 @@ const useStyles = createUseStyles(() => ({
     letterSpacing: -1.92,
     color: "#FADFD7",
     textTransform: "uppercase",
+    opacity: 0.8,
   },
   playerName: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
@@ -95,7 +99,6 @@ const useStyles = createUseStyles(() => ({
     fontSize: 16,
     lineHeight: 20,
     marginLeft: 10,
-    marginRight: 4,
   },
   generalPlayerStatsValue: {
     fontFamily: typography.fonts.instrumentSansCondensed.semiBold,
@@ -117,7 +120,6 @@ const useStyles = createUseStyles(() => ({
     fontSize: 16,
     lineHeight: 20,
     marginLeft: 10,
-    marginRight: 4,
   },
   personalPlayerStatsValue: {
     fontFamily: typography.fonts.instrumentSansCondensed.semiBold,
@@ -143,6 +145,9 @@ const useStyles = createUseStyles(() => ({
     width: "auto",
     height: 550,
   },
+  flagIcon:{
+    marginLeft: 3,
+  }
 }))
 
 export default TopContentContainer
