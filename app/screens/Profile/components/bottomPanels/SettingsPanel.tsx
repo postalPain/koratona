@@ -1,5 +1,4 @@
-import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from "@gorhom/bottom-sheet"
-import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet"
 import React from "react"
 import { SettingsController, SettingsKey } from "./SettingsContentController"
 
@@ -11,8 +10,6 @@ type Props = {
 
 const SettingsPanel = React.forwardRef<BottomSheet, Props>(
   ({ contentKey, handleClose, resetContentKey }, ref) => {
-    const styles = useStyles()
-
     return (
       <BottomSheet
         ref={ref}
@@ -28,9 +25,7 @@ const SettingsPanel = React.forwardRef<BottomSheet, Props>(
           <BottomSheetBackdrop {...props} appearsOnIndex={0} disappearsOnIndex={-1} />
         )}
       >
-        <BottomSheetView style={styles.bottomSheetView}>
-          <SettingsController contentKey={contentKey} handleClose={handleClose} />
-        </BottomSheetView>
+        <SettingsController contentKey={contentKey} handleClose={handleClose} />
       </BottomSheet>
     )
   },
@@ -38,9 +33,3 @@ const SettingsPanel = React.forwardRef<BottomSheet, Props>(
 
 SettingsPanel.displayName = "SettingsPanel"
 export default SettingsPanel
-
-const useStyles = createUseStyles(() => ({
-  bottomSheetView: {
-    paddingBottom: 1,
-  },
-}))

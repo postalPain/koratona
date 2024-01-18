@@ -32,45 +32,48 @@ export const TeamPlayersTab = observer(function (_props) {
       <View style={styles.titleContainer}>
         <Text style={styles.title} tx="teams.meetTeam" />
       </View>
-      <FlashList<Player>
-        contentContainerStyle={styles.list}
-        data={[...playerStore.playerList]}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        numColumns={2}
-        keyExtractor={(item) => item?.id?.toString()}
-        renderItem={({ item, index }) => (
-          <View
-            style={
-              index % 2 === 0
-                ? // eslint-disable-next-line react-native/no-inline-styles
-                  {
-                    paddingRight: 10,
-                  }
-                : // eslint-disable-next-line react-native/no-inline-styles
-                  {
-                    paddingLeft: 10,
-                  }
-            }
-          >
-            <Pressable
-              onPress={() => {
-                // @ts-ignore
-                navigation.navigate("player", { id: item.id })
-              }}
+      {playerStore.isPlayerListLoading && <Text style={styles.loadingText}>Loading...</Text>}
+      {!playerStore.isPlayerListLoading && (
+        <FlashList<Player>
+          contentContainerStyle={styles.list}
+          data={[...playerStore.playerList]}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+          numColumns={2}
+          keyExtractor={(item) => item?.id?.toString()}
+          renderItem={({ item, index }) => (
+            <View
+              style={
+                index % 2 === 0
+                  ? // eslint-disable-next-line react-native/no-inline-styles
+                    {
+                      paddingRight: 10,
+                    }
+                  : // eslint-disable-next-line react-native/no-inline-styles
+                    {
+                      paddingLeft: 10,
+                    }
+              }
             >
-              <PlayerCard
-                addedToFavorite={playerStore.isPlayerFavorited(item.id)}
-                player={item}
-                handleToggleFavorite={() => {
-                  playerStore.togglePlayerFavorite(item.id)
+              <Pressable
+                onPress={() => {
+                  // @ts-ignore
+                  navigation.navigate("player", { id: item.id })
                 }}
-              />
-            </Pressable>
-          </View>
-        )}
-        estimatedItemSize={220}
-        extraData={JSON.stringify(playerStore.favoritePlayerList)}
-      />
+              >
+                <PlayerCard
+                  addedToFavorite={playerStore.isPlayerFavorited(item.id)}
+                  player={item}
+                  handleToggleFavorite={() => {
+                    playerStore.togglePlayerFavorite(item.id)
+                  }}
+                />
+              </Pressable>
+            </View>
+          )}
+          estimatedItemSize={220}
+          extraData={JSON.stringify(playerStore.favoritePlayerList)}
+        />
+      )}
     </View>
   )
 })
@@ -92,5 +95,10 @@ const useStyles = createUseStyles((theme) => ({
   },
   list: {
     paddingHorizontal: 24,
+  },
+  loadingText: {
+    marginLeft: 24,
+    color: "#333865",
+    fontFamily: typography.fonts.instrumentSans.medium,
   },
 }))

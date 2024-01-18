@@ -6,8 +6,16 @@ import { getPostCreationTime } from "app/utils/formatCreatedTime"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import * as React from "react"
-import { Image, ImageBackground, ImageSourcePropType, Pressable, View } from "react-native"
+import {
+  Image,
+  ImageBackground,
+  ImageSourcePropType,
+  Pressable,
+  View,
+  useWindowDimensions,
+} from "react-native"
 import HeartIconIcon from "../../assets/icons/svgs/HeartIcon"
+import RenderHtml from "react-native-render-html"
 export interface FeedCardProps {
   /**
    *  Post entity
@@ -21,7 +29,7 @@ export interface FeedCardProps {
   /**
    * Background color. Requires to optimize shadows rendering on iOS.
    */
-  bgColor?: string;
+  bgColor?: string
 
   /**
    * Icon that will be displayed under the title
@@ -68,17 +76,19 @@ export const FeedCard = React.memo(
   observer(function FeedCard({
     post,
     bgImage,
-    bgColor = 'transparent',
+    bgColor = "transparent",
     underTitleIcon,
     onPress,
     addedToFavorite,
     favoriteCount,
     onFavoritePress,
   }: FeedCardProps) {
-    const styles = useStyles();
+    const styles = useStyles()
     const extraContainerWrapperStyles = {
       backgroundColor: bgColor,
-    };
+    }
+
+    const { width } = useWindowDimensions()
 
     return (
       <Pressable style={[styles.containerWrapper, extraContainerWrapperStyles]} onPress={onPress}>
@@ -89,8 +99,8 @@ export const FeedCard = React.memo(
             source={
               bgImage
                 ? {
-                  uri: bgImage,
-                }
+                    uri: bgImage,
+                  }
                 : require("assets/temp/cardBg.png")
             }
           >
@@ -101,17 +111,32 @@ export const FeedCard = React.memo(
               end={{ x: 0.1, y: 0.7 }}
             >
               {underTitleIcon && <Image style={styles.underTitleIcon} source={underTitleIcon} />}
-              {post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
+              {post?.title && <Text style={styles.heading} text={post.title} />}
             </LinearGradient>
           </ImageBackground>
           <View style={styles.footer}>
-            {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
+            {!!post?.subtitle && (
+              <RenderHtml
+                contentWidth={width}
+                source={{
+                  html: `<p>${post.subtitle}</p>`,
+                }}
+                tagsStyles={{
+                  p: {
+                    color: "#475467",
+                    fontSize: 14,
+                    lineHeight: 16.8,
+                    fontFamily: typography.fonts.instrumentSans.regular,
+                  },
+                }}
+              />
+            )}
             <View style={styles.basement}>
               {!!post?.updatedAt && (
                 <Text style={styles.basementText} text={getPostCreationTime(post.updatedAt)} />
               )}
               <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
-                <Text style={styles.basementText} weight="medium" text={`${favoriteCount || ""}`} />
+                <Text style={styles.basementText} text={`${favoriteCount || ""}`} />
                 <HeartIconIcon focused={addedToFavorite} />
               </Pressable>
             </View>
@@ -129,7 +154,7 @@ const useStyles = createUseStyles(() => ({
       width: 0,
       height: 4,
     },
-    shadowOpacity: 0.30,
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 8,
   },
@@ -163,14 +188,9 @@ const useStyles = createUseStyles(() => ({
   },
   footer: {
     padding: 18,
+    paddingTop: 8,
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-  },
-  subHeading: {
-    color: "#475467",
-    fontSize: 14,
-    lineHeight: 16.8,
-    fontFamily: typography.fonts.instrumentSans.regular,
   },
   basement: {
     alignItems: "center",
