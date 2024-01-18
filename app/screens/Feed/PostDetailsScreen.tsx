@@ -37,7 +37,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
         bottomInsets,
         topInsets,
         styles.contentContainerStyle,
-        { minHeight: height-100 },
+        { minHeight: height - 100 },
       ]}
       refreshControl={
         <RefreshControl
@@ -61,7 +61,6 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
         >
           <LinearGradient
             colors={["transparent", "rgba(0, 0, 0, 0.7)"]}
-            style={styles.headerGradient}
             end={{ x: 0.1, y: 0.1 }}
             start={{ x: 0.1, y: 0.9 }}
           >
@@ -84,7 +83,9 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             </View>
           </LinearGradient>
           <View style={styles.headerText}>
-            {!!post?.title && <Text style={styles.heading} weight="bold" text={post.title} />}
+            {!!post?.title && (
+              <Text style={styles.heading} text={post.title} />
+            )}
             {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
           </View>
         </LinearGradient>
@@ -140,13 +141,12 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "space-between",
     height: "100%",
   },
-  headerGradient: {},
   heading: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     textTransform: "uppercase",
     color: "#fff",
     fontSize: 48,
-    lineHeight: 48,
+    lineHeight: 56,
     letterSpacing: -0.96,
   },
   subHeading: {
