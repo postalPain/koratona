@@ -77,7 +77,9 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
                     postsStore.toggleFavorite(post.id)
                   }
                 }}
+                style={styles.favoriteInfoContainer}
               >
+                <Text style={styles.favoriteCountText} text={`${post?.favoriteCount || ""}`} />
                 <HeartIconIcon focused={!!isPostAddedToFavorite} />
               </Pressable>
             </View>
@@ -178,4 +180,15 @@ const useStyles = createUseStyles(() => ({
     backgroundColor: "#fff",
     overflowY: "scroll",
   },
+  favoriteCountText: {
+    fontFamily: typography.fonts.instrumentSans.medium,
+    color: "#98A2B3",
+    fontSize: 14,
+    lineHeight: 16.8,
+    marginRight: 4,
+  },
+  favoriteInfoContainer:{
+    flexDirection: "row",
+    alignItems: "center",
+  }
 }))
