@@ -50,8 +50,9 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
   function ProductPurchaseScreen(_props) {
     const styles = useStyles()
     const { id } = _props.route.params
-    const { productsStore } = useStores()
-    const product = productsStore.getProductById(id)
+    const { productsStore, authUserStore } = useStores();
+    const product = productsStore.getProductById(id);
+    const { user} = authUserStore;
 
     const [cardImage, setCardImage] = useState<React.ReactNode | null>(null);
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -77,6 +78,8 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
         card_security_code: values.card_security_code,
         amount: Number.parseFloat(product?.price || '0') * 100,
         customer_email: values.email,
+        userId: user.id,
+        productId: product?.id ?? 0,
       });
 
       setIsLoading(false);

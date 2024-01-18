@@ -1,13 +1,25 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
-import * as Crypto from "expo-crypto";
 import * as Network from 'expo-network';
 import { Buffer } from "buffer";
 import * as Payment from "./paymentTypes";
 import Config from '../../config';
 import { generateSignature, parseResponse, APSStatusCodes } from "./utils";
 import { getLanguage } from 'app/i18n';
+import { createOrder } from '../../services/api/order/orderService';
 
+
+const getIp = async () => {
+  let ip;
+  try {
+    const res = await axios('https://api.ipify.org?format=json') as { data: { ip: string }};
+    ip = res.data.ip;
+  } catch(e) {
+    const localIp = await Network.getIpAddressAsync();
+    ip = localIp;
+  }
+  return ip;
+};
 const getToken: Payment.GetToken = async (params) => {
   let response;
   const language = getLanguage();
@@ -95,10 +107,24 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
     card_security_code,
     amount,
     customer_email,
+    userId,
+    productId,
   } = params;
-  const customer_ip = await Network.getIpAddressAsync();
   const currency = __DEV__ ? 'USD' : 'AED';
-  const merchant_reference = Crypto.randomUUID();
+  const customer_ip = await getIp();
+
+  const paymentRes = await createOrder({
+    userId,
+    productId,
+  });
+  if (paymentRes.kind !== 'ok') {
+    return {
+      kind: 'bad-data',
+      error: 'Order creation error',
+    };
+  }
+  const merchant_reference = paymentRes.data.id.toString();
+
 
   const tokenRes = await getToken({
     merchant_reference,
@@ -113,9 +139,11 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
 
   const description = {
     order_id: merchant_reference,
-    user_id: '5892476872204d7aa4310b960f3b8c40',
+    user_id: userId.toString(),
   };
   const descriptionParams: URLSearchParams = new URLSearchParams(description);
+  const order_description = Buffer.from(descriptionParams.toString()).toString('base64').replaceAll('=', '#'); // APS doesn't accept '=' symbol
+
   const paymentResponse = await makePayment({
     amount,
     currency,
@@ -123,7 +151,7 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
     customer_ip,
     token_name: tokenRes.data.token_name,
     merchant_reference,
-    order_description: Buffer.from(descriptionParams.toString()).toString('base64').replace('=', '#'), // APS doesn't accept '=' symbol
+    order_description,
   });
   return paymentResponse;
 }

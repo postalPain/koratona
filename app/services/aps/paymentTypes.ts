@@ -105,6 +105,8 @@ export type APSSubmitPaymentParams = {
   card_security_code: string;
   amount: number;
   customer_email: string;
+  userId: string;
+  productId: number;
 };
 export type SubmitAPSPaymentResponse = MakePaymentResponse;
 export type SubmitAPSPayment = (
