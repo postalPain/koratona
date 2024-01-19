@@ -34,6 +34,8 @@ const en = {
     enterLoginCode: "Enter login code",
     weHaveSentCodeTo: "We’ve sent a code to",
     resendCode: "Resend code",
+    wrongCode: "Wrong code",
+    enterCode: "Enter code",
   },
   forgotPassword: {
     slogan: "Password reset",

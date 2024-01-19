@@ -1944,6 +1944,11 @@
   resolved "https://registry.yarnpkg.com/@jsamr/react-native-li/-/react-native-li-2.3.1.tgz#12a5b5f6e3971cec77b96bee58104eed0ae9314a"
   integrity sha512-Qbo4NEj48SQ4k8FZJHFE2fgZDKTWaUGmVxcIQh3msg5JezLdTMMHuRRDYctfdHI6L0FZGObmEv3haWbIvmol8w==
 
+"@maniac-tech/react-native-expo-read-sms@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@maniac-tech/react-native-expo-read-sms/-/react-native-expo-read-sms-3.0.0.tgz#9e60e674cf5e1b3f3953027a3a2c18b1a64e60a0"
+  integrity sha512-zcF2TGmlKr0/rO0/sQsWEmrAgpWF7Rs/uNUaQO0AjaAQtCKAs+8cupG4Rc+tCMruqFW2ell8JnwqouRNs08GHQ==
+
 "@native-html/css-processor@1.11.0":
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/@native-html/css-processor/-/css-processor-1.11.0.tgz#27d02e5123b0849f4986d44060ba3f235a15f552"
