@@ -29,6 +29,9 @@ export const isRTL = preferredLanguage.textDirection === "rtl"
 I18nManager.allowRTL(isRTL)
 I18nManager.forceRTL(isRTL)
 
+
+export type TLanguage = 'en' | 'ar';
+export const getLanguage = (): TLanguage => i18n.locale.slice(0, 2) as TLanguage;
 /**
  * Builds up valid keypaths for translations.
  */
