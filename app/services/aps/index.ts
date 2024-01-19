@@ -12,8 +12,9 @@ import { createOrder } from '../../services/api/order/orderService';
 const getIp = async () => {
   let ip;
   try {
-    const res = await axios('https://api.ipify.org?format=json') as { data: { ip: string }};
-    ip = res.data.ip;
+    const res = await fetch('https://api.ipify.org?format=json');
+    const resJson = await res.json() as { ip: string };
+    ip = resJson.ip;
   } catch(e) {
     const localIp = await Network.getIpAddressAsync();
     ip = localIp;
@@ -78,19 +79,20 @@ const makePayment: Payment.MakePayment = async (params) => {
   };
 
   try {
-    const response = await axios({
-      url: Config.APS_PAYMENT_URL,
+    const response = await fetch(Config.APS_PAYMENT_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8'
       },
-      data: { ...payload },
-    });
-    if (!response.data.status || response.data.status !== '14') {
-      console.log(APSStatusCodes[response.data.status][language]);
-      return { kind: "bad-data", error: response.data.response_message };
+      body: JSON.stringify(payload),
+    })
+    const responseData = await response.json();
+
+    if (!responseData.status || responseData.status !== '14') {
+      console.log(APSStatusCodes[responseData.status][language]);
+      return { kind: "bad-data", error: responseData.response_message };
     }
-    return { kind: "ok", data: response.data };
+    return { kind: "ok", data: responseData };
   } catch (e) {
     if (__DEV__ && e instanceof Error) {
       // @ts-ignore
