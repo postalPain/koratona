@@ -109,6 +109,7 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
     card_security_code,
     amount,
     customer_email,
+    card_holder_name,
     userId,
     productId,
   } = params;
@@ -133,6 +134,7 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
     expiry_date,
     card_number,
     card_security_code,
+    card_holder_name,
   });
 
   if (tokenRes.kind !== 'ok') {
@@ -151,6 +153,7 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
     currency,
     customer_email,
     customer_ip,
+    customer_name: card_holder_name,
     token_name: tokenRes.data.token_name,
     merchant_reference,
     order_description,
