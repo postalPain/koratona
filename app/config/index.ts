@@ -19,7 +19,7 @@ import DevConfig from "./config.dev"
 
 let ExtraConfig = ProdConfig
 
-if (__DEV__) {
+if (process.env.EAS_BUILD_PROFILE !== 'production') {
   ExtraConfig = DevConfig
 }
 
