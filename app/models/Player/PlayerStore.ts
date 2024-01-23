@@ -56,13 +56,13 @@ export const PlayerStoreModel = types
           self.favoritePlayerList.replace(
             self.favoritePlayerList.filter((player) => player.id !== id),
           )
-          yield removePlayerFromFavorite(id, user.id)
+          yield removePlayerFromFavorite(id, user.userId)
         } else {
           const player = self.playerList.find((player) => player.id === id)
           if (player) {
             self.favoritePlayerList.push(clone(player))
           }
-          yield addPlayerToFavorite(id, user.id)
+          yield addPlayerToFavorite(id, user.userId)
         }
         successCallback && successCallback()
       } catch (error) {
@@ -80,7 +80,7 @@ export const PlayerStoreModel = types
         } = getRoot(self) as any
 
 
-        const response = yield getUsersFavoritePlayerList(user.id)
+        const response = yield getUsersFavoritePlayerList(user.userId)
         const mappedData = response.data.data.filter(({ player }: { player: Player }) => !!player)
         .map(({ player }: { player: Player }) => player)
         self.favoritePlayerList = mappedData

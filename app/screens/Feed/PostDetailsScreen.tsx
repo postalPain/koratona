@@ -28,7 +28,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width, height } = useWindowDimensions()
   const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
-    (user) => user.userId === authUserStore.user.id,
+    (user) => user.userId === authUserStore.user.userId,
   )
 
   return (

@@ -40,7 +40,6 @@ export type AppStackParamList = {
   welcome: undefined
   Home: NavigatorScreenParams<AppHomeTabParamList>
   // 🔥 Your screens go here
-  RestorePassword: { token: string }
   UserInfo: undefined
   Onboarding: Partial<{
     currentStep?: number
@@ -102,7 +101,6 @@ const AppStack = observer(function AppStack(_props) {
         <>
           <Stack.Screen name="OTAConfirmation" component={Screens.OTAConfirmation} />
           <Stack.Screen name="welcome" component={Screens.WelcomeScreen} />
-          <Stack.Screen name="RestorePassword" component={Screens.RestorePasswordScreen} />
         </>
       )}
 

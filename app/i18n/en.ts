@@ -36,6 +36,7 @@ const en = {
     resendCode: "Resend code",
     wrongCode: "Wrong code",
     enterCode: "Enter code",
+    codeSent: "Code sent",
   },
   forgotPassword: {
     slogan: "Password reset",
@@ -140,6 +141,7 @@ const en = {
     enableNotifications: "Enable notifications",
     sendEmail: "Send an email",
     editFavoritePlayers: "Edit favorite players",
+    favoritePlayers: "favorite players",
   },
   widgets: {
     tabs: {

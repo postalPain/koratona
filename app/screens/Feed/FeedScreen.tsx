@@ -40,7 +40,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         underTitleIcon={item.video ? YouTubeIcon : undefined}
         favoriteCount={item.favoriteCount}
         addedToFavorite={item.usersToFavoritePosts.some(
-          (user) => user.userId === authUserStore.user.id,
+          (user) => user.userId === authUserStore.user.userId,
         )}
         onFavoritePress={() => postsStore.toggleFavorite(item.id)}
       />

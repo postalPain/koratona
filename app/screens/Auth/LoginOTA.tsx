@@ -1,10 +1,17 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
+import { useStores } from "app/models"
 import { typography } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
-import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, View } from "react-native"
+import {
+  ActivityIndicator,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native"
 import PhoneInput from "react-native-phone-number-input"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { AuthPolicies } from "./AuthPolicies"
@@ -15,21 +22,27 @@ type Props = {
 
 export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmation }) {
   const styles = useStyles()
+  const { authenticationStore } = useStores()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const [value, setValue] = useState("")
-  const [formattedValue, setFormattedValue] = useState("")
-  const [valid, setValid] = useState(true)
+  const [value, setValue] = useState("987026046")
+  const [formattedPhoneValue, setFormattedPhoneValue] = useState<string>("")
+  const [valid, setValid] = useState<boolean>(true)
   const phoneInput = useRef<PhoneInput>(null)
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
 
-  const goToOTALoginScreen = () => {
+  const goToOTALoginScreen = async () => {
+    if (isLoading) return
+    setIsLoading(true)
     const checkValid = phoneInput.current?.isValidNumber(value)
     setValid(checkValid || false)
     if (!checkValid) {
       return
     }
-
-    goToOTAConfirmation(formattedValue)
+    await authenticationStore.getOTACode(formattedPhoneValue, () => {
+      goToOTAConfirmation(formattedPhoneValue)
+      setIsLoading(false)
+    })
   }
 
   return (
@@ -37,20 +50,6 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
           <Text tx="welcomeScreen.letsGetStarted" style={styles.formTitleText} weight="bold" />
-          {/* {Platform.OS === "ios" && (
-            <InputAccessoryView nativeID="phoneNumberInput">
-              <View style={styles.inputAccessoryBox}>
-                <CustomText
-                  onPress={() => {
-                    Keyboard.dismiss()
-                  }}
-                  style={styles.inputAccessoryText}
-                  tx="common.done"
-                  weight="semiBold"
-                />
-              </View>
-            </InputAccessoryView>
-          )} */}
           <PhoneInput
             ref={phoneInput}
             defaultValue={value}
@@ -65,7 +64,7 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
             }}
             placeholder="Enter phone number"
             onChangeFormattedText={(text) => {
-              setFormattedValue(text)
+              setFormattedPhoneValue(text)
             }}
             countryPickerProps={{ withAlphaFilter: true }}
             disableArrowIcon
@@ -79,11 +78,12 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
           />
           <Button
             style={styles.goToPurchasesButton}
-            tx="common.continue"
-            textStyle={styles.goToPurchasesButtonText}
             onPress={goToOTALoginScreen}
             pressedStyle={styles.goToPurchasesButton}
-          />
+          >
+            {!isLoading && <Text style={styles.goToPurchasesButtonText} tx="common.continue" />}
+            {isLoading && <ActivityIndicator />}
+          </Button>
           <View style={bottomInsets}>
             <AuthPolicies />
           </View>

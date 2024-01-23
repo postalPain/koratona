@@ -4,7 +4,6 @@ export * from "./DemoDebugScreen"
 
 export * from "./ErrorScreen/ErrorBoundary"
 // export other screens here
-export * from "./Auth/RestorePasswordScreen"
 export * from "./Auth/OTAConfirmationScreen"
 export * from "./UserInfoScreen"
 export * from "./Onboarding/OnboardingScreen"

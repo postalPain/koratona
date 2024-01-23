@@ -1,13 +1,15 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Button, Text, TextField } from "app/components"
+import { Button, Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
 import { AppStackScreenProps } from "app/navigators"
 import { typography } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
+import EnvelopeIconSmall from "assets/icons/svgs/EnvelopeIconSmall"
 import { t } from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import {
+  ActivityIndicator,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -17,27 +19,28 @@ import {
 } from "react-native"
 import { OtpInput, OtpInputRef } from "react-native-otp-entry"
 import { Colors } from "react-native/Libraries/NewAppScreen"
-import EnvelopeIconSmall from "assets/icons/svgs/EnvelopeIconSmall"
 
-import useApp from "./hooks/useSMSApp"
 import { showToast } from "app/utils/showToast"
+import useApp from "./hooks/useSMSApp"
+import { useStores } from "app/models"
 
 interface ScreenProps extends AppStackScreenProps<"OTAConfirmation"> {}
 
 const RESEND_CODE_IN_SECONDS = 60
 
-const CORRECT_CODE = "1234"
-const WRONG_CODE = "4321"
-
 export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props) {
   const styles = useStyles()
+  const { authenticationStore } = useStores()
+
+  const [isLoading, setIsLoading] = React.useState<boolean>(false)
+
   const [disabledResendCode, setDisabledResendCode] = React.useState<boolean>(false)
   const [resendCodeIn, setResendCodeIn] = React.useState<number>(0)
   const [otpCodeInvalid, setOtpCodeInvalid] = React.useState<boolean>(false)
   const { buttonClickHandler, smsMessageBody } = useApp()
   const [otpCode, setOtpCode] = React.useState<string>("")
 
-  const phoneNumber = _props.route.params.phoneNumber
+  const phoneNumber = _props.route?.params?.phoneNumber
 
   const bottomInset = useSafeAreaInsetsStyle(["bottom"])
   const topInset = useSafeAreaInsetsStyle(["top"])
@@ -45,10 +48,12 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
   const OTPInputRef = React.useRef<OtpInputRef>(null)
 
   const requestCode = () => {
-    if (!disabledResendCode) {
-      setDisabledResendCode(true)
-      setResendCodeIn(RESEND_CODE_IN_SECONDS)
-    }
+    if (disabledResendCode || !phoneNumber) return
+    setDisabledResendCode(true)
+    setResendCodeIn(RESEND_CODE_IN_SECONDS)
+    authenticationStore.getOTACode(phoneNumber, () => {
+      showToast(t("signIn.codeSent"))
+    })
   }
 
   const updateResendCodeIn = () => {
@@ -90,6 +95,30 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
     }
   }, [smsMessageBody])
 
+  const handleConfirmOTPCode = async (customValue?: string) => {
+    if (isLoading) return
+    setIsLoading(true)
+    if (!customValue && !otpCode) {
+      setOtpCodeInvalid(true)
+      showToast(t("signIn.enterCode"))
+      return
+    }
+    await authenticationStore.confirmOTPCode(
+      {
+        phone: phoneNumber,
+        code: customValue || otpCode,
+        deviceId: "123random",
+      },
+      () => {
+        setIsLoading(false)
+      },
+      () => {
+        setOtpCodeInvalid(true)
+        setIsLoading(false)
+      },
+    )
+  }
+
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -116,6 +145,7 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
               }}
               onFilled={(value) => {
                 setOtpCode(value)
+                handleConfirmOTPCode(value)
               }}
               theme={{
                 containerStyle: styles.otpInputContainer,
@@ -148,24 +178,14 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
               )}
             </View>
           </View>
-
           <Button
             style={styles.goToPurchasesButton}
-            tx="common.continue"
-            textStyle={styles.goToPurchasesButtonText}
             pressedStyle={styles.goToPurchasesButton}
-            onPress={() => {
-              if (otpCode === CORRECT_CODE) {
-                // _props.navigation.navigate("Main")
-              } else if (otpCode && otpCode !== CORRECT_CODE) {
-                setOtpCodeInvalid(true)
-                showToast(t("signIn.wrongCode"))
-              } else {
-                setOtpCodeInvalid(true)
-                showToast(t("signIn.enterCode"))
-              }
-            }}
-          />
+            onPress={() => handleConfirmOTPCode()}
+          >
+            {!isLoading && <Text style={styles.goToPurchasesButtonText} tx="common.continue" />}
+            {isLoading && <ActivityIndicator />}
+          </Button>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
