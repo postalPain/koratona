@@ -16,17 +16,21 @@ export const ProfileStatsSection = observer(function () {
     <View style={styles.playerDescription}>
       <Text
         style={styles.playerDescriptionText}
-        text={`${user.firstName} is one of our most passionate fans. The 21 year old’s Koratona x Al Hilal debut was on 5 Jan 2023.`}
+        text={`${user.firstName} is one of our most passionate fans. The ${
+          user.ageYears ? user.ageYears + " year old’s" : ""
+        } Koratona x Al Hilal debut was on ${user.joinedDateFormatted || ""}`}
       />
       <View style={styles.playerStats}>
         <View style={[styles.playerStatsInfoBox, styles.playerStatsInfoBoxFirstChild]}>
-          <Text style={styles.playerStatsValueText} text="26" />
+          <Text style={styles.playerStatsValueText} text={`${user.ageYears || ""}`} />
           <Text style={styles.playerStatsTitleText} tx="profile.age" />
         </View>
-        <View style={styles.playerStatsInfoBox}>
-          <Text style={styles.playerStatsValueText} text="Jan 2, 2024" />
-          <Text style={styles.playerStatsTitleText} tx="profile.memberSince" />
-        </View>
+        {user.joinedDateFormatted && (
+          <View style={styles.playerStatsInfoBox}>
+            <Text style={styles.playerStatsValueText} text={user.joinedDateFormatted} />
+            <Text style={styles.playerStatsTitleText} tx="profile.memberSince" />
+          </View>
+        )}
       </View>
     </View>
   )
