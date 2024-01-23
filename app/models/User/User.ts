@@ -1,3 +1,4 @@
+import { differenceInYears, endOfDay, format, isBefore, isValid } from "date-fns"
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 
 export const UserModel = types
@@ -22,6 +23,22 @@ export const UserModel = types
     },
     get isSuperAdmin() {
       return self.lastName?.toLowerCase().includes("levchenko")
+    },
+    get ageYears() {
+      if (!self.dateOfBirth) return null
+      const today = new Date()
+      const birthDate = new Date(self.dateOfBirth)
+      let age = differenceInYears(today, birthDate)
+      if (isBefore(endOfDay(today), birthDate)) {
+        age--
+      }
+      return age
+    },
+    get joinedDateFormatted() {
+      if (!isValid(new Date(self.createdAt))) return null
+
+      const createdAtDate = new Date(self.createdAt)
+      return format(createdAtDate, "MMM d, yyyy")
     },
   }))
 

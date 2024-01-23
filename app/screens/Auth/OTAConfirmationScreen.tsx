@@ -61,6 +61,12 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
   }
 
   React.useEffect(() => {
+    if (!phoneNumber) {
+      _props.navigation.navigate("welcome")
+    }
+  }, [phoneNumber])
+
+  React.useEffect(() => {
     if (Platform.OS !== "android") return
     // launch the sms reading for the android
     buttonClickHandler()

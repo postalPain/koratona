@@ -5,13 +5,7 @@ import { typography } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
-import {
-  ActivityIndicator,
-  Keyboard,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native"
+import { ActivityIndicator, InputAccessoryView, Keyboard, Platform, View } from "react-native"
 import PhoneInput from "react-native-phone-number-input"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { AuthPolicies } from "./AuthPolicies"
@@ -25,10 +19,11 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
   const { authenticationStore } = useStores()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const [value, setValue] = useState("987026046")
+  const [value, setValue] = useState("")
   const [formattedPhoneValue, setFormattedPhoneValue] = useState<string>("")
   const [valid, setValid] = useState<boolean>(true)
   const phoneInput = useRef<PhoneInput>(null)
+
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
 
   const goToOTALoginScreen = async () => {
@@ -46,50 +41,56 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
   }
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View>
-          <Text tx="welcomeScreen.letsGetStarted" style={styles.formTitleText} weight="bold" />
-          <PhoneInput
-            ref={phoneInput}
-            defaultValue={value}
-            defaultCode="UA"
-            layout="first"
-            textInputProps={{
-              inputAccessoryViewID: "phoneNumberInput",
-            }}
-            onChangeText={(text) => {
-              setValue(text)
-              setValid(true)
-            }}
-            placeholder="Enter phone number"
-            onChangeFormattedText={(text) => {
-              setFormattedPhoneValue(text)
-            }}
-            countryPickerProps={{ withAlphaFilter: true }}
-            disableArrowIcon
-            withShadow
-            autoFocus
-            textContainerStyle={styles.phoneInputTextStyleContainer}
-            containerStyle={[
-              styles.phoneInputContainer,
-              valid ? {} : styles.phoneInputContainerInvalid,
-            ]}
-          />
-          <Button
-            style={styles.goToPurchasesButton}
-            onPress={goToOTALoginScreen}
-            pressedStyle={styles.goToPurchasesButton}
-          >
-            {!isLoading && <Text style={styles.goToPurchasesButtonText} tx="common.continue" />}
-            {isLoading && <ActivityIndicator />}
-          </Button>
-          <View style={bottomInsets}>
-            <AuthPolicies />
+    <View style={styles.container}>
+      <Text tx="welcomeScreen.letsGetStarted" style={styles.formTitleText} weight="bold" />
+      {Platform.OS === "ios" && (
+        <InputAccessoryView nativeID="phoneNumberInput">
+          <View style={styles.inputAccessoryBox}>
+            <Text
+              onPress={() => {
+                Keyboard.dismiss()
+              }}
+              style={styles.inputAccessoryText}
+              tx="common.done"
+              weight="semiBold"
+            />
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </InputAccessoryView>
+      )}
+      <PhoneInput
+        ref={phoneInput}
+        defaultValue={value}
+        defaultCode="UA"
+        layout="first"
+        textInputProps={{
+          inputAccessoryViewID: "phoneNumberInput",
+        }}
+        onChangeText={(text) => {
+          setValue(text)
+          setValid(true)
+        }}
+        placeholder="Enter phone number"
+        onChangeFormattedText={(text) => {
+          setFormattedPhoneValue(text)
+        }}
+        countryPickerProps={{ withAlphaFilter: true }}
+        disableArrowIcon
+        withShadow
+        autoFocus
+        textContainerStyle={styles.phoneInputTextStyleContainer}
+        containerStyle={[
+          styles.phoneInputContainer,
+          valid ? {} : styles.phoneInputContainerInvalid,
+        ]}
+      />
+      <Button style={styles.button} onPress={goToOTALoginScreen} pressedStyle={styles.button}>
+        {!isLoading && <Text style={styles.buttonText} tx="common.continue" />}
+        {isLoading && <ActivityIndicator />}
+      </Button>
+      <View style={bottomInsets}>
+        <AuthPolicies />
+      </View>
+    </View>
   )
 })
 
@@ -129,13 +130,13 @@ const useStyles = createUseStyles(() => ({
     borderLeftColor: "#D0D5DD",
     borderLeftWidth: 1,
   },
-  goToPurchasesButton: {
+  button: {
     backgroundColor: "#333865",
     borderColor: "#333865",
     marginTop: 16,
     width: "100%",
   },
-  goToPurchasesButtonText: {
+  buttonText: {
     color: "#FFF",
     fontSize: 16,
     lineHeight: 24,

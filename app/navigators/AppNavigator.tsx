@@ -68,18 +68,17 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack(_props) {
   const {
-    authenticationStore: { isAuthenticated },
-    // authUserStore: { user, isUserOnboardingCompleted },
+    authenticationStore: { isAuthenticated, showingOnboarding },
   } = useStores()
 
   useFetchAuthUser()
   useInitApplyUserSettings()
 
-  // useEffect(() => { //:TODO: uncomment when onboarding is discussed and ready
-  //   if (isAuthenticated && user.email && user.id && !isUserOnboardingCompleted) {
-  //     navigationRef.current?.navigate("Onboarding" as any)
-  //   }
-  // }, [isUserOnboardingCompleted, isAuthenticated, user.email, user.id])
+  React.useEffect(() => {
+    if (isAuthenticated && showingOnboarding) {
+      navigationRef.current?.navigate("Onboarding", { currentStep: 0 })
+    }
+  }, [showingOnboarding, isAuthenticated])
 
   return (
     <Stack.Navigator
@@ -88,14 +87,13 @@ const AppStack = observer(function AppStack(_props) {
     >
       {isAuthenticated ? (
         <>
-          {/* //:TODO: uncomment when onboarding is discussed and ready */}
-          {/* <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} /> */}
           <Stack.Screen name="Home" component={AppHomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen
             name="InitialProfileSettings"
             component={Screens.InitialProfileSettingsScreen}
           />
+          <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
         </>
       ) : (
         <>

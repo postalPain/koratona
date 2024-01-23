@@ -25,11 +25,14 @@ import SelectDropdown from "react-native-select-dropdown"
 
 type Props = {
   afterSubmit: () => void
+  disableBottomSheetInternal?: boolean
 }
 
-const EditProfileForm = observer(function ({ afterSubmit }: Props) {
+const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInternal }: Props) {
   const styles = useStyles()
-  const { shouldHandleKeyboardEvents } = useBottomSheetInternal()
+  const { shouldHandleKeyboardEvents } = disableBottomSheetInternal
+    ? { shouldHandleKeyboardEvents: { value: false } }
+    : useBottomSheetInternal()
 
   const { authUserStore, teamStore } = useStores()
   const user = authUserStore.user
@@ -68,8 +71,12 @@ const EditProfileForm = observer(function ({ afterSubmit }: Props) {
   }, [shouldHandleKeyboardEvents])
 
   React.useEffect(() => {
-    setSelectedTeam(teamStore.selectedFavoriteTeam)
-  }, [teamStore.selectedFavoriteTeam])
+    const team =
+      teamStore.selectedFavoriteTeam.id === 0
+        ? teamStore.teamList[0]
+        : teamStore.selectedFavoriteTeam
+    setSelectedTeam(team)
+  }, [teamStore.selectedFavoriteTeam, teamStore.teamList])
 
   const onDatePickerConfirm: (date?: Date) => void = (selectedDate) => {
     setDateBirthPickerVisible(false)
@@ -170,198 +177,197 @@ const EditProfileForm = observer(function ({ afterSubmit }: Props) {
   }
 
   return (
-    <View>
-      <View style={styles.formContent}>
-        <View style={styles.inputContainer}>
-          {Platform.OS === "ios" && (
-            <InputAccessoryView nativeID="firstNameAccessoryId">
-              <View style={styles.inputAccessoryBox}>
-                <Text
-                  onPress={() => {
-                    Keyboard.dismiss()
-                  }}
-                  style={styles.inputAccessoryText}
-                  tx="common.done"
-                  weight="semiBold"
-                />
-              </View>
-            </InputAccessoryView>
-          )}
-          <Input
-            name="firstName"
-            label="First name"
-            placeholder="First name"
-            inputAccessoryViewID="firstNameAccessoryId"
-            keyboardType="default"
-            textContentType="givenName"
-            enablesReturnKeyAutomatically
-            errorStyle={styles.hintsStyles}
-            hintStyle={styles.hintsStyles}
-            onFocus={() => {
-              shouldHandleKeyboardEvents.value = true
-            }}
-            error={errors.firstName}
-            value={firstName}
-            onChange={onUserInfoInputFieldChange("firstName")}
-            onBlur={() => {
-              shouldHandleKeyboardEvents.value = false
-              checkIsFieldValidOnBlur("firstName")
-            }}
-          />
-          {Platform.OS === "ios" && (
-            <InputAccessoryView nativeID="lastNameAccessoryId">
-              <View style={styles.inputAccessoryBox}>
-                <Text
-                  onPress={() => {
-                    Keyboard.dismiss()
-                  }}
-                  style={styles.inputAccessoryText}
-                  tx="common.done"
-                  weight="semiBold"
-                />
-              </View>
-            </InputAccessoryView>
-          )}
-          <Input
-            name="lastName"
-            label="Last name"
-            placeholder="Last name"
-            keyboardType="default"
-            textContentType="familyName"
-            inputAccessoryViewID="lastNameAccessoryId"
-            enablesReturnKeyAutomatically
-            errorStyle={styles.hintsStyles}
-            hintStyle={styles.hintsStyles}
-            error={errors.lastName}
-            onFocus={() => {
-              shouldHandleKeyboardEvents.value = true
-            }}
-            value={lastName}
-            onChange={onUserInfoInputFieldChange("lastName")}
-            onBlur={() => {
-              shouldHandleKeyboardEvents.value = false
-              checkIsFieldValidOnBlur("lastName")
-            }}
-          />
-          <Pressable
-            style={styles.datePickerContainer}
-            onPress={() => {
-              setDateBirthPickerVisible(true)
-            }}
-          >
-            <Text text="Date of birth" style={styles.datePickerLabel} />
-            <Text text={format(date, "dd MMMM yyyy")} style={styles.datePickerText} />
-            <DateTimePickerModal
-              date={date}
-              onConfirm={onDatePickerConfirm}
-              onCancel={() => {
-                setDateBirthPickerVisible(false)
-              }}
-              isVisible={dateBirthPickerVisible}
-            />
-          </Pressable>
-          {Platform.OS === "ios" && (
-            <InputAccessoryView nativeID="emailAccessoryId">
-              <View style={styles.inputAccessoryBox}>
-                <Text
-                  onPress={() => {
-                    Keyboard.dismiss()
-                  }}
-                  style={styles.inputAccessoryText}
-                  tx="common.done"
-                  weight="semiBold"
-                />
-              </View>
-            </InputAccessoryView>
-          )}
-          <Input
-            name="email"
-            label="Email"
-            placeholder="Email"
-            keyboardType="default"
-            textContentType="emailAddress"
-            inputAccessoryViewID="emailAccessoryId"
-            errorStyle={styles.hintsStyles}
-            hintStyle={styles.hintsStyles}
-            error={errors.email}
-            onFocus={() => {
-              shouldHandleKeyboardEvents.value = true
-            }}
-            value={email}
-            onChange={onUserInfoInputFieldChange("email")}
-            onBlur={() => {
-              shouldHandleKeyboardEvents.value = false
-              checkIsFieldValidOnBlur("email")
-            }}
-          />
-          <Input
-            name="phone"
-            label="Phone Number"
-            mask="XXX XXXXXXXXX"
-            value={user.phone}
-            editable={false}
-          />
-        </View>
-        <Text style={styles.formTitle} tx="profile.yourTeam" weight="semiBold" />
-
-        <SelectDropdown
-          data={teamStore.teamList}
-          onSelect={(selectedItem) => {
-            setSelectedTeam(selectedItem)
+    <View style={styles.formContent}>
+      <View style={styles.inputContainer}>
+        {Platform.OS === "ios" && (
+          <InputAccessoryView nativeID="firstNameAccessoryId">
+            <View style={styles.inputAccessoryBox}>
+              <Text
+                onPress={() => {
+                  Keyboard.dismiss()
+                }}
+                style={styles.inputAccessoryText}
+                tx="common.done"
+                weight="semiBold"
+              />
+            </View>
+          </InputAccessoryView>
+        )}
+        <Input
+          name="firstName"
+          label="First name"
+          placeholder="First name"
+          inputAccessoryViewID="firstNameAccessoryId"
+          keyboardType="default"
+          textContentType="givenName"
+          enablesReturnKeyAutomatically
+          errorStyle={styles.hintsStyles}
+          hintStyle={styles.hintsStyles}
+          onFocus={() => {
+            shouldHandleKeyboardEvents.value = true
           }}
-          defaultValueByIndex={0}
-          buttonStyle={styles.teamPickerButton}
-          buttonTextStyle={styles.teamPickerButtonText}
-          dropdownStyle={styles.teamPickerDropdown}
-          renderCustomizedButtonChild={() => (
-            <View style={styles.teamPickerButtonListItem}>
+          error={errors.firstName}
+          value={firstName}
+          onChange={onUserInfoInputFieldChange("firstName")}
+          onBlur={() => {
+            shouldHandleKeyboardEvents.value = false
+            checkIsFieldValidOnBlur("firstName")
+          }}
+        />
+        {Platform.OS === "ios" && (
+          <InputAccessoryView nativeID="lastNameAccessoryId">
+            <View style={styles.inputAccessoryBox}>
+              <Text
+                onPress={() => {
+                  Keyboard.dismiss()
+                }}
+                style={styles.inputAccessoryText}
+                tx="common.done"
+                weight="semiBold"
+              />
+            </View>
+          </InputAccessoryView>
+        )}
+        <Input
+          name="lastName"
+          label="Last name"
+          placeholder="Last name"
+          keyboardType="default"
+          textContentType="familyName"
+          inputAccessoryViewID="lastNameAccessoryId"
+          enablesReturnKeyAutomatically
+          errorStyle={styles.hintsStyles}
+          hintStyle={styles.hintsStyles}
+          error={errors.lastName}
+          onFocus={() => {
+            shouldHandleKeyboardEvents.value = true
+          }}
+          value={lastName}
+          onChange={onUserInfoInputFieldChange("lastName")}
+          onBlur={() => {
+            shouldHandleKeyboardEvents.value = false
+            checkIsFieldValidOnBlur("lastName")
+          }}
+        />
+        <Pressable
+          style={styles.datePickerContainer}
+          onPress={() => {
+            setDateBirthPickerVisible(true)
+          }}
+        >
+          <Text text="Date of birth" style={styles.datePickerLabel} />
+          <Text text={format(date, "dd MMMM yyyy")} style={styles.datePickerText} />
+          <DateTimePickerModal
+            date={date}
+            onConfirm={onDatePickerConfirm}
+            onCancel={() => {
+              setDateBirthPickerVisible(false)
+            }}
+            isVisible={dateBirthPickerVisible}
+          />
+        </Pressable>
+        {Platform.OS === "ios" && (
+          <InputAccessoryView nativeID="emailAccessoryId">
+            <View style={styles.inputAccessoryBox}>
+              <Text
+                onPress={() => {
+                  Keyboard.dismiss()
+                }}
+                style={styles.inputAccessoryText}
+                tx="common.done"
+                weight="semiBold"
+              />
+            </View>
+          </InputAccessoryView>
+        )}
+        <Input
+          name="email"
+          label="Email"
+          placeholder="Email"
+          keyboardType="default"
+          textContentType="emailAddress"
+          inputAccessoryViewID="emailAccessoryId"
+          errorStyle={styles.hintsStyles}
+          hintStyle={styles.hintsStyles}
+          error={errors.email}
+          onFocus={() => {
+            shouldHandleKeyboardEvents.value = true
+          }}
+          value={email}
+          onChange={onUserInfoInputFieldChange("email")}
+          onBlur={() => {
+            shouldHandleKeyboardEvents.value = false
+            checkIsFieldValidOnBlur("email")
+          }}
+        />
+        <Input
+          name="phone"
+          label="Phone Number"
+          mask="XXX XXXXXXXXX"
+          value={user.phone}
+          editable={false}
+          disabled
+        />
+      </View>
+      <Text style={styles.formTitle} tx="profile.yourTeam" weight="semiBold" />
+
+      <SelectDropdown
+        data={teamStore.teamList}
+        onSelect={(selectedItem) => {
+          setSelectedTeam(selectedItem)
+        }}
+        defaultValueByIndex={0}
+        buttonStyle={styles.teamPickerButton}
+        buttonTextStyle={styles.teamPickerButtonText}
+        dropdownStyle={styles.teamPickerDropdown}
+        renderCustomizedButtonChild={() => (
+          <View style={styles.teamPickerButtonListItem}>
+            <View style={styles.teamPickerButtonListItemLogo}>
+              <Image
+                width={25}
+                height={25}
+                resizeMode="contain"
+                source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
+              />
+            </View>
+            <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
+          </View>
+        )}
+        renderCustomizedRowChild={(item: Team) => {
+          const isSelected = item.id === selectedTeam.id
+          return (
+            <View
+              style={[
+                styles.teamPickerButtonListItem,
+                isSelected ? styles.teamPickerListItemSelected : {},
+              ]}
+            >
               <View style={styles.teamPickerButtonListItemLogo}>
                 <Image
                   width={25}
                   height={25}
                   resizeMode="contain"
-                  source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
+                  source={getTeamLogoOrPlaceholder(item.logoUrl)}
                 />
               </View>
-              <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
-            </View>
-          )}
-          renderCustomizedRowChild={(item: Team) => {
-            const isSelected = item.id === selectedTeam.id
-            return (
-              <View
+              <Text
+                text={item.name}
                 style={[
-                  styles.teamPickerButtonListItem,
-                  isSelected ? styles.teamPickerListItemSelected : {},
+                  styles.teamPickerButtonText,
+                  isSelected ? styles.teamPickerListItemTextSelected : {},
                 ]}
-              >
-                <View style={styles.teamPickerButtonListItemLogo}>
-                  <Image
-                    width={25}
-                    height={25}
-                    resizeMode="contain"
-                    source={getTeamLogoOrPlaceholder(item.logoUrl)}
-                  />
-                </View>
-                <Text
-                  text={item.name}
-                  style={[
-                    styles.teamPickerButtonText,
-                    isSelected ? styles.teamPickerListItemTextSelected : {},
-                  ]}
-                />
-              </View>
-            )
-          }}
-        />
-        <Button style={styles.button} onPress={handleSubmitForm}>
-          {authUserStore.isLoading || teamStore.isTeamListLoading ? (
-            <ActivityIndicator />
-          ) : (
-            <Text weight="bold" tx="common.saveChanges" style={styles.loginButtonText} />
-          )}
-        </Button>
-      </View>
+              />
+            </View>
+          )
+        }}
+      />
+      <Button style={styles.button} onPress={handleSubmitForm}>
+        {authUserStore.isLoading || teamStore.isTeamListLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text weight="bold" tx="common.saveChanges" style={styles.loginButtonText} />
+        )}
+      </Button>
     </View>
   )
 })

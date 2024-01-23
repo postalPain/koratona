@@ -8,7 +8,7 @@ export const AuthenticationStoreModel = types
   .props({
     authToken: types.maybe(types.string),
     authEmail: types.maybe(types.string),
-    onboarding: types.optional(types.boolean, false),
+    showingOnboarding: types.optional(types.boolean, false),
   })
   .views((store) => ({
     get isAuthenticated() {
@@ -21,7 +21,6 @@ export const AuthenticationStoreModel = types
     },
     getOTACode: flow(function* (phone: string, cb: () => void) {
       yield OTPLoginService({ phone })
-
       cb && cb()
     }),
     confirmOTPCode: flow(function* (
@@ -41,6 +40,7 @@ export const AuthenticationStoreModel = types
       }
 
       self.authToken = data?.data?.accessToken
+      self.showingOnboarding = data?.data?.onboarding
       api.apisauce.setHeader("Authorization", `Bearer ${data?.data?.accessToken}`)
 
       successCb && successCb()
@@ -50,12 +50,12 @@ export const AuthenticationStoreModel = types
       const token = value || self.authToken
       api.apisauce.setHeader("Authorization", `Bearer ${token}`)
     },
-    setAuthEmail(value: string) {
-      self.authEmail = value.replace(/ /g, "")
-    },
     logout() {
       self.authToken = undefined
       self.authEmail = ""
+    },
+    setShowingOnboarding(value: boolean) {
+      self.showingOnboarding = value
     },
   }))
 

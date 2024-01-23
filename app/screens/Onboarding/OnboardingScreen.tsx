@@ -70,15 +70,6 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
           />
         )}
         <View>
-          {!skipButton && !isLast && (
-            <Pressable
-              onPress={() => {
-                navigation.navigate("InitialProfileSettings")
-              }}
-            >
-              <Text tx="common.skip" style={styles.skipButton} />
-            </Pressable>
-          )}
           <Button
             onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
             text={isNotificationScreen && isNotificationTurnedOn ? "Continue" : actionButtonText}

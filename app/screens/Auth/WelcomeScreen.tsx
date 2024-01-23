@@ -1,5 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Text } from "app/components"
+import { Screen, Text } from "app/components"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React from "react"
@@ -21,7 +21,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
   }
 
   return (
-    <View style={styles.container}>
+    <Screen preset="auto" style={styles.container}>
       <ImageBackground source={welcomeBackGround}>
         <LinearGradient
           colors={["rgba(26, 31, 81, 0.9)", "rgba(0, 6, 62, 0.4)", "transparent", "transparent"]}
@@ -36,7 +36,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
           <LoginOTA goToOTAConfirmation={navigateToOTAConfirmation} />
         </LinearGradient>
       </ImageBackground>
-    </View>
+    </Screen>
   )
 })
 
