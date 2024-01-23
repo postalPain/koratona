@@ -4,15 +4,29 @@ import { saveString } from "app/utils/storage"
 import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { UserModel } from "./User"
-import { getAuthUser, updateUserSettings } from "app/services/api/user/user"
+import { getAuthUser, updateUser } from "app/services/api/user/user"
 import { UpdateUserPayloadData } from "app/services/api/user/userTypes"
+import { showToast } from "app/utils/showToast"
 
 export const USER_SETTINGS_APPLIED_KEY = "userSettingsApplied"
 
 export const UserStoreModel = types
   .model("UserStore")
   .props({
-    user: types.optional(UserModel, {}),
+    user: types.optional(UserModel, {
+      createdAt: "",
+      dateOfBirth: null,
+      deletedAt: null,
+      deviceId: "",
+      email: null,
+      firstName: null,
+      lastName: null,
+      lang: "",
+      phone: "",
+      role: "",
+      updatedAt: "",
+      userId: "",
+    }),
     isLoading: types.optional(types.boolean, false),
     isErrored: types.optional(types.boolean, false),
     notificationToken: types.optional(types.maybeNull(types.string), null),
@@ -26,7 +40,7 @@ export const UserStoreModel = types
         yield setUserSettings()
         saveString(USER_SETTINGS_APPLIED_KEY, "true")
       } catch (error) {
-        console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error applying settings authUser: ${JSON.stringify(error)}`, [])
       }
     }),
     fetchAuthUser: flow(function* () {
@@ -46,12 +60,12 @@ export const UserStoreModel = types
       self.isLoading = true
       self.isErrored = false
       try {
-        const response = yield updateUserSettings(self.user.id, user)
+        const response = yield updateUser({ ...user, userId: self.user.userId })
         self.user = { ...self.user, ...response.data }
-        self.isOnboardingCompleted = `${self.user.email}_done`
         successCallback && successCallback()
       } catch (error) {
         self.isErrored = true
+        showToast("Error updating user, please try again later")
         console.tron.error?.(`Error updating authUser: ${JSON.stringify(error)}`, [])
       } finally {
         self.isLoading = false
@@ -60,14 +74,6 @@ export const UserStoreModel = types
     setNotificationToken: (token: string | null) => {
       self.notificationToken = token
       self.notificationPermissionAsked = true
-    },
-    setOnboardingCompleted: () => {
-      self.isOnboardingCompleted = `${self.user.email}_done`
-    },
-  }))
-  .views((self) => ({
-    get isUserOnboardingCompleted() {
-      return self.isOnboardingCompleted === `${self.user.email}_done`
     },
   }))
 

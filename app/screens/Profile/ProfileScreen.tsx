@@ -102,7 +102,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
             <View style={styles.tShirtContainer}>
               <Image source={tShirtImage} />
               <View style={styles.shirtTextContainer}>
-                <Text style={styles.tShirtName} text={user.lastName} />
+                <Text style={styles.tShirtName} text={user.lastName || ''} />
                 {isJerseyNumberEditing && (
                   <>
                     {Platform.OS === "ios" && (

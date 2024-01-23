@@ -39,22 +39,8 @@ export class Api {
         Accept: "application/json",
       },
     })
-
-    // Add response interceptor to handle 401 errors
-    this.apisauce.addResponseTransform((response) => {
-      // Check if the response has a 401 status code and the error message is "TOKEN INVALID!"
-      if (response.status === 401 || response.data?.error === "TOKEN INVALID!") {
-        if (this.store) {
-          this.store.authenticationStore.logout()
-        }
-      }
-    })
   }
 }
 
 // Singleton instance of the API for convenience
 export const api = new Api()
-export const authApi = new Api({
-  url: Config.API_AUTH_URL,
-  timeout: 10000,
-})

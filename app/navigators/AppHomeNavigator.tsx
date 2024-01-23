@@ -15,6 +15,7 @@ import { translate } from "../i18n"
 import { DemoDebugScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
+import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 
 export type AppHomeTabParamList = {
   DemoDebug: undefined
@@ -40,6 +41,7 @@ export function AppHomeNavigator() {
     authUserStore: { user },
   } = useStores()
   const { bottom } = useSafeAreaInsets()
+  const bottomInset = useSafeAreaInsetsStyle(["bottom"])
 
   return (
     <Tab.Navigator
@@ -47,7 +49,7 @@ export function AppHomeNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarStyle: [$tabBar, { height: bottom + 82 }],
+        tabBarStyle: [$tabBar, { height: bottom + 82 }, bottomInset],
         tabBarActiveTintColor: "#333865",
         tabBarInactiveTintColor: "#98A2B3",
         tabBarLabelStyle: $tabBarLabel,
@@ -109,5 +111,5 @@ const $tabBarLabel: TextStyle = {
   fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
   lineHeight: 16.8,
   flex: 1,
-  marginTop: 4
+  marginTop: 4,
 }

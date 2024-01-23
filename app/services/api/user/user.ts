@@ -1,16 +1,18 @@
 import { ApiResponse } from "apisauce"
 import * as User from "./userTypes"
-import { authApi } from "../api"
+import { api } from "../api"
 import { getGeneralApiProblem } from "../apiProblem"
+import { showToast } from "app/utils/showToast"
 
-export const updateUserSettings: User.UpdateUserService = async (id, payload) => {
+export const updateUser: User.UpdateUserService = async (payload) => {
   let response = {} as ApiResponse<User.UpdateUserResponse>
 
   try {
-    response = await authApi.apisauce.patch(`users/${id}`, payload)
+    response = await api.apisauce.post("user/update", payload)
     // the typical ways to die when calling an api
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
+      showToast("Error updating user, please try again later")
       if (problem) return problem
     }
 
@@ -30,10 +32,11 @@ export const getAuthUser: User.GetAuthUserService = async () => {
   let response = {} as ApiResponse<User.GetAuthUserResponse>
 
   try {
-    response = await authApi.apisauce.get(`users/me`)
+    response = await api.apisauce.get(`user/me`)
     // the typical ways to die when calling an api
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
+      showToast("Error fetching user, please try again later")
       if (problem) return problem
     }
 

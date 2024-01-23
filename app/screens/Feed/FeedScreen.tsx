@@ -11,10 +11,11 @@ import { Post } from "app/models/Posts/Post"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { spacing, typography } from "../../theme"
 import useFetchPosts from "../hooks/usePosts"
+import { NoMoreContent } from "app/components/NoMoreContent"
 
 const YouTubeIcon = require("assets/images/youtube.png")
 const circleLogo = require("assets/images/circleLogo.png")
-const containerBgColor = '#efefef';
+const containerBgColor = "#efefef"
 
 export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(function (_props) {
   const styles = useStyles()
@@ -40,7 +41,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         underTitleIcon={item.video ? YouTubeIcon : undefined}
         favoriteCount={item.favoriteCount}
         addedToFavorite={item.usersToFavoritePosts.some(
-          (user) => user.userId === authUserStore.user.id,
+          (user) => user.userId === authUserStore.user.userId,
         )}
         onFavoritePress={() => postsStore.toggleFavorite(item.id)}
       />
@@ -77,9 +78,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
             )}
             {postsStore.postsCount > 0 &&
               !postsStore.postsPaginationMeta.hasNextPage &&
-              !postsStore.isFetchingMorePosts && (
-                <Text style={styles.footerText} text="No more posts" />
-              )}
+              !postsStore.isFetchingMorePosts && <NoMoreContent />}
           </>
         }
       />
