@@ -14,6 +14,8 @@ const en = {
     skip: "Skip",
     continue: "Continue",
     in: "in",
+    thatAllForNow: "That’s all for now",
+    youSeeAllContent: "You’ve see all new content from the last time",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
