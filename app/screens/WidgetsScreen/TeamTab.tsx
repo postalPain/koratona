@@ -20,14 +20,16 @@ export const TeamPlayersTab = observer(function (_props) {
   useFetchPlayerList()
   useFetchFavoritePlayerList()
 
-  const { height, width } = useWindowDimensions()
+  const { width } = useWindowDimensions()
 
   return (
     <View
-      style={{
-        width,
-        height: height - 250,
-      }}
+      style={[
+        styles.listContainer,
+        {
+          width,
+        },
+      ]}
     >
       <View style={styles.titleContainer}>
         <Text style={styles.title} tx="teams.meetTeam" />
@@ -79,6 +81,9 @@ export const TeamPlayersTab = observer(function (_props) {
 })
 
 const useStyles = createUseStyles((theme) => ({
+  listContainer: {
+    height: "100%",
+  },
   title: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     letterSpacing: -0.64,

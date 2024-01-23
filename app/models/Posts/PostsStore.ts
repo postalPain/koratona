@@ -90,16 +90,16 @@ export const PostsStoreModel = types
         const post = self.posts.find((post) => post.id === postId)
         if (post) {
           const updatedPostFavoriteInfo = {
-            userId: user.id,
+            userId: user.userId,
             name: user.name,
             email: user.email,
           }
           const ifPostWasAlreadyFavorited = post.usersToFavoritePosts.find(
-            ({ userId }) => userId === user.id,
+            ({ userId }) => userId === user.userId,
           )
           if (ifPostWasAlreadyFavorited) {
             post.usersToFavoritePosts = post.usersToFavoritePosts.filter(
-              ({ userId }) => userId !== user.id,
+              ({ userId }) => userId !== user.userId,
             ) as any
             post.favoriteCount--
           } else {
@@ -109,7 +109,7 @@ export const PostsStoreModel = types
         }
         yield toggleFavorite({
           postId,
-          userId: user.id,
+          userId: user.userId,
         })
       } catch (error) {
         console.log("Error adding post to favorite: ", error)

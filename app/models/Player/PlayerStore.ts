@@ -43,7 +43,6 @@ export const PlayerStoreModel = types
       }
     }),
     togglePlayerFavorite: flow(function* (id: number, successCallback?: () => void) {
-      self.isPlayerListLoading = true
       self.isPlayerListErrored = false
       try {
         const {
@@ -56,21 +55,19 @@ export const PlayerStoreModel = types
           self.favoritePlayerList.replace(
             self.favoritePlayerList.filter((player) => player.id !== id),
           )
-          yield removePlayerFromFavorite(id, user.id)
+          yield removePlayerFromFavorite(id, user.userId)
         } else {
           const player = self.playerList.find((player) => player.id === id)
           if (player) {
             self.favoritePlayerList.push(clone(player))
           }
-          yield addPlayerToFavorite(id, user.id)
+          yield addPlayerToFavorite(id, user.userId)
         }
         successCallback && successCallback()
       } catch (error) {
         console.log("adding to favorite, error", error)
         self.isPlayerListErrored = true
         console.tron.error?.(`Error adding team to favorite: ${JSON.stringify(error)}`, [])
-      } finally {
-        self.isPlayerListLoading = false
       }
     }),
     getUsersFavoritePlayersList: flow(function* () {
@@ -79,10 +76,10 @@ export const PlayerStoreModel = types
           authUserStore: { user },
         } = getRoot(self) as any
 
-
-        const response = yield getUsersFavoritePlayerList(user.id)
-        const mappedData = response.data.data.filter(({ player }: { player: Player }) => !!player)
-        .map(({ player }: { player: Player }) => player)
+        const response = yield getUsersFavoritePlayerList(user.userId)
+        const mappedData = response.data.data
+          .filter(({ player }: { player: Player }) => !!player)
+          .map(({ player }: { player: Player }) => player)
         self.favoritePlayerList = mappedData
       } catch (error) {
         console.tron.error?.(`Error fetching favorite team: ${JSON.stringify(error)}`, [])

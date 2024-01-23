@@ -12,6 +12,10 @@ const en = {
     done: "Done",
     goBack: "Go back",
     skip: "Skip",
+    continue: "Continue",
+    in: "in",
+    thatAllForNow: "That’s all for now",
+    youSeeAllContent: "You’ve see all new content from the last time",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
@@ -20,7 +24,7 @@ const en = {
   },
   welcomeScreen: {
     slogan: "Engage with your team like never before.",
-    joinApp: "Join Koratona",
+    letsGetStarted: "Let’s get started.",
   },
   signUp: {
     slogan: "Be part of your favorite club",
@@ -29,6 +33,12 @@ const en = {
   signIn: {
     slogan: "Welcome back",
     forgotPassword: "Reset password",
+    enterLoginCode: "Enter login code",
+    weHaveSentCodeTo: "We’ve sent a code to",
+    resendCode: "Resend code",
+    wrongCode: "Wrong code",
+    enterCode: "Enter code",
+    codeSent: "Code sent",
   },
   forgotPassword: {
     slogan: "Password reset",
@@ -133,6 +143,7 @@ const en = {
     enableNotifications: "Enable notifications",
     sendEmail: "Send an email",
     editFavoritePlayers: "Edit favorite players",
+    favoritePlayers: "favorite players",
   },
   widgets: {
     tabs: {

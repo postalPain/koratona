@@ -9,6 +9,8 @@ import { View } from "react-native"
 import { FavoritePlayerItem } from "./FavoritePlayerItem"
 import useFetchFavoritePlayerList from "app/screens/hooks/useGetFavoritePlayerList"
 import { observer } from "mobx-react-lite"
+import { t } from "i18n-js"
+import capitalize from "lodash.capitalize"
 
 export const ProfileFavoritePlayersSection = observer(function () {
   const styles = useStyles()
@@ -20,9 +22,16 @@ export const ProfileFavoritePlayersSection = observer(function () {
 
   useFetchFavoritePlayerList()
 
+  const getSectionTitle = () => {
+    if (user.firstName) {
+      return `${user.firstName}’s ${t("profile.favoritePlayers")}`
+    }
+    return capitalize(t("profile.favoritePlayers"))
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText} text={`${user.firstName}’s favorite players`} />
+      <Text style={styles.titleText} text={getSectionTitle()} />
       <View style={styles.favoritePlayersSection}>
         {playerStore.favoritePlayerList.map((player) => (
           <FavoritePlayerItem
