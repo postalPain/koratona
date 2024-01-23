@@ -201,6 +201,19 @@ const en = {
     windowsReactotronHint:
       "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
   },
+  modals: {
+    general: {
+      button: "Got it"
+    },
+    offline: {
+      title: "Network error",
+      description: "Please check your network connection or reach out to support if the problem persists.",
+    },
+    serverError: {
+      title: "Server error",
+      description: "We’re sorry but our servers seem to be down at the moment. Please try again in a minute.",
+    },
+  }
 }
 
 export default en

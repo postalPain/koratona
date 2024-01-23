@@ -40,6 +40,19 @@ const ar = {
     windowsReactotronHint:
       "اذا لم ينجح ذلك، فتأكد من تشغيل الحاسوب ب Reactotron وأعد تحميل التطبيق",
   },
+  modals: {
+    general: {
+      button: "Got it"
+    },
+    offline: {
+      title: "Network error",
+      description: "Please check your network connection or reach out to support if the problem persists.",
+    },
+    serverError: {
+      title: "Server error",
+      description: "We’re sorry but our servers seem to be down at the moment. Please try again in a minute.",
+    },
+  }
 }
 
 export default ar

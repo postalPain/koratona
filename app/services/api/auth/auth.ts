@@ -11,7 +11,9 @@ export const loginService: Auth.LoginService = async (credentials) => {
 
     // the typical ways to die when calling an api
     if (!response.ok) {
-      Alert.alert("Error", JSON.stringify(response.data?.error))
+      if (response.problem === 'CLIENT_ERROR') {
+        Alert.alert("Error", JSON.stringify(response.data?.error));
+      }
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
