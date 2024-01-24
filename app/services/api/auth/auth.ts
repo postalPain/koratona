@@ -20,6 +20,7 @@ export const OTPLoginConfirmationService = async (data: {
   phone: string
   code: string
   deviceId: string
+  skip?: boolean
 }) => {
   try {
     const response:any = await api.apisauce.post(`auth/login-confirm-otp`, data)

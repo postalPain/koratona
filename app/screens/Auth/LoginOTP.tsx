@@ -11,10 +11,10 @@ import { Colors } from "react-native/Libraries/NewAppScreen"
 import { AuthPolicies } from "./AuthPolicies"
 
 type Props = {
-  goToOTAConfirmation: (phoneNumber: string) => void
+  goToOTPConfirmation: (phoneNumber: string) => void
 }
 
-export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmation }) {
+export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmation }) {
   const styles = useStyles()
   const { authenticationStore } = useStores()
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -26,7 +26,7 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
 
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
 
-  const goToOTALoginScreen = async () => {
+  const requestOTPCode = async () => {
     if (isLoading) return
     setIsLoading(true)
     const checkValid = phoneInput.current?.isValidNumber(value)
@@ -34,8 +34,8 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
     if (!checkValid) {
       return
     }
-    await authenticationStore.getOTACode(formattedPhoneValue, () => {
-      goToOTAConfirmation(formattedPhoneValue)
+    await authenticationStore.getOTPCode(formattedPhoneValue, () => {
+      goToOTPConfirmation(formattedPhoneValue)
       setIsLoading(false)
     })
   }
@@ -83,7 +83,7 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
           valid ? {} : styles.phoneInputContainerInvalid,
         ]}
       />
-      <Button style={styles.button} onPress={goToOTALoginScreen} pressedStyle={styles.button}>
+      <Button style={styles.button} onPress={requestOTPCode} pressedStyle={styles.button}>
         {!isLoading && <Text style={styles.buttonText} tx="common.continue" />}
         {isLoading && <ActivityIndicator />}
       </Button>
