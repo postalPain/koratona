@@ -1,11 +1,13 @@
-import React, { FC } from 'react';
+import React, { FC, useRef, useMemo } from "react"
 import { Modal, View } from 'react-native';
+import BottomSheet from "@gorhom/bottom-sheet"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme";
 import Text from "@stryberventures/gaia-react-native.text";
 import Button from "@stryberventures/gaia-react-native.button";
 import ExclamationIcon from '../../assets/icons/svgs/ExclamationIcon';
 import NetworkOffIcon from '../../assets/icons/svgs/NetworkOffIcon';
 import { translate } from "../i18n";
+import { typography } from "app/theme";
 
 type TIcon = 'exclamation' | 'offline';
 const icons: Record<TIcon, FC> = {
@@ -29,6 +31,8 @@ export const ModalMessage: FC<IModalMessageProps> = ({
  onClose,
 }) => {
   const styles = useStyles();
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["70%"], []);
   const Icon = typeof icon === 'string' ? icons[icon as TIcon] : undefined;
 
   const onButtonPress = () => {
@@ -38,22 +42,34 @@ export const ModalMessage: FC<IModalMessageProps> = ({
   return (
     <Modal transparent={true}>
       <View  style={styles.shadowScreen}>
-        <View style={styles.container}>
-          {!!Icon && (
-            <View style={styles.iconBox}>
-              <Icon />
-            </View>
-          )}
-          <Text style={styles.header}>
-            {title}
-          </Text>
-          <Text style={styles.description}>
-            {description}
-          </Text>
-          <Button onPress={onButtonPress} style={styles.button}>
-            {button}
-          </Button>
-        </View>
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={snapPoints}
+          bottomInset={20}
+          detached={true}
+          style={styles.sheetContainer}
+          backgroundStyle={styles.sheetContainerBg}
+          handleIndicatorStyle={styles.handleIndicator}
+          enablePanDownToClose
+          onClose={onButtonPress}
+        >
+          <View style={styles.container}>
+            {!!Icon && (
+              <View style={styles.iconBox}>
+                <Icon />
+              </View>
+            )}
+            <Text style={styles.header}>
+              {title}
+            </Text>
+            <Text style={styles.description}>
+              {description}
+            </Text>
+            <Button onPress={onButtonPress} style={styles.button}>
+              {button}
+            </Button>
+          </View>
+        </BottomSheet>
       </View>
     </Modal>
   )
@@ -62,9 +78,6 @@ export const ModalMessage: FC<IModalMessageProps> = ({
 const useStyles = createUseStyles((theme) => ({
   shadowScreen: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   container: {
@@ -76,18 +89,28 @@ const useStyles = createUseStyles((theme) => ({
     padding: theme.spacing["24"],
     backgroundColor: '#fff',
   },
+  sheetContainer: {
+    marginHorizontal: theme.spacing["24"],
+  },
+  sheetContainerBg: {
+    backgroundColor: 'rgba(0, 0, 0, 0)',
+  },
   iconBox: {
     marginTop: theme.spacing["64"],
     marginBottom: theme.spacing["24"],
   },
   header: {
     marginBottom: theme.spacing["8"],
+    textAlign: 'center',
+    fontFamily: typography.fonts.instrumentSansSemiCondensed.semiBold,
     fontSize: 18,
     fontWeight: '600',
+    letterSpacing: -0.36,
     color: '#121212',
   },
   description: {
     marginBottom: theme.spacing["64"],
+    textAlign: 'center',
     fontSize: 14,
     lineHeight: 20,
     fontWeight: '400',
@@ -95,5 +118,11 @@ const useStyles = createUseStyles((theme) => ({
   },
   button: {
     width: '100%',
+  },
+  handleIndicator: {
+    width: 50,
+    height: 6,
+    borderRadius: 10,
+    backgroundColor: theme.colors.primary.light200,
   },
 }));

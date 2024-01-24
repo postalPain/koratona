@@ -42,7 +42,7 @@ const ar = {
   },
   modals: {
     general: {
-      button: "Got it"
+      button: "Try again"
     },
     offline: {
       title: "Network error",

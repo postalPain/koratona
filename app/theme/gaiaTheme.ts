@@ -1,5 +1,4 @@
 const appTheme = {
-  fontFamily: 'Inter',
   colors: {
     primary: {
       dark600: '#00063E',

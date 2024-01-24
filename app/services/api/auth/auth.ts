@@ -8,7 +8,7 @@ export const OTPLoginService = async (data: { phone: string }) => {
   try {
     const response = await api.apisauce.post(`auth/login`, data)
 
-    if (!response.ok) {
+    if (!response.ok && response.problem === 'CLIENT_ERROR') {
       Alert.alert("Something went wrong, please try again later")
     }
     return null
