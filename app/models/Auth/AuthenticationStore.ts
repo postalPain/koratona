@@ -19,7 +19,7 @@ export const AuthenticationStoreModel = types
     setAuthToken(value?: string) {
       self.authToken = value
     },
-    getOTACode: flow(function* (phone: string, cb: () => void) {
+    getOTPCode: flow(function* (phone: string, cb: () => void) {
       yield OTPLoginService({ phone })
       cb && cb()
     }),
@@ -32,10 +32,10 @@ export const AuthenticationStoreModel = types
       successCb?: () => void,
       unsuccessCb?: (message: string) => void,
     ) {
-      const skipOTACode = __DEV__ ? { skip: true } : {}
+      const skipOTPCode = __DEV__ ? { skip: true } : {}
       const { data, kind, message } = yield OTPLoginConfirmationService({
         ...confirmationData,
-        ...skipOTACode,
+        ...skipOTPCode,
       })
 
       if (kind === "bad-data") {

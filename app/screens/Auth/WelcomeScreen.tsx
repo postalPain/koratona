@@ -6,7 +6,7 @@ import React from "react"
 import { Image, ImageBackground, View } from "react-native"
 import { AppStackScreenProps } from "../../navigators"
 import { typography } from "../../theme"
-import { LoginOTA } from "./LoginOTA"
+import { LoginOTP } from "./LoginOTP"
 
 const welcomeLogo = require("assets/images/logo.png")
 const welcomeBackGround = require("assets/backgrounds/welcome-screen.png")
@@ -16,8 +16,8 @@ interface WelcomeScreenProps extends AppStackScreenProps<"welcome"> {}
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
   const styles = useStyles()
 
-  const navigateToOTAConfirmation = (phoneNumber: string) => {
-    _props.navigation.navigate("OTAConfirmation", { phoneNumber })
+  const navigateToOTPConfirmation = (phoneNumber: string) => {
+    _props.navigation.navigate("OTPConfirmation", { phoneNumber })
   }
 
   return (
@@ -33,7 +33,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
             <Image style={styles.logoImage} source={welcomeLogo} resizeMode="contain" />
             <Text style={styles.slogan} tx="welcomeScreen.slogan" />
           </View>
-          <LoginOTA goToOTAConfirmation={navigateToOTAConfirmation} />
+          <LoginOTP goToOTPConfirmation={navigateToOTPConfirmation} />
         </LinearGradient>
       </ImageBackground>
     </Screen>

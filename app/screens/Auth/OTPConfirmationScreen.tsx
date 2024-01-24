@@ -25,11 +25,11 @@ import useApp from "./hooks/useSMSApp"
 import { useStores } from "app/models"
 import { retrieveDeviceId } from "app/utils/retrieveDeviceId"
 
-interface ScreenProps extends AppStackScreenProps<"OTAConfirmation"> {}
+interface ScreenProps extends AppStackScreenProps<"OTPConfirmation"> {}
 
 const RESEND_CODE_IN_SECONDS = 60
 
-export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props) {
+export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props) {
   const styles = useStyles()
   const { authenticationStore } = useStores()
 
@@ -52,7 +52,7 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
     if (disabledResendCode || !phoneNumber) return
     setDisabledResendCode(true)
     setResendCodeIn(RESEND_CODE_IN_SECONDS)
-    authenticationStore.getOTACode(phoneNumber, () => {
+    authenticationStore.getOTPCode(phoneNumber, () => {
       showToast(t("signIn.codeSent"))
     })
   }
