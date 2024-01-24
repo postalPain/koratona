@@ -8,7 +8,7 @@ export const OTPLoginService = async (data: { phone: string }) => {
   try {
     const response = await api.apisauce.post(`auth/login`, data)
 
-    if (!response.ok) {
+    if (!response.ok && response.problem === 'CLIENT_ERROR') {
       Alert.alert("Something went wrong, please try again later")
     }
     return null
@@ -41,7 +41,9 @@ export const loginService: Auth.LoginService = async (credentials) => {
 
     // the typical ways to die when calling an api
     if (!response.ok) {
-      Alert.alert("Error", JSON.stringify(response.data?.error))
+      if (response.problem === 'CLIENT_ERROR') {
+        Alert.alert("Error", JSON.stringify(response.data?.error));
+      }
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
     }
