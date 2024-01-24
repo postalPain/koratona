@@ -21,7 +21,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
   }
 
   return (
-    <Screen preset="auto" style={styles.container}>
+    <Screen preset="fixed" style={styles.container}>
       <ImageBackground source={welcomeBackGround}>
         <LinearGradient
           colors={["rgba(26, 31, 81, 0.9)", "rgba(0, 6, 62, 0.4)", "transparent", "transparent"]}

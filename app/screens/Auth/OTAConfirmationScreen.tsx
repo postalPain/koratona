@@ -23,6 +23,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen"
 import { showToast } from "app/utils/showToast"
 import useApp from "./hooks/useSMSApp"
 import { useStores } from "app/models"
+import { retrieveDeviceId } from "app/utils/retrieveDeviceId"
 
 interface ScreenProps extends AppStackScreenProps<"OTAConfirmation"> {}
 
@@ -34,8 +35,8 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
-  const [disabledResendCode, setDisabledResendCode] = React.useState<boolean>(false)
-  const [resendCodeIn, setResendCodeIn] = React.useState<number>(0)
+  const [disabledResendCode, setDisabledResendCode] = React.useState<boolean>(true)
+  const [resendCodeIn, setResendCodeIn] = React.useState<number>(RESEND_CODE_IN_SECONDS)
   const [otpCodeInvalid, setOtpCodeInvalid] = React.useState<boolean>(false)
   const { buttonClickHandler, smsMessageBody } = useApp()
   const [otpCode, setOtpCode] = React.useState<string>("")
@@ -56,10 +57,6 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
     })
   }
 
-  const updateResendCodeIn = () => {
-    setResendCodeIn((prevState) => prevState - 1)
-  }
-
   React.useEffect(() => {
     if (!phoneNumber) {
       _props.navigation.navigate("welcome")
@@ -68,28 +65,33 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
 
   React.useEffect(() => {
     if (Platform.OS !== "android") return
-    // launch the sms reading for the android
+    // launch the sms reading for the android only
     buttonClickHandler()
   }, [])
 
   React.useEffect(() => {
     let interval: NodeJS.Timeout | null = null
     if (disabledResendCode) {
-      interval = setInterval(updateResendCodeIn, 1000)
+      interval = setInterval(() => {
+        setResendCodeIn((prevState) => {
+          if (prevState === 0) {
+            setDisabledResendCode(false)
+            interval && clearInterval(interval)
+            return 0
+          }
+          return prevState - 1
+        })
+      }, 1000)
     }
+
     if (!!interval && !disabledResendCode) {
       clearInterval(interval)
     }
+
     return () => {
       !!interval && clearInterval(interval)
     }
   }, [disabledResendCode])
-
-  React.useEffect(() => {
-    if (resendCodeIn === 0) {
-      setDisabledResendCode(false)
-    }
-  }, [resendCodeIn])
 
   React.useEffect(() => {
     if (!smsMessageBody) return
@@ -109,11 +111,13 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
       showToast(t("signIn.enterCode"))
       return
     }
+    const deviceId = await retrieveDeviceId()
+
     await authenticationStore.confirmOTPCode(
       {
         phone: phoneNumber,
         code: customValue || otpCode,
-        deviceId: "123random",
+        deviceId,
       },
       () => {
         setIsLoading(false)
@@ -132,7 +136,7 @@ export const OTAConfirmation: React.FC<ScreenProps> = observer(function (_props)
           <View>
             <GoBackComponent
               onPress={() => {
-                _props.navigation.goBack()
+                _props.navigation.navigate("welcome")
               }}
             />
             <Text tx="signIn.enterLoginCode" style={styles.formTitleText} weight="bold" />

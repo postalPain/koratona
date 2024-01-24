@@ -26,7 +26,7 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
 
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
 
-  const goToOTALoginScreen = async () => {
+  const sendOTACode = async () => {
     if (isLoading) return
     setIsLoading(true)
     const checkValid = phoneInput.current?.isValidNumber(value)
@@ -83,7 +83,7 @@ export const LoginOTA: React.FC<Props> = observer(function ({ goToOTAConfirmatio
           valid ? {} : styles.phoneInputContainerInvalid,
         ]}
       />
-      <Button style={styles.button} onPress={goToOTALoginScreen} pressedStyle={styles.button}>
+      <Button style={styles.button} onPress={sendOTACode} pressedStyle={styles.button}>
         {!isLoading && <Text style={styles.buttonText} tx="common.continue" />}
         {isLoading && <ActivityIndicator />}
       </Button>

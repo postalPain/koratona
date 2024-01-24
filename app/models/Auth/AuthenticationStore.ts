@@ -32,7 +32,12 @@ export const AuthenticationStoreModel = types
       successCb?: () => void,
       unsuccessCb?: (message: string) => void,
     ) {
-      const { data, kind, message } = yield OTPLoginConfirmationService(confirmationData)
+      const skipOTACode = __DEV__ ? { skip: true } : {}
+      const { data, kind, message } = yield OTPLoginConfirmationService({
+        ...confirmationData,
+        ...skipOTACode,
+      })
+
       if (kind === "bad-data") {
         Alert.alert(message || "Something went wrong, please try again later")
         unsuccessCb && unsuccessCb(message)
