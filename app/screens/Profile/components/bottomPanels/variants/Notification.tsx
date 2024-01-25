@@ -1,22 +1,20 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text, Toggle } from "app/components"
 import { useStores } from "app/models"
-import { registerForPushNotificationsAsync } from "app/screens/Onboarding/utils/notification"
 import { typography } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
+import { openSettings } from 'expo-linking';
 
 export const Notification = observer(function () {
   const styles = useStyles()
-
   const { authUserStore } = useStores()
   const isNotificationTurnedOn = authUserStore.notificationToken
 
   const handleSetNotifications = async () => {
-    const token = await registerForPushNotificationsAsync()
-    authUserStore.setNotificationToken(token)
-  }
+    await openSettings();
+  };
 
   return (
     <View style={styles.container}>
@@ -28,13 +26,7 @@ export const Notification = observer(function () {
         labelStyle={styles.toggleLabelText}
         inputWrapperStyle={styles.toggleContainerStyle}
         value={!!isNotificationTurnedOn}
-        onValueChange={(newValue) => {
-          if (newValue) {
-            handleSetNotifications()
-          } else {
-            authUserStore.setNotificationToken(null)
-          }
-        }}
+        onValueChange={handleSetNotifications}
       />
     </View>
   )

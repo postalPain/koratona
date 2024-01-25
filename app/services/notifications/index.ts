@@ -1,14 +1,15 @@
 import Constants from "expo-constants"
 import * as Device from "expo-device"
 import * as Notifications from "expo-notifications"
-import { Platform } from "react-native"
+import { Platform, Alert } from "react-native"
+
 
 export async function registerForPushNotificationsAsync(grantedCb?: () => void): Promise<string | null> {
   try {
     let token: Notifications.ExpoPushToken | null = null
 
     if (Platform.OS === "android") {
-      Notifications.setNotificationChannelAsync("default", {
+      await Notifications.setNotificationChannelAsync("default", {
         name: "default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
@@ -24,7 +25,15 @@ export async function registerForPushNotificationsAsync(grantedCb?: () => void):
         finalStatus = status
       }
       if (finalStatus !== "granted") {
-        alert("You need to enable permissions in order to receive notifications")
+        Alert.alert(
+          "Koratona",
+          "It is sad that you denied permissions for our notifications. But if you change your mind you can always set them on Profile's page",
+          [
+            {
+              text: "Got it",
+            },
+          ],
+        )
         return null
       }
       token = await Notifications.getExpoPushTokenAsync({
@@ -33,14 +42,6 @@ export async function registerForPushNotificationsAsync(grantedCb?: () => void):
       console.log(`EXPO token: ${token.data}`);
       const deviceToken = await Notifications.getDevicePushTokenAsync();
       console.log(`FCN/APN token: ${deviceToken.data}`);
-
-      Notifications.setNotificationHandler({
-        handleNotification: async () => ({
-          shouldShowAlert: true,
-          shouldPlaySound: false,
-          shouldSetBadge: false,
-        })
-      });
 
       grantedCb && grantedCb();
     } else {
@@ -55,3 +56,18 @@ export async function registerForPushNotificationsAsync(grantedCb?: () => void):
     return null
   }
 }
+
+export const isNotificationsPermitted = async (): Promise<boolean> => {
+  const { status: existingStatus } = await Notifications.getPermissionsAsync()
+  return existingStatus === "granted";
+};
+
+export const setNotificationsHandler = () => {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    })
+  });
+};

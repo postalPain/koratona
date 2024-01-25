@@ -22,6 +22,8 @@ import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import {  setNotificationsHandler, isNotificationsPermitted, registerForPushNotificationsAsync } from "app/services/notifications"
+import { useCallOnAppState } from "app/utils/useCallOnAppState"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -69,16 +71,42 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack(_props) {
   const {
     authenticationStore: { isAuthenticated, showingOnboarding },
+    authUserStore: { notificationToken, setNotificationToken },
   } = useStores()
 
   useFetchAuthUser()
   useInitApplyUserSettings()
+  useCallOnAppState('active', async () => {
+    const notificationsPermitted = await isNotificationsPermitted();
+    if (notificationsPermitted && !notificationToken) {
+      const token = await registerForPushNotificationsAsync();
+      setNotificationToken(token);
+    } else if (!notificationsPermitted && notificationToken) {
+      setNotificationToken(null);
+    }
+  }, [notificationToken, setNotificationToken]);
 
   React.useEffect(() => {
     if (isAuthenticated && showingOnboarding) {
       navigationRef.current?.navigate("Onboarding", { currentStep: 0 })
     }
-  }, [showingOnboarding, isAuthenticated])
+  }, [showingOnboarding, isAuthenticated]);
+
+  React.useEffect(() => {
+    (async () => {
+      // If user switched off permissions in system settings while app was down, reset them in settings
+      const notificationsPermitted = await isNotificationsPermitted();
+      if (!notificationsPermitted) {
+        setNotificationToken(null);
+      }
+    })()
+  }, [])
+
+  React.useEffect(() => {
+    if (isAuthenticated && notificationToken) {
+      setNotificationsHandler();
+    }
+  }, [isAuthenticated, notificationToken])
 
   return (
     <Stack.Navigator
