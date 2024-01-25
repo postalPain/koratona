@@ -92,13 +92,22 @@ const AppStack = observer(function AppStack(_props) {
           <Stack.Screen
             name="InitialProfileSettings"
             component={Screens.InitialProfileSettingsScreen}
+            options={{
+              gestureEnabled: false,
+            }}
           />
           <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
         </>
       ) : (
         <>
           <Stack.Screen name="OTPConfirmation" component={Screens.OTPConfirmation} />
-          <Stack.Screen name="welcome" component={Screens.WelcomeScreen} />
+          <Stack.Screen
+            name="welcome"
+            component={Screens.WelcomeScreen}
+            options={{
+              gestureEnabled: false,
+            }}
+          />
         </>
       )}
 

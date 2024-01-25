@@ -4,13 +4,17 @@ import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { Dimensions, Pressable, View } from "react-native"
+import { Dimensions, View } from "react-native"
 import Pagination from "./components/Pagination"
 import onboardingData from "./constants/onboardingData"
 import { registerForPushNotificationsAsync } from "./utils/notification"
+import { typography } from "app/theme"
+import { LinearGradient } from "expo-linear-gradient"
 // @ts-ignore
 import debounce from "lodash.debounce"
-import { typography } from "app/theme"
+import PresentIconSvg from "./icons/PresentIcon"
+import TogetherIconSvg from "./icons/TogetherIcon"
+import FireIconSvg from "./icons/FireIcon"
 
 interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {
   currentStep?: number
@@ -24,19 +28,26 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
   const { authUserStore } = useStores()
   const isNotificationTurnedOn = authUserStore.notificationToken
 
+  const [showFinalButton, setShowFinalButton] = React.useState<boolean>(false)
+
   const currentStep = route.params?.currentStep || 0
-  const { heading, subHeading, actionButtonText, skipButton } = onboardingData[currentStep]
+  const {
+    heading = "",
+    subHeading = "",
+    actionButtonText = "",
+    skipButton = false,
+  } = onboardingData[currentStep]
+
   const isNotificationScreen = onboardingData[currentStep].notifications
 
   const handleSetNotifications = async () => {
     const token = await registerForPushNotificationsAsync(onNextButtonPress)
     authUserStore.setNotificationToken(token)
+    setShowFinalButton(true)
   }
 
-  const isLast = currentStep === onboardingData.length - 1
-
   const onNextButtonPress = () => {
-    if (isLast) {
+    if (showFinalButton) {
       navigation.navigate("InitialProfileSettings")
     } else {
       navigation.push("Onboarding", { currentStep: currentStep + 1 })
@@ -48,35 +59,73 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
     [],
   )
 
+  const listOfIcons = [
+    <PresentIconSvg key="presentIconSvg" />,
+    <TogetherIconSvg key="togetherIconSvg" />,
+    <FireIconSvg key="fireIconSvg" />,
+  ]
+
+  React.useEffect(() => {
+    const isFirstStep = navigation.getState().routes.length === 1
+    if (currentStep !== 0 || isFirstStep) return
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Onboarding", params: { currentStep: 0 } }],
+    })
+  }, [navigation, currentStep])
+
   return (
     <Screen
-      preset="auto"
-      safeAreaEdges={["top", "bottom"]}
+      preset="fixed"
+      safeAreaEdges={["bottom"]}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.grow}>
-        <View style={styles.imagePlaceholder} />
+      <View style={styles.centered}>
+        <LinearGradient
+          style={styles.gradient}
+          colors={["rgba(250, 223, 215, 1)", "rgba(255, 242, 239, 1)"]}
+          start={{ x: 0.1, y: 0.9 }}
+          end={{ x: 0.1, y: 0.1 }}
+        >
+          {listOfIcons[currentStep]}
+        </LinearGradient>
         <Text style={styles.text} text={heading} preset="heading" />
         <Text style={[styles.text, styles.subHeading]} text={subHeading} preset="subheading" />
         <Pagination size={onboardingData.length} paginationIndex={currentStep} />
       </View>
       <View>
-        {skipButton && !isNotificationTurnedOn && (
+        {skipButton && !isNotificationTurnedOn && !showFinalButton && (
           <Text
             style={styles.maybeLaterButton}
-            onPress={debouncedOnNextButtonPress}
+            onPress={() => {
+              setShowFinalButton(true)
+            }}
             tx="common.skipText"
             weight="bold"
           />
         )}
         <View>
-          <Button
-            onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
-            text={isNotificationScreen && isNotificationTurnedOn ? "Continue" : actionButtonText}
-            textStyle={styles.actionButtonText}
-            pressedStyle={styles.actionButton}
-            style={styles.actionButton}
-          />
+          {!showFinalButton && (
+            <Button
+              onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
+              text={actionButtonText}
+              textStyle={styles.actionButtonText}
+              pressedStyle={styles.actionButton}
+              style={styles.actionButton}
+            />
+          )}
+          {showFinalButton && (
+            <Button
+              onPress={() => {
+                navigation.navigate("InitialProfileSettings")
+              }}
+              tx="onboardingScreen.setUpProfile"
+              textStyle={styles.actionButtonText}
+              pressedStyle={styles.actionButton}
+              style={styles.actionButton}
+            />
+          )}
         </View>
       </View>
     </Screen>
@@ -90,16 +139,19 @@ const useStyles = createUseStyles((theme) => ({
     flex: 1,
     width,
     paddingHorizontal: theme.spacing[24],
-    justifyContent: "space-between",
     paddingBottom: theme.spacing[40],
   },
-  imagePlaceholder: {
-    backgroundColor: "#D9D9D9",
+  gradient: {
     marginLeft: "auto",
     marginRight: "auto",
+    alignItems: "center",
+    justifyContent: "center",
     marginVertical: theme.spacing[64],
-    height: 200,
-    width: 200,
+    height: 154,
+    width: 154,
+    borderRadius: 10,
+    borderColor: "rgba(0, 0, 0, 0.10)",
+    borderWidth: 0.5,
   },
   text: {
     textAlign: "center",
@@ -116,8 +168,9 @@ const useStyles = createUseStyles((theme) => ({
   actionButtonText: {
     color: "#FFFFFF",
   },
-  grow: {
+  centered: {
     flex: 1,
+    justifyContent: "center",
   },
   maybeLaterButton: {
     color: "#333865",

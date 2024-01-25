@@ -1,16 +1,13 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Screen, Text } from "app/components"
+import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
 import { typography } from "app/theme"
-import { useHeader } from "app/utils/useHeader"
-import BackIconSvg from "assets/icons/svgs/BackIcon"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { Pressable } from "react-native"
 import EditProfileForm from "../Profile/components/EditProfileForm"
 import useFetchFavoriteTeam from "../hooks/useGetFavoriteTeam"
 import useFetchTeamList from "../hooks/useTeamList"
-import { useStores } from "app/models"
 
 interface InitialProfileSettingsScreenProps extends AppStackScreenProps<"InitialProfileSettings"> {}
 
@@ -21,17 +18,9 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
 
     useFetchTeamList()
     useFetchFavoriteTeam()
-    useHeader({
-      backgroundColor: "#fff",
-      LeftActionComponent: (
-        <Pressable onPress={() => _props.navigation.pop()} style={styles.headerBackButton}>
-          <BackIconSvg color="#000" />
-        </Pressable>
-      ),
-    })
 
     return (
-      <Screen style={styles.root} preset="auto">
+      <Screen style={styles.root} preset="auto" safeAreaEdges={["top"]}>
         <Text style={styles.title} tx="onboardingScreen.yourProfile" />
         <Text style={styles.subTitle} tx="onboardingScreen.moreDetails" />
         <Text style={styles.formTitle} tx="onboardingScreen.personalDetails" weight="semiBold" />
@@ -63,6 +52,7 @@ const useStyles = createUseStyles((theme) => ({
     textAlign: "center",
     marginBottom: theme.spacing[12],
     color: "#121212",
+    marginTop: theme.spacing[32],
   },
   subTitle: {
     textAlign: "center",

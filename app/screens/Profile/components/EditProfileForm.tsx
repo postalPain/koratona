@@ -12,10 +12,7 @@ import * as React from "react"
 import {
   ActivityIndicator,
   Image,
-  InputAccessoryView,
-  Keyboard,
   NativeSyntheticEvent,
-  Platform,
   Pressable,
   TextInputChangeEventData,
   View,
@@ -28,6 +25,18 @@ type Props = {
   disableBottomSheetInternal?: boolean
 }
 
+type Errors = {
+  firstName?: string
+  lastName?: string
+  email?: string
+}
+
+type FormFields = {
+  firstName?: string
+  lastName?: string
+  email?: string
+}
+
 const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInternal }: Props) {
   const styles = useStyles()
   const { shouldHandleKeyboardEvents } = disableBottomSheetInternal
@@ -38,19 +47,20 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
   const user = authUserStore.user
 
   // Form states
+  const lastNameFieldRef = React.useRef<any>()
+  const emailFieldRef = React.useRef<any>()
   const initialDateOfBirth = user.dateOfBirth
     ? new Date(user.dateOfBirth)
     : new Date(new Date().setFullYear(new Date().getFullYear() - 18))
   const [dateBirthPickerVisible, setDateBirthPickerVisible] = React.useState<boolean>(false)
-  const [date, setDate] = React.useState<Date>(initialDateOfBirth)
-  const [firstName, setFirstName] = React.useState<string>(user.firstName || "")
-  const [lastName, setLastName] = React.useState<string>(user.lastName || "")
-  const [email, setEmail] = React.useState<string>(user.email || "")
-  const [errors, setErrors] = React.useState<{
-    firstName?: string
-    lastName?: string
-    email?: string
-  }>({
+  const [dob, setDob] = React.useState<Date>(initialDateOfBirth)
+  const [formFields, setFormFields] = React.useState<FormFields>({
+    firstName: user.firstName || "",
+    lastName: user.lastName || "",
+    email: user.email || "",
+  })
+
+  const [errors, setErrors] = React.useState<Errors>({
     firstName: "",
     lastName: "",
     email: "",
@@ -81,172 +91,152 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
   const onDatePickerConfirm: (date?: Date) => void = (selectedDate) => {
     setDateBirthPickerVisible(false)
     if (selectedDate && isValid(new Date(selectedDate))) {
-      setDate(selectedDate)
+      setDob(selectedDate)
     }
   }
 
   const getTeamLogoOrPlaceholder = (logo: string | null | undefined) =>
     logo ? { uri: logo } : require("assets/icons/teamsLogo/emptyLogo.png")
 
-  const handleSubmitForm = async () => {
-    const isFormValid = Object.values(errors).some(Boolean)
+  const getEachValueAnCheckEachFieldAndSetErrors = () => {
+    const firstNameHasValue = formFields.firstName
+    const lastNameHasValue = formFields.lastName
+    const emailHasValue = formFields.email
 
-    if (authUserStore.isLoading || teamStore.isTeamListLoading || isFormValid) {
+    setErrors({
+      firstName: firstNameHasValue ? "" : "This field is required",
+      lastName: lastNameHasValue ? "" : "This field is required",
+      email: emailHasValue ? "" : "This field is required",
+    })
+  }
+
+  const filterAndClearNonDirtyData = (data: any) => {
+    const newData: any = {}
+    Object.keys(data).forEach((key) => {
+      const userValue =
+        key === "dateOfBirth" && user?.dateOfBirth
+          ? format(new Date(user.dateOfBirth), "yyyy-MM-dd")
+          : (user as any)[key]
+
+      if (data[key] !== userValue) {
+        newData[key] = data[key]
+      }
+    })
+    return newData
+  }
+
+  const handleSubmitForm = async () => {
+    getEachValueAnCheckEachFieldAndSetErrors()
+    const allFieldsHasValues = Object.values(formFields || {}).every((field) => field)
+    const isFormInValid = Object.values(errors).some(Boolean) || !allFieldsHasValues
+
+    if (authUserStore.isLoading || teamStore.isTeamListLoading || isFormInValid) {
       return
     }
-    authUserStore.updateUser(
-      {
-        firstName,
-        lastName,
-        email,
-        dateOfBirth: format(date, "yyyy-MM-dd"),
-      },
-      () => {
-        if (selectedTeam.id !== teamStore.selectedFavoriteTeam.id) {
-          teamStore.addTeamToFavorite(selectedTeam.id, () => {
-            afterSubmit()
-          })
-        } else {
-          afterSubmit()
-        }
-      },
-    )
+    const data = {
+      firstName: formFields?.firstName || "",
+      lastName: formFields?.lastName || "",
+      email: formFields?.email || "",
+      dateOfBirth: format(dob, "yyyy-MM-dd"),
+    }
+    const filteredData = filterAndClearNonDirtyData(data)
+    if (selectedTeam?.id !== teamStore.selectedFavoriteTeam.id) {
+      teamStore.addTeamToFavorite(selectedTeam?.id)
+    }
+    if (Object.keys(filteredData).length === 0) {
+      afterSubmit()
+      return
+    }
+    authUserStore.updateUser(filteredData, afterSubmit)
   }
 
   const onUserInfoInputFieldChange =
     (field: "firstName" | "lastName" | "email") =>
     (value: NativeSyntheticEvent<TextInputChangeEventData>) => {
-      switch (field) {
-        case "firstName":
-          setFirstName(value.nativeEvent.text)
-          break
-        case "lastName":
-          setLastName(value.nativeEvent.text)
-          break
-        case "email":
-          setEmail(value.nativeEvent.text)
-          break
-        default:
-          break
-      }
+      setFormFields({
+        ...formFields,
+        [field]: value.nativeEvent.text,
+      })
     }
-  const checkIsFieldValidOnBlur = (field: "firstName" | "lastName" | "email") => {
-    switch (field) {
-      case "firstName":
-        if (firstName.length < 2) {
-          setErrors({
-            ...errors,
-            firstName: "First name must be at least 2 characters",
-          })
-        } else {
-          setErrors({
-            ...errors,
-            firstName: "",
-          })
-        }
-        break
-      case "lastName":
-        if (lastName.length < 2) {
-          setErrors({
-            ...errors,
-            lastName: "Last name must be at least 2 characters",
-          })
-        } else {
-          setErrors({
-            ...errors,
-            lastName: "",
-          })
-        }
-        break
-      case "email":
-        if (!/\S+@\S+\.\S+/.test(email)) {
-          setErrors({
-            ...errors,
-            email: "Email is invalid",
-          })
-        } else {
-          setErrors({
-            ...errors,
-            email: "",
-          })
-        }
-        break
-      default:
-        break
+
+  const checkIsFieldValid = (field: "firstName" | "lastName" | "email") => {
+    const fieldError = errors[field]
+    const fieldHasValue = formFields[field]
+    if (fieldError && fieldHasValue) {
+      setErrors({
+        ...errors,
+        [field]: "",
+      })
+    } else if (!fieldError && !fieldHasValue) {
+      setErrors({
+        ...errors,
+        [field]: "This field is required",
+      })
+    }
+
+    if (field === "email" && fieldHasValue) {
+      const emailPattern = /\S+@\S+\.\S+/
+      if (!emailPattern.test(fieldHasValue)) {
+        setErrors({
+          ...errors,
+          [field]: "Invalid email format",
+        })
+      }
     }
   }
 
   return (
     <View style={styles.formContent}>
       <View style={styles.inputContainer}>
-        {Platform.OS === "ios" && (
-          <InputAccessoryView nativeID="firstNameAccessoryId">
-            <View style={styles.inputAccessoryBox}>
-              <Text
-                onPress={() => {
-                  Keyboard.dismiss()
-                }}
-                style={styles.inputAccessoryText}
-                tx="common.done"
-                weight="semiBold"
-              />
-            </View>
-          </InputAccessoryView>
-        )}
         <Input
           name="firstName"
           label="First name"
           placeholder="First name"
-          inputAccessoryViewID="firstNameAccessoryId"
           keyboardType="default"
           textContentType="givenName"
           enablesReturnKeyAutomatically
+          returnKeyType="next"
+          onSubmitEditing={() => {
+            lastNameFieldRef.current?.focus()
+          }}
+          blurOnSubmit={false}
           errorStyle={styles.hintsStyles}
           hintStyle={styles.hintsStyles}
           onFocus={() => {
             shouldHandleKeyboardEvents.value = true
           }}
           error={errors.firstName}
-          value={firstName}
+          value={formFields.firstName}
           onChange={onUserInfoInputFieldChange("firstName")}
           onBlur={() => {
             shouldHandleKeyboardEvents.value = false
-            checkIsFieldValidOnBlur("firstName")
+            checkIsFieldValid("firstName")
           }}
         />
-        {Platform.OS === "ios" && (
-          <InputAccessoryView nativeID="lastNameAccessoryId">
-            <View style={styles.inputAccessoryBox}>
-              <Text
-                onPress={() => {
-                  Keyboard.dismiss()
-                }}
-                style={styles.inputAccessoryText}
-                tx="common.done"
-                weight="semiBold"
-              />
-            </View>
-          </InputAccessoryView>
-        )}
         <Input
           name="lastName"
           label="Last name"
           placeholder="Last name"
+          ref={lastNameFieldRef}
           keyboardType="default"
           textContentType="familyName"
-          inputAccessoryViewID="lastNameAccessoryId"
           enablesReturnKeyAutomatically
+          returnKeyType="next"
+          onSubmitEditing={() => {
+            emailFieldRef.current?.focus()
+          }}
+          blurOnSubmit={false}
           errorStyle={styles.hintsStyles}
           hintStyle={styles.hintsStyles}
           error={errors.lastName}
           onFocus={() => {
             shouldHandleKeyboardEvents.value = true
           }}
-          value={lastName}
+          value={formFields.lastName}
           onChange={onUserInfoInputFieldChange("lastName")}
           onBlur={() => {
             shouldHandleKeyboardEvents.value = false
-            checkIsFieldValidOnBlur("lastName")
+            checkIsFieldValid("lastName")
           }}
         />
         <Pressable
@@ -256,9 +246,9 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
           }}
         >
           <Text text="Date of birth" style={styles.datePickerLabel} />
-          <Text text={format(date, "dd MMMM yyyy")} style={styles.datePickerText} />
+          <Text text={format(dob, "dd MMMM yyyy")} style={styles.datePickerText} />
           <DateTimePickerModal
-            date={date}
+            date={dob}
             onConfirm={onDatePickerConfirm}
             onCancel={() => {
               setDateBirthPickerVisible(false)
@@ -266,38 +256,24 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
             isVisible={dateBirthPickerVisible}
           />
         </Pressable>
-        {Platform.OS === "ios" && (
-          <InputAccessoryView nativeID="emailAccessoryId">
-            <View style={styles.inputAccessoryBox}>
-              <Text
-                onPress={() => {
-                  Keyboard.dismiss()
-                }}
-                style={styles.inputAccessoryText}
-                tx="common.done"
-                weight="semiBold"
-              />
-            </View>
-          </InputAccessoryView>
-        )}
         <Input
           name="email"
           label="Email"
           placeholder="Email"
           keyboardType="default"
+          ref={emailFieldRef}
           textContentType="emailAddress"
-          inputAccessoryViewID="emailAccessoryId"
           errorStyle={styles.hintsStyles}
           hintStyle={styles.hintsStyles}
           error={errors.email}
           onFocus={() => {
             shouldHandleKeyboardEvents.value = true
           }}
-          value={email}
+          value={formFields.email}
           onChange={onUserInfoInputFieldChange("email")}
           onBlur={() => {
             shouldHandleKeyboardEvents.value = false
-            checkIsFieldValidOnBlur("email")
+            checkIsFieldValid("email")
           }}
         />
         <Input
@@ -330,11 +306,11 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
                 source={getTeamLogoOrPlaceholder(selectedTeam?.logoUrl)}
               />
             </View>
-            <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
+            <Text style={styles.teamPickerButtonText} text={selectedTeam?.name || ""} />
           </View>
         )}
         renderCustomizedRowChild={(item: Team) => {
-          const isSelected = item.id === selectedTeam.id
+          const isSelected = item.id === selectedTeam?.id
           return (
             <View
               style={[
