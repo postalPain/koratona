@@ -8,6 +8,11 @@ import { generateSignature, parseResponse, APSStatusCodes } from "./utils";
 import { getLanguage } from 'app/i18n';
 import { createOrder } from '../../services/api/order/orderService';
 
+export const APS_STATUSES = {
+  TOKENIZATION_SUCCESS: '18',
+  PURCHASE_SUCCESS: '14',
+  ON_HOLD: '20'
+};
 
 const getIp = async () => {
   let ip;
@@ -48,7 +53,7 @@ const getToken: Payment.GetToken = async (params) => {
     });
     const resData = parseResponse(response.data) as Payment.GetTokenResponse;
 
-    if (!resData.status || resData.status !== '18') {
+    if (!resData.status || resData.status !== APS_STATUSES.TOKENIZATION_SUCCESS) {
       console.log(APSStatusCodes[resData.status][language]);
       return { kind: "bad-data", error: resData.response_message };
     }
@@ -69,6 +74,7 @@ const makePayment: Payment.MakePayment = async (params) => {
     command: 'PURCHASE',
     access_code: Config.APS_DATA.access_code,
     merchant_identifier: Config.APS_DATA.merchant_identifier,
+    return_url: Config.APS_3DS_SUCCESS_URL,
     language,
     ...params,
   };
@@ -86,9 +92,13 @@ const makePayment: Payment.MakePayment = async (params) => {
       },
       body: JSON.stringify(payload),
     })
-    const responseData = await response.json();
-
-    if (!responseData.status || responseData.status !== '14') {
+    const responseData = await response.json() as Payment.MakePaymentResponse;
+    if (
+      !responseData.status || (
+        responseData.status !== APS_STATUSES.PURCHASE_SUCCESS &&
+        responseData.status !== APS_STATUSES.ON_HOLD
+      )
+    ) {
       console.log(APSStatusCodes[responseData.status][language]);
       return { kind: "bad-data", error: responseData.response_message };
     }

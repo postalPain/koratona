@@ -29,9 +29,8 @@ import * as storage from "./utils/storage"
 import { customFontsToLoad } from "./theme"
 import Config from "./config"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
-import { ViewStyle } from "react-native"
+import { ViewStyle , LogBox } from "react-native"
 import { RootSiblingParent } from "react-native-root-siblings"
-import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
