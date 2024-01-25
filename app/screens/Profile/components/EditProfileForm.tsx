@@ -60,7 +60,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
       ({
         id: -1,
         name: "",
-        logoUrl: "",
+        logoUrl: null,
       } as Team),
   )
 
@@ -85,7 +85,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
     }
   }
 
-  const getTeamLogoOrPlaceholder = (logo: string | null) =>
+  const getTeamLogoOrPlaceholder = (logo: string | null | undefined) =>
     logo ? { uri: logo } : require("assets/icons/teamsLogo/emptyLogo.png")
 
   const handleSubmitForm = async () => {
@@ -327,7 +327,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
                 width={25}
                 height={25}
                 resizeMode="contain"
-                source={getTeamLogoOrPlaceholder(selectedTeam.logoUrl)}
+                source={getTeamLogoOrPlaceholder(selectedTeam?.logoUrl)}
               />
             </View>
             <Text style={styles.teamPickerButtonText} text={selectedTeam.name} />
@@ -347,7 +347,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
                   width={25}
                   height={25}
                   resizeMode="contain"
-                  source={getTeamLogoOrPlaceholder(item.logoUrl)}
+                  source={getTeamLogoOrPlaceholder(item?.logoUrl)}
                 />
               </View>
               <Text

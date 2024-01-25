@@ -1,29 +1,20 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Button, Text } from "app/components"
+import { Button, Screen, Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
-import { AppStackScreenProps } from "app/navigators"
+import { AppStackScreenProps, getActiveRouteName } from "app/navigators"
 import { typography } from "app/theme"
-import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import EnvelopeIconSmall from "assets/icons/svgs/EnvelopeIconSmall"
 import { t } from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import {
-  ActivityIndicator,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native"
+import { ActivityIndicator, Keyboard, Platform, Pressable, View } from "react-native"
 import { OtpInput, OtpInputRef } from "react-native-otp-entry"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 
-import { showToast } from "app/utils/showToast"
-import useApp from "./hooks/useSMSApp"
 import { useStores } from "app/models"
 import { retrieveDeviceId } from "app/utils/retrieveDeviceId"
+import { showToast } from "app/utils/showToast"
+import useApp from "./hooks/useSMSApp"
 
 interface ScreenProps extends AppStackScreenProps<"OTPConfirmation"> {}
 
@@ -32,6 +23,7 @@ const RESEND_CODE_IN_SECONDS = 60
 export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props) {
   const styles = useStyles()
   const { authenticationStore } = useStores()
+  const isPageActive = getActiveRouteName(_props.navigation.getState()) === "OTPConfirmation"
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
@@ -43,9 +35,6 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
 
   const phoneNumber = _props.route?.params?.phoneNumber
 
-  const bottomInset = useSafeAreaInsetsStyle(["bottom"])
-  const topInset = useSafeAreaInsetsStyle(["top"])
-
   const OTPInputRef = React.useRef<OtpInputRef>(null)
 
   const requestCode = () => {
@@ -56,6 +45,10 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
       showToast(t("signIn.codeSent"))
     })
   }
+
+  React.useEffect(() => {
+    setResendCodeIn(RESEND_CODE_IN_SECONDS)
+  }, [isPageActive])
 
   React.useEffect(() => {
     if (!phoneNumber) {
@@ -70,6 +63,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
   }, [])
 
   React.useEffect(() => {
+    if (!isPageActive) return
     let interval: NodeJS.Timeout | null = null
     if (disabledResendCode) {
       interval = setInterval(() => {
@@ -91,7 +85,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
     return () => {
       !!interval && clearInterval(interval)
     }
-  }, [disabledResendCode])
+  }, [disabledResendCode, isPageActive])
 
   React.useEffect(() => {
     if (!smsMessageBody) return
@@ -104,13 +98,12 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
   }, [smsMessageBody])
 
   const handleConfirmOTPCode = async (customValue?: string) => {
-    if (isLoading) return
-    setIsLoading(true)
-    if (!customValue && !otpCode) {
+    if (isLoading || (!customValue && !otpCode)) {
       setOtpCodeInvalid(true)
       showToast(t("signIn.enterCode"))
       return
     }
+    setIsLoading(true)
     const deviceId = await retrieveDeviceId()
 
     await authenticationStore.confirmOTPCode(
@@ -125,80 +118,79 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
       () => {
         setOtpCodeInvalid(true)
         setIsLoading(false)
+        OTPInputRef.current?.clear()
       },
     )
   }
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={[styles.contentContainer, bottomInset, topInset]}>
-          <View>
-            <GoBackComponent
-              onPress={() => {
-                _props.navigation.navigate("welcome")
-              }}
-            />
-            <Text tx="signIn.enterLoginCode" style={styles.formTitleText} weight="bold" />
-            <Text
-              text={`${t("signIn.weHaveSentCodeTo")}\n${phoneNumber}`}
-              style={styles.formSubTitleText}
-            />
-            <OtpInput
-              ref={OTPInputRef}
-              autoFocus
-              numberOfDigits={4}
-              focusStickBlinkingDuration={500}
-              onTextChange={(value) => {
-                setOtpCodeInvalid(false)
-                setOtpCode(value)
-              }}
-              onFilled={(value) => {
-                setOtpCode(value)
-                handleConfirmOTPCode(value)
-              }}
-              theme={{
-                containerStyle: styles.otpInputContainer,
-                pinCodeContainerStyle: otpCodeInvalid
-                  ? styles.pinCodeContainerInvalid
-                  : styles.pinCodeContainer,
-                pinCodeTextStyle: styles.pinCodeText,
-                focusStickStyle: styles.focusStick,
-                focusedPinCodeContainerStyle: otpCodeInvalid
-                  ? styles.activePinCodeContainerInvalid
-                  : styles.activePinCodeContainer,
-              }}
-            />
-            <View style={styles.resendActionsInfo}>
-              <EnvelopeIconSmall color={disabledResendCode ? "#B3B8C2" : "#333865"} />
-              <Pressable onPress={requestCode}>
-                <Text
-                  tx="signIn.resendCode"
-                  style={[
-                    styles.resendActionsInfoText,
-                    !!resendCodeIn && styles.resendActionsInfoTextDisabled,
-                  ]}
-                />
-              </Pressable>
-              {!!resendCodeIn && (
-                <Text
-                  text={`${t("common.in")} ${resendCodeIn}s`}
-                  style={styles.resendActionsInfoCounterText}
-                />
-              )}
-            </View>
+    <Screen preset="fixed" safeAreaEdges={["top", "bottom"]}>
+      <Pressable style={styles.contentContainer} onPress={Keyboard.dismiss}>
+        <View>
+          <GoBackComponent
+            onPress={() => {
+              _props.navigation.navigate("welcome")
+            }}
+          />
+          <Text tx="signIn.enterLoginCode" style={styles.formTitleText} weight="bold" />
+          <Text
+            text={`${t("signIn.weHaveSentCodeTo")}\n${phoneNumber}`}
+            style={styles.formSubTitleText}
+          />
+          <OtpInput
+            ref={OTPInputRef}
+            autoFocus
+            numberOfDigits={4}
+            focusStickBlinkingDuration={500}
+            onTextChange={(value) => {
+              setOtpCodeInvalid(false)
+              setOtpCode(value)
+            }}
+            onFilled={(value) => {
+              setOtpCode(value)
+              handleConfirmOTPCode(value)
+            }}
+            theme={{
+              containerStyle: styles.otpInputContainer,
+              pinCodeContainerStyle: otpCodeInvalid
+                ? styles.pinCodeContainerInvalid
+                : styles.pinCodeContainer,
+              pinCodeTextStyle: styles.pinCodeText,
+              focusStickStyle: styles.focusStick,
+              focusedPinCodeContainerStyle: otpCodeInvalid
+                ? styles.activePinCodeContainerInvalid
+                : styles.activePinCodeContainer,
+            }}
+          />
+          <View style={styles.resendActionsInfo}>
+            <EnvelopeIconSmall color={disabledResendCode ? "#B3B8C2" : "#333865"} />
+            <Pressable onPress={requestCode}>
+              <Text
+                tx="signIn.resendCode"
+                style={[
+                  styles.resendActionsInfoText,
+                  !!resendCodeIn && styles.resendActionsInfoTextDisabled,
+                ]}
+              />
+            </Pressable>
+            {!!resendCodeIn && (
+              <Text
+                text={`${t("common.in")} ${resendCodeIn}s`}
+                style={styles.resendActionsInfoCounterText}
+              />
+            )}
           </View>
-          <Button
-            style={styles.goToPurchasesButton}
-            pressedStyle={styles.goToPurchasesButton}
-            onPress={() => handleConfirmOTPCode()}
-          >
-            {!isLoading && <Text style={styles.goToPurchasesButtonText} tx="common.continue" />}
-            {isLoading && <ActivityIndicator />}
-          </Button>
         </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        <Button
+          style={styles.goToPurchasesButton}
+          pressedStyle={styles.goToPurchasesButton}
+          onPress={() => handleConfirmOTPCode()}
+        >
+          {!isLoading && <Text style={styles.goToPurchasesButtonText} tx="common.continue" />}
+          {isLoading && <ActivityIndicator />}
+        </Button>
+      </Pressable>
+    </Screen>
   )
 })
 
@@ -210,6 +202,12 @@ const useStyles = createUseStyles(() => ({
   contentContainer: {
     height: "100%",
     justifyContent: "space-between",
+    padding: 24,
+  },
+  contentCentered: {
+    width: "100%",
+    flex: 1,
+    justifyContent: "center",
   },
   formTitleText: {
     fontSize: 28,
@@ -241,7 +239,7 @@ const useStyles = createUseStyles(() => ({
   otpInputContainer: {
     justifyContent: "center",
     paddingVertical: 32,
-    gap: 8,
+    paddingHorizontal: 16,
   },
   pinCodeContainer: {
     width: 64,
