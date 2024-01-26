@@ -2,19 +2,19 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Screen, Text } from "app/components"
 import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
+import { registerForPushNotificationsAsync } from "app/services/notifications"
+import { typography } from "app/theme"
+import { LinearGradient } from "expo-linear-gradient"
+import debounce from "lodash.debounce"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { Dimensions, View } from "react-native"
 import Pagination from "./components/Pagination"
 import onboardingData from "./constants/onboardingData"
-import { registerForPushNotificationsAsync } from "app/services/notifications"
-import { LinearGradient } from "expo-linear-gradient"
-// @ts-ignore
-import debounce from "lodash.debounce"
-import { typography } from "app/theme"
+import FireIconSvg from "./icons/FireIcon"
 import PresentIconSvg from "./icons/PresentIcon"
 import TogetherIconSvg from "./icons/TogetherIcon"
-import FireIconSvg from "./icons/FireIcon"
+
 
 interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {
   currentStep?: number
@@ -31,6 +31,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
   const [showFinalButton, setShowFinalButton] = React.useState<boolean>(false)
 
   const currentStep = route.params?.currentStep || 0
+
   const {
     heading = "",
     subHeading = "",
@@ -50,6 +51,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
     if (showFinalButton) {
       navigation.navigate("InitialProfileSettings")
     } else {
+      authUserStore.setOnboardingCardsSaw()
       navigation.push("Onboarding", { currentStep: currentStep + 1 })
     }
   }
