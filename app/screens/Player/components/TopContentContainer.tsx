@@ -36,7 +36,7 @@ const TopContentContainer: React.FC<Props> = ({ playerId }) => {
           <Text text={player?.fullName} style={styles.playerName} />
           <View style={styles.generalPlayerStats}>
             <Text tx="teams.player.country" style={styles.generalPlayerStatsTitle} />
-            <Image source={require("assets/images/flags/ar.png")} style={styles.flagIcon} />
+            {/* <Image source={require("assets/images/flags/ar.png")} style={styles.flagIcon} /> */}
             <Text
               text={formatPlayerInfoValue(player?.country)}
               style={styles.generalPlayerStatsValue}
