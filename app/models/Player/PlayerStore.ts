@@ -8,6 +8,7 @@ import { Instance, SnapshotIn, SnapshotOut, clone, flow, getRoot, types } from "
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { Player, PlayerModel } from "./Player"
+import { showToast } from "app/utils/showToast"
 
 export const PlayerStoreModel = types
   .model("TeamStore")
@@ -36,6 +37,7 @@ export const PlayerStoreModel = types
         self.playerList = response.data.data
         self.paginationMeta = response.data.meta
       } catch (error) {
+        showToast("Error fetching player list")
         self.isPlayerListErrored = true
         console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
       } finally {
@@ -65,9 +67,8 @@ export const PlayerStoreModel = types
         }
         successCallback && successCallback()
       } catch (error) {
-        console.log("adding to favorite, error", error)
         self.isPlayerListErrored = true
-        console.tron.error?.(`Error adding team to favorite: ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error adding player to favorite: ${JSON.stringify(error)}`, [])
       }
     }),
     getUsersFavoritePlayersList: flow(function* () {
@@ -82,6 +83,7 @@ export const PlayerStoreModel = types
           .map(({ player }: { player: Player }) => player)
         self.favoritePlayerList = mappedData
       } catch (error) {
+        showToast("Error fetching favorite player list")
         console.tron.error?.(`Error fetching favorite team: ${JSON.stringify(error)}`, [])
       }
     }),

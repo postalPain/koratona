@@ -6,6 +6,7 @@ import PentagonIcon from "assets/icons/svgs/Pegtagon"
 import { LinearGradient } from "expo-linear-gradient"
 import React from "react"
 import { Image, View } from "react-native"
+import { formatPlayerInfoValue } from "../utils/playerDataFallback"
 
 type Props = {
   playerId: number
@@ -22,7 +23,7 @@ const TopContentContainer: React.FC<Props> = ({ playerId }) => {
         <PentagonIcon />
         <View style={styles.bgLayoutImageContainer}>
           <Image
-            source={require("assets/temp/player_photo_big.png")}
+            source={player?.pictureUrl ? { uri: player?.pictureUrl } : require("")}
             style={styles.bgLayoutImage}
             resizeMode="contain"
           />
@@ -31,25 +32,40 @@ const TopContentContainer: React.FC<Props> = ({ playerId }) => {
       <LinearGradient colors={["transparent", "transparent", "#080A18"]} style={styles.gradient}>
         <View />
         <View style={styles.generalPlayerInfo}>
-          <Text text="09" style={styles.playerNumber} />
+          <Text text={formatPlayerInfoValue(player?.jerseyNumber)} style={styles.playerNumber} />
           <Text text={player?.fullName} style={styles.playerName} />
           <View style={styles.generalPlayerStats}>
             <Text tx="teams.player.country" style={styles.generalPlayerStatsTitle} />
-            <Image
-              source={require("assets/images/flags/ar.png")}
-              style={styles.flagIcon}
+            <Image source={require("assets/images/flags/ar.png")} style={styles.flagIcon} />
+            <Text
+              text={formatPlayerInfoValue(player?.country)}
+              style={styles.generalPlayerStatsValue}
             />
-            <Text text="Saudi Arabia" style={styles.generalPlayerStatsValue} />
             <Text tx="teams.player.position" style={styles.generalPlayerStatsTitle} />
-            <Text text="Attacker" style={styles.generalPlayerStatsValue} />
+            <Text
+              text={formatPlayerInfoValue(player?.position)}
+              style={styles.generalPlayerStatsValue}
+            />
           </View>
           <View style={styles.personalPlayerStats}>
             <Text tx="teams.player.age" style={styles.personalPlayerStatsTitle} />
-            <Text text="29" style={styles.personalPlayerStatsValue} />
+            <Text
+              text={formatPlayerInfoValue(player?.age)}
+              style={styles.personalPlayerStatsValue}
+            />
             <Text tx="teams.player.height" style={styles.personalPlayerStatsTitle} />
-            <Text text="1.77m" style={styles.personalPlayerStatsValue} />
+            <Text
+              text={
+                player?.height
+                  ? formatPlayerInfoValue(player?.height) + "m"
+                  : formatPlayerInfoValue(player?.height)
+              }
+              style={styles.personalPlayerStatsValue}
+            />
             <Text tx="teams.player.weight" style={styles.personalPlayerStatsTitle} />
-            <Text text="78kg" style={styles.personalPlayerStatsValue} />
+            <Text text={player?.weight
+                  ? formatPlayerInfoValue(player?.weight) + "kg"
+                  : formatPlayerInfoValue(player?.weight)} style={styles.personalPlayerStatsValue} />
           </View>
         </View>
       </LinearGradient>
@@ -145,9 +161,9 @@ const useStyles = createUseStyles(() => ({
     width: "auto",
     height: 550,
   },
-  flagIcon:{
+  flagIcon: {
     marginLeft: 3,
-  }
+  },
 }))
 
 export default TopContentContainer

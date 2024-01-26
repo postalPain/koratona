@@ -6,7 +6,7 @@ import { View, ViewStyle } from "react-native"
 
 type StatsItem = {
   title: string
-  value: string
+  value: string | number | undefined
 }
 
 type Props = { data: StatsItem[]; title?: string; style?: ViewStyle }
@@ -28,7 +28,12 @@ export const StatsSection: React.FC<Props> = ({ data, title, style }) => {
                 styles.statsStatsItemWithLeftBorder,
             ]}
           >
-            <Text style={[styles.statsStatsItemValue, +item.value === 0 && styles.inactiveItemValue]}>{item.value}</Text>
+            <Text
+              style={[
+                styles.statsStatsItemValue,
+                item?.value !== undefined && +item?.value === 0 && styles.inactiveItemValue,
+              ]}
+            >{`${item.value || "n/a"}`}</Text>
             <Text style={styles.statsStatsItemTitle}>{item.title}</Text>
           </View>
         ))}
@@ -82,7 +87,7 @@ const useStyles = createUseStyles(() => ({
     textTransform: "uppercase",
     marginTop: 2,
   },
-  inactiveItemValue:{
+  inactiveItemValue: {
     color: "#D0D5DD",
-  }
+  },
 }))
