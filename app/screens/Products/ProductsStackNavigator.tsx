@@ -1,10 +1,11 @@
-import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
-import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
-import { AppTabScreenProps } from "../../navigators/AppHomeNavigator"
-import { ProductPurchaseScreen } from "./ProductsPurchaseScreen"
-import { ProductsScreen } from "./ProductsScreen"
-import { ProductPurchaseResultScreen } from "./ProductPurchaseResultScreen"
+import React, { FC } from "react";
+import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack";
+import { observer } from "mobx-react-lite";
+import { AppTabScreenProps } from "../../navigators/AppHomeNavigator";
+import { ProductPurchaseScreen } from "./ProductsPurchaseScreen";
+import { ProductsScreen } from "./ProductsScreen";
+import { ProductPurchaseResultScreen } from "./ProductPurchaseResultScreen";
+import { Purchase3DSVerificationScreen } from './Purchase3DSVerificationScreen';
 
 type ProductsStackParamList = {
   productsScreen: undefined
@@ -12,6 +13,9 @@ type ProductsStackParamList = {
     id: number
   }
   productPurchaseResult: undefined
+  purchase3DSVerification: {
+    url: string;
+  }
 }
 
 export type ProductsStackScreenProps<T extends keyof ProductsStackParamList> =
@@ -43,6 +47,13 @@ export const ProductsStackNavigator: FC<AppTabScreenProps<"ProductsNavigator">> 
         <Stack.Screen
           name='productPurchaseResult'
           component={ProductPurchaseResultScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name='purchase3DSVerification'
+          component={Purchase3DSVerificationScreen}
           options={{
             headerShown: false,
           }}
