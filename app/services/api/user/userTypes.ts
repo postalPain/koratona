@@ -38,6 +38,7 @@ export type UpdateUserPayloadData = Partial<{
   firstName: string
   lastName: string
   dateOfBirth: string
+  jerseyNumber: string
   email: string
   userId: string
 }>
