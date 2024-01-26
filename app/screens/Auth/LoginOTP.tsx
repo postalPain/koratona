@@ -9,8 +9,6 @@ import { ActivityIndicator, Keyboard, TouchableWithoutFeedback, View } from "rea
 import PhoneInput from "react-native-phone-number-input"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { AuthPolicies } from "./AuthPolicies"
-import { getDeviceCountryCode } from "app/utils/getCounrtyCode"
-import { CountryCode } from "react-native-country-picker-modal"
 
 type Props = {
   goToOTPConfirmation: (phoneNumber: string) => void
@@ -19,28 +17,29 @@ type Props = {
 export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmation }) {
   const styles = useStyles()
   const { authenticationStore } = useStores()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const [value, setValue] = useState("")
-  const [formattedPhoneValue, setFormattedPhoneValue] = useState<string>("")
-  const [valid, setValid] = useState<boolean>(true)
-  const phoneInput = useRef<PhoneInput>(null)
+  const [isFetchOTPCodeLoading, setIsFetchOTPCodeLoading] = useState<boolean>(false)
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [formattedPhoneNumber, setFormattedPhoneNumber] = useState<string>("")
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState<boolean>(true)
+
+  const phoneInputRef = useRef<PhoneInput>(null)
 
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
 
-  const checkIsNumberValid = (number: string) => phoneInput.current?.isValidNumber(number)
+  const checkIsNumberValid = (number: string) => phoneInputRef.current?.isValidNumber(number)
 
   const requestOTPCode = async () => {
-    const checkValid = checkIsNumberValid(value)
-    setValid(!!checkValid)
+    const checkValid = checkIsNumberValid(phoneNumber)
+    setIsPhoneNumberValid(!!checkValid)
 
-    if (!checkValid || isLoading) {
+    if (!checkValid || isFetchOTPCodeLoading) {
       return
     }
-    setIsLoading(true)
-    await authenticationStore.getOTPCode(formattedPhoneValue, () => {
-      goToOTPConfirmation(formattedPhoneValue)
-      setIsLoading(false)
+    setIsFetchOTPCodeLoading(true)
+    await authenticationStore.getOTPCode(formattedPhoneNumber, () => {
+      goToOTPConfirmation(formattedPhoneNumber)
+      setIsFetchOTPCodeLoading(false)
     })
   }
 
@@ -49,25 +48,25 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
       <View style={styles.container}>
         <Text tx="welcomeScreen.letsGetStarted" style={styles.formTitleText} weight="bold" />
         <PhoneInput
-          ref={phoneInput}
-          defaultValue={value}
-          defaultCode={getDeviceCountryCode() as CountryCode}
+          ref={phoneInputRef}
+          defaultValue={phoneNumber}
+          defaultCode="SA"
           textInputProps={{
             onBlur() {
-              const checkValid = checkIsNumberValid(value)
-              setValid(checkValid || false)
+              const checkValid = checkIsNumberValid(phoneNumber)
+              setIsPhoneNumberValid(checkValid || false)
             },
           }}
           onChangeText={(text) => {
             const checkValid = checkIsNumberValid(text)
-            setValue(text)
+            setPhoneNumber(text)
             if (checkValid) {
-              setValid(true)
+              setIsPhoneNumberValid(true)
             }
           }}
           placeholder="Enter phone number"
           onChangeFormattedText={(text) => {
-            setFormattedPhoneValue(text)
+            setFormattedPhoneNumber(text)
           }}
           countryPickerProps={{ withAlphaFilter: true, withCallingCodeButton: true }}
           disableArrowIcon
@@ -75,12 +74,25 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
           textContainerStyle={styles.phoneInputTextStyleContainer}
           containerStyle={[
             styles.phoneInputContainer,
-            valid ? {} : styles.phoneInputContainerInvalid,
+            isPhoneNumberValid ? {} : styles.phoneInputContainerInvalid,
           ]}
         />
-        <Button style={styles.button} onPress={requestOTPCode} pressedStyle={styles.button}>
-          {!isLoading && <Text style={styles.buttonText} tx="common.continue" />}
-          {isLoading && <ActivityIndicator />}
+        <Button
+          style={[
+            styles.button,
+            phoneNumber
+              ? {}
+              : {
+                  backgroundColor: "#D0D5DD",
+                  borderColor: "#D0D5DD",
+                },
+          ]}
+          disabled={!phoneNumber}
+          onPress={requestOTPCode}
+          pressedStyle={styles.button}
+        >
+          {!isFetchOTPCodeLoading && <Text style={styles.buttonText} tx="common.continue" />}
+          {isFetchOTPCodeLoading && <ActivityIndicator />}
         </Button>
         <View style={bottomInsets}>
           <AuthPolicies />

@@ -2,6 +2,7 @@ import { api } from "app/services/api"
 import { OTPLoginConfirmationService, OTPLoginService } from "app/services/api/auth/auth"
 import { Instance, SnapshotOut, flow, types } from "mobx-state-tree"
 import { Alert } from "react-native"
+import { AuthUser } from "../User/User"
 
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
@@ -29,7 +30,7 @@ export const AuthenticationStoreModel = types
         code: string
         deviceId: string
       },
-      successCb?: () => void,
+      successCb?: (user: AuthUser) => void,
       unsuccessCb?: (message: string) => void,
     ) {
       const skipOTPCode = __DEV__ ? { skip: true } : {}
@@ -48,7 +49,7 @@ export const AuthenticationStoreModel = types
       self.showingOnboarding = data?.data?.onboarding
       api.apisauce.setHeader("Authorization", `Bearer ${data?.data?.accessToken}`)
 
-      successCb && successCb()
+      successCb && successCb(data?.data?.user)
     }),
     distributeAuthToken(value?: string) {
       // optionally grab the store's authToken if not passing a value
