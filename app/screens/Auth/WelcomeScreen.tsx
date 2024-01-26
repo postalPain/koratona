@@ -3,7 +3,7 @@ import { Screen, Text } from "app/components"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { Image, ImageBackground, View } from "react-native"
+import { Image, ImageBackground, Keyboard, TouchableWithoutFeedback, View } from "react-native"
 import { AppStackScreenProps } from "../../navigators"
 import { typography } from "../../theme"
 import { LoginOTP } from "./LoginOTP"
@@ -21,20 +21,34 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
   }
 
   return (
-    <Screen preset="fixed" style={styles.container}>
+    <Screen
+      preset="fixed"
+      style={styles.container}
+      safeAreaEdges={["bottom"]}
+      KeyboardAvoidingViewProps={{
+        behavior: "position",
+        contentContainerStyle: {
+          flex: 1,
+        },
+      }}
+    >
       <ImageBackground source={welcomeBackGround}>
-        <LinearGradient
-          colors={["rgba(26, 31, 81, 0.9)", "rgba(0, 6, 62, 0.4)", "transparent", "transparent"]}
-          style={styles.gradient}
-          start={{ x: 0.1, y: 0.1 }}
-          end={{ x: 0.1, y: 0.5 }}
-        >
-          <View style={styles.sloganWrapper}>
-            <Image style={styles.logoImage} source={welcomeLogo} resizeMode="contain" />
-            <Text style={styles.slogan} tx="welcomeScreen.slogan" />
-          </View>
-          <LoginOTP goToOTPConfirmation={navigateToOTPConfirmation} />
-        </LinearGradient>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <LinearGradient
+            colors={["rgba(26, 31, 81, 0.9)", "rgba(0, 6, 62, 0.4)", "transparent", "transparent"]}
+            style={styles.gradient}
+            start={{ x: 0.1, y: 0.1 }}
+            end={{ x: 0.1, y: 0.5 }}
+          >
+            <View style={styles.centered}>
+              <View style={styles.sloganWrapper}>
+                <Image style={styles.logoImage} source={welcomeLogo} resizeMode="contain" />
+                <Text style={styles.slogan} tx="welcomeScreen.slogan" />
+              </View>
+            </View>
+            <LoginOTP goToOTPConfirmation={navigateToOTPConfirmation} />
+          </LinearGradient>
+        </TouchableWithoutFeedback>
       </ImageBackground>
     </Screen>
   )
@@ -61,8 +75,11 @@ const useStyles = createUseStyles(() => ({
     marginTop: 47,
   },
   sloganWrapper: {
-    paddingTop: 160,
     width: 220,
     alignSelf: "center",
+  },
+  centered: {
+    flex: 1,
+    justifyContent: "center",
   },
 }))
