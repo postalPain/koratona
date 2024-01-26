@@ -22,6 +22,7 @@ import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { useNotifications } from "app/services/notifications"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -48,7 +49,7 @@ export type AppStackParamList = {
   PostDetails: undefined
   ExperiencePurchase: undefined
   PurchaseResult: undefined
-  OTAConfirmation: { phoneNumber: string }
+  OTPConfirmation: { phoneNumber: string }
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -73,12 +74,13 @@ const AppStack = observer(function AppStack(_props) {
 
   useFetchAuthUser()
   useInitApplyUserSettings()
+  useNotifications();
 
   React.useEffect(() => {
     if (isAuthenticated && showingOnboarding) {
       navigationRef.current?.navigate("Onboarding", { currentStep: 0 })
     }
-  }, [showingOnboarding, isAuthenticated])
+  }, [showingOnboarding, isAuthenticated]);
 
   return (
     <Stack.Navigator
@@ -92,13 +94,22 @@ const AppStack = observer(function AppStack(_props) {
           <Stack.Screen
             name="InitialProfileSettings"
             component={Screens.InitialProfileSettingsScreen}
+            options={{
+              gestureEnabled: false,
+            }}
           />
           <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
         </>
       ) : (
         <>
-          <Stack.Screen name="OTAConfirmation" component={Screens.OTAConfirmation} />
-          <Stack.Screen name="welcome" component={Screens.WelcomeScreen} />
+          <Stack.Screen name="OTPConfirmation" component={Screens.OTPConfirmation} />
+          <Stack.Screen
+            name="welcome"
+            component={Screens.WelcomeScreen}
+            options={{
+              gestureEnabled: false,
+            }}
+          />
         </>
       )}
 

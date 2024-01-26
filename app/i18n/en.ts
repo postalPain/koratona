@@ -73,6 +73,7 @@ const en = {
     phoneNumber: "Phone number",
     chooseYourTeam: "Choose your team",
     join: "Join the",
+    setUpProfile: "Set up profile",
   },
   onboardingCarousel: {
     getExclusiveAccess: {
@@ -211,6 +212,21 @@ const en = {
       "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
     windowsReactotronHint:
       "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
+  },
+  modals: {
+    general: {
+      button: "Try again",
+    },
+    offline: {
+      title: "Network error",
+      description:
+        "Please check your network connection or reach out to support if the problem persists.",
+    },
+    serverError: {
+      title: "Server error",
+      description:
+        "We’re sorry but our servers seem to be down at the moment. Please try again in a minute.",
+    },
   },
 }
 

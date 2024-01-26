@@ -21,6 +21,7 @@ export const UserStoreModel = types
       email: null,
       firstName: null,
       lastName: null,
+      jerseyNumber: 1,
       lang: "",
       phone: "",
       role: "",
@@ -61,6 +62,10 @@ export const UserStoreModel = types
       self.isErrored = false
       try {
         const response = yield updateUser({ ...user, userId: self.user.userId })
+        if(response.kind === "bad-data") {
+          showToast("Error updating user, please try again later")
+          return
+        }
         self.user = { ...self.user, ...response.data }
         successCallback && successCallback()
       } catch (error) {

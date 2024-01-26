@@ -21,6 +21,7 @@ import "./utils/ignoreWarnings"
 import { useFonts } from "expo-font"
 import React from "react"
 import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
+import { ThemeProvider } from "@stryberventures/gaia-react-native.theme";
 import * as Linking from "expo-linking"
 import { useInitialRootStore } from "./models"
 import { AppNavigator, useNavigationPersistence } from "./navigators"
@@ -32,6 +33,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { ViewStyle , LogBox } from "react-native"
 import { RootSiblingParent } from "react-native-root-siblings"
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
+import theme from './theme/gaiaTheme';
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
@@ -114,17 +116,19 @@ function App(props: AppProps) {
   // otherwise, we're ready to render the app
   return (
     <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <ErrorBoundary catchErrors={Config.catchErrors}>
-        <GestureHandlerRootView style={$container}>
-          <RootSiblingParent>
-            <AppNavigator
-              linking={linking}
-              initialState={initialNavigationState}
-              onStateChange={onNavigationStateChange}
-            />
-          </RootSiblingParent>
-        </GestureHandlerRootView>
-      </ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <ErrorBoundary catchErrors={Config.catchErrors}>
+          <GestureHandlerRootView style={$container}>
+            <RootSiblingParent>
+              <AppNavigator
+                linking={linking}
+                initialState={initialNavigationState}
+                onStateChange={onNavigationStateChange}
+              />
+            </RootSiblingParent>
+          </GestureHandlerRootView>
+        </ErrorBoundary>
+      </ThemeProvider>
     </SafeAreaProvider>
   )
 }
