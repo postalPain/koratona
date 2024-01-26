@@ -11,11 +11,7 @@ import { UserStoreModel } from "./User/UserStore"
  */
 export const RootStoreModel = types.model("RootStore").props({
   authenticationStore: types.optional(AuthenticationStoreModel, {}),
-  authUserStore: types.optional(UserStoreModel, {
-    user: {
-      firstName: "Unknown",
-    },
-  }),
+  authUserStore: types.optional(UserStoreModel, {}),
   postsStore: types.optional(PostsStoreModel, {}),
   productsStore: types.optional(ProductsStoreModel, {}),
   teamStore: types.optional(TeamStoreModel, {}),
