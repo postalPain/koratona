@@ -57,6 +57,7 @@ export type MakePaymentPayload = {
   customer_ip: string;
   token_name: string;
   order_description?: string;
+  return_url: string;
   signature: string;
 };
 export type MakePaymentParams = Omit<
@@ -65,6 +66,7 @@ export type MakePaymentParams = Omit<
   'access_code' |
   'merchant_identifier' |
   'language' |
+  'return_url' |
   'signature'
 >;
 export type MakePaymentResponse = {
