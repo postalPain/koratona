@@ -1,14 +1,15 @@
-import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
-import { withSetPropAction } from "../helpers/withSetPropAction"
-import { ProductModel, ProductPaginationMetaModel } from "./Product"
 import { fetchProductById, fetchProducts } from "app/services/api/products/productService"
 import { ProductsResponse } from "app/services/api/products/productTypes"
+import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
+import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
+import { withSetPropAction } from "../helpers/withSetPropAction"
+import { ProductModel } from "./Product"
 
 export const ProductsStoreModel = types
   .model("ProductStore")
   .props({
     products: types.optional(types.array(ProductModel), []),
-    productPaginationMeta: types.optional(ProductPaginationMetaModel, {
+    productPaginationMeta: types.optional(ListPaginationMetaModel, {
       page: 1,
       take: 5,
       itemCount: 0,
@@ -35,7 +36,6 @@ export const ProductsStoreModel = types
         self.productPaginationMeta = response?.data?.meta
       } catch (error) {
         self.isFetchingProductsErrored = true
-        console.log("Error fetching products: ", error)
         console.tron.error?.(`Error fetching products: ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingProducts = false
@@ -58,13 +58,14 @@ export const ProductsStoreModel = types
           page: nextPage,
           take: self.productPaginationMeta.take,
         })
-        const validatedProduct = response.data.map((productData) => ProductModel.create(productData))
+        const validatedProduct = response.data.map((productData) =>
+          ProductModel.create(productData),
+        )
         self.products.push(...validatedProduct)
         self.productPaginationMeta = response.meta
       } catch (error) {
         self.isFetchingProductsErrored = true
-        console.log("Error fetching more products: ", error)
-        console.tron.error?.(`Error fetching more: products ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error fetching more products ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingMoreProducts = false
       }
@@ -77,7 +78,6 @@ export const ProductsStoreModel = types
         self.openedProductDetails = response.data.data
       } catch (error) {
         self.isFetchingProductByIdErrored = true
-        console.log("Error fetching product by id: ", error)
         console.tron.error?.(`Error fetching product by id: ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingProductById = false
