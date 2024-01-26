@@ -203,8 +203,8 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
       />
       <LinearProgressComposition
         value={calculatePercentage(
-          getDetailStatOfPlayer(player, statsIDsTable.duelsWon)?.value?.total,
           getDetailStatOfPlayer(player, statsIDsTable.totalDuels)?.value?.total,
+          getDetailStatOfPlayer(player, statsIDsTable.duelsWon)?.value?.total,
         )}
         textContent={{
           left: t("teams.player.duelsWon"),
