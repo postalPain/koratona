@@ -24,8 +24,7 @@ export const Purchase3DSVerificationScreen: FC<Purchase3DSVerificationScreenProp
           <GoBackComponent onPress={_props.navigation.goBack} />
         </View>
         <WebView
-          // @ts-ignore
-          source={{ url: _props.route.params.url, }}
+          source={{ uri: _props.route.params.url, }}
           originWhitelist={['*']}
           startInLoadingState
           onMessage={onWebViewMessage}
