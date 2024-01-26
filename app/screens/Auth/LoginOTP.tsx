@@ -32,7 +32,7 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
 
   const requestOTPCode = async () => {
     const checkValid = checkIsNumberValid(value)
-    setValid(checkValid || false)
+    setValid(!!checkValid)
 
     if (!checkValid || isLoading) {
       return
@@ -69,9 +69,7 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
           onChangeFormattedText={(text) => {
             setFormattedPhoneValue(text)
           }}
-          countryPickerProps={{ withAlphaFilter: true,
-            withCallingCodeButton: true,
-          }}
+          countryPickerProps={{ withAlphaFilter: true, withCallingCodeButton: true }}
           disableArrowIcon
           withShadow
           textContainerStyle={styles.phoneInputTextStyleContainer}
@@ -141,7 +139,5 @@ const useStyles = createUseStyles(() => ({
     lineHeight: 24,
     fontFamily: typography.fonts.instrumentSans.bold,
   },
-  phoneInputContainerInvalid: { borderColor: "#FF0000",
-  borderWidth: 1,
-},
+  phoneInputContainerInvalid: { borderColor: "#FF0000", borderWidth: 1 },
 }))
