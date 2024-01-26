@@ -19,10 +19,11 @@ import useApp from "./hooks/useSMSApp"
 interface ScreenProps extends AppStackScreenProps<"OTPConfirmation"> {}
 
 const RESEND_CODE_IN_SECONDS = 60
+const OTP_CODE_LENGTH = 4
 
 export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props) {
   const styles = useStyles()
-  const { authenticationStore } = useStores()
+  const { authenticationStore, authUserStore } = useStores()
   const isPageActive = getActiveRouteName(_props.navigation.getState()) === "OTPConfirmation"
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
@@ -89,7 +90,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
 
   React.useEffect(() => {
     if (!smsMessageBody) return
-    const regex = /\b\d{4}\b/
+    const regex = new RegExp(`\\b\\d{${OTP_CODE_LENGTH}}\\b`)
     const match = `${smsMessageBody}`.match(regex)
 
     if (match) {
@@ -98,7 +99,10 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
   }, [smsMessageBody])
 
   const handleConfirmOTPCode = async (customValue?: string) => {
-    if (isLoading || (!customValue && !otpCode)) {
+    if (isLoading) return
+    const code = customValue || otpCode
+
+    if (!code || code.length !== OTP_CODE_LENGTH) {
       setOtpCodeInvalid(true)
       showToast(t("signIn.enterCode"))
       return
@@ -109,10 +113,11 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
     await authenticationStore.confirmOTPCode(
       {
         phone: phoneNumber,
-        code: customValue || otpCode,
+        code,
         deviceId,
       },
-      () => {
+      (user) => {
+        authUserStore.setUserData(user)
         setIsLoading(false)
       },
       () => {
@@ -140,7 +145,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
           <OtpInput
             ref={OTPInputRef}
             autoFocus
-            numberOfDigits={4}
+            numberOfDigits={OTP_CODE_LENGTH}
             focusStickBlinkingDuration={500}
             onTextChange={(value) => {
               setOtpCodeInvalid(false)
@@ -182,9 +187,18 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
           </View>
         </View>
         <Button
-          style={styles.goToPurchasesButton}
+          style={[
+            styles.goToPurchasesButton,
+            otpCode.length === 0
+              ? {
+                  backgroundColor: "#E4E7EC",
+                  borderColor: "#E4E7EC",
+                }
+              : {},
+          ]}
           pressedStyle={styles.goToPurchasesButton}
           onPress={() => handleConfirmOTPCode()}
+          disabled={!otpCode}
         >
           {!isLoading && <Text style={styles.goToPurchasesButtonText} tx="common.continue" />}
           {isLoading && <ActivityIndicator />}

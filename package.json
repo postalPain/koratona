@@ -53,6 +53,7 @@
     "@stryberventures/gaia-react-native.text": "^0.1.2",
     "@stryberventures/gaia-react-native.text-link": "^0.1.2",
     "@stryberventures/gaia-react-native.theme": "^0.1.2",
+    "@types/lodash.debounce": "^4.0.9",
     "apisauce": "3.0.1",
     "axios": "^1.6.5",
     "buffer": "^6.0.3",

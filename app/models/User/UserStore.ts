@@ -1,12 +1,13 @@
 import { setUserSettings } from "app/services/api/auth/auth"
 import {} from "app/services/api/auth/authTypes"
-import { saveString } from "app/utils/storage"
-import { Instance, SnapshotIn, SnapshotOut, flow, types } from "mobx-state-tree"
-import { withSetPropAction } from "../helpers/withSetPropAction"
-import { UserModel } from "./User"
 import { getAuthUser, updateUser } from "app/services/api/user/user"
 import { UpdateUserPayloadData } from "app/services/api/user/userTypes"
 import { showToast } from "app/utils/showToast"
+import { saveString } from "app/utils/storage"
+import { flow, types } from "mobx-state-tree"
+import { withSetPropAction } from "../helpers/withSetPropAction"
+import { AuthUser, UserModel } from "./User"
+import * as storage from "app/utils/storage"
 
 export const USER_SETTINGS_APPLIED_KEY = "userSettingsApplied"
 
@@ -32,7 +33,6 @@ export const UserStoreModel = types
     isErrored: types.optional(types.boolean, false),
     notificationToken: types.optional(types.maybeNull(types.string), null),
     notificationPermissionAsked: types.optional(types.boolean, false),
-    isOnboardingCompleted: types.optional(types.maybeNull(types.string), null),
   })
   .actions(withSetPropAction)
   .actions((self) => ({
@@ -62,7 +62,7 @@ export const UserStoreModel = types
       self.isErrored = false
       try {
         const response = yield updateUser({ ...user, userId: self.user.userId })
-        if(response.kind === "bad-data") {
+        if (response.kind === "bad-data") {
           showToast("Error updating user, please try again later")
           return
         }
@@ -80,8 +80,17 @@ export const UserStoreModel = types
       self.notificationToken = token
       self.notificationPermissionAsked = true
     },
+    setUserData: (user: AuthUser) => {
+      self.user = {
+        ...self.user,
+        ...user,
+      }
+    },
+    setOnboardingCardsSaw: () => {
+      storage.save(`onboardingCardsSaw - ${self.user.userId}`, true)
+    },
+  })).views((self) => ({
+    get isOnboardingCardsSaw() {
+      return storage.load(`onboardingCardsSaw - ${self.user.userId}`)
+    },
   }))
-
-export interface AuthUser extends Instance<typeof UserStoreModel> {}
-export interface AuthUserSnapshotOut extends SnapshotOut<typeof UserStoreModel> {}
-export interface AuthUserSnapshotIn extends SnapshotIn<typeof UserStoreModel> {}
