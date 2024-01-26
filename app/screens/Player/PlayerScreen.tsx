@@ -34,7 +34,6 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
   const playerId = _props.route.params.id
   const { playerStore } = useStores()
   const player = playerStore.getPlayerById(playerId)
-  // console.log("player", JSON.stringify(player, null, 2))
 
   return (
     <Screen preset="scroll" safeAreaEdges={["top"]}>
