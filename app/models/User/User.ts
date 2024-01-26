@@ -11,6 +11,7 @@ export const UserModel = types
     email: types.maybeNull(types.string),
     firstName: types.maybeNull(types.string),
     lastName: types.maybeNull(types.string),
+    jerseyNumber: types.optional(types.number, 1),
     lang: types.optional(types.string, ""),
     phone: types.optional(types.string, ""),
     role: types.optional(types.string, ""),

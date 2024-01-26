@@ -60,11 +60,12 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
     email: user.email || "",
   })
 
-  const [errors, setErrors] = React.useState<Errors>({
+  const initialErrorsState = {
     firstName: "",
     lastName: "",
     email: "",
-  })
+  }
+  const [errors, setErrors] = React.useState<Errors>(initialErrorsState)
   const [selectedTeam, setSelectedTeam] = React.useState<Team>(
     teamStore.selectedFavoriteTeam ||
       ({
@@ -98,17 +99,14 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
   const getTeamLogoOrPlaceholder = (logo: string | null | undefined) =>
     logo ? { uri: logo } : require("assets/icons/teamsLogo/emptyLogo.png")
 
-  const getEachValueAnCheckEachFieldAndSetErrors = () => {
-    const firstNameHasValue = formFields.firstName
-    const lastNameHasValue = formFields.lastName
-    const emailHasValue = formFields.email
-
-    setErrors({
-      firstName: firstNameHasValue ? "" : "This field is required",
-      lastName: lastNameHasValue ? "" : "This field is required",
-      email: emailHasValue ? "" : "This field is required",
-    })
-  }
+  const getEachValueAnCheckEachFieldAndSetErrors = () => ({
+    firstName: formFields.firstName ? "" : "This field is required",
+    lastName: formFields.lastName ? "" : "This field is required",
+    email:
+      formFields.email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(formFields.email)
+        ? ""
+        : "This field is required and should be a valid email",
+  })
 
   const filterAndClearNonDirtyData = (data: any) => {
     const newData: any = {}
@@ -126,9 +124,14 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
   }
 
   const handleSubmitForm = async () => {
-    getEachValueAnCheckEachFieldAndSetErrors()
-    const allFieldsHasValues = Object.values(formFields || {}).every((field) => field)
-    const isFormInValid = Object.values(errors).some(Boolean) || !allFieldsHasValues
+    const formErrors = getEachValueAnCheckEachFieldAndSetErrors()
+    const isFormInValid = Object.values(formErrors).some(Boolean)
+
+    if (isFormInValid) {
+      setErrors(formErrors)
+    } else {
+      setErrors(initialErrorsState)
+    }
 
     if (authUserStore.isLoading || teamStore.isTeamListLoading || isFormInValid) {
       return
@@ -175,7 +178,8 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
     }
 
     if (field === "email" && fieldHasValue) {
-      const emailPattern = /\S+@\S+\.\S+/
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+
       if (!emailPattern.test(fieldHasValue)) {
         setErrors({
           ...errors,
@@ -260,7 +264,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
           name="email"
           label="Email"
           placeholder="Email"
-          keyboardType="default"
+          keyboardType="email-address"
           ref={emailFieldRef}
           textContentType="emailAddress"
           errorStyle={styles.hintsStyles}

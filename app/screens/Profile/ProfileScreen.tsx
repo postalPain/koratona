@@ -27,7 +27,6 @@ import { ProfilePolicies } from "./components/ProfilePolicies"
 import { ProfileStatsSection } from "./components/ProfileStatsSection"
 import { SettingsKey } from "./components/bottomPanels/SettingsContentController"
 import SettingsBottomPanel from "./components/bottomPanels/SettingsPanel"
-import * as storage from "../../utils/storage"
 
 const welcomeLogo = require("assets/images/logo.png")
 const tShirtImage = require("assets/images/tShirt.png")
@@ -39,7 +38,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   const { width } = useWindowDimensions()
   const styles = useStyles()
   const {
-    authUserStore: { user },
+    authUserStore: { user, updateUser },
     authenticationStore: { logout },
   } = useStores()
 
@@ -55,11 +54,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   const tShortNumberInputRef = React.useRef<TextInput>(null)
 
   useEffect(() => {
-    storage.load("jerseyNumber").then((value) => {
-      if (value) {
-        setJerseyNumber(value as string)
-      }
-    })
+    setJerseyNumber(`${user.jerseyNumber || "1"}`)
   }, [])
 
   const openSettingsBottomPanel = (key: SettingsKey) => () => {
@@ -69,8 +64,9 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
 
   const handleSaveTheNumber = () => {
     setJerseyNumber(jerseyNumber)
-    storage.save("jerseyNumber", jerseyNumber)
-    setIsJerseyNumberEditing(false)
+    updateUser({ jerseyNumber }, () => {
+      setIsJerseyNumberEditing(false)
+    })
   }
 
   return (
@@ -102,7 +98,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
             <View style={styles.tShirtContainer}>
               <Image source={tShirtImage} />
               <View style={styles.shirtTextContainer}>
-                <Text style={styles.tShirtName} text={user.lastName || ''} />
+                <Text style={styles.tShirtName} text={user.lastName || ""} />
                 {isJerseyNumberEditing && (
                   <>
                     {Platform.OS === "ios" && (
@@ -150,11 +146,14 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
               <Pressable
                 style={styles.editShirtNumberButton}
                 onPress={() => {
+                  if (isJerseyNumberEditing) {
+                    handleSaveTheNumber()
+                  } else {
+                    setTimeout(() => {
+                      tShortNumberInputRef.current?.focus()
+                    }, 100)
+                  }
                   setIsJerseyNumberEditing((isJerseyNumberEditing) => !isJerseyNumberEditing)
-                  storage.save("jerseyNumber", jerseyNumber)
-                  setTimeout(() => {
-                    tShortNumberInputRef.current?.focus()
-                  }, 100)
                 }}
               >
                 <TShirtIcon />
