@@ -21,10 +21,4 @@ export default [
     notifications: true,
     id: 3,
   },
-  {
-    heading: t("onboardingCarousel.setProfile.heading"),
-    subHeading: t("onboardingCarousel.setProfile.subHeading"),
-    actionButtonText: t("onboardingCarousel.setProfile.actionButtonText"),
-    id: 4,
-  },
 ]
