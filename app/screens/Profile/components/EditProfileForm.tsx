@@ -258,6 +258,8 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
               setDateBirthPickerVisible(false)
             }}
             isVisible={dateBirthPickerVisible}
+            maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 6))}
+            minimumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 100))}
           />
         </Pressable>
         <Input
