@@ -8,6 +8,7 @@ import { Instance, SnapshotIn, SnapshotOut, clone, flow, getRoot, types } from "
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { Player, PlayerModel } from "./Player"
+import { showToast } from "app/utils/showToast"
 
 export const PlayerStoreModel = types
   .model("TeamStore")
@@ -24,6 +25,8 @@ export const PlayerStoreModel = types
     }),
     isPlayerListLoading: types.optional(types.boolean, false),
     isPlayerListErrored: types.optional(types.boolean, false),
+    isFetchingMorePlayers: types.optional(types.boolean, false),
+    isFetchingPlayersErrored: types.optional(types.boolean, false),
   })
   .actions(withSetPropAction)
   .actions((self) => ({
@@ -31,15 +34,43 @@ export const PlayerStoreModel = types
       self.isPlayerListLoading = true
       self.isPlayerListErrored = false
       try {
-        const response = yield fetchPlayerList({})
+        const { data } = yield fetchPlayerList({})
 
-        self.playerList = response.data.data
-        self.paginationMeta = response.data.meta
+        self.playerList = data.data
+        self.paginationMeta = data.meta
       } catch (error) {
+        showToast("Error fetching player list")
         self.isPlayerListErrored = true
         console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
       } finally {
         self.isPlayerListLoading = false
+      }
+    }),
+    fetchMorePlayers: flow(function* () {
+      self.isFetchingMorePlayers = true
+      self.isFetchingPlayersErrored = false
+
+      try {
+        if (!self.paginationMeta.hasNextPage) {
+          return
+        }
+        let nextPage = self.paginationMeta.page
+        if (self.paginationMeta.page < self.paginationMeta.pageCount) {
+          nextPage++
+        }
+
+        const { data } = yield fetchPlayerList({
+          page: nextPage,
+          take: self.paginationMeta.take,
+        })
+
+        self.playerList.push(...data.data)
+        self.paginationMeta = data.meta
+      } catch (error) {
+        self.isFetchingPlayersErrored = true
+        console.tron.error?.(`Error fetching more players ${JSON.stringify(error)}`, [])
+      } finally {
+        self.isFetchingMorePlayers = false
       }
     }),
     togglePlayerFavorite: flow(function* (id: number, successCallback?: () => void) {
@@ -65,9 +96,8 @@ export const PlayerStoreModel = types
         }
         successCallback && successCallback()
       } catch (error) {
-        console.log("adding to favorite, error", error)
         self.isPlayerListErrored = true
-        console.tron.error?.(`Error adding team to favorite: ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error adding player to favorite: ${JSON.stringify(error)}`, [])
       }
     }),
     getUsersFavoritePlayersList: flow(function* () {
@@ -82,6 +112,7 @@ export const PlayerStoreModel = types
           .map(({ player }: { player: Player }) => player)
         self.favoritePlayerList = mappedData
       } catch (error) {
+        showToast("Error fetching favorite player list")
         console.tron.error?.(`Error fetching favorite team: ${JSON.stringify(error)}`, [])
       }
     }),

@@ -37,6 +37,9 @@ type FormFields = {
   email?: string
 }
 
+const MAXIMUM_DATE = new Date(new Date().setFullYear(new Date().getFullYear() - 6))
+const MINIMUM_DATE = new Date(new Date().setFullYear(new Date().getFullYear() - 100))
+
 const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInternal }: Props) {
   const styles = useStyles()
   const { shouldHandleKeyboardEvents } = disableBottomSheetInternal
@@ -258,8 +261,8 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
               setDateBirthPickerVisible(false)
             }}
             isVisible={dateBirthPickerVisible}
-            maximumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 6))}
-            minimumDate={new Date(new Date().setFullYear(new Date().getFullYear() - 100))}
+            maximumDate={MAXIMUM_DATE}
+            minimumDate={MINIMUM_DATE}
           />
         </Pressable>
         <Input

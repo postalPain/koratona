@@ -18,14 +18,3 @@ export const ProductModel = types.model("Product").props({
 export interface Product extends Instance<typeof ProductModel> {}
 export interface ProductSnapshotOut extends SnapshotOut<typeof ProductModel> {}
 export interface ProductSnapshotIn extends SnapshotIn<typeof ProductModel> {}
-
-export const ProductPaginationMetaModel = types.model("PostsPaginationMeta").props({
-  page: types.optional(types.number, 1),
-  take: types.optional(types.number, 50),
-  itemCount: types.optional(types.number, 0),
-  pageCount: types.optional(types.number, 1),
-  hasPreviousPage: types.optional(types.boolean, false),
-  hasNextPage: types.optional(types.boolean, false),
-})
-
-export interface ProductPaginationMeta extends Instance<typeof ProductPaginationMetaModel> {}
