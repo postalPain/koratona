@@ -88,7 +88,6 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
       if (res.kind === 'ok') {
         setPaymentError(undefined);
         if (res.data.status === APS_STATUSES.ON_HOLD) {
-          console.log(res.data["3ds_url"]!);
           _props.navigation.navigate("purchase3DSVerification", { url: res.data["3ds_url"]! });
         } else {
           _props.navigation.navigate("productPurchaseResult")
