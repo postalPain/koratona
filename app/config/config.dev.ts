@@ -15,5 +15,5 @@ export default {
   },
   APS_TOKENIZATION_URL: 'https://sbcheckout.PayFort.com/FortAPI/paymentPage',
   APS_PAYMENT_URL: 'https://sbpaymentservices.payfort.com/FortAPI/paymentApi',
-  APS_3DS_SUCCESS_URL: 'https://objectstorage.me-jeddah-1.oraclecloud.com/n/axfbamifisvy/b/bucket-20231126-2014/o/paymentSuccess.html',
+  APS_3DS_SUCCESS_URL: 'https://static.koratona.stryber.io/paymentSuccess.html',
 }
