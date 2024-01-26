@@ -3,6 +3,7 @@ import * as Device from "expo-device"
 import * as Notifications from "expo-notifications"
 import { Platform, Alert } from "react-native"
 
+export * from './hooks';
 
 export async function registerForPushNotificationsAsync(grantedCb?: () => void): Promise<string | null> {
   try {
