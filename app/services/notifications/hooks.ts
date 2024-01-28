@@ -1,11 +1,13 @@
 import React from "react";
-import { useStores } from "app/models";
+import { Platform } from "react-native";
+import messaging from "@react-native-firebase/messaging"
+import notifee from "@notifee/react-native"
 import { useCallOnAppState } from "app/utils/useCallOnAppState";
-import { isNotificationsPermitted, registerForPushNotifications, setNotificationsHandler } from "./index";
+import { useStores } from "app/models";
+import { isNotificationsPermitted, registerForPushNotifications } from "./index";
 
 export const useNotifications = () => {
   const {
-    authenticationStore: { isAuthenticated },
     authUserStore: { notificationToken, setNotificationToken },
   } = useStores()
 
@@ -31,8 +33,26 @@ export const useNotifications = () => {
   }, []);
 
   React.useEffect(() => {
-    if (isAuthenticated && notificationToken) {
-      setNotificationsHandler();
+    if (Platform.OS === 'android') {
+      notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel',
+      });
     }
-  }, [isAuthenticated, notificationToken]);
+    const unsubscribeForegroundListener = messaging().onMessage(async (message) => {
+      await notifee.displayNotification({
+        title: message.notification?.title,
+        body: message.notification?.body,
+        android: {
+          channelId: 'default',
+          smallIcon: 'ic_launcher',
+          // pressAction is needed if you want the notification to open the app when pressed
+          pressAction: {
+            id: 'default',
+          },
+        },
+      });
+    });
+    return unsubscribeForegroundListener;
+  }, []);
 }

@@ -1,7 +1,6 @@
-import * as Device from "expo-device"
-import messaging from '@react-native-firebase/messaging';
-
-import { Alert, Platform } from "react-native"
+import * as Device from "expo-device";
+import messaging from "@react-native-firebase/messaging";
+import { Alert, Platform } from "react-native";
 
 export * from './hooks';
 
@@ -42,27 +41,12 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
 export const isNotificationsPermitted = async (): Promise<boolean> => {
   const authStatus = await messaging().hasPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  return authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-  return enabled;
 };
 
 export const isPermissionsRequested = async (): Promise<boolean> => {
   const authStatus = await messaging().hasPermission();
-  if (Platform.OS === 'ios' && authStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {
-    return false;
-  }
-  return true;
-}
+  return !(Platform.OS === 'ios' && authStatus === messaging.AuthorizationStatus.NOT_DETERMINED);
 
-export const setNotificationsHandler = () => {
-  // Notifications.setNotificationHandler({
-  //   handleNotification: async () => ({
-  //     shouldShowAlert: true,
-  //     shouldPlaySound: false,
-  //     shouldSetBadge: false,
-  //   })
-  // });
 };
