@@ -1,7 +1,7 @@
 import React from "react";
 import { useStores } from "app/models";
 import { useCallOnAppState } from "app/utils/useCallOnAppState";
-import { isNotificationsPermitted, registerForPushNotificationsAsync, setNotificationsHandler } from "./index";
+import { isNotificationsPermitted, registerForPushNotifications, setNotificationsHandler } from "./index";
 
 export const useNotifications = () => {
   const {
@@ -12,7 +12,7 @@ export const useNotifications = () => {
   useCallOnAppState('active', async () => {
     const notificationsPermitted = await isNotificationsPermitted();
     if (notificationsPermitted && !notificationToken) {
-      const token = await registerForPushNotificationsAsync();
+      const token = await registerForPushNotifications();
       setNotificationToken(token);
     } else if (!notificationsPermitted && notificationToken) {
       setNotificationToken(null);

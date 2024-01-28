@@ -1,31 +1,21 @@
-import Constants from "expo-constants"
 import * as Device from "expo-device"
-import * as Notifications from "expo-notifications"
-import { Platform, Alert } from "react-native"
+import messaging from '@react-native-firebase/messaging';
+
+import { Alert, Platform } from "react-native"
 
 export * from './hooks';
 
-export async function registerForPushNotificationsAsync(grantedCb?: () => void): Promise<string | null> {
+export async function registerForPushNotifications(): Promise<string | null> {
   try {
-    let token: Notifications.ExpoPushToken | null = null
-
-    if (Platform.OS === "android") {
-      await Notifications.setNotificationChannelAsync("default", {
-        name: "default",
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: "#FF231F7C",
-      })
-    }
+    let token: string;
 
     if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync()
-      let finalStatus = existingStatus
-      if (existingStatus !== "granted") {
-        const { status } = await Notifications.requestPermissionsAsync()
-        finalStatus = status
+      let notificationsPermitted = await isNotificationsPermitted();
+      if (!notificationsPermitted) {
+        await messaging().requestPermission();
+        notificationsPermitted = await isNotificationsPermitted();
       }
-      if (finalStatus !== "granted") {
+      if (!notificationsPermitted) {
         Alert.alert(
           "Koratona",
           "It is sad that you denied permissions for our notifications. But if you change your mind you can always set them on Profile's page",
@@ -37,38 +27,42 @@ export async function registerForPushNotificationsAsync(grantedCb?: () => void):
         )
         return null
       }
-      token = await Notifications.getExpoPushTokenAsync({
-        projectId: Constants?.expoConfig?.extra?.eas.projectId,
-      });
-      console.log(`EXPO token: ${token.data}`);
-      const deviceToken = await Notifications.getDevicePushTokenAsync();
-      console.log(`FCN/APN token: ${deviceToken.data}`);
-
-      grantedCb && grantedCb();
+      token = await messaging().getToken();
+      console.log(`Firebase token: ${token}`);
+      return token;
     } else {
       alert("Must use physical device for Push Notifications")
       return null
     }
-
-    return token?.data || null
   } catch (error) {
     console.log(error)
-
     return null
   }
 }
 
 export const isNotificationsPermitted = async (): Promise<boolean> => {
-  const { status: existingStatus } = await Notifications.getPermissionsAsync()
-  return existingStatus === "granted";
+  const authStatus = await messaging().hasPermission();
+  const enabled =
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+  return enabled;
 };
 
+export const isPermissionsRequested = async (): Promise<boolean> => {
+  const authStatus = await messaging().hasPermission();
+  if (Platform.OS === 'ios' && authStatus === messaging.AuthorizationStatus.NOT_DETERMINED) {
+    return false;
+  }
+  return true;
+}
+
 export const setNotificationsHandler = () => {
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
-    })
-  });
+  // Notifications.setNotificationHandler({
+  //   handleNotification: async () => ({
+  //     shouldShowAlert: true,
+  //     shouldPlaySound: false,
+  //     shouldSetBadge: false,
+  //   })
+  // });
 };

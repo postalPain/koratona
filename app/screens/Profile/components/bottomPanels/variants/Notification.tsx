@@ -6,6 +6,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
 import { openSettings } from 'expo-linking';
+import { registerForPushNotifications, isPermissionsRequested } from 'app/services/notifications';
 
 export const Notification = observer(function () {
   const styles = useStyles()
@@ -13,7 +14,13 @@ export const Notification = observer(function () {
   const isNotificationTurnedOn = authUserStore.notificationToken
 
   const handleSetNotifications = async () => {
-    await openSettings();
+    const permissionsRequested = await isPermissionsRequested();
+    if (permissionsRequested) {
+      await openSettings();
+    } else {
+      const token = await registerForPushNotifications();
+      authUserStore.setNotificationToken(token)
+    }
   };
 
   return (
