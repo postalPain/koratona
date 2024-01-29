@@ -79,7 +79,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
         expiry_date: `${expYear}${expMonth}`,
         card_number: values.card_number.replaceAll(' ', ''),
         card_security_code: values.card_security_code,
-        amount: Number.parseFloat(product?.price || '0') * 100,
+        amount: Math.round(Number.parseFloat(product?.price || '0') * 100),
         customer_email: values.email,
         userId: user.userId,
         productId: product?.id ?? 0,
@@ -126,6 +126,9 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                     keyboardType="email-address"
                     textContentType="emailAddress"
                   />
+                </View>
+                <View>
+                  <Text tx="productsScreen.paymentsDetails" style={styles.inputLabel} />
                   <View style={styles.holderNameContainer}>
                     <Input
                       name="card_holder_name"
@@ -133,9 +136,6 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                       placeholder="Name on card"
                     />
                   </View>
-                </View>
-                <View>
-                  <Text tx="productsScreen.paymentsDetails" style={styles.inputLabel} />
                   <Input
                     name="card_number"
                     mask="XXXX XXXX XXXX XXXX"
@@ -304,6 +304,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   holderNameContainer: {
     width: '100%',
+    marginBottom: 20,
   },
   cardLeftInput: {
     flex: 1,
