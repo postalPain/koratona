@@ -21,8 +21,9 @@ export const statsIDsTable = {
   blockedShots: 97,
   totalDuels: 105,
   duelsWon: 106,
-  fouls: 56,
   yellowCards: 84,
+  redCards: 83,
+  fouls: 56,
   foulsDrawn: 96,
 }
 

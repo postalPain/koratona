@@ -8,5 +8,5 @@ export const formatPlayerInfoValue = <T>(value: T | null | undefined, fallback?:
     return `${fallback}`
   }
 
-  return "n/a"
+  return "0"
 }

@@ -42,14 +42,15 @@ export const LinearProgressComposition: React.FC<Props> = ({ value, textContent 
           <Text text="%" style={styles.valuePercentageSymbol} />
         </View>
         <View style={styles.rowDirection}>
-          {invalidValue && <Text text="n/a" style={styles.numberTextDark} />}
-          {!invalidValue && (
-            <>
-              <Text text={`${textContent.right.currentNumber}`} style={styles.numberTextDark} />
-              <Text text="/" style={styles.numberTextLight} />
-              <Text text={`${textContent.right.totalNumber}`} style={styles.numberTextLight} />
-            </>
-          )}
+          <Text
+            text={`${invalidValue ? "0" : textContent.right.currentNumber}`}
+            style={styles.numberTextDark}
+          />
+          <Text text="/" style={styles.numberTextLight} />
+          <Text
+            text={`${invalidValue ? "0" : textContent.right.totalNumber}`}
+            style={styles.numberTextLight}
+          />
         </View>
       </View>
       <LinearProgressBar value={value} />

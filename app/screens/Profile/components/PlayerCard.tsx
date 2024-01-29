@@ -42,7 +42,7 @@ export const PlayerCard: React.FC<Props> = ({
               />
             )}
           </View>
-          <Text style={styles.number} text={"09"} />
+          <Text style={styles.number} text={`${player.jerseyNumber || 0}`} />
           <Text style={styles.name} text={`${player.firstName} ${player.lastName}`} />
         </LinearGradient>
       </View>
