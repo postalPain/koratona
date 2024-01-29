@@ -16,6 +16,7 @@ export type GetTokenPayload = {
   expiry_date: string;
   card_number: string;
   card_security_code: string;
+  card_holder_name?: string;
   signature: string;
 };
 export type GetTokenParams = Omit<
@@ -55,6 +56,7 @@ export type MakePaymentPayload = {
   language: string;
   customer_email: string;
   customer_ip: string;
+  customer_name?: string;
   token_name: string;
   order_description?: string;
   return_url: string;
@@ -105,6 +107,7 @@ export type APSSubmitPaymentParams = {
   expiry_date: string;
   card_number: string;
   card_security_code: string;
+  card_holder_name: string;
   amount: number;
   customer_email: string;
   userId: string;

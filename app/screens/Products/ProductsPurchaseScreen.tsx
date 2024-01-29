@@ -36,6 +36,7 @@ const CardSchema = yup.object().shape({
       isMonthValid,
     ),
   card_security_code: yup.string().required('CVC is required').min(3, 'The length of CVC is 3 symbols'),
+  card_holder_name: yup.string().required('Name on card is required'),
 });
 
 interface IFormData {
@@ -43,6 +44,7 @@ interface IFormData {
   expiry_date: string;
   card_security_code: string;
   email: string;
+  card_holder_name: string;
 }
 
 interface ProductPurchaseScreenProps extends ProductsStackScreenProps<"productPurchase"> {}
@@ -81,6 +83,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
         customer_email: values.email,
         userId: user.userId,
         productId: product?.id ?? 0,
+        card_holder_name: values.card_holder_name,
       });
 
       setIsLoading(false);
@@ -123,6 +126,13 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                     keyboardType="email-address"
                     textContentType="emailAddress"
                   />
+                  <View style={styles.holderNameContainer}>
+                    <Input
+                      name="card_holder_name"
+                      variant="labelOutside"
+                      placeholder="Name on card"
+                    />
+                  </View>
                 </View>
                 <View>
                   <Text tx="productsScreen.paymentsDetails" style={styles.inputLabel} />
@@ -290,6 +300,9 @@ const useStyles = createUseStyles((theme) => ({
   },
   cardContainer: {
     flexDirection: 'row',
+    width: '100%',
+  },
+  holderNameContainer: {
     width: '100%',
   },
   cardLeftInput: {
