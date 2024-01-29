@@ -79,7 +79,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
         expiry_date: `${expYear}${expMonth}`,
         card_number: values.card_number.replaceAll(' ', ''),
         card_security_code: values.card_security_code,
-        amount: Number.parseFloat(product?.price || '0') * 100,
+        amount: Math.round(Number.parseFloat(product?.price || '0') * 100),
         customer_email: values.email,
         userId: user.userId,
         productId: product?.id ?? 0,
