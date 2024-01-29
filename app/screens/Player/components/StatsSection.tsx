@@ -33,7 +33,7 @@ export const StatsSection: React.FC<Props> = ({ data, title, style }) => {
                 styles.statsStatsItemValue,
                 item?.value !== undefined && +item?.value === 0 && styles.inactiveItemValue,
               ]}
-            >{`${item.value || "n/a"}`}</Text>
+            >{`${item.value || "0"}`}</Text>
             <Text style={styles.statsStatsItemTitle}>{item.title}</Text>
           </View>
         ))}

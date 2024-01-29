@@ -35,6 +35,11 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
   const { playerStore } = useStores()
   const player = playerStore.getPlayerById(playerId)
 
+  const shotAccuracy = calculatePercentage(
+    getDetailStatOfPlayer(player, statsIDsTable.shotsTotal)?.value?.total,
+    getDetailStatOfPlayer(player, statsIDsTable.shotsOnTarget)?.value?.total,
+  )
+
   return (
     <Screen preset="scroll" safeAreaEdges={["top"]}>
       <View style={styles.topContentContainer}>
@@ -87,15 +92,15 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
           data={[
             {
               title: t("teams.player.rating"),
-              value: getDetailStatOfPlayer(player, statsIDsTable.rating)?.value?.average || "n/a",
+              value: getDetailStatOfPlayer(player, statsIDsTable.rating)?.value?.average || "0",
             },
             {
               title: t("teams.player.appearances"),
-              value: getDetailStatOfPlayer(player, statsIDsTable.appearance)?.value?.total || "n/a",
+              value: getDetailStatOfPlayer(player, statsIDsTable.appearance)?.value?.total || "0",
             },
             {
               title: t("teams.player.minutes"),
-              value: getDetailStatOfPlayer(player, statsIDsTable.minutes)?.value?.total || "n/a",
+              value: getDetailStatOfPlayer(player, statsIDsTable.minutes)?.value?.total || "0",
             },
           ]}
         />
@@ -112,21 +117,24 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
           data={[
             {
               title: t("teams.player.shots"),
-              value: getDetailStatOfPlayer(player, statsIDsTable.shotsTotal)?.value?.total || "n/a",
+              value: getDetailStatOfPlayer(player, statsIDsTable.shotsTotal)?.value?.total || "0",
             },
             {
               title: t("teams.player.onTarget"),
               value:
-                getDetailStatOfPlayer(player, statsIDsTable.shotsOnTarget)?.value?.total || "n/a",
+                getDetailStatOfPlayer(player, statsIDsTable.shotsOnTarget)?.value?.total || "0",
             },
             {
               title: t("teams.player.goals"),
-              value: getDetailStatOfPlayer(player, statsIDsTable.goals)?.value?.total || "n/a",
+              value: getDetailStatOfPlayer(player, statsIDsTable.goals)?.value?.total || "0",
             },
           ]}
         />
         <View style={styles.accuracyProgressContainer}>
-          <CircularProgressComposition value={0} title={t("teams.player.shotAccuracy")} />
+          <CircularProgressComposition
+            value={shotAccuracy}
+            title={t("teams.player.shotAccuracy")}
+          />
           <CircularProgressComposition
             value={
               +(
@@ -238,7 +246,10 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
         </View>
         <View style={styles.foulsDetailsItem}>
           <FoulCardIcon color="#BB2C2C" />
-          <Text text="n/a" style={styles.foulsDetailsItemValue} />
+          <Text
+            text={`${getDetailStatOfPlayer(player, statsIDsTable.redCards)?.value.total || 0}`}
+            style={styles.foulsDetailsItemValue}
+          />
           <Text tx="teams.player.red" style={styles.foulsDetailsItemTitle} />
         </View>
       </View>
@@ -246,9 +257,12 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
         data={[
           {
             title: t("teams.player.drawn"),
-            value: getDetailStatOfPlayer(player, statsIDsTable.foulsDrawn)?.value.total,
+            value: getDetailStatOfPlayer(player, statsIDsTable.foulsDrawn)?.value.total || 0,
           },
-          { title: t("teams.player.committed"), value: "n/a" },
+          {
+            title: t("teams.player.committed"),
+            value: getDetailStatOfPlayer(player, statsIDsTable.fouls)?.value.total || 0,
+          },
         ]}
       />
     </Screen>
