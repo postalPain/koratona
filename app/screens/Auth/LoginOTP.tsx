@@ -62,6 +62,8 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
             setPhoneNumber(text)
             if (checkValid) {
               setIsPhoneNumberValid(true)
+            } else {
+              setIsPhoneNumberValid(false)
             }
           }}
           placeholder="Enter phone number"
@@ -80,14 +82,14 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
         <Button
           style={[
             styles.button,
-            phoneNumber
+            phoneNumber && isPhoneNumberValid
               ? {}
               : {
                   backgroundColor: "#D0D5DD",
                   borderColor: "#D0D5DD",
                 },
           ]}
-          disabled={!phoneNumber}
+          disabled={!phoneNumber || !isPhoneNumberValid || isFetchOTPCodeLoading}
           onPress={requestOTPCode}
           pressedStyle={styles.button}
         >

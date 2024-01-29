@@ -63,13 +63,13 @@ export const UserStoreModel = types
       try {
         const response = yield updateUser({ ...user, userId: self.user.userId })
         if (response.kind === "bad-data") {
-          showToast("Error updating user, please try again later")
-          return
+          throw new Error("Bad data")
         }
         self.user = { ...self.user, ...response.data }
         successCallback && successCallback()
       } catch (error) {
         self.isErrored = true
+
         showToast("Error updating user, please try again later")
         console.tron.error?.(`Error updating authUser: ${JSON.stringify(error)}`, [])
       } finally {
@@ -89,7 +89,8 @@ export const UserStoreModel = types
     setOnboardingCardsSaw: () => {
       storage.save(`onboardingCardsSaw - ${self.user.userId}`, true)
     },
-  })).views((self) => ({
+  }))
+  .views((self) => ({
     get isOnboardingCardsSaw() {
       return storage.load(`onboardingCardsSaw - ${self.user.userId}`)
     },

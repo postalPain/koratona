@@ -189,7 +189,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
         <Button
           style={[
             styles.goToPurchasesButton,
-            otpCode.length === 0
+            otpCode.length !== OTP_CODE_LENGTH
               ? {
                   backgroundColor: "#E4E7EC",
                   borderColor: "#E4E7EC",
