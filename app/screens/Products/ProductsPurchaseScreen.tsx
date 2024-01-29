@@ -5,7 +5,7 @@ import Button from "@stryberventures/gaia-react-native.button";
 import Form from "@stryberventures/gaia-react-native.form";
 import Input from "@stryberventures/gaia-react-native.input";
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme";
-import { submitPayment } from 'app/services/aps';
+import { submitPayment, APS_STATUSES } from 'app/services/aps';
 import { useStores } from "app/models";
 import { typography } from "app/theme";
 import { Banner, Screen, Text } from "app/components";
@@ -81,7 +81,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
         card_security_code: values.card_security_code,
         amount: Number.parseFloat(product?.price || '0') * 100,
         customer_email: values.email,
-        userId: user.id,
+        userId: user.userId,
         productId: product?.id ?? 0,
         card_holder_name: values.card_holder_name,
       });
@@ -90,7 +90,11 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
 
       if (res.kind === 'ok') {
         setPaymentError(undefined);
-        _props.navigation.navigate("productPurchaseResult")
+        if (res.data.status === APS_STATUSES.ON_HOLD) {
+          _props.navigation.navigate("purchase3DSVerification", { url: res.data["3ds_url"]! });
+        } else {
+          _props.navigation.navigate("productPurchaseResult")
+        }
       } else {
         setPaymentError(res.error)
       }

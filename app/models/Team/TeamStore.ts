@@ -71,9 +71,9 @@ export const TeamStoreModel = types
           authUserStore: { user },
         } = getRoot(self) as any
         if (self.favoriteTeam.id !== 0) {
-          yield removeTeamFromFavorite(self.favoriteTeam.id, user.id)
+          yield removeTeamFromFavorite(self.favoriteTeam.id, user.userId)
         }
-        const response = yield addTeamToFavorite(id, user.id)
+        const response = yield addTeamToFavorite(id, user.userId)
         detach(self.favoriteTeam)
         self.favoriteTeam = response.data.team
         successCallback && successCallback()
@@ -93,7 +93,7 @@ export const TeamStoreModel = types
         if (!isAlive(user)) {
           return
         }
-        const response = yield getUsersFavoriteTeamList(user.id)
+        const response = yield getUsersFavoriteTeamList(user.userId)
         const mappedData = response.data.data
           .filter(({ team }: { team: Team }) => !!team)
           .map(({ team }: { team: Team }) => team)

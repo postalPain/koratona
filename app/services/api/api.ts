@@ -9,6 +9,8 @@ import { ApisauceInstance, create } from "apisauce"
 import { RootStore } from "app/models"
 import Config from "../../config"
 import type { ApiConfig } from "./api.types"
+import { showModalMessage } from 'app/utils/showModal';
+import { translate } from "../../i18n";
 /**
  * Configuring the apisauce instance.
  */
@@ -42,11 +44,19 @@ export class Api {
 
     // Add response interceptor to handle 401 errors
     this.apisauce.addResponseTransform((response) => {
-      // Check if the response has a 401 status code and the error message is "TOKEN INVALID!"
-      if (response.status === 401 || response.data?.error === "TOKEN INVALID!") {
-        if (this.store) {
-          this.store.authenticationStore.logout()
-        }
+      if (response.problem === 'SERVER_ERROR' || response.problem === 'TIMEOUT_ERROR' || response.problem === 'CONNECTION_ERROR') {
+        showModalMessage({
+          icon: 'exclamation',
+          title: translate('modals.serverError.title'),
+          description: translate('modals.serverError.description'),
+        });
+      }
+      if (response.problem === 'NETWORK_ERROR') {
+        showModalMessage({
+          icon: 'offline',
+          title: translate('modals.offline.title'),
+          description: translate('modals.offline.description'),
+        })
       }
     })
   }
@@ -54,7 +64,3 @@ export class Api {
 
 // Singleton instance of the API for convenience
 export const api = new Api()
-export const authApi = new Api({
-  url: Config.API_AUTH_URL,
-  timeout: 10000,
-})

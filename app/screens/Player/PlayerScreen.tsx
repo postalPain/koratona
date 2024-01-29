@@ -19,6 +19,13 @@ import { CircularProgressComposition } from "./components/CircularProgressCompos
 import { LinearProgressComposition } from "./components/LinearProgressComposition"
 import { StatsSection } from "./components/StatsSection"
 import TopContentContainer from "./components/TopContentContainer"
+import { formatPlayerInfoValue } from "./utils/playerDataFallback"
+import { format } from "date-fns"
+import {
+  calculatePercentage,
+  getDetailStatOfPlayer,
+  statsIDsTable,
+} from "./utils/getDetailStatOfPlayer"
 
 interface PlayerScreenProps extends HomeFeedStackScreenProps<"player"> {}
 
@@ -26,8 +33,7 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
   const styles = useStyles()
   const playerId = _props.route.params.id
   const { playerStore } = useStores()
-  // const player = playerStore.getPlayerById(playerId)
-  // console.log("player", player)
+  const player = playerStore.getPlayerById(playerId)
 
   return (
     <Screen preset="scroll" safeAreaEdges={["top"]}>
@@ -48,21 +54,30 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
         </View>
         <TopContentContainer playerId={playerId} />
       </View>
-
       <View style={styles.mainContent}>
         <View style={styles.birthInfo}>
           <View style={styles.birthInfoBox}>
             <Text tx="teams.player.dateOfBirth" style={styles.birthInfoBoxTitle} />
-            <Text text="October 11, 1994" style={styles.birthInfoBoxValue} />
+            <Text
+              text={formatPlayerInfoValue(
+                player?.dateOfBirth ? format(new Date(player?.dateOfBirth), "MMMM dd, yyyy") : "",
+              )}
+              style={styles.birthInfoBoxValue}
+            />
           </View>
           <View style={styles.birthInfoBox}>
             <Text tx="teams.player.birthplace" style={styles.birthInfoBoxTitle} />
-            <Text text="Funchal" style={styles.birthInfoBoxValue} />
+            <Text
+              text={formatPlayerInfoValue(player?.nationality)}
+              style={styles.birthInfoBoxValue}
+            />
           </View>
         </View>
         <View style={styles.playerDescription}>
           <Text
-            text="Abdulelah Al-Malki was born on 11 October 1994 in Ta'if, Saudi Arabia."
+            text={`${formatPlayerInfoValue(player?.firstName)} was born on ${formatPlayerInfoValue(
+              player?.dateOfBirth ? format(new Date(player?.dateOfBirth), "dd MMMM yyyy") : "",
+            )} in ${formatPlayerInfoValue(player?.nationality)}.`}
             style={styles.playerDescriptionText}
           />
         </View>
@@ -70,9 +85,18 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
         <StatsSection
           title={t("teams.player.overview")}
           data={[
-            { title: t("teams.player.rating"), value: "8.05" },
-            { title: t("teams.player.appearances"), value: "15" },
-            { title: t("teams.player.minutes"), value: "3342" },
+            {
+              title: t("teams.player.rating"),
+              value: getDetailStatOfPlayer(player, statsIDsTable.rating)?.value?.average || "n/a",
+            },
+            {
+              title: t("teams.player.appearances"),
+              value: getDetailStatOfPlayer(player, statsIDsTable.appearance)?.value?.total || "n/a",
+            },
+            {
+              title: t("teams.player.minutes"),
+              value: getDetailStatOfPlayer(player, statsIDsTable.minutes)?.value?.total || "n/a",
+            },
           ]}
         />
       </View>
@@ -86,39 +110,71 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
           style={styles.statsSectionWrapper}
           title={t("teams.player.performance")}
           data={[
-            { title: t("teams.player.shots"), value: "66" },
-            { title: t("teams.player.onTarget"), value: "36" },
-            { title: t("teams.player.goals"), value: "15" },
+            {
+              title: t("teams.player.shots"),
+              value: getDetailStatOfPlayer(player, statsIDsTable.shotsTotal)?.value?.total || "n/a",
+            },
+            {
+              title: t("teams.player.onTarget"),
+              value:
+                getDetailStatOfPlayer(player, statsIDsTable.shotsOnTarget)?.value?.total || "n/a",
+            },
+            {
+              title: t("teams.player.goals"),
+              value: getDetailStatOfPlayer(player, statsIDsTable.goals)?.value?.total || "n/a",
+            },
           ]}
         />
         <View style={styles.accuracyProgressContainer}>
-          <CircularProgressComposition value={98} title={t("teams.player.shotAccuracy")} />
-          <CircularProgressComposition value={27} title={t("teams.player.passAccuracy")} />
+          <CircularProgressComposition value={0} title={t("teams.player.shotAccuracy")} />
+          <CircularProgressComposition
+            value={
+              +(
+                getDetailStatOfPlayer(player, statsIDsTable.accuratePassesPercentage)?.value
+                  ?.total || 0
+              ).toFixed(0)
+            }
+            title={t("teams.player.passAccuracy")}
+          />
         </View>
         <StatsSection
           style={styles.statsSectionWrapper}
           data={[
-            { title: t("teams.player.assists"), value: "7" },
-            { title: t("teams.player.passes"), value: "436" },
+            {
+              title: t("teams.player.assists"),
+              value: getDetailStatOfPlayer(player, statsIDsTable.assists)?.value?.total,
+            },
+            {
+              title: t("teams.player.passes"),
+              value: getDetailStatOfPlayer(player, statsIDsTable.passes)?.value?.total,
+            },
           ]}
         />
         <LinearProgressComposition
-          value={76}
+          value={calculatePercentage(
+            getDetailStatOfPlayer(player, statsIDsTable.dribblesAttempted)?.value?.total,
+            getDetailStatOfPlayer(player, statsIDsTable.successfulDribbles)?.value?.total,
+          )}
           textContent={{
             left: t("teams.player.successfulDribbles"),
             right: {
-              currentNumber: 9,
-              totalNumber: 22,
+              currentNumber: getDetailStatOfPlayer(player, statsIDsTable.successfulDribbles)?.value
+                ?.total,
+              totalNumber: getDetailStatOfPlayer(player, statsIDsTable.dribblesAttempted)?.value
+                ?.total,
             },
           }}
         />
         <LinearProgressComposition
-          value={4}
+          value={calculatePercentage(
+            getDetailStatOfPlayer(player, statsIDsTable.keyPasses)?.value?.total,
+            0,
+          )}
           textContent={{
             left: t("teams.player.keyPasses"),
             right: {
-              currentNumber: 16,
-              totalNumber: 475,
+              currentNumber: 0,
+              totalNumber: getDetailStatOfPlayer(player, statsIDsTable.keyPasses)?.value?.total,
             },
           }}
         />
@@ -130,18 +186,30 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
       <StatsSection
         title={t("teams.player.tackles")}
         data={[
-          { title: t("teams.player.total"), value: "5" },
-          { title: t("teams.player.interceptions"), value: "1" },
-          { title: t("teams.player.blocks"), value: "0" },
+          {
+            title: t("teams.player.total"),
+            value: getDetailStatOfPlayer(player, statsIDsTable.tackles)?.value?.total,
+          },
+          {
+            title: t("teams.player.interceptions"),
+            value: getDetailStatOfPlayer(player, statsIDsTable.interceptions)?.value?.total,
+          },
+          {
+            title: t("teams.player.blocks"),
+            value: getDetailStatOfPlayer(player, statsIDsTable.blockedShots)?.value.total,
+          },
         ]}
       />
       <LinearProgressComposition
-        value={31}
+        value={calculatePercentage(
+          getDetailStatOfPlayer(player, statsIDsTable.totalDuels)?.value?.total,
+          getDetailStatOfPlayer(player, statsIDsTable.duelsWon)?.value?.total,
+        )}
         textContent={{
           left: t("teams.player.duelsWon"),
           right: {
-            currentNumber: 35,
-            totalNumber: 81,
+            currentNumber: getDetailStatOfPlayer(player, statsIDsTable.duelsWon)?.value.total,
+            totalNumber: getDetailStatOfPlayer(player, statsIDsTable.totalDuels)?.value.total,
           },
         }}
       />
@@ -152,7 +220,7 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
       <View style={[styles.centered, styles.bottomSpace]}>
         <CircularProgressComposition
           value={2}
-          total={6}
+          total={getDetailStatOfPlayer(player, statsIDsTable.fouls)?.value.total || 0}
           title={t("teams.player.foulCards")}
           emptyColor="#ECCF21"
           filledColor="#BB2C2C"
@@ -162,19 +230,25 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
       <View style={styles.foulsDetails}>
         <View style={styles.foulsDetailsItem}>
           <FoulCardIcon color="#ECCF21" />
-          <Text text="4" style={styles.foulsDetailsItemValue} />
+          <Text
+            text={`${getDetailStatOfPlayer(player, statsIDsTable.yellowCards)?.value.total || 0}`}
+            style={styles.foulsDetailsItemValue}
+          />
           <Text tx="teams.player.yellow" style={styles.foulsDetailsItemTitle} />
         </View>
         <View style={styles.foulsDetailsItem}>
           <FoulCardIcon color="#BB2C2C" />
-          <Text text="2" style={styles.foulsDetailsItemValue} />
+          <Text text="n/a" style={styles.foulsDetailsItemValue} />
           <Text tx="teams.player.red" style={styles.foulsDetailsItemTitle} />
         </View>
       </View>
       <StatsSection
         data={[
-          { title: t("teams.player.drawn"), value: "14" },
-          { title: t("teams.player.committed"), value: "11" },
+          {
+            title: t("teams.player.drawn"),
+            value: getDetailStatOfPlayer(player, statsIDsTable.foulsDrawn)?.value.total,
+          },
+          { title: t("teams.player.committed"), value: "n/a" },
         ]}
       />
     </Screen>

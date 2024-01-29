@@ -9,6 +9,7 @@ import useFetchProducts from "../hooks/useProducts"
 import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import { observer } from "mobx-react-lite"
 import { Product } from "../../models/Products/Product"
+import { NoMoreContent } from "app/components/NoMoreContent"
 
 export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = observer(function (
   _props,
@@ -67,9 +68,7 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
             )}
             {productsStore.productPaginationMeta.itemCount > 0 &&
               !productsStore.productPaginationMeta.hasNextPage &&
-              !productsStore.isFetchingMoreProducts && (
-                <Text weight="medium" style={styles.noMoreProductsText} text="No more products" />
-              )}
+              !productsStore.isFetchingMoreProducts && <NoMoreContent />}
           </>
         }
       />

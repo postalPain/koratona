@@ -136,7 +136,10 @@ export const FeedCard = React.memo(
                 <Text style={styles.basementText} text={getPostCreationTime(post.updatedAt)} />
               )}
               <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
-                <Text style={styles.basementText} text={`${favoriteCount || ""}`} />
+                <Text
+                  style={[styles.basementText, addedToFavorite && styles.favoriteCounterHighlighted]}
+                  text={`${favoriteCount || ""}`}
+                />
                 <HeartIconIcon focused={addedToFavorite} />
               </Pressable>
             </View>
@@ -208,5 +211,8 @@ const useStyles = createUseStyles(() => ({
     fontSize: 14,
     lineHeight: 16.8,
     marginRight: 4,
+  },
+  favoriteCounterHighlighted: {
+    color: "#DD5644",
   },
 }))

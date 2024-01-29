@@ -22,6 +22,7 @@ import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { useNotifications } from "app/services/notifications"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -40,7 +41,6 @@ export type AppStackParamList = {
   welcome: undefined
   Home: NavigatorScreenParams<AppHomeTabParamList>
   // 🔥 Your screens go here
-  RestorePassword: { token: string }
   UserInfo: undefined
   Onboarding: Partial<{
     currentStep?: number
@@ -49,6 +49,7 @@ export type AppStackParamList = {
   PostDetails: undefined
   ExperiencePurchase: undefined
   PurchaseResult: undefined
+  OTPConfirmation: { phoneNumber: string }
   // IGNITE_GENERATOR_ANCHOR_APP_STACK_PARAM_LIST
 }
 
@@ -68,18 +69,25 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack(_props) {
   const {
-    authenticationStore: { isAuthenticated },
-    // authUserStore: { user, isUserOnboardingCompleted },
+    authenticationStore: { isAuthenticated, showingOnboarding },
+    authUserStore: { isOnboardingCardsSaw },
   } = useStores()
 
   useFetchAuthUser()
   useInitApplyUserSettings()
+  useNotifications()
 
-  // useEffect(() => { //:TODO: uncomment when onboarding is discussed and ready
-  //   if (isAuthenticated && user.email && user.id && !isUserOnboardingCompleted) {
-  //     navigationRef.current?.navigate("Onboarding" as any)
-  //   }
-  // }, [isUserOnboardingCompleted, isAuthenticated, user.email, user.id])
+  React.useEffect(() => {
+    if (isAuthenticated && showingOnboarding) {
+      isOnboardingCardsSaw.then((sawOnboarding) => {
+        if (sawOnboarding) {
+          navigationRef.current?.navigate("InitialProfileSettings")
+        } else {
+          navigationRef.current?.navigate("Onboarding", { currentStep: 0 })
+        }
+      })
+    }
+  }, [showingOnboarding, isAuthenticated])
 
   return (
     <Stack.Navigator
@@ -88,19 +96,27 @@ const AppStack = observer(function AppStack(_props) {
     >
       {isAuthenticated ? (
         <>
-          {/* //:TODO: uncomment when onboarding is discussed and ready */}
-          {/* <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} /> */}
           <Stack.Screen name="Home" component={AppHomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen
             name="InitialProfileSettings"
             component={Screens.InitialProfileSettingsScreen}
+            options={{
+              gestureEnabled: false,
+            }}
           />
+          <Stack.Screen name="Onboarding" component={Screens.OnboardingScreen} />
         </>
       ) : (
         <>
-          <Stack.Screen name="welcome" component={Screens.WelcomeScreen} />
-          <Stack.Screen name="RestorePassword" component={Screens.RestorePasswordScreen} />
+          <Stack.Screen name="OTPConfirmation" component={Screens.OTPConfirmation} />
+          <Stack.Screen
+            name="welcome"
+            component={Screens.WelcomeScreen}
+            options={{
+              gestureEnabled: false,
+            }}
+          />
         </>
       )}
 

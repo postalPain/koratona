@@ -4,7 +4,7 @@ import { typography } from "app/theme"
 import EnvelopeIcon from "assets/icons/svgs/EnvelopeIcon"
 import WhatsAppIcon from "assets/icons/svgs/WhatsUpIcon"
 import React from "react"
-import { View } from "react-native"
+import { Linking, View } from "react-native"
 
 export const Support = () => {
   const styles = useStyles()
@@ -17,11 +17,14 @@ export const Support = () => {
           LeftComponent={
             <View>
               <Text tx="profile.sendEmail" weight="semiBold" style={styles.listItemTitleText} />
-              <Text text="help@koratona.com" style={styles.listItemValueText} />
+              <Text text="support@fanfinity.io" style={styles.listItemValueText} />
             </View>
           }
           RightComponent={<EnvelopeIcon />}
           style={[styles.listItem, styles.firstListItem]}
+          onPress={() => {
+            Linking.openURL("mailto:support@fanfinity?subject=Support")
+          }}
         />
         <ListItem
           LeftComponent={

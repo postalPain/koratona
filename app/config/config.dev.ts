@@ -6,7 +6,6 @@
  * https://reactnative.dev/docs/security#storing-sensitive-info
  */
 export default {
-  API_AUTH_URL: "https://dev-um.koratona.stryber.io/v1/",
   BASE_API_URL: "https://dev-be.koratona.stryber.io/api/",
   PRIVACY_POLICIES_URL: "https://google.com",
   APS_DATA: {
@@ -16,4 +15,5 @@ export default {
   },
   APS_TOKENIZATION_URL: 'https://sbcheckout.PayFort.com/FortAPI/paymentPage',
   APS_PAYMENT_URL: 'https://sbpaymentservices.payfort.com/FortAPI/paymentApi',
+  APS_3DS_SUCCESS_URL: 'https://static.koratona.stryber.io/paymentSuccess.html',
 }

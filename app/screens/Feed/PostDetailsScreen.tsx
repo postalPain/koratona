@@ -28,7 +28,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width, height } = useWindowDimensions()
   const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
-    (user) => user.userId === authUserStore.user.id,
+    (user) => user.userId === authUserStore.user.userId,
   )
 
   return (
@@ -79,15 +79,19 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
                 }}
                 style={styles.favoriteInfoContainer}
               >
-                <Text style={styles.favoriteCountText} text={`${post?.favoriteCount || ""}`} />
+                <Text
+                  style={[
+                    styles.favoriteCountText,
+                    isPostAddedToFavorite && styles.favoriteCountTextHighlighted,
+                  ]}
+                  text={`${post?.favoriteCount || ""}`}
+                />
                 <HeartIconIcon focused={!!isPostAddedToFavorite} />
               </Pressable>
             </View>
           </LinearGradient>
           <View style={styles.headerText}>
-            {!!post?.title && (
-              <Text style={styles.heading} text={post.title} />
-            )}
+            {!!post?.title && <Text style={styles.heading} text={post.title} />}
             {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
           </View>
         </LinearGradient>
@@ -187,8 +191,11 @@ const useStyles = createUseStyles(() => ({
     lineHeight: 16.8,
     marginRight: 4,
   },
-  favoriteInfoContainer:{
+  favoriteCountTextHighlighted: {
+    color: "#DD5644",
+  },
+  favoriteInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
-  }
+  },
 }))

@@ -5,18 +5,18 @@
 import { GeneralApiProblem } from "../apiProblem"
 
 export type AuthUser = {
-  email: string
-  password: string
-  id: string
-  firstName: string
-  lastName: string
-  username: string
+  createdAt: string
+  dateOfBirth: string | null
+  deletedAt: string | null
+  deviceId: string
+  email: string | null
+  firstName: string | null
+  lastName: string | null
+  lang: string
   phone: string
-  enabled: string
-  roles: string[]
-  customAttributes: {
-    dateOfBirth: string;
-  };
+  role: string
+  updatedAt: string
+  userId: string
 }
 
 export type GetAuthUserResponse = AuthUser
@@ -34,11 +34,17 @@ export type ApplyUserSettingsService = () => Promise<{ kind: "ok" } | GeneralApi
  * The types that represent the credentials needed to restore password
  */
 
-export type UpdateUserPayloadData = Partial<AuthUser>
+export type UpdateUserPayloadData = Partial<{
+  firstName: string
+  lastName: string
+  dateOfBirth: string
+  jerseyNumber: string
+  email: string
+  userId: string
+}>
 
 export type UpdateUserResponse = any
 
 export type UpdateUserService = (
-  id: string,
   payload: UpdateUserPayloadData,
 ) => Promise<{ kind: "ok" } | GeneralApiProblem>

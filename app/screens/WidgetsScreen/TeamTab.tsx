@@ -3,14 +3,15 @@ import { FlashList } from "@shopify/flash-list"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { useStores } from "app/models"
-import { typography } from "app/theme"
+import { spacing, typography } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { Pressable, View, useWindowDimensions } from "react-native"
+import { ActivityIndicator, Pressable, View, useWindowDimensions } from "react-native"
 import { Player } from "../../models/Player/Player"
 import { PlayerCard } from "../Profile/components/PlayerCard"
 import useFetchFavoritePlayerList from "../hooks/useGetFavoritePlayerList"
 import useFetchPlayerList from "../hooks/useGetPlayerList"
+import { NoMoreContent } from "app/components/NoMoreContent"
 
 export const TeamPlayersTab = observer(function (_props) {
   const styles = useStyles()
@@ -20,14 +21,16 @@ export const TeamPlayersTab = observer(function (_props) {
   useFetchPlayerList()
   useFetchFavoritePlayerList()
 
-  const { height, width } = useWindowDimensions()
+  const { width } = useWindowDimensions()
 
   return (
     <View
-      style={{
-        width,
-        height: height - 250,
-      }}
+      style={[
+        styles.listContainer,
+        {
+          width,
+        },
+      ]}
     >
       <View style={styles.titleContainer}>
         <Text style={styles.title} tx="teams.meetTeam" />
@@ -37,6 +40,9 @@ export const TeamPlayersTab = observer(function (_props) {
         <FlashList<Player>
           contentContainerStyle={styles.list}
           data={[...playerStore.playerList]}
+          onRefresh={playerStore.fetchPlayerList}
+          refreshing={playerStore.isPlayerListLoading}
+          onEndReached={playerStore.fetchMorePlayers}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           numColumns={2}
           keyExtractor={(item) => item?.id?.toString()}
@@ -72,6 +78,19 @@ export const TeamPlayersTab = observer(function (_props) {
           )}
           estimatedItemSize={220}
           extraData={JSON.stringify(playerStore.favoritePlayerList)}
+          ListFooterComponent={
+            <>
+              {playerStore.isFetchingMorePlayers && (
+                <View style={styles.fetchingMorePlayers}>
+                  <ActivityIndicator color="#333865" />
+                  <Text style={styles.fetchingMorePlayersText} text="Loading more players..." />
+                </View>
+              )}
+              {playerStore.paginationMeta.itemCount > 0 &&
+                !playerStore.paginationMeta.hasNextPage &&
+                !playerStore.isFetchingMorePlayers && <NoMoreContent />}
+            </>
+          }
         />
       )}
     </View>
@@ -79,6 +98,20 @@ export const TeamPlayersTab = observer(function (_props) {
 })
 
 const useStyles = createUseStyles((theme) => ({
+  listContainer: {
+    height: "100%",
+  },
+  fetchingMorePlayers: {
+    paddingVertical: spacing.xl,
+    textAlign: "center",
+    justifyContent: "center",
+  },
+  fetchingMorePlayersText: {
+    textAlign: "center",
+    color: "#333865",
+    marginTop: spacing.sm,
+    fontFamily: typography.fonts.instrumentSans.medium,
+  },
   title: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     letterSpacing: -0.64,
