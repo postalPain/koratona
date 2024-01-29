@@ -2,7 +2,7 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Screen, Text } from "app/components"
 import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
-import { registerForPushNotificationsAsync } from "app/services/notifications"
+import { registerForPushNotifications } from "app/services/notifications"
 import { typography } from "app/theme"
 import { LinearGradient } from "expo-linear-gradient"
 import debounce from "lodash.debounce"
@@ -42,7 +42,10 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
   const isNotificationScreen = onboardingData[currentStep].notifications
 
   const handleSetNotifications = async () => {
-    const token = await registerForPushNotificationsAsync(onNextButtonPress)
+    const token = await registerForPushNotifications();
+    if (token) {
+      onNextButtonPress();
+    }
     authUserStore.setNotificationToken(token)
     setShowFinalButton(true)
   }
