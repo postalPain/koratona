@@ -126,6 +126,9 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                     keyboardType="email-address"
                     textContentType="emailAddress"
                   />
+                </View>
+                <View>
+                  <Text tx="productsScreen.paymentsDetails" style={styles.inputLabel} />
                   <View style={styles.holderNameContainer}>
                     <Input
                       name="card_holder_name"
@@ -133,9 +136,6 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
                       placeholder="Name on card"
                     />
                   </View>
-                </View>
-                <View>
-                  <Text tx="productsScreen.paymentsDetails" style={styles.inputLabel} />
                   <Input
                     name="card_number"
                     mask="XXXX XXXX XXXX XXXX"
@@ -304,6 +304,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   holderNameContainer: {
     width: '100%',
+    marginBottom: 20,
   },
   cardLeftInput: {
     flex: 1,
