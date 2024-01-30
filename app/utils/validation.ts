@@ -1,3 +1,5 @@
+import { CURRENCY } from 'app/constants';
+
 export const isDateValid = (expirationDate: string) => {
   if (!expirationDate) {
     return false;
@@ -33,8 +35,6 @@ export const isMonthValid = (expirationDate: string) => {
 };
 
 export const formatCurrency = (amount: number, { order } = { order: 'straight' }) => {
-  const CURRENCY = 'AED';
   const formattedAmount = amount.toFixed(2);
-
   return order === 'reverse' ? `${CURRENCY} ${formattedAmount}` : `${formattedAmount} ${CURRENCY}`;
 };

@@ -6,6 +6,7 @@ import * as Payment from "./paymentTypes";
 import Config from '../../config';
 import { generateSignature, parseResponse, APSStatusCodes } from "./utils";
 import { getLanguage } from 'app/i18n';
+import { CURRENCY } from 'app/constants';
 import { createOrder } from '../../services/api/order/orderService';
 
 export const APS_STATUSES = {
@@ -123,7 +124,6 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
     userId,
     productId,
   } = params;
-  const currency = 'USD';
   const customer_ip = await getIp();
 
   const paymentRes = await createOrder({
@@ -160,7 +160,7 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
 
   const paymentResponse = await makePayment({
     amount,
-    currency,
+    currency: CURRENCY,
     customer_email,
     customer_ip,
     customer_name: card_holder_name,
