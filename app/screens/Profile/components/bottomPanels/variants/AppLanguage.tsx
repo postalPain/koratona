@@ -2,21 +2,47 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { typography } from "app/theme"
 import React from "react"
-import { NativeSyntheticEvent, View } from "react-native"
+import { ActivityIndicator, NativeSyntheticEvent, View } from "react-native"
+import { NativeSegmentedControlIOSChangeEvent } from "@react-native-segmented-control/segmented-control"
 // @ts-ignore
 import SegmentedControl from "@react-native-segmented-control/segmented-control/js/SegmentedControl.js"
 import Button from "@stryberventures/gaia-react-native.button"
-import { NativeSegmentedControlIOSChangeEvent } from "@react-native-segmented-control/segmented-control"
+
+import { useStores } from "app/models"
 import { observer } from "mobx-react-lite"
 
 type Props = {
   onCloseBottomSheet: () => void
 }
+const languages = ["English", "Arabic"] as const
 
 export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSheet }) {
   const styles = useStyles()
-  const languages = ["English", "Arabic"]
   const [selectedIndex, setSelectedIndex] = React.useState(0)
+  const languageName = languages[selectedIndex]
+
+  const { authUserStore } = useStores()
+
+  const onSaveChanges = () => {
+    let shortLang = "en"
+
+    switch (languageName) {
+      case "English": {
+        shortLang = "en"
+        break
+      }
+      case "Arabic":
+        shortLang = "ar"
+        break
+
+      default:
+        break
+    }
+
+    authUserStore.updateUser({ lang: shortLang }, () => {
+      onCloseBottomSheet()
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -32,8 +58,11 @@ export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSh
           fontStyle={styles.fontStyle}
         />
       </View>
-      <Button style={styles.button} onPress={onCloseBottomSheet}>
-        <Text weight="bold" tx="common.saveChanges" style={styles.buttonText} />
+      <Button style={styles.button} onPress={onSaveChanges} disabled={authUserStore.isLoading}>
+        {!authUserStore.isLoading && (
+          <Text weight="bold" tx="common.saveChanges" style={styles.buttonText} />
+        )}
+        {authUserStore.isLoading && <ActivityIndicator />}
       </Button>
     </View>
   )

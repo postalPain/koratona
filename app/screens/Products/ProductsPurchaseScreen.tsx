@@ -103,7 +103,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
     const productPrice = +(product?.price || 0)
 
     return (
-      <Screen preset="fixed" safeAreaEdges={["top"]} contentContainerStyle={styles.container}>
+      <Screen preset="auto" safeAreaEdges={["top"]} contentContainerStyle={styles.container}>
         <View style={styles.contentWrapper}>
           <GoBackComponent onPress={_props.navigation.goBack} />
           <Text tx="productsScreen.completePurchase" weight="bold" style={styles.heading} />

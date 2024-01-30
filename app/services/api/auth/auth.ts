@@ -8,7 +8,7 @@ export const OTPLoginService = async (data: { phone: string }) => {
   try {
     const response = await api.apisauce.post(`auth/login`, data)
 
-    if (!response.ok && response.problem === 'CLIENT_ERROR') {
+    if (!response.ok && response.problem === "CLIENT_ERROR") {
       Alert.alert("Something went wrong, please try again later")
     }
     return null
@@ -23,7 +23,7 @@ export const OTPLoginConfirmationService = async (data: {
   skip?: boolean
 }) => {
   try {
-    const response:any = await api.apisauce.post(`auth/login-confirm-otp`, data)
+    const response: any = await api.apisauce.post(`auth/login-confirm-otp`, data)
 
     if (!response.ok) {
       return { kind: "bad-data", data: null, message: response.data?.message }
@@ -41,8 +41,8 @@ export const loginService: Auth.LoginService = async (credentials) => {
 
     // the typical ways to die when calling an api
     if (!response.ok) {
-      if (response.problem === 'CLIENT_ERROR') {
-        Alert.alert("Error", JSON.stringify(response.data?.error));
+      if (response.problem === "CLIENT_ERROR") {
+        Alert.alert("Error", JSON.stringify(response.data?.error))
       }
       const problem = getGeneralApiProblem(response)
       if (problem) return problem
@@ -98,30 +98,6 @@ export const passwordRestoreService: Auth.RestorePasswordService = async (restor
       if (problem) return problem
     }
 
-    return { kind: "ok" }
-  } catch (e) {
-    if (__DEV__ && e instanceof Error) {
-      console.tron.error?.(`Bad data: ${e.message}\n${response?.data}`, e.stack)
-    }
-    return { kind: "bad-data" }
-  }
-}
-
-export const setUserSettings: Auth.ApplyUserSettingsService = async () => {
-  let response = {} as ApiResponse<Auth.GetAuthUserResponse>
-
-  try {
-    response = await api.apisauce.post(`auth/settings`)
-
-    // the typical ways to die when calling an api
-    if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
-    }
-
-    if (!response.data) {
-      return { kind: "bad-data" }
-    }
     return { kind: "ok" }
   } catch (e) {
     if (__DEV__ && e instanceof Error) {

@@ -13,7 +13,6 @@ import {
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import * as Screens from "app/screens"
 import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
-import { useInitApplyUserSettings } from "app/screens/Auth/hooks/useInitApplyUserSettings"
 import { colors } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
@@ -23,6 +22,7 @@ import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import { useNotifications } from "app/services/notifications"
+import { useShowOnboardingScreen } from "app/screens/hooks/useShowOnboardingScreen"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -68,33 +68,18 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStack
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack(_props) {
-  const {
-    authenticationStore: { isAuthenticated, showingOnboarding },
-    authUserStore: { isOnboardingCardsSaw },
-  } = useStores()
+  const { authenticationStore } = useStores()
 
   useFetchAuthUser()
-  useInitApplyUserSettings()
   useNotifications()
-
-  React.useEffect(() => {
-    if (isAuthenticated && showingOnboarding) {
-      isOnboardingCardsSaw.then((sawOnboarding) => {
-        if (sawOnboarding) {
-          navigationRef.current?.navigate("InitialProfileSettings")
-        } else {
-          navigationRef.current?.navigate("Onboarding", { currentStep: 0 })
-        }
-      })
-    }
-  }, [showingOnboarding, isAuthenticated])
+  useShowOnboardingScreen()
 
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={isAuthenticated ? "Home" : "welcome"}
+      initialRouteName={authenticationStore.isAuthenticated ? "Home" : "welcome"}
     >
-      {isAuthenticated ? (
+      {authenticationStore.isAuthenticated ? (
         <>
           <Stack.Screen name="Home" component={AppHomeNavigator} />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
