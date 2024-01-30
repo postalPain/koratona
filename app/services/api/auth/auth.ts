@@ -19,7 +19,7 @@ export const OTPLoginService = async (data: { phone: string }) => {
 export const OTPLoginConfirmationService = async (data: {
   phone: string
   code: string
-  deviceId: string
+  deviceId: string | null
   skip?: boolean
 }) => {
   try {

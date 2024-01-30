@@ -8,7 +8,7 @@ export type AuthUser = {
   createdAt: string
   dateOfBirth: string | null
   deletedAt: string | null
-  deviceId: string
+  deviceId: string | null
   email: string | null
   firstName: string | null
   lastName: string | null
@@ -41,6 +41,7 @@ export type UpdateUserPayloadData = Partial<{
   jerseyNumber: string
   email: string
   userId: string
+  deviceId: string | null
 }>
 
 export type UpdateUserResponse = any

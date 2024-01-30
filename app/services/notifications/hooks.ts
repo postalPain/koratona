@@ -8,7 +8,8 @@ import { isNotificationsPermitted, registerForPushNotifications } from "./index"
 
 export const useNotifications = () => {
   const {
-    authUserStore: { notificationToken, setNotificationToken },
+    authUserStore: { notificationToken, setNotificationToken, updateUser },
+    authenticationStore: { isAuthenticated},
   } = useStores()
 
   useCallOnAppState('active', async () => {
@@ -16,8 +17,14 @@ export const useNotifications = () => {
     if (notificationsPermitted && !notificationToken) {
       const token = await registerForPushNotifications();
       setNotificationToken(token);
+      if (isAuthenticated) {
+        await updateUser({ deviceId: token });
+      }
     } else if (!notificationsPermitted && notificationToken) {
       setNotificationToken(null);
+      if (isAuthenticated) {
+        await updateUser({ deviceId: null });
+      }
     }
   }, [notificationToken, setNotificationToken]);
 

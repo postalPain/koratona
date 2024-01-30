@@ -7,7 +7,7 @@ export const UserModel = types
     createdAt: types.optional(types.string, ""),
     dateOfBirth: types.maybeNull(types.string),
     deletedAt: types.maybeNull(types.string),
-    deviceId: types.optional(types.string, ""),
+    deviceId: types.maybeNull(types.string),
     email: types.maybeNull(types.string),
     firstName: types.maybeNull(types.string),
     lastName: types.maybeNull(types.string),
