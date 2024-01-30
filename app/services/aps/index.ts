@@ -123,7 +123,7 @@ export const submitPayment: Payment.SubmitAPSPayment = async (params) => {
     userId,
     productId,
   } = params;
-  const currency = __DEV__ ? 'USD' : 'AED';
+  const currency = 'USD';
   const customer_ip = await getIp();
 
   const paymentRes = await createOrder({
