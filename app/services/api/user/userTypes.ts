@@ -8,7 +8,7 @@ export type AuthUser = {
   createdAt: string
   dateOfBirth: string | null
   deletedAt: string | null
-  deviceId: string
+  deviceId: string | null
   email: string | null
   firstName: string | null
   lastName: string | null
