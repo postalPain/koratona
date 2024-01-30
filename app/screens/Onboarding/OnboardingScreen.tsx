@@ -15,7 +15,6 @@ import FireIconSvg from "./icons/FireIcon"
 import PresentIconSvg from "./icons/PresentIcon"
 import TogetherIconSvg from "./icons/TogetherIcon"
 
-
 interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {
   currentStep?: number
 }
@@ -42,10 +41,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
   const isNotificationScreen = onboardingData[currentStep].notifications
 
   const handleSetNotifications = async () => {
-    const token = await registerForPushNotifications();
-    if (token) {
-      onNextButtonPress();
-    }
+    const token = await registerForPushNotifications()
     authUserStore.setNotificationToken(token)
     setShowFinalButton(true)
   }
