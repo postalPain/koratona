@@ -9,7 +9,7 @@ const AchievementList: React.FC = () => {
   const styles = useStyles()
   return (
     <FlashList
-      data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+      data={[1]}
       horizontal
       renderItem={() => (
         <View style={styles.achievementItem}>
@@ -40,7 +40,7 @@ const useStyles = createUseStyles(() => ({
       width: 0,
       height: 1,
     },
-    shadowOpacity: 0.10,
+    shadowOpacity: 0.1,
     shadowRadius: 1.41,
 
     elevation: 2,

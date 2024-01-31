@@ -78,12 +78,7 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
         <Button
           style={[
             styles.button,
-            phoneNumber && isPhoneNumberValid
-              ? {}
-              : {
-                  backgroundColor: "#D0D5DD",
-                  borderColor: "#D0D5DD",
-                },
+            phoneNumber && isPhoneNumberValid ? {} : styles.fieldInvalidStyles,
           ]}
           disabled={!phoneNumber || !isPhoneNumberValid || isFetchOTPCodeLoading}
           onPress={requestOTPCode}
@@ -105,6 +100,10 @@ const useStyles = createUseStyles(() => ({
     backgroundColor: "#fff",
     paddingHorizontal: 26,
     paddingVertical: 39,
+  },
+  fieldInvalidStyles: {
+    backgroundColor: "#D0D5DD",
+    borderColor: "#D0D5DD",
   },
   inputAccessoryBox: {
     borderTopColor: "#D0D5DD",

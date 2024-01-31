@@ -1,7 +1,7 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
-import { isRTL } from "app/i18n"
+import { getWritingDirection } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { useStores } from "app/models"
 import { Post } from "app/models/Posts/Post"
@@ -161,7 +161,7 @@ const useStyles = createUseStyles(() => ({
     fontSize: 48,
     lineHeight: 56,
     letterSpacing: -0.96,
-    writingDirection: isRTL() ? "rtl" : "ltr",
+    writingDirection: getWritingDirection(),
   },
   subHeading: {
     fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
@@ -169,7 +169,7 @@ const useStyles = createUseStyles(() => ({
     fontSize: 14,
     lineHeight: 17,
     marginTop: 6,
-    writingDirection: isRTL() ? "rtl" : "ltr",
+    writingDirection: getWritingDirection(),
   },
   articleContainer: {
     padding: 24,

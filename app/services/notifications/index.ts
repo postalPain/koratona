@@ -1,18 +1,18 @@
-import * as Device from "expo-device";
-import messaging from "@react-native-firebase/messaging";
-import { Alert, Platform } from "react-native";
+import * as Device from "expo-device"
+import messaging from "@react-native-firebase/messaging"
+import { Alert, Platform } from "react-native"
 
-export * from './hooks';
+export * from "./hooks"
 
 export async function registerForPushNotifications(): Promise<string | null> {
   try {
-    let token: string;
+    let token: string
 
     if (Device.isDevice) {
-      let notificationsPermitted = await isNotificationsPermitted();
+      let notificationsPermitted = await isNotificationsPermitted()
       if (!notificationsPermitted) {
-        await messaging().requestPermission();
-        notificationsPermitted = await isNotificationsPermitted();
+        await messaging().requestPermission()
+        notificationsPermitted = await isNotificationsPermitted()
       }
       if (!notificationsPermitted) {
         Alert.alert(
@@ -26,9 +26,9 @@ export async function registerForPushNotifications(): Promise<string | null> {
         )
         return null
       }
-      token = await messaging().getToken();
-      console.log(`Firebase token: ${token}`);
-      return token;
+      token = await messaging().getToken()
+      console.log(`Firebase token: ${token}`)
+      return token
     } else {
       alert("Must use physical device for Push Notifications")
       return null
@@ -40,13 +40,14 @@ export async function registerForPushNotifications(): Promise<string | null> {
 }
 
 export const isNotificationsPermitted = async (): Promise<boolean> => {
-  const authStatus = await messaging().hasPermission();
-  return authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-};
+  const authStatus = await messaging().hasPermission()
+  return (
+    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    authStatus === messaging.AuthorizationStatus.PROVISIONAL
+  )
+}
 
 export const isPermissionsRequested = async (): Promise<boolean> => {
-  const authStatus = await messaging().hasPermission();
-  return !(Platform.OS === 'ios' && authStatus === messaging.AuthorizationStatus.NOT_DETERMINED);
-
-};
+  const authStatus = await messaging().hasPermission()
+  return !(Platform.OS === "ios" && authStatus === messaging.AuthorizationStatus.NOT_DETERMINED)
+}

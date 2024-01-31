@@ -43,7 +43,7 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
   const handleSetNotifications = async () => {
     const token = await registerForPushNotifications()
     authUserStore.setNotificationToken(token)
-    await authUserStore.updateUser({ deviceId: token });
+    await authUserStore.updateUser({ deviceId: token })
     setShowFinalButton(true)
   }
 

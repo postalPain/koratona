@@ -63,9 +63,14 @@ const TopContentContainer: React.FC<Props> = ({ playerId }) => {
               style={styles.personalPlayerStatsValue}
             />
             <Text tx="teams.player.weight" style={styles.personalPlayerStatsTitle} />
-            <Text text={player?.weight
+            <Text
+              text={
+                player?.weight
                   ? formatPlayerInfoValue(player?.weight) + "kg"
-                  : formatPlayerInfoValue(player?.weight)} style={styles.personalPlayerStatsValue} />
+                  : formatPlayerInfoValue(player?.weight)
+              }
+              style={styles.personalPlayerStatsValue}
+            />
           </View>
         </View>
       </LinearGradient>

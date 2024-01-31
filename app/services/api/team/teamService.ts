@@ -58,11 +58,15 @@ export const fetchTeamById: TeamServiceTypes.FetchTeamByIdService = async (id) =
   }
 }
 
-export const getUsersFavoriteTeamList: TeamServiceTypes.GetUserFavoriteTeamService = async (userId) => {
+export const getUsersFavoriteTeamList: TeamServiceTypes.GetUserFavoriteTeamService = async (
+  userId,
+) => {
   let response = {} as ApiResponse<FavoriteTeam>
 
   try {
-    response = await api.apisauce.get(`user/favorite/team?order=ASC&page=1&take=10&userId=${userId}`)
+    response = await api.apisauce.get(
+      `user/favorite/team?order=ASC&page=1&take=10&userId=${userId}`,
+    )
     // the typical ways to die when calling an api
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

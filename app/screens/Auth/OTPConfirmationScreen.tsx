@@ -188,12 +188,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
         <Button
           style={[
             styles.goToPurchasesButton,
-            otpCode.length !== OTP_CODE_LENGTH
-              ? {
-                  backgroundColor: "#E4E7EC",
-                  borderColor: "#E4E7EC",
-                }
-              : {},
+            otpCode.length !== OTP_CODE_LENGTH ? styles.invalidFieldButton : {},
           ]}
           pressedStyle={styles.goToPurchasesButton}
           onPress={() => handleConfirmOTPCode()}
@@ -216,6 +211,10 @@ const useStyles = createUseStyles(() => ({
     height: "100%",
     justifyContent: "space-between",
     padding: 24,
+  },
+  invalidFieldButton: {
+    backgroundColor: "#E4E7EC",
+    borderColor: "#E4E7EC",
   },
   contentCentered: {
     width: "100%",

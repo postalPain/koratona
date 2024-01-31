@@ -4,7 +4,7 @@ import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Banner, Screen, Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
-import { translate, isRTL } from "app/i18n"
+import { translate, getWritingDirection } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { useStores } from "app/models"
 import { Product } from "app/models/Products/Product"
@@ -101,7 +101,7 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
       if (res.kind === "ok") {
         setPaymentError(undefined)
         if (res.data.status === APS_STATUSES.ON_HOLD) {
-          _props.navigation.navigate("purchase3DSVerification", { url: res.data["3ds_url"]! })
+          _props.navigation.navigate("purchase3DSVerification", { url: res.data["3ds_url"] || "" })
         } else {
           _props.navigation.navigate("productPurchaseResult")
         }
@@ -214,7 +214,7 @@ const useStyles = createUseStyles((theme) => ({
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     marginBottom: theme.spacing["32"],
     color: "#101828",
-    writingDirection: isRTL() ? "rtl" : "ltr",
+    writingDirection: getWritingDirection(),
   },
   button: {
     minHeight: 59,

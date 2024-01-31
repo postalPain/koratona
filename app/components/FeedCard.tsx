@@ -1,6 +1,6 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components/Text"
-import { isRTL } from "app/i18n"
+import { getWritingDirection } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { Post } from "app/models/Posts/Post"
 import { typography } from "app/theme"
@@ -132,7 +132,7 @@ export const FeedCard = React.memo(
                     fontSize: 14,
                     lineHeight: 16.8,
                     fontFamily: typography.fonts.instrumentSans.regular,
-                    writingDirection: isRTL() ? "rtl" : "ltr",
+                    writingDirection: getWritingDirection(),
                   },
                 }}
               />
@@ -194,7 +194,7 @@ const useStyles = createUseStyles(() => ({
     fontSize: 36,
     lineHeight: 36,
     letterSpacing: -0.32,
-    writingDirection: isRTL() ? "rtl" : "ltr",
+    writingDirection: getWritingDirection()
   },
   underTitleIcon: {
     marginBottom: 18,

@@ -338,6 +338,4 @@ const $titleWrapperFlex: ViewStyle = {
 
 const $headerChildren: ViewStyle = {
   justifyContent: "center",
-
 }
-

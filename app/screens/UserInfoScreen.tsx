@@ -14,9 +14,11 @@ export const UserInfoScreen: FC<UserInfoScreenProps> = observer(function UserInf
 
   return (
     <Screen style={$root} preset="scroll" safeAreaEdges={["top", "bottom"]}>
-
       <Button tx="common.back" onPress={goBack} />
-      <ListItem LeftComponent={<Text text="Email" />} RightComponent={<Text text={user.email || 'Unknown email'} />} />
+      <ListItem
+        LeftComponent={<Text text="Email" />}
+        RightComponent={<Text text={user.email || "Unknown email"} />}
+      />
       <ListItem
         LeftComponent={<Text text="Name" />}
         RightComponent={<Text text={user.fullName} />}

@@ -28,7 +28,7 @@ export const GoBackComponent: React.FC<Props> = ({
     <View style={[styles.header, $styleOverride]}>
       <Pressable style={styles.leftHeaderComponent} onPress={onPress}>
         <BackIconSvg color={color} />
-        <Text tx='common.goBack' style={[styles.leftHeaderComponentText, { color }]} />
+        <Text tx="common.goBack" style={[styles.leftHeaderComponentText, { color }]} />
       </Pressable>
     </View>
   )
