@@ -2,11 +2,12 @@ import * as Application from "expo-application"
 import React, { FC } from "react"
 import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { Button, ListItem, Screen, Text } from "../components"
-import { isRTL } from "../i18n"
+
 import { useStores } from "../models"
 import { AppTabScreenProps } from "../navigators/AppHomeNavigator"
 import { colors, spacing } from "../theme"
 import { clear } from "app/utils/storage"
+import { isRTL } from "app/i18n"
 
 export const DemoDebugScreen: FC<AppTabScreenProps<"DemoDebug">> = function DemoDebugScreen(
   _props,
@@ -57,12 +58,6 @@ export const DemoDebugScreen: FC<AppTabScreenProps<"DemoDebug">> = function Demo
           text="go to onboarding"
           onPress={() => {
             _props.navigation.navigate("Onboarding", { currentStep: 0 })
-          }}
-        />
-        <Button
-          text="go to reset pass"
-          onPress={() => {
-            _props.navigation.navigate('RestorePassword', {token:'123secrettoken'})
           }}
         />
         <Button
@@ -144,7 +139,7 @@ const $title: TextStyle = {
 const $reportBugsLink: TextStyle = {
   color: colors.tint,
   marginBottom: spacing.lg,
-  alignSelf: isRTL ? "flex-start" : "flex-end",
+  alignSelf: isRTL() ? "flex-start" : "flex-end",
 }
 
 const $item: ViewStyle = {

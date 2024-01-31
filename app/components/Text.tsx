@@ -3,7 +3,7 @@ import React from "react"
 import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
 import { translate, TxKeyPath } from "../i18n"
 import { colors, typography } from "../theme"
-import { isRTL } from "app/i18n/getIsRTL"
+import { isRTL } from "app/i18n"
 
 type Sizes = keyof typeof $sizeStyles
 type Weights = keyof typeof typography.primary

@@ -1,6 +1,6 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components/Text"
-import { isRTL } from "app/i18n/getIsRTL"
+import { isRTL } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { Post } from "app/models/Posts/Post"
 import { typography } from "app/theme"
