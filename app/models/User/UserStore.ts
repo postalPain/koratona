@@ -16,7 +16,7 @@ export const UserStoreModel = types
       createdAt: "",
       dateOfBirth: null,
       deletedAt: null,
-      deviceId: "",
+      deviceId: null,
       email: null,
       firstName: null,
       lastName: null,

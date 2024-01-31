@@ -12,7 +12,6 @@ import { OtpInput, OtpInputRef } from "react-native-otp-entry"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 
 import { useStores } from "app/models"
-import { retrieveDeviceId } from "app/utils/retrieveDeviceId"
 import { showToast } from "app/utils/showToast"
 import useApp from "./hooks/useSMSApp"
 
@@ -108,7 +107,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
       return
     }
     setIsLoading(true)
-    const deviceId = await retrieveDeviceId()
+    const deviceId = authUserStore.notificationToken
 
     await authenticationStore.confirmOTPCode(
       {

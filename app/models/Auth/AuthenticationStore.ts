@@ -28,7 +28,7 @@ export const AuthenticationStoreModel = types
       confirmationData: {
         phone: string
         code: string
-        deviceId: string
+        deviceId: string | null
       },
       successCb?: (user: AuthUser) => void,
       unsuccessCb?: (message: string) => void,

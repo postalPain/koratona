@@ -20,6 +20,7 @@ export const Notification = observer(function () {
     } else {
       const token = await registerForPushNotifications();
       authUserStore.setNotificationToken(token)
+      await authUserStore.updateUser({ deviceId: token });
     }
   };
 
