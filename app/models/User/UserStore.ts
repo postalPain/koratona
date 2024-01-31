@@ -1,13 +1,11 @@
-import { setUserSettings } from "app/services/api/auth/auth"
-import {} from "app/services/api/auth/authTypes"
 import { getAuthUser, updateUser } from "app/services/api/user/user"
 import { UpdateUserPayloadData } from "app/services/api/user/userTypes"
 import { showToast } from "app/utils/showToast"
-import { saveString } from "app/utils/storage"
+import * as storage from "app/utils/storage"
 import { flow, types } from "mobx-state-tree"
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { AuthUser, UserModel } from "./User"
-import * as storage from "app/utils/storage"
+import { TLanguage, i18NLanguages, setLanguage } from "app/i18n"
 
 export const USER_SETTINGS_APPLIED_KEY = "userSettingsApplied"
 
@@ -36,20 +34,16 @@ export const UserStoreModel = types
   })
   .actions(withSetPropAction)
   .actions((self) => ({
-    initApplyUserSettings: flow(function* () {
-      try {
-        yield setUserSettings()
-        saveString(USER_SETTINGS_APPLIED_KEY, "true")
-      } catch (error) {
-        console.tron.error?.(`Error applying settings authUser: ${JSON.stringify(error)}`, [])
-      }
-    }),
     fetchAuthUser: flow(function* () {
       self.isLoading = true
       self.isErrored = false
       try {
         const response = yield getAuthUser()
         self.user = response.data
+        const userLang = self.user.lang as TLanguage
+        if (i18NLanguages.includes(userLang)) {
+          setLanguage(userLang)
+        }
       } catch (error) {
         self.isErrored = true
         console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
@@ -66,6 +60,10 @@ export const UserStoreModel = types
           throw new Error("Bad data")
         }
         self.user = { ...self.user, ...response.data }
+        const userLang = self.user.lang as TLanguage
+        if (i18NLanguages.includes(userLang)) {
+          setLanguage(userLang)
+        }
         successCallback && successCallback()
       } catch (error) {
         self.isErrored = true

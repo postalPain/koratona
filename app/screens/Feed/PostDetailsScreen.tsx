@@ -1,7 +1,10 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
+import { isRTL } from "app/i18n"
+import { handleArLang } from "app/i18n/handleArLang"
 import { useStores } from "app/models"
+import { Post } from "app/models/Posts/Post"
 import { typography } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import HeartIconIcon from "assets/icons/svgs/HeartIcon"
@@ -91,17 +94,21 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             </View>
           </LinearGradient>
           <View style={styles.headerText}>
-            {!!post?.title && <Text style={styles.heading} text={post.title} />}
-            {!!post?.subtitle && <Text style={styles.subHeading} text={post.subtitle} />}
+            {!!post && post[handleArLang<Post>("title")] && (
+              <Text style={styles.heading} text={post[handleArLang<Post>("title")]} />
+            )}
+            {!!post && post[handleArLang<Post>("subtitle")] && (
+              <Text style={styles.subHeading} text={post[handleArLang<Post>("subtitle")]} />
+            )}
           </View>
         </LinearGradient>
       </ImageBackground>
       <View style={styles.articleContainer}>
-        {!!post?.content && (
+        {!!post && post[handleArLang<Post>("content")] && (
           <RenderHtml
             contentWidth={width}
             source={{
-              html: post?.content || "",
+              html: post[handleArLang<Post>("content")] || "",
             }}
           />
         )}
@@ -110,11 +117,11 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             <YoutubePlayer height={255} videoId={getYouTubeVideoId(post.video)} play={false} />
           </View>
         )}
-        {post?.quiz && (
+        {!!post && post[handleArLang<Post>("quiz")] && (
           <View style={styles.quizContainer}>
             <WebView
               webviewDebuggingEnabled
-              source={{ uri: post.quiz }}
+              source={{ uri: post[handleArLang<Post>("quiz")] }}
               style={styles.webviewStyles}
             />
           </View>
@@ -154,6 +161,7 @@ const useStyles = createUseStyles(() => ({
     fontSize: 48,
     lineHeight: 56,
     letterSpacing: -0.96,
+    writingDirection: isRTL() ? "rtl" : "ltr",
   },
   subHeading: {
     fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
@@ -161,6 +169,7 @@ const useStyles = createUseStyles(() => ({
     fontSize: 14,
     lineHeight: 17,
     marginTop: 6,
+    writingDirection: isRTL() ? "rtl" : "ltr",
   },
   articleContainer: {
     padding: 24,

@@ -10,6 +10,8 @@ import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import { observer } from "mobx-react-lite"
 import { Product } from "../../models/Products/Product"
 import { NoMoreContent } from "app/components/NoMoreContent"
+import { handleArLang } from "app/i18n/handleArLang"
+import { translate } from "app/i18n"
 
 export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = observer(function (
   _props,
@@ -23,8 +25,8 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
     ({ item }) => (
       <ProductCard
         outOfStock={item.outOfStock}
-        name={item.name}
-        description={item.description}
+        name={item[handleArLang<Product>("name")]}
+        description={item[handleArLang<Product>("description")]}
         price={item.price}
         bgImage={item.imageUrl}
         onActionPress={() => {
@@ -40,9 +42,7 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
 
   return (
     <Screen preset="fixed" contentContainerStyle={$container}>
-      {productsStore.isFetchingProductsErrored && (
-        <Text text="Something went wrong, please try again..." />
-      )}
+      {productsStore.isFetchingProductsErrored && <Text tx="errors.somethingWentWrong" />}
       <FlashList<Product>
         data={[...productsStore.products]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -51,7 +51,11 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
         onEndReached={productsStore.fetchMoreProducts}
         ListEmptyComponent={() =>
           !productsStore.isFetchingProducts && (
-            <Text preset="subheading" text="No products yet..." />
+            <Text
+              preset="subheading"
+              tx="listContentsScreen.noContentYet"
+              txOptions={{ content: translate("listContentsScreen.products") }}
+            />
           )
         }
         keyExtractor={(item) => item?.id?.toString()}
@@ -63,7 +67,11 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
             {productsStore.isFetchingMoreProducts && (
               <View style={styles.fetchingMoreProducts}>
                 <ActivityIndicator color="#333865" />
-                <Text style={styles.fetchingMoreProductsText} text="Loading more products..." />
+                <Text
+                  style={styles.fetchingMoreProductsText}
+                  tx="listContentsScreen.loadingMoreContent"
+                  txOptions={{ content: translate("listContentsScreen.products") }}
+                />
               </View>
             )}
             {productsStore.productPaginationMeta.itemCount > 0 &&

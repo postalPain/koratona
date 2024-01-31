@@ -3,7 +3,9 @@ import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 export const ProductModel = types.model("Product").props({
   id: types.identifierNumber,
   name: types.optional(types.string, ""),
+  nameAr: types.optional(types.string, ""),
   description: types.optional(types.string, ""),
+  descriptionAr: types.optional(types.string, ""),
   outOfStock: types.optional(types.boolean, false),
   teamId: types.optional(types.number, 0),
   price: types.optional(types.string, ""),

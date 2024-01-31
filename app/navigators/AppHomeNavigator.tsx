@@ -2,8 +2,10 @@ import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigatio
 import { CompositeScreenProps } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { HomeStackNavigator } from "app/navigators/HomeStackNavigator"
+import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
 import { ProductsStackNavigator } from "app/screens/Products/ProductsStackNavigator"
 import { ProfileStackNavigator } from "app/screens/Profile/ProfileStackNavigator"
+import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import BagIconSvg from "assets/icons/svgs/bottomNavbar/BagIcon"
 import HomeIconSvg from "assets/icons/svgs/bottomNavbar/HomeIcon"
 import React from "react"
@@ -15,7 +17,6 @@ import { translate } from "../i18n"
 import { DemoDebugScreen } from "../screens"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
-import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 
 export type AppHomeTabParamList = {
   DemoDebug: undefined
@@ -42,6 +43,8 @@ export function AppHomeNavigator() {
   } = useStores()
   const { bottom } = useSafeAreaInsets()
   const bottomInset = useSafeAreaInsetsStyle(["bottom"])
+
+  useFetchAuthUser()
 
   return (
     <Tab.Navigator

@@ -8,9 +8,10 @@ import {
   View,
   ViewStyle,
 } from "react-native"
-import { isRTL, translate } from "../i18n"
+import { translate } from "../i18n"
 import { colors, spacing, typography } from "../theme"
 import { Text, TextProps } from "./Text"
+import { isRTL } from "app/i18n"
 
 export interface TextFieldAccessoryProps {
   style: StyleProp<any>
@@ -147,7 +148,7 @@ export const TextField = forwardRef(function TextField(props: TextFieldProps, re
   const $inputStyles: StyleProp<TextStyle> = [
     $inputStyle,
     disabled && { color: colors.textDim },
-    isRTL && { textAlign: "right" as TextStyle["textAlign"] },
+    isRTL() && { textAlign: "right" as TextStyle["textAlign"] },
     TextInputProps.multiline && { height: "auto" },
     $inputStyleOverride,
   ]

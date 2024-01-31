@@ -9,8 +9,9 @@ import { ApisauceInstance, create } from "apisauce"
 import { RootStore } from "app/models"
 import Config from "../../config"
 import type { ApiConfig } from "./api.types"
-import { showModalMessage } from 'app/utils/showModal';
-import { translate } from "../../i18n";
+import { showModalMessage } from "app/utils/showModal"
+import { translate } from "../../i18n"
+
 /**
  * Configuring the apisauce instance.
  */
@@ -42,20 +43,30 @@ export class Api {
       },
     })
 
+    this.apisauce.addRequestTransform((request) => {
+      if (request.headers) {
+        request.headers["Accept-Language"] = this.store?.authUserStore.user.lang
+      }
+    })
+
     // Add response interceptor to handle 401 errors
     this.apisauce.addResponseTransform((response) => {
-      if (response.problem === 'SERVER_ERROR' || response.problem === 'TIMEOUT_ERROR' || response.problem === 'CONNECTION_ERROR') {
+      if (
+        response.problem === "SERVER_ERROR" ||
+        response.problem === "TIMEOUT_ERROR" ||
+        response.problem === "CONNECTION_ERROR"
+      ) {
         showModalMessage({
-          icon: 'exclamation',
-          title: translate('modals.serverError.title'),
-          description: translate('modals.serverError.description'),
-        });
+          icon: "exclamation",
+          title: translate("modals.serverError.title"),
+          description: translate("modals.serverError.description"),
+        })
       }
-      if (response.problem === 'NETWORK_ERROR') {
+      if (response.problem === "NETWORK_ERROR") {
         showModalMessage({
-          icon: 'offline',
-          title: translate('modals.offline.title'),
-          description: translate('modals.offline.description'),
+          icon: "offline",
+          title: translate("modals.offline.title"),
+          description: translate("modals.offline.description"),
         })
       }
     })

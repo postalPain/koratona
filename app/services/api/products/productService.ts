@@ -12,7 +12,9 @@ export const fetchProducts: ProductTypes.FetchProductsService = async ({
   let response = {} as ApiResponse<ProductTypes.ProductsResponse>
 
   try {
-    response = await api.apisauce.get(`product?order=${order}&page=${page}&take=${take}`)
+    response = await api.apisauce.get(
+      `product?order=${order}&page=${page}&take=${take}&outOfStock=${false}`,
+    )
     // the typical ways to die when calling an api
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

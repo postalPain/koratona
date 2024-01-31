@@ -12,6 +12,7 @@ import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { spacing, typography } from "../../theme"
 import useFetchPosts from "../hooks/usePosts"
 import { NoMoreContent } from "app/components/NoMoreContent"
+import { translate } from "app/i18n"
 
 const YouTubeIcon = require("assets/images/youtube.png")
 const circleLogo = require("assets/images/circleLogo.png")
@@ -51,9 +52,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
 
   return (
     <Screen backgroundColor="#fff" preset="fixed" contentContainerStyle={$container}>
-      {postsStore.isFetchingPostsErrored && (
-        <Text text="Something went wrong, please try again..." />
-      )}
+      {postsStore.isFetchingPostsErrored && <Text tx="errors.somethingWentWrong" />}
       <FlashList<Post>
         data={[...postsStore.posts]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -61,7 +60,13 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         refreshing={postsStore.isFetchingPosts}
         onEndReached={postsStore.fetchMorePosts}
         ListEmptyComponent={() =>
-          !postsStore.isFetchingPosts && <Text preset="subheading" text="No posts yet..." />
+          !postsStore.isFetchingPosts && (
+            <Text
+              preset="subheading"
+              tx="listContentsScreen.noContentYet"
+              txOptions={{ content: translate("listContentsScreen.posts") }}
+            />
+          )
         }
         extraData={JSON.stringify(postsStore.posts)}
         keyExtractor={(item) => item?.id?.toString()}
@@ -73,7 +78,11 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
             {postsStore.isFetchingMorePosts && (
               <View style={styles.fetchingMorePosts}>
                 <ActivityIndicator color="#333865" />
-                <Text style={styles.footerText} text="Loading more posts..." />
+                <Text
+                  style={styles.footerText}
+                  tx="listContentsScreen.loadingMoreContent"
+                  txOptions={{ content: translate("listContentsScreen.posts") }}
+                />
               </View>
             )}
             {postsStore.postsCount > 0 &&
