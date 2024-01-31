@@ -1,13 +1,13 @@
+import { NativeSegmentedControlIOSChangeEvent } from "@react-native-segmented-control/segmented-control"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { typography } from "app/theme"
 import React from "react"
 import { ActivityIndicator, NativeSyntheticEvent, View } from "react-native"
-import { NativeSegmentedControlIOSChangeEvent } from "@react-native-segmented-control/segmented-control"
 // @ts-ignore
 import SegmentedControl from "@react-native-segmented-control/segmented-control/js/SegmentedControl.js"
 import Button from "@stryberventures/gaia-react-native.button"
-
+import { getLanguage } from "app/i18n"
 import { useStores } from "app/models"
 import { observer } from "mobx-react-lite"
 
@@ -18,10 +18,21 @@ const languages = ["English", "Arabic"] as const
 
 export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSheet }) {
   const styles = useStyles()
-  const [selectedIndex, setSelectedIndex] = React.useState(0)
-  const languageName = languages[selectedIndex]
-
   const { authUserStore } = useStores()
+
+  const getIndexOfCurrentLanguage = () => {
+    const currentLanguage = authUserStore.user?.lang || getLanguage()
+    switch (currentLanguage) {
+      case "en":
+        return 0
+      case "ar":
+        return 1
+      default:
+        return 0
+    }
+  }
+  const [selectedIndex, setSelectedIndex] = React.useState(getIndexOfCurrentLanguage)
+  const languageName = languages[selectedIndex]
 
   const onSaveChanges = () => {
     let shortLang = "en"

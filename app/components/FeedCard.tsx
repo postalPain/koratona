@@ -1,5 +1,7 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components/Text"
+import { isRTL } from "app/i18n/getIsRTL"
+import { handleArLang } from "app/i18n/handleArLang"
 import { Post } from "app/models/Posts/Post"
 import { typography } from "app/theme"
 import { getPostCreationTime } from "app/utils/formatCreatedTime"
@@ -14,8 +16,9 @@ import {
   View,
   useWindowDimensions,
 } from "react-native"
-import HeartIconIcon from "../../assets/icons/svgs/HeartIcon"
 import RenderHtml from "react-native-render-html"
+import HeartIconIcon from "../../assets/icons/svgs/HeartIcon"
+
 export interface FeedCardProps {
   /**
    *  Post entity
@@ -111,15 +114,17 @@ export const FeedCard = React.memo(
               end={{ x: 0.1, y: 0.7 }}
             >
               {underTitleIcon && <Image style={styles.underTitleIcon} source={underTitleIcon} />}
-              {post?.title && <Text style={styles.heading} text={post.title} />}
+              {post && post[handleArLang<Post>("title")] && (
+                <Text style={styles.heading} text={post[handleArLang<Post>("title")]} />
+              )}
             </LinearGradient>
           </ImageBackground>
           <View style={styles.footer}>
-            {!!post?.subtitle && (
+            {!!post && post[handleArLang<Post>("subtitle")] && (
               <RenderHtml
                 contentWidth={width}
                 source={{
-                  html: `<p>${post.subtitle}</p>`,
+                  html: `<p>${post[handleArLang<Post>("subtitle")]}</p>`,
                 }}
                 tagsStyles={{
                   p: {
@@ -127,6 +132,7 @@ export const FeedCard = React.memo(
                     fontSize: 14,
                     lineHeight: 16.8,
                     fontFamily: typography.fonts.instrumentSans.regular,
+                    writingDirection: isRTL() ? "rtl" : "ltr",
                   },
                 }}
               />
@@ -137,7 +143,10 @@ export const FeedCard = React.memo(
               )}
               <Pressable style={styles.likesContainer} onPress={onFavoritePress}>
                 <Text
-                  style={[styles.basementText, addedToFavorite && styles.favoriteCounterHighlighted]}
+                  style={[
+                    styles.basementText,
+                    addedToFavorite && styles.favoriteCounterHighlighted,
+                  ]}
                   text={`${favoriteCount || ""}`}
                 />
                 <HeartIconIcon focused={addedToFavorite} />
@@ -185,6 +194,7 @@ const useStyles = createUseStyles(() => ({
     fontSize: 36,
     lineHeight: 36,
     letterSpacing: -0.32,
+    writingDirection: isRTL() ? "rtl" : "ltr",
   },
   underTitleIcon: {
     marginBottom: 18,

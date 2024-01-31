@@ -1,6 +1,5 @@
-import * as Localization from "expo-localization"
+// import * as Localization from "expo-localization"
 import i18n from "i18n-js"
-import { I18nManager } from "react-native"
 
 // if English isn't your default language, move Translations to the appropriate language file.
 import en, { Translations } from "./en"
@@ -14,25 +13,22 @@ i18n.fallbacks = true
  */
 i18n.translations = { ar, en, "en-US": en }
 
-const locales = Localization.getLocales() // This method is guaranteed to return at least one array item.
-// The preferred language is the first element in the array, however, we fallback to en-US, especially for tests.
-const preferredLanguage:
-  | Localization.Locale
-  | { languageTag: string; textDirection: "ltr" | "rtl" } = locales[0] || {
-  languageTag: "en-US",
-  textDirection: "ltr",
-}
+// const locales = Localization.getLocales() // This method is guaranteed to return at least one array item.
+// // The preferred language is the first element in the array, however, we fallback to en-US, especially for tests.
+// const preferredLanguage:
+//   | Localization.Locale
+//   | { languageTag: string; textDirection: "ltr" | "rtl" } = locales[0] || {
+//   languageTag: "en-US",
+//   textDirection: "ltr",
+// }
+// console.log("preferredLanguage", preferredLanguage)
 
-i18n.locale = preferredLanguage.languageTag
+// i18n.locale = preferredLanguage.languageTag
 
-// handle RTL languages
-export const isRTL = preferredLanguage.textDirection === "rtl"
-I18nManager.allowRTL(isRTL)
-I18nManager.forceRTL(isRTL)
-
-export const i18NLanguages = ["en", "ar"] as const;
-export type TLanguage = typeof i18NLanguages[number];
+export const i18NLanguages = ["en", "ar"] as const
+export type TLanguage = (typeof i18NLanguages)[number]
 export const getLanguage = (): TLanguage => i18n.locale.slice(0, 2) as TLanguage
+
 /**
  * Builds up valid keypaths for translations.
  */

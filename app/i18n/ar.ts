@@ -18,6 +18,7 @@ const ar: Translations = {
     in: "في",
     thatAllForNow: "هذا كل شيء للآن",
     youSeeAllContent: "لقد رأيت كل المحتوى الجديد منذ المرة الأخيرة",
+    yesterday: "أمس",
   },
   policies: {
     agreement: "من خلال إنشاء حساب، فإنك توافق على",
@@ -34,7 +35,6 @@ const ar: Translations = {
   },
   signIn: {
     slogan: "مرحبًا مرة أخرى",
-    forgotPassword: "إعادة تعيين كلمة المرور",
     enterLoginCode: "أدخل رمز تسجيل الدخول",
     weHaveSentCodeTo: "لقد قمنا بإرسال رمز إلى",
     resendCode: "إعادة إرسال الرمز",
@@ -58,6 +58,9 @@ const ar: Translations = {
     reset: "إعادة تعيين التطبيق",
     traceTitle: "خطأ من مكدس الأخطاء %{name}",
   },
+  errors: {
+    somethingWentWrong: "حدث خطأ ما",
+  },
   emptyStateComponent: {
     generic: {
       heading: "هنا فارغة... حزينة جدًا",
@@ -70,13 +73,19 @@ const ar: Translations = {
     yourProfile: "ملفك الشخصي",
     moreDetails: "نحتاج إلى بعض التفاصيل الإضافية لاستكمال ملف المعجب الخاص بك",
     personalDetails: "تفاصيل شخصية",
-    firstName: "الاسم الأول",
-    lastName: "اسم العائلة",
-    DOB: "تاريخ الميلاد",
-    phoneNumber: "رقم الهاتف",
     chooseYourTeam: "اختر فريقك",
     join: "انضم إلى",
     setUpProfile: "إعداد الملف الشخصي",
+  },
+  setUpProfileForm: {
+    firstName: "الاسم الأول",
+    lastName: "اسم العائلة",
+    DOB: "تاريخ الميلاد",
+    email: "البريد الإلكتروني",
+    phoneNumber: "رقم الهاتف",
+    thisFieldIsRequired: "هذا الحقل مطلوب",
+    invalidEmailFormat: "تنسيق البريد الإلكتروني غير صالح",
+
   },
   onboardingCarousel: {
     getExclusiveAccess: {
@@ -130,6 +139,28 @@ const ar: Translations = {
     viewMyPurchases: "عرض مشترياتي",
     outOfStock: "نفدت الكمية!",
     paymentDetails: "تفاصيل الدفع",
+    youArePurchasing: "أنت تشتري {{experience}}",
+    email: "البريد الإلكتروني",
+    nameOnCard: "اسم على البطاقة",
+    cardNumber: "رقم البطاقة",
+    mmyy: "شهر/سنة",
+    cvc: "CVC",
+    cvcIsRequired: "CVC مطلوب",
+    emailIsRequired: "البريد الإلكتروني مطلوب",
+    nameCardIsRequired: "اسم البطاقة مطلوب",
+    cardNumberIsRequired: "رقم البطاقة مطلوب",
+    cardNumberHasToBe16Digits: "يجب أن يكون رقم البطاقة 16 رقمًا",
+    theLengthOfCvcHasToBe3: "يجب أن يكون طول CVC 3",
+    expirationDateIsRequiredAndHasToBeValid: "تاريخ الانتهاء مطلوب ويجب أن يكون صالحًا",
+    expirationMonthIsRequired: "شهر الانتهاء مطلوب",
+    expirationYearIsRequired: "سنة الانتهاء مطلوبة",
+    wrongExpireDate: "تاريخ انتهاء خاطئ",
+  },
+  listContentsScreen: {
+    noContentYet: "لا يوجد {{content}} حتى الآن",
+    loadingMoreContent: "جاري تحميل المزيد من {{content}}...",
+    posts: "المنشورات",
+    products: "المنتجات",
   },
   profile: {
     yourProfile: "ملفك الشخصي",
@@ -229,6 +260,18 @@ const ar: Translations = {
       description:
         "نأسف ولكن يبدو أن خوادمنا غير متوفرة في الوقت الحالي. يرجى المحاولة مرة أخرى في دقيقة.",
     },
+  },
+  editProfileForm: {
+    firstName: "الاسم الأول",
+    firstNamePlaceholder: "أدخل الاسم الأول",
+    lastName: "اسم العائلة",
+    lastNamePlaceholder: "أدخل اسم العائلة",
+    DOB: "تاريخ الميلاد",
+    email: "البريد الإلكتروني",
+    emailPlaceholder: "أدخل البريد الإلكتروني",
+    phoneNumber: "رقم الهاتف",
+    thisFieldIsRequired: "هذا الحقل مطلوب",
+    invalidEmailFormat: "تنسيق البريد الإلكتروني غير صالح",
   },
 }
 

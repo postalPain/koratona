@@ -12,7 +12,8 @@ import {
 } from "@react-navigation/native"
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import * as Screens from "app/screens"
-import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
+import { useShowOnboardingScreen } from "app/screens/hooks/useShowOnboardingScreen"
+import { useNotifications } from "app/services/notifications"
 import { colors } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
@@ -21,8 +22,6 @@ import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
-import { useNotifications } from "app/services/notifications"
-import { useShowOnboardingScreen } from "app/screens/hooks/useShowOnboardingScreen"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -70,7 +69,6 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack(_props) {
   const { authenticationStore } = useStores()
 
-  useFetchAuthUser()
   useNotifications()
   useShowOnboardingScreen()
 

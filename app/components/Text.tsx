@@ -1,8 +1,9 @@
 import i18n from "i18n-js"
 import React from "react"
 import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
-import { isRTL, translate, TxKeyPath } from "../i18n"
+import { translate, TxKeyPath } from "../i18n"
 import { colors, typography } from "../theme"
+import { isRTL } from "app/i18n/getIsRTL"
 
 type Sizes = keyof typeof $sizeStyles
 type Weights = keyof typeof typography.primary
@@ -57,6 +58,7 @@ export function Text(props: TextProps) {
   const content = i18nText || text || children
 
   const preset: Presets = props.preset ?? "default"
+  const $rtlStyle: TextStyle = isRTL() ? { writingDirection: "rtl" } : {}
   const $styles: StyleProp<TextStyle> = [
     $rtlStyle,
     $presets[preset],
@@ -79,7 +81,7 @@ const $sizeStyles = {
   md: { fontSize: 24, lineHeight: 32 } satisfies TextStyle,
   sm: { fontSize: 18, lineHeight: 24 } satisfies TextStyle,
   xs: { fontSize: 14, lineHeight: 18 } satisfies TextStyle,
-  xxs: { fontSize: 12, lineHeight: 16 } satisfies TextStyle
+  xxs: { fontSize: 12, lineHeight: 16 } satisfies TextStyle,
 }
 
 const $fontWeightStyles = Object.entries(typography.primary).reduce((acc, [weight, fontFamily]) => {
@@ -105,5 +107,3 @@ const $presets = {
 
   formHelper: [$baseStyle, $sizeStyles.sm, $fontWeightStyles.normal] as StyleProp<TextStyle>,
 }
-
-const $rtlStyle: TextStyle = isRTL ? { writingDirection: "rtl" } : {}

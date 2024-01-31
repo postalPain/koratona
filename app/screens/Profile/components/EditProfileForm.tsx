@@ -3,6 +3,7 @@ import Button from "@stryberventures/gaia-react-native.button"
 import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
+import { translate } from "app/i18n"
 import { useStores } from "app/models"
 import { Team } from "app/models/Team/Team"
 import { typography } from "app/theme"
@@ -103,12 +104,12 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
     logo ? { uri: logo } : require("assets/icons/teamsLogo/emptyLogo.png")
 
   const getEachValueAnCheckEachFieldAndSetErrors = () => ({
-    firstName: formFields.firstName ? "" : "This field is required",
-    lastName: formFields.lastName ? "" : "This field is required",
+    firstName: formFields.firstName ? "" : translate("editProfileForm.thisFieldIsRequired"),
+    lastName: formFields.lastName ? "" : translate("editProfileForm.thisFieldIsRequired"),
     email:
       formFields.email && /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i.test(formFields.email)
         ? ""
-        : "This field is required and should be a valid email",
+        : translate("editProfileForm.invalidEmailFormat"),
   })
 
   const filterAndClearNonDirtyData = (data: any) => {
@@ -176,7 +177,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
     } else if (!fieldError && !fieldHasValue) {
       setErrors({
         ...errors,
-        [field]: "This field is required",
+        [field]: translate("editProfileForm.thisFieldIsRequired"),
       })
     }
 
@@ -186,7 +187,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
       if (!emailPattern.test(fieldHasValue)) {
         setErrors({
           ...errors,
-          [field]: "Invalid email format",
+          [field]: translate("editProfileForm.invalidEmailFormat"),
         })
       }
     }
@@ -197,8 +198,8 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
       <View style={styles.inputContainer}>
         <Input
           name="firstName"
-          label="First name"
-          placeholder="First name"
+          label={translate("editProfileForm.firstName")}
+          placeholder={translate("editProfileForm.firstNamePlaceholder")}
           keyboardType="default"
           textContentType="givenName"
           enablesReturnKeyAutomatically
@@ -222,8 +223,8 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
         />
         <Input
           name="lastName"
-          label="Last name"
-          placeholder="Last name"
+          label={translate("editProfileForm.lastName")}
+          placeholder={translate("editProfileForm.lastNamePlaceholder")}
           ref={lastNameFieldRef}
           keyboardType="default"
           textContentType="familyName"
@@ -252,7 +253,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
             setDateBirthPickerVisible(true)
           }}
         >
-          <Text text="Date of birth" style={styles.datePickerLabel} />
+          <Text tx="editProfileForm.DOB" style={styles.datePickerLabel} />
           <Text text={format(dob, "dd MMMM yyyy")} style={styles.datePickerText} />
           <DateTimePickerModal
             date={dob}
@@ -267,8 +268,8 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
         </Pressable>
         <Input
           name="email"
-          label="Email"
-          placeholder="Email"
+          label={translate("editProfileForm.email")}
+          placeholder={translate("editProfileForm.emailPlaceholder")}
           keyboardType="email-address"
           ref={emailFieldRef}
           textContentType="emailAddress"
@@ -287,7 +288,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
         />
         <Input
           name="phone"
-          label="Phone Number"
+          label={translate("editProfileForm.phoneNumber")}
           mask="XXX XXXXXXXXX"
           value={user.phone}
           editable={false}

@@ -12,7 +12,7 @@ export const UserModel = types
     firstName: types.maybeNull(types.string),
     lastName: types.maybeNull(types.string),
     jerseyNumber: types.optional(types.maybeNull(types.number), 1),
-    lang: types.optional(types.string, ""),
+    lang: types.optional(types.string, "en"),
     phone: types.optional(types.string, ""),
     role: types.optional(types.string, ""),
     updatedAt: types.optional(types.string, ""),

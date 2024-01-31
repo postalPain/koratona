@@ -1,12 +1,12 @@
+import { ListPaginationMeta } from "app/models/ListPaginationMetaModel"
 import { Product } from "app/models/Products/Product"
-import { ProductPaginationMeta } from "../../../models/Products/Product"
 import { GeneralApiProblem } from "../apiProblem"
 
 export type PostStatus = "Draft" | "Published" | "Archived"
 
 export type ProductsResponse = {
   data: Product[]
-  meta: ProductPaginationMeta
+  meta: ListPaginationMeta
 }
 
 export type FetchProductsService = ({
