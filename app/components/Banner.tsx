@@ -20,7 +20,7 @@ export const Banner = (props: BannerProps) => {
   return <View style={styles.container}>{props.children}</View>
 }
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles(() => ({
   container: {
     padding: 10,
     backgroundColor: "#FADFD7",

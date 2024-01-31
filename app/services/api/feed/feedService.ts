@@ -12,7 +12,9 @@ export const fetchPosts: FeedTypes.FetchPostsService = async ({
   let response = {} as ApiResponse<FeedTypes.PostsResponse>
 
   try {
-    response = await api.apisauce.get(`post?order=${order}&page=${page}&take=${take}&status=published`)
+    response = await api.apisauce.get(
+      `post?order=${order}&page=${page}&take=${take}&status=published`,
+    )
 
     // the typical ways to die when calling an api
     if (!response.ok) {
@@ -58,10 +60,7 @@ export const fetchPostById: FeedTypes.FetchPostByIdService = async (id) => {
   }
 }
 
-export const toggleFavorite: FeedTypes.TogglePostFavoriteService = async ({
-  postId,
-  userId,
-}) => {
+export const toggleFavorite: FeedTypes.TogglePostFavoriteService = async ({ postId, userId }) => {
   let response = {} as ApiResponse<Post>
 
   try {

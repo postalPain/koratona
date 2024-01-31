@@ -1,11 +1,11 @@
-import React, { FC } from "react";
-import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack";
-import { observer } from "mobx-react-lite";
-import { AppTabScreenProps } from "../../navigators/AppHomeNavigator";
-import { ProductPurchaseScreen } from "./ProductsPurchaseScreen";
-import { ProductsScreen } from "./ProductsScreen";
-import { ProductPurchaseResultScreen } from "./ProductPurchaseResultScreen";
-import { Purchase3DSVerificationScreen } from './Purchase3DSVerificationScreen';
+import React, { FC } from "react"
+import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
+import { observer } from "mobx-react-lite"
+import { AppTabScreenProps } from "../../navigators/AppHomeNavigator"
+import { ProductPurchaseScreen } from "./ProductsPurchaseScreen"
+import { ProductsScreen } from "./ProductsScreen"
+import { ProductPurchaseResultScreen } from "./ProductPurchaseResultScreen"
+import { Purchase3DSVerificationScreen } from "./Purchase3DSVerificationScreen"
 
 type ProductsStackParamList = {
   productsScreen: undefined
@@ -14,7 +14,7 @@ type ProductsStackParamList = {
   }
   productPurchaseResult: undefined
   purchase3DSVerification: {
-    url: string;
+    url: string
   }
 }
 
@@ -28,7 +28,7 @@ export const ProductsStackNavigator: FC<AppTabScreenProps<"ProductsNavigator">> 
     return (
       <Stack.Navigator
         initialRouteName="productsScreen"
-        screenOptions={{ presentation: 'fullScreenModal' }}
+        screenOptions={{ presentation: "fullScreenModal" }}
       >
         <Stack.Screen
           name="productsScreen"
@@ -45,14 +45,14 @@ export const ProductsStackNavigator: FC<AppTabScreenProps<"ProductsNavigator">> 
           }}
         />
         <Stack.Screen
-          name='productPurchaseResult'
+          name="productPurchaseResult"
           component={ProductPurchaseResultScreen}
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name='purchase3DSVerification'
+          name="purchase3DSVerification"
           component={Purchase3DSVerificationScreen}
           options={{
             headerShown: false,

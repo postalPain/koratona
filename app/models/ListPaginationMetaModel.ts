@@ -1,4 +1,4 @@
-import { Instance, types } from "mobx-state-tree";
+import { Instance, types } from "mobx-state-tree"
 
 export const ListPaginationMetaModel = types.model("ListPaginationMeta").props({
   page: types.optional(types.number, 1),

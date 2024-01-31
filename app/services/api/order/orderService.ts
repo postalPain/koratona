@@ -7,7 +7,7 @@ export const createOrder: OrderTypes.TCreateOrder = async (params) => {
   let response = {} as ApiResponse<OrderTypes.CreateOrderResponse>
 
   try {
-    response = await api.apisauce.post('order', {
+    response = await api.apisauce.post("order", {
       ...params,
     })
     // the typical ways to die when calling an api

@@ -85,7 +85,6 @@ const ar: Translations = {
     phoneNumber: "رقم الهاتف",
     thisFieldIsRequired: "هذا الحقل مطلوب",
     invalidEmailFormat: "تنسيق البريد الإلكتروني غير صالح",
-
   },
   onboardingCarousel: {
     getExclusiveAccess: {

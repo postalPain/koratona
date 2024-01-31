@@ -1,1 +1,1 @@
-export const CURRENCY = 'SAR';
+export const CURRENCY = "SAR"

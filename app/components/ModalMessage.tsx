@@ -1,47 +1,47 @@
 import React, { FC, useRef, useMemo } from "react"
-import { Modal, View } from 'react-native';
+import { Modal, View } from "react-native"
 import BottomSheet from "@gorhom/bottom-sheet"
-import { createUseStyles } from "@stryberventures/gaia-react-native.theme";
-import Text from "@stryberventures/gaia-react-native.text";
-import Button from "@stryberventures/gaia-react-native.button";
-import ExclamationIcon from '../../assets/icons/svgs/ExclamationIcon';
-import NetworkOffIcon from '../../assets/icons/svgs/NetworkOffIcon';
-import { translate } from "../i18n";
-import { typography } from "app/theme";
+import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import Text from "@stryberventures/gaia-react-native.text"
+import Button from "@stryberventures/gaia-react-native.button"
+import ExclamationIcon from "../../assets/icons/svgs/ExclamationIcon"
+import NetworkOffIcon from "../../assets/icons/svgs/NetworkOffIcon"
+import { translate } from "../i18n"
+import { typography } from "app/theme"
 
-type TIcon = 'exclamation' | 'offline';
+type TIcon = "exclamation" | "offline"
 const icons: Record<TIcon, FC> = {
   exclamation: ExclamationIcon,
   offline: NetworkOffIcon,
-};
+}
 
 export interface IModalMessageProps {
-  icon?: TIcon;
-  title: string;
-  description: string;
-  button?: string;
-  onClose: () => void;
+  icon?: TIcon
+  title: string
+  description: string
+  button?: string
+  onClose: () => void
 }
 
 export const ModalMessage: FC<IModalMessageProps> = ({
- icon,
- title,
- description,
- button = translate("modals.general.button"),
- onClose,
+  icon,
+  title,
+  description,
+  button = translate("modals.general.button"),
+  onClose,
 }) => {
-  const styles = useStyles();
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["70%"], []);
-  const Icon = typeof icon === 'string' ? icons[icon as TIcon] : undefined;
+  const styles = useStyles()
+  const bottomSheetRef = useRef<BottomSheet>(null)
+  const snapPoints = useMemo(() => ["70%"], [])
+  const Icon = typeof icon === "string" ? icons[icon as TIcon] : undefined
 
   const onButtonPress = () => {
-    onClose();
-  };
+    onClose()
+  }
 
   return (
     <Modal transparent={true}>
-      <View  style={styles.shadowScreen}>
+      <View style={styles.shadowScreen}>
         <BottomSheet
           ref={bottomSheetRef}
           snapPoints={snapPoints}
@@ -59,12 +59,8 @@ export const ModalMessage: FC<IModalMessageProps> = ({
                 <Icon />
               </View>
             )}
-            <Text style={styles.header}>
-              {title}
-            </Text>
-            <Text style={styles.description}>
-              {description}
-            </Text>
+            <Text style={styles.header}>{title}</Text>
+            <Text style={styles.description}>{description}</Text>
             <Button onPress={onButtonPress} style={styles.button}>
               {button}
             </Button>
@@ -73,27 +69,27 @@ export const ModalMessage: FC<IModalMessageProps> = ({
       </View>
     </Modal>
   )
-};
+}
 
 const useStyles = createUseStyles((theme) => ({
   shadowScreen: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
   },
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
     maxWidth: 390,
     padding: theme.spacing["24"],
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   sheetContainer: {
     marginHorizontal: theme.spacing["24"],
   },
   sheetContainerBg: {
-    backgroundColor: 'rgba(0, 0, 0, 0)',
+    backgroundColor: "rgba(0, 0, 0, 0)",
   },
   iconBox: {
     marginTop: theme.spacing["64"],
@@ -101,23 +97,23 @@ const useStyles = createUseStyles((theme) => ({
   },
   header: {
     marginBottom: theme.spacing["8"],
-    textAlign: 'center',
+    textAlign: "center",
     fontFamily: typography.fonts.instrumentSansSemiCondensed.semiBold,
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: "600",
     letterSpacing: -0.36,
-    color: '#121212',
+    color: "#121212",
   },
   description: {
     marginBottom: theme.spacing["64"],
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 14,
     lineHeight: 20,
-    fontWeight: '400',
-    color: '#606770',
+    fontWeight: "400",
+    color: "#606770",
   },
   button: {
-    width: '100%',
+    width: "100%",
   },
   handleIndicator: {
     width: 50,
@@ -125,4 +121,4 @@ const useStyles = createUseStyles((theme) => ({
     borderRadius: 10,
     backgroundColor: theme.colors.primary.light200,
   },
-}));
+}))

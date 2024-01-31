@@ -17,7 +17,7 @@ export interface ExclusiveBadgeProps {
 /**
  * Describe your component here
  */
-export const ExclusiveBadge = observer(function ExclusiveBadge(props: ExclusiveBadgeProps) {
+export const ExclusiveBadge = observer(function ExclusiveBadge() {
   const styles = useStyles()
 
   return (

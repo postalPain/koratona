@@ -34,15 +34,17 @@ export const FavoritePlayersScreen: React.FC<ProfileStackScreenProps<"favoritePl
           keyExtractor={(item) => item?.id?.toString()}
           renderItem={({ item, index }) => (
             <View
-              style={index % 2 === 0
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  ? {
+              style={
+                index % 2 === 0
+                  ? // eslint-disable-next-line react-native/no-inline-styles
+                    {
                       paddingRight: 10,
                     }
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  : {
+                  : // eslint-disable-next-line react-native/no-inline-styles
+                    {
                       paddingLeft: 10,
-                    }}
+                    }
+              }
             >
               <PlayerCard
                 addedToFavorite={playerStore.isPlayerFavorited(item.id)}
