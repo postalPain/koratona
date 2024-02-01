@@ -3,13 +3,14 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { typography } from "app/theme"
 import React from "react"
-import { ActivityIndicator, NativeSyntheticEvent, View } from "react-native"
+import { ActivityIndicator, Alert, NativeSyntheticEvent, View } from "react-native"
 // @ts-ignore
 import SegmentedControl from "@react-native-segmented-control/segmented-control/js/SegmentedControl.js"
 import Button from "@stryberventures/gaia-react-native.button"
-import { getLanguage } from "app/i18n"
+import { getLanguage, translate } from "app/i18n"
 import { useStores } from "app/models"
 import { observer } from "mobx-react-lite"
+import RNRestart from "react-native-restart"
 
 type Props = {
   onCloseBottomSheet: () => void
@@ -52,6 +53,19 @@ export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSh
 
     authUserStore.updateUser({ lang: shortLang }, () => {
       onCloseBottomSheet()
+      Alert.alert(
+        translate("profile.restart"),
+        translate("profile.toApplyTheChangesRestartApp"),
+        [
+          {
+            text: translate("profile.restart"),
+            onPress: RNRestart.restart,
+          },
+        ],
+        {
+          cancelable: false,
+        },
+      )
     })
   }
 
