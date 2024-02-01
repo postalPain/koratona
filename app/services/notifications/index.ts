@@ -1,6 +1,6 @@
 import * as Device from "expo-device"
 import messaging from "@react-native-firebase/messaging"
-import { Alert, Platform, Clipboard } from "react-native"
+import { Alert, Platform } from "react-native"
 
 export * from "./hooks"
 
@@ -28,8 +28,6 @@ export async function registerForPushNotifications(): Promise<string | null> {
       }
       token = await messaging().getToken()
       console.log(`Firebase token: ${token}`);
-      Clipboard.setString(token);
-      Alert.alert('Koratona', `${token}`);
       return token
     } else {
       alert("Must use physical device for Push Notifications")

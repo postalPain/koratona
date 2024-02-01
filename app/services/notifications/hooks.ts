@@ -1,5 +1,5 @@
 import React from "react"
-import { Platform, Alert } from "react-native"
+import { Platform } from "react-native"
 import messaging from "@react-native-firebase/messaging"
 import notifee, { EventType } from "@notifee/react-native"
 import { useCallOnAppState } from "app/utils/useCallOnAppState"
@@ -64,7 +64,6 @@ export const useNotifications = () => {
     }
     (async () => {
       const message = await messaging().getInitialNotification();
-      Alert.alert('Korotona', JSON.stringify(message));
       if (message?.data) {
         messageDataHandler(message.data as TMessage);
       }
