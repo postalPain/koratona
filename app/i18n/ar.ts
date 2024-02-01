@@ -30,10 +30,6 @@ const ar: Translations = {
     slogan: "تفاعل مع فريقك كما لم تفعل من قبل.",
     letsGetStarted: "لنبدأ.",
   },
-  signUp: {
-    slogan: "كن جزءًا من ناديك المفضل",
-    signUp: "إنشاء حساب",
-  },
   signIn: {
     slogan: "مرحبًا مرة أخرى",
     enterLoginCode: "أدخل رمز تسجيل الدخول",
@@ -42,6 +38,8 @@ const ar: Translations = {
     wrongCode: "رمز خاطئ",
     enterCode: "أدخل الرمز",
     codeSent: "تم إرسال الرمز",
+    enterPhoneNumber: "أدخل رقم الهاتف",
+    phoneFilterPlaceholder: "البحث عن بلد",
   },
   forgotPassword: {
     slogan: "إعادة تعيين كلمة المرور",
@@ -182,6 +180,8 @@ const ar: Translations = {
     favoritePlayers: "اللاعبين المفضلين",
     descriptionComposition:
       "{{name}} هو واحد من أشد المعجبين لدينا. تمت مشاركة {{favoriteTeam}} لـ {{appName}} لأول مرة في {{debutDate}}، عندما كان عمره {{age}}.",
+    restart: "إعادة تشغيل",
+    toApplyTheChangesRestartApp: "لتطبيق التغييرات، أعد تشغيل التطبيق.",
   },
   widgets: {
     tabs: {

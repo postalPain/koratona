@@ -28,10 +28,6 @@ const en = {
     slogan: "Engage with your team like never before.",
     letsGetStarted: "Let’s get started.",
   },
-  signUp: {
-    slogan: "Be part of your favorite club",
-    signUp: "Create Account",
-  },
   signIn: {
     slogan: "Welcome back",
     enterLoginCode: "Enter login code",
@@ -40,6 +36,8 @@ const en = {
     wrongCode: "Wrong code",
     enterCode: "Enter code",
     codeSent: "Code sent",
+    enterPhoneNumber: "Enter phone number",
+    phoneFilterPlaceholder: "Search for a country",
   },
   forgotPassword: {
     slogan: "Password reset",
@@ -178,6 +176,8 @@ const en = {
     favoritePlayers: "favorite players",
     descriptionComposition:
       "{{name}} is one of our most passionate fans. The {{age}} old's {{appName}} {{favoriteTeam}} debut was on {{debutDate}}.",
+    restart: "Restart",
+    toApplyTheChangesRestartApp: "To apply changes, restart the app.",
   },
   widgets: {
     tabs: {
