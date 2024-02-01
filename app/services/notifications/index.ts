@@ -27,7 +27,6 @@ export async function registerForPushNotifications(): Promise<string | null> {
         return null
       }
       token = await messaging().getToken()
-      console.log(`Firebase token: ${token}`)
       return token
     } else {
       alert("Must use physical device for Push Notifications")
