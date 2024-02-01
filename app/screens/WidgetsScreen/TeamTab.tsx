@@ -35,7 +35,7 @@ export const TeamPlayersTab = observer(function (_props) {
       <View style={styles.titleContainer}>
         <Text style={styles.title} tx="teams.meetTeam" />
       </View>
-      {playerStore.isPlayerListLoading && <Text style={styles.loadingText}>Loading...</Text>}
+      {playerStore.isPlayerListLoading && <Text style={styles.loadingText} tx="common.loading" />}
       {!playerStore.isPlayerListLoading && (
         <FlashList<Player>
           contentContainerStyle={styles.list}
@@ -76,14 +76,14 @@ export const TeamPlayersTab = observer(function (_props) {
               </Pressable>
             </View>
           )}
-          estimatedItemSize={220}
+          estimatedItemSize={228}
           extraData={JSON.stringify(playerStore.favoritePlayerList)}
           ListFooterComponent={
             <>
               {playerStore.isFetchingMorePlayers && (
                 <View style={styles.fetchingMorePlayers}>
                   <ActivityIndicator color="#333865" />
-                  <Text style={styles.fetchingMorePlayersText} text="Loading more players..." />
+                  <Text style={styles.fetchingMorePlayersText} tx="teams.loadingMorePlayers" />
                 </View>
               )}
               {playerStore.paginationMeta.itemCount > 0 &&

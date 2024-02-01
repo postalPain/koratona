@@ -41,6 +41,10 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
     getDetailStatOfPlayer(player, statsIDsTable.shotsOnTarget)?.value?.total,
   )
 
+  const sumOfRedAndYellowCards =
+    (getDetailStatOfPlayer(player, statsIDsTable.redCards)?.value?.total || 0) +
+    (getDetailStatOfPlayer(player, statsIDsTable.yellowCards)?.value?.total || 0)
+
   return (
     <Screen preset="scroll" safeAreaEdges={["top"]}>
       <View style={styles.topContentContainer}>
@@ -230,10 +234,10 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
       </View>
       <View style={[styles.centered, styles.bottomSpace]}>
         <CircularProgressComposition
-          value={2}
-          total={getDetailStatOfPlayer(player, statsIDsTable.fouls)?.value.total || 0}
+          value={getDetailStatOfPlayer(player, statsIDsTable.redCards)?.value?.total || 0}
+          total={sumOfRedAndYellowCards}
           title={t("teams.player.foulCards")}
-          emptyColor="#ECCF21"
+          emptyColor={sumOfRedAndYellowCards ? "#ECCF21" : "#D0D5DD"}
           filledColor="#BB2C2C"
           avoidPercentage
         />

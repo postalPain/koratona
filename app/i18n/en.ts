@@ -17,6 +17,7 @@ const en = {
     thatAllForNow: "That’s all for now",
     youSeeAllContent: "You’ve see all new content from the last time",
     yesterday: "Yesterday",
+    loading: "Loading...",
   },
   policies: {
     agreement: "By creating an account, you agree to our",
@@ -185,6 +186,7 @@ const en = {
   },
   teams: {
     meetTeam: "Meet the team",
+    loadingMorePlayers: "Loading more players...",
     player: {
       country: "Country",
       position: "Position",

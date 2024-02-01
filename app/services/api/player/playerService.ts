@@ -6,7 +6,7 @@ import * as PlayerServiceTypes from "./playerTypes"
 export const fetchPlayerList: PlayerServiceTypes.FetchPlayerListService = async ({
   page = 1,
   take = 50,
-  order = "DESC",
+  order = "ASC",
 }) => {
   let response = {} as ApiResponse<PlayerServiceTypes.PlayerListResponse>
   try {
