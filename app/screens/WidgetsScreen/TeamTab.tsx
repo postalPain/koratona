@@ -6,14 +6,24 @@ import { useStores } from "app/models"
 import { spacing, typography } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { ActivityIndicator, Pressable, View, useWindowDimensions } from "react-native"
+import {
+  ActivityIndicator,
+  DimensionValue,
+  Pressable,
+  View,
+  useWindowDimensions,
+} from "react-native"
 import { Player } from "../../models/Player/Player"
 import { PlayerCard } from "../Profile/components/PlayerCard"
 import useFetchFavoritePlayerList from "../hooks/useGetFavoritePlayerList"
 import useFetchPlayerList from "../hooks/useGetPlayerList"
 import { NoMoreContent } from "app/components/NoMoreContent"
 
-export const TeamPlayersTab = observer(function (_props) {
+type Props = {
+  height?: DimensionValue
+}
+
+export const TeamPlayersTab = observer(function (_props: Props) {
   const styles = useStyles()
   const navigation = useNavigation()
   const { playerStore } = useStores()
@@ -25,12 +35,10 @@ export const TeamPlayersTab = observer(function (_props) {
 
   return (
     <View
-      style={[
-        styles.listContainer,
-        {
-          width,
-        },
-      ]}
+      style={{
+        width,
+        height: _props.height || "100%",
+      }}
     >
       <View style={styles.titleContainer}>
         <Text style={styles.title} tx="teams.meetTeam" />
@@ -98,9 +106,6 @@ export const TeamPlayersTab = observer(function (_props) {
 })
 
 const useStyles = createUseStyles((theme) => ({
-  listContainer: {
-    height: "100%",
-  },
   fetchingMorePlayers: {
     paddingVertical: spacing.xl,
     textAlign: "center",
