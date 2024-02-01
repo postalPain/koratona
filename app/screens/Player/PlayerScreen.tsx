@@ -26,6 +26,7 @@ import {
   getDetailStatOfPlayer,
   statsIDsTable,
 } from "./utils/getDetailStatOfPlayer"
+import { translate } from "app/i18n"
 
 interface PlayerScreenProps extends HomeFeedStackScreenProps<"player"> {}
 
@@ -80,9 +81,11 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
         </View>
         <View style={styles.playerDescription}>
           <Text
-            text={`${formatPlayerInfoValue(player?.firstName)} was born on ${formatPlayerInfoValue(
+            text={`${formatPlayerInfoValue(player?.firstName)} ${translate(
+              "teams.player.wasBornOn",
+            )} ${formatPlayerInfoValue(
               player?.dateOfBirth ? format(new Date(player?.dateOfBirth), "dd MMMM yyyy") : "",
-            )} in ${formatPlayerInfoValue(player?.nationality)}.`}
+            )} ${translate("teams.player.in")} ${formatPlayerInfoValue(player?.nationality)}.`}
             style={styles.playerDescriptionText}
           />
         </View>

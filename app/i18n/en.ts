@@ -220,6 +220,8 @@ const en = {
       committed: "Committed",
       yellow: "Yellow",
       red: "Red",
+      wasBornOn: "was born on",
+      in: "in",
     },
   },
   // NOT TRANSLATE THIS
