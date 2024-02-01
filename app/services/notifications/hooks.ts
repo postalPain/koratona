@@ -19,7 +19,6 @@ export const useNotifications = () => {
 
   const messageDataHandler = ({ postId }: TMessage) => {
     if (postId) {
-      console.log(`Navigation by push notification to article: ${postId}`);
       // @ts-ignore
       navigation.navigate("postDetails", { id: postId });
     }
@@ -73,7 +72,7 @@ export const useNotifications = () => {
         messageDataHandler(message.data);
       }
     });
-    messaging().setBackgroundMessageHandler(async (message) => {});
+    messaging().setBackgroundMessageHandler(async () => {});
 
     const unsubscribeForegroundListener = messaging().onMessage(async (message) => {
       await notifee.displayNotification({
