@@ -23,7 +23,7 @@ const visa = require("assets/images/visa.png")
 const cvc = require("assets/images/cvc.png")
 
 const CardSchema = yup.object().shape({
-  email: yup.string().email().required(),
+  email: yup.string().email().required(translate("productsScreen.emailIsRequired")),
   card_number: yup
     .string()
     .required(translate("productsScreen.cardNumberIsRequired"))
