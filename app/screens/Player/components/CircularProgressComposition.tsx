@@ -1,5 +1,6 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
+import { isRTL } from "app/i18n"
 import { typography } from "app/theme"
 import CircularProgress from "assets/icons/svgs/CircularProgress"
 import React from "react"
@@ -82,7 +83,7 @@ const useStyles = createUseStyles(() => ({
   circularProgressTopContentWrapper: {
     position: "absolute",
     top: "30%",
-    left: "27%",
+    left: isRTL() ? "10%" : "27%",
     transform: [{ translateX: -10 }, { translateY: -10 }],
   },
   circularProgressValueContent: {

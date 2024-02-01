@@ -15,9 +15,11 @@ import * as Screens from "app/screens"
 import { useShowOnboardingScreen } from "app/screens/hooks/useShowOnboardingScreen"
 import { useNotifications } from "app/services/notifications"
 import { colors } from "app/theme"
+import * as storage from "app/utils/storage"
+import I18n from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { useColorScheme } from "react-native"
+import { I18nManager, useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
@@ -116,6 +118,21 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
   const colorScheme = useColorScheme()
 
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
+
+  React.useEffect(() => {
+    const loadLanguageFromStorage = async () => {
+      const language = await storage.load("language")
+      return language as "en" | "ar" | null
+    }
+
+    loadLanguageFromStorage().then((language) => {
+      if (language) {
+        I18n.locale = language
+        I18nManager.allowRTL(language === "ar")
+        I18nManager.forceRTL(language === "ar")
+      }
+    })
+  }, [])
 
   return (
     <NavigationContainer

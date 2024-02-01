@@ -224,6 +224,8 @@ const ar: Translations = {
       committed: "ارتكب",
       yellow: "بطاقة صفراء",
       red: "بطاقة حمراء",
+      wasBornOn: "ولد في",
+      in: "في",
     },
   },
   // NOT TRANSLATE THIS
