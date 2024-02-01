@@ -19,6 +19,7 @@ const ar: Translations = {
     thatAllForNow: "هذا كل شيء للآن",
     youSeeAllContent: "لقد رأيت كل المحتوى الجديد منذ المرة الأخيرة",
     yesterday: "أمس",
+    loading: "جاري التحميل...",
   },
   policies: {
     agreement: "من خلال إنشاء حساب، فإنك توافق على",
@@ -189,6 +190,7 @@ const ar: Translations = {
   },
   teams: {
     meetTeam: "التعرف على الفريق",
+    loadingMorePlayers: "جاري تحميل المزيد من اللاعبين...",
     player: {
       country: "البلد",
       position: "المركز",
