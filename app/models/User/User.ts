@@ -1,4 +1,5 @@
-import { differenceInYears, endOfDay, format, isBefore, isValid } from "date-fns"
+import { formatDate } from "app/utils/formatDate"
+import { differenceInYears, endOfDay, isBefore, isValid } from "date-fns"
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 
 export const UserModel = types
@@ -38,8 +39,7 @@ export const UserModel = types
     get joinedDateFormatted() {
       if (!isValid(new Date(self.createdAt))) return null
 
-      const createdAtDate = new Date(self.createdAt)
-      return format(createdAtDate, "MMM d, yyyy")
+      return formatDate(self.createdAt, "MMM d, yyyy")
     },
   }))
 

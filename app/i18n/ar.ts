@@ -180,6 +180,8 @@ const ar: Translations = {
     sendEmail: "إرسال بريد إلكتروني",
     editFavoritePlayers: "تحرير اللاعبين المفضلين",
     favoritePlayers: "اللاعبين المفضلين",
+    descriptionComposition:
+      "{{name}} هو واحد من أشد المعجبين لدينا. تمت مشاركة {{favoriteTeam}} لـ {{appName}} لأول مرة في {{debutDate}}، عندما كان عمره {{age}}.",
   },
   widgets: {
     tabs: {
@@ -230,26 +232,6 @@ const ar: Translations = {
       in: "في",
     },
   },
-  // NOT TRANSLATE THIS
-  demoDebugScreen: {
-    howTo: "كيف تستخدم",
-    title: "تصحيح الأخطاء",
-    tagLine: "تهانينا، لقد حصلت على قالب تطبيق React Native متقدم جدًا هنا. استفد من هذا القالب!",
-    reactotron: "إرسال إلى Reactotron",
-    reportBugs: "الإبلاغ عن الأخطاء",
-    demoList: "قائمة العروض",
-    demoPodcastList: "قائمة البودكاست",
-    androidReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب ، وقم بتشغيل adb reverse tcp:9090 tcp:9090 من محطة الأوامر الخاصة بك ، وأعد تحميل التطبيق.",
-    iosReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-    macosReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-    webReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-    windowsReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-  },
   modals: {
     general: {
       button: "حاول مرة أخرى",
@@ -275,6 +257,26 @@ const ar: Translations = {
     phoneNumber: "رقم الهاتف",
     thisFieldIsRequired: "هذا الحقل مطلوب",
     invalidEmailFormat: "تنسيق البريد الإلكتروني غير صالح",
+  },
+  // NOT TRANSLATE THIS
+  demoDebugScreen: {
+    howTo: "كيف تستخدم",
+    title: "تصحيح الأخطاء",
+    tagLine: "تهانينا، لقد حصلت على قالب تطبيق React Native متقدم جدًا هنا. استفد من هذا القالب!",
+    reactotron: "إرسال إلى Reactotron",
+    reportBugs: "الإبلاغ عن الأخطاء",
+    demoList: "قائمة العروض",
+    demoPodcastList: "قائمة البودكاست",
+    androidReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب ، وقم بتشغيل adb reverse tcp:9090 tcp:9090 من محطة الأوامر الخاصة بك ، وأعد تحميل التطبيق.",
+    iosReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
+    macosReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
+    webReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
+    windowsReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
   },
 }
 

@@ -176,6 +176,8 @@ const en = {
     sendEmail: "Send an email",
     editFavoritePlayers: "Edit favorite players",
     favoritePlayers: "favorite players",
+    descriptionComposition:
+      "{{name}} is one of our most passionate fans. The {{age}} old's {{appName}} {{favoriteTeam}} debut was on {{debutDate}}.",
   },
   widgets: {
     tabs: {
@@ -226,27 +228,6 @@ const en = {
       in: "in",
     },
   },
-  // NOT TRANSLATE THIS
-  demoDebugScreen: {
-    howTo: "HOW TO",
-    title: "Debug",
-    tagLine:
-      "Congratulations, you've got a very advanced React Native app template here.  Take advantage of this boilerplate!",
-    reactotron: "Send to Reactotron",
-    reportBugs: "Report Bugs",
-    demoList: "Demo List",
-    demoPodcastList: "Demo Podcast List",
-    androidReactotronHint:
-      "If this doesn't work, ensure the Reactotron desktop app is running, run adb reverse tcp:9090 tcp:9090 from your terminal, and reload the app.",
-    iosReactotronHint:
-      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
-    macosReactotronHint:
-      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
-    webReactotronHint:
-      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
-    windowsReactotronHint:
-      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
-  },
   modals: {
     general: {
       button: "Try again",
@@ -273,6 +254,27 @@ const en = {
     phoneNumber: "Phone number",
     thisFieldIsRequired: "This field is required",
     invalidEmailFormat: "This field is required and should be a valid email",
+  },
+  // NOT TRANSLATE THIS!
+  demoDebugScreen: {
+    howTo: "HOW TO",
+    title: "Debug",
+    tagLine:
+      "Congratulations, you've got a very advanced React Native app template here.  Take advantage of this boilerplate!",
+    reactotron: "Send to Reactotron",
+    reportBugs: "Report Bugs",
+    demoList: "Demo List",
+    demoPodcastList: "Demo Podcast List",
+    androidReactotronHint:
+      "If this doesn't work, ensure the Reactotron desktop app is running, run adb reverse tcp:9090 tcp:9090 from your terminal, and reload the app.",
+    iosReactotronHint:
+      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
+    macosReactotronHint:
+      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
+    webReactotronHint:
+      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
+    windowsReactotronHint:
+      "If this doesn't work, ensure the Reactotron desktop app is running and reload app.",
   },
 }
 
