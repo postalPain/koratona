@@ -12,13 +12,15 @@ type TMessage = {
 };
 export const useNotifications = () => {
   const {
-    authUserStore: { notificationToken, setNotificationToken, updateUser },
+    authUserStore: { notificationToken, setNotificationToken, updateUser, user },
     authenticationStore: { isAuthenticated },
+    postsStore,
   } = useStores();
   const navigation = useNavigation();
 
   const messageDataHandler = ({ postId }: TMessage) => {
     if (postId) {
+      postsStore.fetchPosts();
       // @ts-ignore
       navigation.navigate("postDetails", { id: postId });
     }
