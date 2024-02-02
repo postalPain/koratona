@@ -59,7 +59,7 @@ export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSh
         [
           {
             text: translate("profile.restart"),
-            onPress: RNRestart.restart,
+            onPress: () => RNRestart.restart(),
           },
         ],
         {
