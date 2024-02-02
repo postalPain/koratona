@@ -7,6 +7,7 @@ import { translate } from "app/i18n"
 import { useStores } from "app/models"
 import { Team } from "app/models/Team/Team"
 import { typography } from "app/theme"
+import { formatDate } from "app/utils/formatDate"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
 import * as React from "react"
@@ -254,7 +255,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
           }}
         >
           <Text tx="editProfileForm.DOB" style={styles.datePickerLabel} />
-          <Text text={format(dob, "dd MMMM yyyy")} style={styles.datePickerText} />
+          <Text text={formatDate(dob.toISOString(), "dd MMMM yyyy")} style={styles.datePickerText} />
           <DateTimePickerModal
             date={dob}
             onConfirm={onDatePickerConfirm}

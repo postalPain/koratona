@@ -1,4 +1,4 @@
-// import * as Localization from "expo-localization"
+import * as Localization from "expo-localization"
 import i18n from "i18n-js"
 
 // if English isn't your default language, move Translations to the appropriate language file.
@@ -14,18 +14,27 @@ i18n.fallbacks = true
 i18n.translations = { ar, en, "en-US": en }
 
 // const locales = Localization.getLocales() // This method is guaranteed to return at least one array item.
-// // The preferred language is the first element in the array, however, we fallback to en-US, especially for tests.
+// The preferred language is the first element in the array, however, we fallback to en-US, especially for tests.
+// // To set default language based on the device locale, we can use the following code:
+
 // const preferredLanguage:
 //   | Localization.Locale
 //   | { languageTag: string; textDirection: "ltr" | "rtl" } = locales[0] || {
 //   languageTag: "en-US",
 //   textDirection: "ltr",
 // }
-// console.log("preferredLanguage", preferredLanguage)
 
-// i18n.locale = preferredLanguage.languageTag
+// We set the default language as Arabic due to significant number of Arabic users.
+const preferredLanguage:
+  | Localization.Locale
+  | { languageTag: string; textDirection: "ltr" | "rtl" } = {
+  languageTag: "ar",
+  textDirection: "rtl",
+}
 
-export const i18NLanguages = ["en", "ar"] as const
+i18n.locale = preferredLanguage.languageTag
+
+export const i18NLanguages = ["ar", "en"] as const
 export type TLanguage = (typeof i18NLanguages)[number]
 export const getLanguage = (): TLanguage => i18n.locale.slice(0, 2) as TLanguage
 

@@ -10,15 +10,21 @@ export const ProfileStatsSection = observer(function () {
   const styles = useStyles()
   const {
     authUserStore: { user },
+    teamStore: { favoriteTeam },
   } = useStores()
 
   return (
     <View style={styles.playerDescription}>
       <Text
         style={styles.playerDescriptionText}
-        text={`${user.firstName} is one of our most passionate fans. The ${
-          user.ageYears ? user.ageYears + " year old’s" : ""
-        } Koratona x Al Hilal debut was on ${user.joinedDateFormatted || ""}`}
+        tx="profile.descriptionComposition"
+        txOptions={{
+          name: user.firstName,
+          age: user.ageYears,
+          favoriteTeam: favoriteTeam.name,
+          appName: process.env.EXPO_PUBLIC_APP_NAME,
+          debutDate: user.joinedDateFormatted,
+        }}
       />
       <View style={styles.playerStats}>
         <View style={[styles.playerStatsInfoBox, styles.playerStatsInfoBoxFirstChild]}>
@@ -66,6 +72,7 @@ const useStyles = createUseStyles((theme) => ({
     color: "#101828",
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     fontSize: 24,
+    lineHeight: 32,
     letterSpacing: -0.48,
     textAlign: "center",
   },
