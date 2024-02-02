@@ -12,7 +12,7 @@ type TMessage = {
 };
 export const useNotifications = () => {
   const {
-    authUserStore: { notificationToken, setNotificationToken, updateUser, user },
+    authUserStore: { notificationToken, setNotificationToken, updateUser },
     authenticationStore: { isAuthenticated },
     postsStore,
   } = useStores();
