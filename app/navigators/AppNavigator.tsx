@@ -19,7 +19,7 @@ import * as storage from "app/utils/storage"
 import I18n from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { I18nManager, useColorScheme } from "react-native"
+import { ActivityIndicator, I18nManager, useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
@@ -70,9 +70,29 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack(_props) {
   const { authenticationStore } = useStores()
+  const [isLangLoading, setIsLangLoading] = React.useState(true)
 
   useNotifications()
   useShowOnboardingScreen()
+  React.useEffect(() => {
+    const loadLanguageFromStorage = async () => {
+      const language = await storage.load("language")
+      return language as "en" | "ar" | null
+    }
+
+    loadLanguageFromStorage().then((language) => {
+      if (language) {
+        I18n.locale = language
+        I18nManager.allowRTL(language === "ar")
+        I18nManager.forceRTL(language === "ar")
+      }
+      setIsLangLoading(false)
+    })
+  }, [])
+
+  if (isLangLoading) {
+    return <ActivityIndicator color="#333865" />
+  }
 
   return (
     <Stack.Navigator
@@ -118,21 +138,6 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
   const colorScheme = useColorScheme()
 
   useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
-
-  React.useEffect(() => {
-    const loadLanguageFromStorage = async () => {
-      const language = await storage.load("language")
-      return language as "en" | "ar" | null
-    }
-
-    loadLanguageFromStorage().then((language) => {
-      if (language) {
-        I18n.locale = language
-        I18nManager.allowRTL(language === "ar")
-        I18nManager.forceRTL(language === "ar")
-      }
-    })
-  }, [])
 
   return (
     <NavigationContainer

@@ -30,10 +30,6 @@ const ar: Translations = {
     slogan: "تفاعل مع فريقك كما لم تفعل من قبل.",
     letsGetStarted: "لنبدأ.",
   },
-  signUp: {
-    slogan: "كن جزءًا من ناديك المفضل",
-    signUp: "إنشاء حساب",
-  },
   signIn: {
     slogan: "مرحبًا مرة أخرى",
     enterLoginCode: "أدخل رمز تسجيل الدخول",
@@ -42,6 +38,8 @@ const ar: Translations = {
     wrongCode: "رمز خاطئ",
     enterCode: "أدخل الرمز",
     codeSent: "تم إرسال الرمز",
+    enterPhoneNumber: "أدخل رقم الهاتف",
+    phoneFilterPlaceholder: "البحث عن بلد",
   },
   forgotPassword: {
     slogan: "إعادة تعيين كلمة المرور",
@@ -180,6 +178,10 @@ const ar: Translations = {
     sendEmail: "إرسال بريد إلكتروني",
     editFavoritePlayers: "تحرير اللاعبين المفضلين",
     favoritePlayers: "اللاعبين المفضلين",
+    descriptionComposition:
+      "{{name}} هو واحد من أشد المعجبين لدينا. تمت مشاركة {{favoriteTeam}} لـ {{appName}} لأول مرة في {{debutDate}}، عندما كان عمره {{age}}.",
+    restart: "إعادة تشغيل",
+    toApplyTheChangesRestartApp: "لتطبيق التغييرات، أعد تشغيل التطبيق.",
   },
   widgets: {
     tabs: {
@@ -230,26 +232,6 @@ const ar: Translations = {
       in: "في",
     },
   },
-  // NOT TRANSLATE THIS
-  demoDebugScreen: {
-    howTo: "كيف تستخدم",
-    title: "تصحيح الأخطاء",
-    tagLine: "تهانينا، لقد حصلت على قالب تطبيق React Native متقدم جدًا هنا. استفد من هذا القالب!",
-    reactotron: "إرسال إلى Reactotron",
-    reportBugs: "الإبلاغ عن الأخطاء",
-    demoList: "قائمة العروض",
-    demoPodcastList: "قائمة البودكاست",
-    androidReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب ، وقم بتشغيل adb reverse tcp:9090 tcp:9090 من محطة الأوامر الخاصة بك ، وأعد تحميل التطبيق.",
-    iosReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-    macosReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-    webReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-    windowsReactotronHint:
-      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
-  },
   modals: {
     general: {
       button: "حاول مرة أخرى",
@@ -275,6 +257,26 @@ const ar: Translations = {
     phoneNumber: "رقم الهاتف",
     thisFieldIsRequired: "هذا الحقل مطلوب",
     invalidEmailFormat: "تنسيق البريد الإلكتروني غير صالح",
+  },
+  // NOT TRANSLATE THIS
+  demoDebugScreen: {
+    howTo: "كيف تستخدم",
+    title: "تصحيح الأخطاء",
+    tagLine: "تهانينا، لقد حصلت على قالب تطبيق React Native متقدم جدًا هنا. استفد من هذا القالب!",
+    reactotron: "إرسال إلى Reactotron",
+    reportBugs: "الإبلاغ عن الأخطاء",
+    demoList: "قائمة العروض",
+    demoPodcastList: "قائمة البودكاست",
+    androidReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب ، وقم بتشغيل adb reverse tcp:9090 tcp:9090 من محطة الأوامر الخاصة بك ، وأعد تحميل التطبيق.",
+    iosReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
+    macosReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
+    webReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
+    windowsReactotronHint:
+      "إذا لم يعمل هذا، تأكد من تشغيل تطبيق Reactotron على سطح المكتب وأعد تحميل التطبيق.",
   },
 }
 

@@ -42,7 +42,7 @@ export const PlayerCard: React.FC<Props> = ({
               />
             )}
           </View>
-          <Text style={styles.number} text={`${player.jerseyNumber || 0}`} />
+          <Text style={styles.jerseyNumber} text={`${player.jerseyNumber || 0}`} />
           <Text style={styles.name} text={`${player.firstName} ${player.lastName}`} />
         </LinearGradient>
       </View>
@@ -77,13 +77,16 @@ const useStyles = createUseStyles(() => ({
     letterSpacing: -0.48,
     textTransform: "uppercase",
   },
-  number: {
+  jerseyNumber: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     fontSize: 40,
     lineHeight: 40,
     letterSpacing: -0.8,
     color: "#FADFD7",
     textTransform: "uppercase",
+    position: "absolute",
+    top: 16,
+    left: 10,
   },
   pentagonContainer: {
     position: "absolute",

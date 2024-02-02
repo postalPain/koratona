@@ -1,5 +1,6 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
+import { getWritingDirection, translate } from "app/i18n"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
@@ -62,14 +63,27 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
             setPhoneNumber(text)
             setIsPhoneNumberValid(!!checkValid)
           }}
-          placeholder="Enter phone number"
+          placeholder={translate("signIn.enterPhoneNumber")}
           onChangeFormattedText={(text) => {
             setFormattedPhoneNumber(text)
           }}
-          countryPickerProps={{ withAlphaFilter: true, withCallingCodeButton: true }}
+          countryPickerProps={{
+            withAlphaFilter: true,
+            withCallingCodeButton: true,
+            withCallingCode: true,
+            filterProps: {
+              placeholder: translate("signIn.phoneFilterPlaceholder"),
+              style: {
+                writingDirection: getWritingDirection(),
+              },
+            },
+          }}
           disableArrowIcon
           withShadow
           textContainerStyle={styles.phoneInputTextStyleContainer}
+          textInputStyle={{
+            writingDirection: getWritingDirection(),
+          }}
           containerStyle={[
             styles.phoneInputContainer,
             isPhoneNumberValid ? {} : styles.phoneInputContainerInvalid,

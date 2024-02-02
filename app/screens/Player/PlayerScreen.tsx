@@ -1,8 +1,10 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Screen } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
+import { translate } from "app/i18n"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
+import { formatDate } from "app/utils/formatDate"
 import DefenseIcon from "assets/icons/svgs/DefenseIcon"
 import FootballIconAreaIconSvg from "assets/icons/svgs/FootballAreaIcon"
 import FoulCardIcon from "assets/icons/svgs/FoulCard"
@@ -19,14 +21,12 @@ import { CircularProgressComposition } from "./components/CircularProgressCompos
 import { LinearProgressComposition } from "./components/LinearProgressComposition"
 import { StatsSection } from "./components/StatsSection"
 import TopContentContainer from "./components/TopContentContainer"
-import { formatPlayerInfoValue } from "./utils/playerDataFallback"
-import { format } from "date-fns"
 import {
   calculatePercentage,
   getDetailStatOfPlayer,
   statsIDsTable,
 } from "./utils/getDetailStatOfPlayer"
-import { translate } from "app/i18n"
+import { formatPlayerInfoValue } from "./utils/playerDataFallback"
 
 interface PlayerScreenProps extends HomeFeedStackScreenProps<"player"> {}
 
@@ -70,7 +70,7 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
             <Text tx="teams.player.dateOfBirth" style={styles.birthInfoBoxTitle} />
             <Text
               text={formatPlayerInfoValue(
-                player?.dateOfBirth ? format(new Date(player?.dateOfBirth), "MMMM dd, yyyy") : "",
+                player?.dateOfBirth ? formatDate(player?.dateOfBirth, "MMMM dd, yyyy") : "",
               )}
               style={styles.birthInfoBoxValue}
             />
@@ -88,7 +88,7 @@ export const PlayerScreen: FC<PlayerScreenProps> = observer(function (_props) {
             text={`${formatPlayerInfoValue(player?.firstName)} ${translate(
               "teams.player.wasBornOn",
             )} ${formatPlayerInfoValue(
-              player?.dateOfBirth ? format(new Date(player?.dateOfBirth), "dd MMMM yyyy") : "",
+              player?.dateOfBirth ? formatDate(player?.dateOfBirth, "dd MMMM yyyy") : "",
             )} ${translate("teams.player.in")} ${formatPlayerInfoValue(player?.nationality)}.`}
             style={styles.playerDescriptionText}
           />
