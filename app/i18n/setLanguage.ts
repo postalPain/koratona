@@ -7,7 +7,7 @@ export const setLanguage = (language: TLanguage) => {
   I18n.locale = language
   storage.save("language", language)
 
-  const LTR = language === "ar"
-  I18nManager.allowRTL(LTR)
-  I18nManager.forceRTL(LTR)
+  const RTL = language === "ar"
+  I18nManager.allowRTL(RTL)
+  I18nManager.forceRTL(RTL)
 }
