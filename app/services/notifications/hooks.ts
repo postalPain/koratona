@@ -22,8 +22,7 @@ export const useNotifications = () => {
     if (postId) {
       postsStore.fetchPosts();
       // @ts-ignore
-      // navigation.navigate("postDetails", { id: postId });
-      navigation.navigate("postDetails");
+      navigation.navigate("postDetails", { id: postId });
       Alert.alert('Post number', `post id is: ${postId}`)
     }
   };

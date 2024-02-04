@@ -48,6 +48,7 @@
     "@stryberventures/gaia-react-native.button": "^0.1.2",
     "@stryberventures/gaia-react-native.checkbox": "0.1.2",
     "@stryberventures/gaia-react-native.chip": "^0.1.2",
+    "@stryberventures/gaia-react-native.circular-progress": "^0.1.2",
     "@stryberventures/gaia-react-native.elevation": "0.1.2",
     "@stryberventures/gaia-react-native.form": "^0.1.2",
     "@stryberventures/gaia-react-native.icons": "^0.1.2",

@@ -1,4 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import CircularProgress from "@stryberventures/gaia-react-native.circular-progress"
 import { Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
 import { getWritingDirection } from "app/i18n"
@@ -26,10 +27,37 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 ) {
   const styles = useStyles()
   const { postsStore, authUserStore } = useStores()
-  const post = postsStore.getPostById(_props.route.params.id)
   const topInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width, height } = useWindowDimensions()
+  const post = _props.route.params.id && postsStore.getPostById(_props.route.params.id);
+
+  if (!post) {
+    return (
+      <View
+        style={[
+        topInsets,
+        styles.pageContainer,
+      ]}>
+        <View style={styles.header}>
+          <GoBackComponent
+            color="#333"
+            onPress={() => {
+              _props.navigation.goBack()
+            }}
+          />
+        </View>
+        <View style={styles.containerCenter}>
+          {postsStore.isFetchingPost ? (
+            <CircularProgress />
+          ) : (
+            <Text>Post doesn't exist</Text>
+          )}
+        </View>
+      </View>
+    )
+  }
+
   const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
     (user) => user.userId === authUserStore.user.userId,
   )
@@ -207,4 +235,14 @@ const useStyles = createUseStyles(() => ({
     flexDirection: "row",
     alignItems: "center",
   },
+  pageContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  containerCenter: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  }
 }))

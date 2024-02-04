@@ -2353,6 +2353,11 @@
   resolved "https://registry.npmjs.org/@stryberventures/gaia-react-native.chip/-/gaia-react-native.chip-0.1.2.tgz"
   integrity sha512-db8i+yff5CjBAKIEYZeloCkWMe+c2NK/wKpTQYhpTYyQn5TPdNuptR4XeoxT9uNBdwl0gk+pfwvHimMEi7Jgeg==
 
+"@stryberventures/gaia-react-native.circular-progress@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@stryberventures/gaia-react-native.circular-progress/-/gaia-react-native.circular-progress-0.1.2.tgz#d251e2d8d5653041a380548c68fc5f8a2f273085"
+  integrity sha512-/yVUCUAzNhfFi3zlCpski8Fhj6hS2wdn+U6aBXDFENFov5cIzkvyjhePQ4ZDR2os6L/0dH/i4bcQlcxrAtismQ==
+
 "@stryberventures/gaia-react-native.elevation@0.1.2":
   version "0.1.2"
   resolved "https://registry.npmjs.org/@stryberventures/gaia-react-native.elevation/-/gaia-react-native.elevation-0.1.2.tgz"
