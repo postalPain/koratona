@@ -150,6 +150,9 @@ const en = {
     expirationYearIsRequired: "Expiration year is required",
     wrongExpireDate: "Wrong expire date",
   },
+  postDetailsScreen: {
+    notFound: 'Post doesn\'t exist',
+  },
   listContentsScreen: {
     noContentYet: "No {{content}} yet",
     loadingMoreContent: "Loading more {{content}}...",

@@ -154,6 +154,9 @@ const ar: Translations = {
     expirationYearIsRequired: "سنة الانتهاء مطلوبة",
     wrongExpireDate: "تاريخ انتهاء خاطئ",
   },
+  postDetailsScreen: {
+    notFound: 'Post doesn\'t exist',
+  },
   listContentsScreen: {
     noContentYet: "لا يوجد {{content}} حتى الآن",
     loadingMoreContent: "جاري تحميل المزيد من {{content}}...",

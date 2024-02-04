@@ -51,7 +51,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           {postsStore.isFetchingPost ? (
             <CircularProgress />
           ) : (
-            <Text>Post doesn't exist</Text>
+            <Text tx="postDetailsScreen.notFound" />
           )}
         </View>
       </View>
