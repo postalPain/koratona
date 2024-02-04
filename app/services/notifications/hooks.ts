@@ -6,6 +6,7 @@ import { useCallOnAppState } from "app/utils/useCallOnAppState"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { isNotificationsPermitted, registerForPushNotifications } from "./index"
+import { untilNavigationReady } from "../../navigators/navigationUtilities"
 
 type TMessage = {
   postId?: string;
@@ -67,6 +68,7 @@ export const useNotifications = () => {
     (async () => {
       const message = await messaging().getInitialNotification();
       if (message?.data) {
+        await untilNavigationReady;
         messageDataHandler(message.data as TMessage);
       }
     })();

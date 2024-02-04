@@ -185,3 +185,15 @@ export function resetRoot(
     navigationRef.resetRoot(state)
   }
 }
+
+export const { untilNavigationReady, setNavigationReady } = ((): { untilNavigationReady: Promise<boolean>, setNavigationReady: () => void} => {
+  let setReady: (value: (boolean | PromiseLike<boolean>)) => void;
+  const untilNavigationReady = new Promise<boolean>((resolveHandler) => {
+    setReady = resolveHandler;
+  });
+
+  return {
+    setNavigationReady: () => setTimeout(() => setReady(true), 50),
+    untilNavigationReady
+  }
+})();
