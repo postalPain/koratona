@@ -1,5 +1,5 @@
 import React from "react"
-import { Platform } from "react-native"
+import { Platform, Alert } from "react-native"
 import messaging from "@react-native-firebase/messaging"
 import notifee, { EventType } from "@notifee/react-native"
 import { useCallOnAppState } from "app/utils/useCallOnAppState"
@@ -22,7 +22,9 @@ export const useNotifications = () => {
     if (postId) {
       postsStore.fetchPosts();
       // @ts-ignore
-      navigation.navigate("postDetails", { id: postId });
+      // navigation.navigate("postDetails", { id: postId });
+      navigation.navigate("postDetails");
+      Alert.alert('Post number', `post id is: ${postId}`)
     }
   };
 
