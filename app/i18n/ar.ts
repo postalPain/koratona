@@ -28,8 +28,7 @@ const ar: Translations = {
   },
   welcomeScreen: {
     slogan: "تفاعل مع فريقك بشكل ما جربته من قبل",
-    letsGetStarted: "هيا بنا نبدأ
-.",
+    letsGetStarted: "هيا بنا نبدأ.",
   },
   signIn: {
     slogan: "مرحبًا مرة أخرى",
@@ -64,8 +63,7 @@ const ar: Translations = {
   emptyStateComponent: {
     generic: {
       heading: "هنا فارغة... حزينة جدًا",
-      content:
-        "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
+      content: "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
       button: "خلينا نجرب مرة ثانية",
     },
   },
@@ -89,14 +87,12 @@ const ar: Translations = {
   onboardingCarousel: {
     getExclusiveAccess: {
       heading: "احصل على وصول حصري",
-      subHeading: " خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة، 
-",
+      subHeading: " خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة،",
       actionButtonText: "متابعة",
     },
     pickYourFavorites: {
       heading: " اختر مفضلاتك",
-      subHeading: "خليك في اللعبة مع نتائج فورية، أحداث مهمة  وأخبار عاجلة، 
-",
+      subHeading: "خليك في اللعبة مع نتائج فورية، أحداث مهمة  وأخبار عاجلة،",
       actionButtonText: "متابعة",
     },
     neverMissABeat: {
@@ -133,8 +129,7 @@ const ar: Translations = {
     termsOfOfConditions: " الشروط والأحكام",
     thankYouForYour: "شكرًا لك على",
     purchase: "الشراء!",
-    checkYourEmailInboxForRedemptionDetails:
-      "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
+    checkYourEmailInboxForRedemptionDetails: "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
     experience: "خبرات",
     validUntil: "صالح حتى",
     viewMyPurchases: "عرض مشترياتي",
@@ -158,7 +153,7 @@ const ar: Translations = {
     wrongExpireDate: "تاريخ انتهاء خاطئ",
   },
   postDetailsScreen: {
-    notFound: 'Post doesn\'t exist',
+    notFound: "Post doesn't exist",
   },
   listContentsScreen: {
     noContentYet: "لا يوجد {{content}} حتى الآن",
