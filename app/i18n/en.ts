@@ -117,7 +117,7 @@ const en = {
     userProfile: "Profile",
   },
   productsScreen: {
-    exclusive: "Koratona exclusive",
+    exclusive: "Fanfinity exclusive",
     purchaseExperience: "Purchase experience",
     completePurchase: "Complete purchase",
     deliverPassesTo: "Deliver passes to",
@@ -168,7 +168,7 @@ const en = {
     getSupport: "Get support",
     appLanguage: "App language",
     editFavorites: "Edit favorites",
-    byUsing: "By using Koratona, you agree to our",
+    byUsing: "By using Fanfinity, you agree to our",
     privacyPolicy: "\nPrivacy Policy & Terms & Conditions",
     yourTeam: "Your team",
     age: "Age",

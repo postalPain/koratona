@@ -1,24 +1,26 @@
 {
   "name": "FootballApp",
-  "displayName": "FootballApp",
+  "displayName": "Fanfinity",
   "expo": {
     "owner": "stryber",
-    "name": "FootballApp",
+    "name": "Fanfinity",
     "slug": "football-app",
     "scheme": "football-app",
-    "version": "1.1.1",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-all.png",
     "splash": {
       "image": "./assets/images/splash-logo-all.png",
       "resizeMode": "contain",
-      "backgroundColor": "#FADFD7"
+      "backgroundColor": "#1973DC"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "jsEngine": "hermes",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "icon": "./assets/images/app-icon-android-legacy.png",
       "package": "com.footballappcortona.app",
@@ -29,13 +31,16 @@
       "splash": {
         "image": "./assets/images/splash-logo-android-universal.png",
         "resizeMode": "contain",
-        "backgroundColor": "#FADFD7"
+        "backgroundColor": "#1973DC"
       },
       "intentFilters": [
         {
           "action": "VIEW",
           "autoVerify": true,
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "googleServicesFile": "./google-services.json"
@@ -48,7 +53,7 @@
         "image": "./assets/images/splash-logo-ios-mobile.png",
         "tabletImage": "./assets/images/splash-logo-ios-tablet.png",
         "resizeMode": "contain",
-        "backgroundColor": "#FADFD7"
+        "backgroundColor": "#1973DC"
       },
       "config": {
         "usesNonExemptEncryption": false
@@ -60,7 +65,7 @@
       "splash": {
         "image": "./assets/images/splash-logo-web.png",
         "resizeMode": "contain",
-        "backgroundColor": "#FADFD7"
+        "backgroundColor": "#1973DC"
       },
       "bundler": "metro"
     },
