@@ -2,7 +2,7 @@ import { Translations } from "./en"
 
 const ar: Translations = {
   common: {
-    ok: "تمام!",
+    ok: "!تمام",
     cancel: "إلغاء",
     back: "رجوع",
     logOut: "تسجيل الخروج",
@@ -53,10 +53,10 @@ const ar: Translations = {
     savePassword: "حفظ كلمة المرور",
   },
   errorScreen: {
-    title: "فيه شي خطأ!",
+    title: "!فيه شي خطأ",
     friendlySubtitle: "نعتذر عن إزعاجك. حاول مرة ثانية من فضلك",
     reset: "إعادة تعيين التطبيق",
-    traceTitle: "خطأ من مكدس الأخطاء %{name}",
+    traceTitle: "%{name}خطأ من مكدس الأخطاء ",
   },
   errors: {
     somethingWentWrong: "حدث خطأ ما",
@@ -89,13 +89,13 @@ const ar: Translations = {
   onboardingCarousel: {
     getExclusiveAccess: {
       heading: "احصل على وصول حصري",
-      subHeading: " خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة، 
+      subHeading: "خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة 
 ",
       actionButtonText: "متابعة",
     },
     pickYourFavorites: {
       heading: " اختر مفضلاتك",
-      subHeading: "خليك في اللعبة مع نتائج فورية،أحداث مهمةوأخبار عاجلة، 
+      subHeading: "خليك في اللعبة مع نتائج فورية،أحداث مهمةوأخبار عاجلة 
 ",
       actionButtonText: "متابعة",
     },
@@ -108,7 +108,7 @@ const ar: Translations = {
     setProfile: {
       heading: "لا تفوت لحظة",
       subHeading: "استكشف تجربة المعجبين اللا محدودةواستمتع بالامتيازات الحصرية",
-      actionButtonText: "إعداد الملف الشخصي",
+      actionButtonText: "إعدادالملف الشخصي",
     },
   },
   demoNavigator: {
@@ -124,7 +124,7 @@ const ar: Translations = {
   },
   productsScreen: {
     exclusive: " حصري لفانفنتي",
-    purchaseExperience: "شراء التجربة",
+    purchaseExperience: "شراءالتجربة",
     completePurchase: "كمل عملية الشراء",
     deliverPassesTo: "تسليم تمريرات إلى",
     paymentsDetails: "بيانات الدفع ",
@@ -158,11 +158,11 @@ const ar: Translations = {
     wrongExpireDate: "تاريخ انتهاء خاطئ",
   },
   postDetailsScreen: {
-    notFound: 'Post doesn\'t exist',
+    notFound: 'منشور غير متواجد',
   },
   listContentsScreen: {
     noContentYet: "لا يوجد {{content}} حتى الآن",
-    loadingMoreContent: "جاري تحميل المزيد من {{content}}...",
+    loadingMoreContent: "... {{content}} جاري تحميل المزيد من ",
     posts: "المنشورات",
     products: "المنتجات",
   },
