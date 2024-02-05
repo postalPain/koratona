@@ -65,7 +65,7 @@ export const ProductsStoreModel = types
         self.productPaginationMeta = response.meta
       } catch (error) {
         self.isFetchingProductsErrored = true
-        console.tron.error?.(`Error fetching more products ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error fetching more products ${error}`, [])
       } finally {
         self.isFetchingMoreProducts = false
       }

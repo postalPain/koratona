@@ -15,7 +15,7 @@ const en = {
     continue: "Continue",
     in: "in",
     thatAllForNow: "That’s all for now",
-    youSeeAllContent: "You’ve see all new content from the last time",
+    youSeeAllContent: "You’ve seen all new content from the last time",
     yesterday: "Yesterday",
     loading: "Loading...",
   },

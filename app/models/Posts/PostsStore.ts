@@ -35,8 +35,7 @@ export const PostsStoreModel = types
         self.postsPaginationMeta = response?.data?.meta
       } catch (error) {
         self.isFetchingPostsErrored = true
-        console.log("Error fetching posts: ", error)
-        console.tron.error?.(`Error fetching posts: ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error fetching posts: ${error}`, [])
       } finally {
         self.isFetchingPosts = false
       }
