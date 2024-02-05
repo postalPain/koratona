@@ -144,7 +144,6 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       ref={navigationRef}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       onReady={() => {
-        console.log('navigation is ready...');
         setNavigationReady();
       }}
       {...props}
