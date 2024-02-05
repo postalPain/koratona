@@ -4,8 +4,7 @@ import React from "react"
 import { Alert, Linking, TextStyle } from "react-native"
 
 export const AuthPolicies = () => {
-  const handleOpenPolicies = async () => {
-    const url = Config.PRIVACY_POLICIES_URL
+  const handleOpenPolicies = (url: string) => async () => {
     const supported = await Linking.canOpenURL(url)
 
     if (supported) {
@@ -16,11 +15,21 @@ export const AuthPolicies = () => {
   }
 
   return (
-    <Text onPress={handleOpenPolicies} style={$textWrapper}>
+    <Text style={$textWrapper}>
       <Text style={$lighter} size="xs" tx="policies.agreement" />
-      <Text style={$darker} size="xs" tx="policies.privacy" />
+      <Text
+        style={$darker}
+        size="xs"
+        tx="policies.privacy"
+        onPress={handleOpenPolicies(Config.TERMS_AND_CONDITIONS_URL)}
+      />
       <Text style={$lighter} size="xs" tx="common.and" />
-      <Text style={$darker} size="xs" tx="policies.terms" />
+      <Text
+        onPress={handleOpenPolicies(Config.PRIVACY_POLICIES_URL)}
+        style={$darker}
+        size="xs"
+        tx="policies.terms"
+      />
     </Text>
   )
 }
