@@ -255,7 +255,10 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
           }}
         >
           <Text tx="editProfileForm.DOB" style={styles.datePickerLabel} />
-          <Text text={formatDate(dob.toISOString(), "dd MMMM yyyy")} style={styles.datePickerText} />
+          <Text
+            text={formatDate(dob.toISOString(), "dd MMMM yyyy")}
+            style={styles.datePickerText}
+          />
           <DateTimePickerModal
             date={dob}
             onConfirm={onDatePickerConfirm}
@@ -265,6 +268,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
             isVisible={dateBirthPickerVisible}
             maximumDate={MAXIMUM_DATE}
             minimumDate={MINIMUM_DATE}
+            locale={user.lang}
           />
         </Pressable>
         <Input

@@ -46,7 +46,7 @@ export const UserStoreModel = types
         }
       } catch (error) {
         self.isErrored = true
-        console.tron.error?.(`Error fetching authUser: ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error fetching authUser: ${error}`, [])
       } finally {
         self.isLoading = false
       }
@@ -69,7 +69,7 @@ export const UserStoreModel = types
         self.isErrored = true
 
         showToast("Error updating user, please try again later")
-        console.tron.error?.(`Error updating authUser: ${JSON.stringify(error)}`, [])
+        console.tron.error?.(`Error updating authUser: ${error}`, [])
       } finally {
         self.isLoading = false
       }

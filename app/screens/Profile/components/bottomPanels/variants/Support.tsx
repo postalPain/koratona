@@ -35,6 +35,9 @@ export const Support = () => {
           }
           RightComponent={<WhatsAppIcon />}
           style={styles.listItem}
+          onPress={() => {
+            Linking.openURL("https://wa.me/+966537694960")
+          }}
         />
       </View>
     </View>

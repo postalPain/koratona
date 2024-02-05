@@ -20,7 +20,12 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
     useFetchFavoriteTeam()
 
     return (
-      <Screen style={styles.root} preset="auto" safeAreaEdges={["top"]}>
+      <Screen
+        style={styles.root}
+        preset="auto"
+        safeAreaEdges={["top"]}
+        contentContainerStyle={styles.containerStyle}
+      >
         <Text style={styles.title} tx="onboardingScreen.yourProfile" />
         <Text style={styles.subTitle} tx="onboardingScreen.moreDetails" />
         <Text style={styles.formTitle} tx="onboardingScreen.personalDetails" weight="semiBold" />
@@ -37,9 +42,15 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
 )
 
 const useStyles = createUseStyles((theme) => ({
+  containerStyle: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "100%",
+    paddingHorizontal: theme.spacing[24],
+  },
   root: {
     flex: 1,
-    paddingHorizontal: theme.spacing["24"],
+    paddingLeft: theme.spacing[24],
   },
   headerBackButton: {
     paddingLeft: theme.spacing[24],

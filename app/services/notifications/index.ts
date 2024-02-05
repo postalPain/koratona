@@ -16,7 +16,7 @@ export async function registerForPushNotifications(): Promise<string | null> {
       }
       if (!notificationsPermitted) {
         Alert.alert(
-          "Koratona",
+          "Fanfinity",
           "It is sad that you denied permissions for our notifications. But if you change your mind you can always set them on Profile's page",
           [
             {

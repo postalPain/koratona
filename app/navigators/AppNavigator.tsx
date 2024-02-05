@@ -74,6 +74,7 @@ const AppStack = observer(function AppStack(_props) {
 
   useNotifications()
   useShowOnboardingScreen()
+
   React.useEffect(() => {
     const loadLanguageFromStorage = async () => {
       const language = await storage.load("language")
@@ -81,11 +82,13 @@ const AppStack = observer(function AppStack(_props) {
     }
 
     loadLanguageFromStorage().then((language) => {
+      let RTLByDefault = true
       if (language) {
         I18n.locale = language
-        I18nManager.allowRTL(language === "ar")
-        I18nManager.forceRTL(language === "ar")
+        RTLByDefault = language === "ar"
       }
+      I18nManager.allowRTL(RTLByDefault)
+      I18nManager.forceRTL(RTLByDefault)
       setIsLangLoading(false)
     })
   }, [])
@@ -144,7 +147,7 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
       ref={navigationRef}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       onReady={() => {
-        setNavigationReady();
+        setNavigationReady()
       }}
       {...props}
     >

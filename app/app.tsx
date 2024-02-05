@@ -42,7 +42,6 @@ const prefix = Linking.createURL("/")
 const config = {
   screens: {
     Welcome: "welcome",
-    RestorePassword: "restorePassword",
     UserInfo: "userInfo",
     Onboarding: "onboarding",
     Home: {

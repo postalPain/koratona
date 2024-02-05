@@ -38,6 +38,7 @@ export const TeamPlayersTab = observer(function (_props: Props) {
       style={{
         width,
         height: _props.height || "100%",
+        ...styles.container,
       }}
     >
       <View style={styles.titleContainer}>
@@ -106,6 +107,9 @@ export const TeamPlayersTab = observer(function (_props: Props) {
 })
 
 const useStyles = createUseStyles((theme) => ({
+  container: {
+    paddingBottom: 40,
+  },
   fetchingMorePlayers: {
     paddingVertical: spacing.xl,
     textAlign: "center",
