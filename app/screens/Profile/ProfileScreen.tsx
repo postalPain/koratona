@@ -28,7 +28,7 @@ import { ProfileStatsSection } from "./components/ProfileStatsSection"
 import { SettingsKey } from "./components/bottomPanels/SettingsContentController"
 import SettingsBottomPanel from "./components/bottomPanels/SettingsPanel"
 
-const welcomeLogo = require("assets/images/logo.png")
+const logoImage = require("assets/images/logo.png")
 const tShirtImage = require("assets/images/tShirt.png")
 
 export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = observer(function (
@@ -84,7 +84,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
           ]}
         >
           <View style={styles.header}>
-            <Image source={welcomeLogo} style={styles.logo} resizeMode="contain" />
+            <Image source={logoImage} style={styles.logo} resizeMode="contain" />
             <Pressable style={styles.logoutComposition} onPress={logout}>
               <LogOutIconSvg />
               <Text tx="common.logOut" weight="medium" style={styles.logoutText} />
@@ -215,15 +215,16 @@ const useStyles = createUseStyles((theme) => ({
   },
   logo: {
     height: 20,
-    marginRight: "auto",
+    width: 100,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingRight: theme.spacing[24],
+    paddingHorizontal: theme.spacing[12],
   },
   logoutComposition: {
+    height: 40,
     flexDirection: "row",
     alignItems: "center",
   },
