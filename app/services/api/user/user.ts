@@ -11,9 +11,10 @@ export const updateUser: User.UpdateUserService = async (payload) => {
     response = await api.apisauce.post("user/update", payload)
     // the typical ways to die when calling an api
     if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
+      console.tron.error?.(`Error updating authUser: ${response}`, [])
+
       showToast("Error updating user, please try again later")
-      if (problem) return problem
+      throw new Error("Error updating user")
     }
 
     if (!response.data) {
