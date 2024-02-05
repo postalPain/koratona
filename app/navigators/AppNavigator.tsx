@@ -23,7 +23,7 @@ import { ActivityIndicator, I18nManager, useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
-import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+import { navigationRef, useBackButtonHandler, setNavigationReady } from "./navigationUtilities"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -143,6 +143,9 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
     <NavigationContainer
       ref={navigationRef}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+      onReady={() => {
+        setNavigationReady();
+      }}
       {...props}
     >
       <AppStack />
