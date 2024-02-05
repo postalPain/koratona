@@ -2,7 +2,7 @@ import { Translations } from "./en"
 
 const ar: Translations = {
   common: {
-    ok: "تمام!",
+    ok: "!تمام",
     cancel: "إلغاء",
     back: "رجوع",
     logOut: "تسجيل الخروج",
@@ -19,16 +19,17 @@ const ar: Translations = {
     thatAllForNow: "هذا كل شيء للآن",
     youSeeAllContent: "لقد رأيت كل المحتوى الجديد منذ المرة الأخيرة",
     yesterday: "أمس",
-    loading: "جاري التحميل...",
+    loading: "...جاري التحميل",
   },
   policies: {
-    agreement: "من خلال إنشاء حساب، فإنك توافق على",
+    agreement: "من خلال إنشاء حسابك، فإنك توافق على",
     privacy: " سياسة الخصوصية",
     terms: "شروط الخدمة",
   },
   welcomeScreen: {
     slogan: "تفاعل مع فريقك بشكل ما جربته من قبل",
-    letsGetStarted: "هيا بنا نبدأ.",
+    letsGetStarted: "هيا بنا نبدأ
+.",
   },
   signIn: {
     slogan: "مرحبًا مرة أخرى",
@@ -52,10 +53,10 @@ const ar: Translations = {
     savePassword: "حفظ كلمة المرور",
   },
   errorScreen: {
-    title: "فيه شي خطأ!",
+    title: "!فيه شي خطأ",
     friendlySubtitle: "نعتذر عن إزعاجك. حاول مرة ثانية من فضلك",
     reset: "إعادة تعيين التطبيق",
-    traceTitle: "خطأ من مكدس الأخطاء %{name}",
+    traceTitle: "%{name}خطأ من مكدس الأخطاء ",
   },
   errors: {
     somethingWentWrong: "حدث خطأ ما",
@@ -63,7 +64,8 @@ const ar: Translations = {
   emptyStateComponent: {
     generic: {
       heading: "هنا فارغة... حزينة جدًا",
-      content: "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
+      content:
+        "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
       button: "خلينا نجرب مرة ثانية",
     },
   },
@@ -81,18 +83,20 @@ const ar: Translations = {
     DOB: "تاريخ الميلاد",
     email: "البريد الإلكتروني",
     phoneNumber: "رقم الهاتف",
-    thisFieldIsRequired: "هذا الحقل مطلوب",
+    thisFieldIsRequired: "هذاالحقل مطلوب",
     invalidEmailFormat: "البريد الإلكتروني غير صالح",
   },
   onboardingCarousel: {
     getExclusiveAccess: {
       heading: "احصل على وصول حصري",
-      subHeading: " خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة،",
+      subHeading: "خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة 
+",
       actionButtonText: "متابعة",
     },
     pickYourFavorites: {
       heading: " اختر مفضلاتك",
-      subHeading: "خليك في اللعبة مع نتائج فورية، أحداث مهمة  وأخبار عاجلة،",
+      subHeading: "خليك في اللعبة مع نتائج فورية،أحداث مهمةوأخبار عاجلة 
+",
       actionButtonText: "متابعة",
     },
     neverMissABeat: {
@@ -103,8 +107,8 @@ const ar: Translations = {
     },
     setProfile: {
       heading: "لا تفوت لحظة",
-      subHeading: "استكشف تجربة المعجبين اللا محدودة واستمتع بالامتيازات الحصرية",
-      actionButtonText: "إعداد الملف الشخصي",
+      subHeading: "استكشف تجربة المعجبين اللا محدودةواستمتع بالامتيازات الحصرية",
+      actionButtonText: "إعدادالملف الشخصي",
     },
   },
   demoNavigator: {
@@ -120,22 +124,23 @@ const ar: Translations = {
   },
   productsScreen: {
     exclusive: " حصري لفانفنتي",
-    purchaseExperience: "شراء التجربة",
+    purchaseExperience: "شراءالتجربة",
     completePurchase: "كمل عملية الشراء",
     deliverPassesTo: "تسليم تمريرات إلى",
     paymentsDetails: "بيانات الدفع ",
-    makePayment: " ادفع",
+    makePayment: "ادفع",
     policiesByMakingPurchase: "بإجرائك لعملية الشراء فأنت موافق على",
-    termsOfOfConditions: " الشروط والأحكام",
+    termsOfOfConditions: "الشروط والأحكام",
     thankYouForYour: "شكرًا لك على",
     purchase: "الشراء!",
-    checkYourEmailInboxForRedemptionDetails: "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
+    checkYourEmailInboxForRedemptionDetails:
+      "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
     experience: "خبرات",
     validUntil: "صالح حتى",
     viewMyPurchases: "عرض مشترياتي",
     outOfStock: "نفدت الكمية!",
     paymentDetails: "بيانات الدفع",
-    youArePurchasing: "أنت تشتري {{experience}}",
+    youArePurchasing: "{{experience}} أنت تشتري ",
     email: "البريد الإلكتروني",
     nameOnCard: "اسم على البطاقة",
     cardNumber: "رقم البطاقة",
@@ -145,19 +150,19 @@ const ar: Translations = {
     emailIsRequired: "البريد الإلكتروني مطلوب",
     nameCardIsRequired: "الاسم على البطاقة مطلوب",
     cardNumberIsRequired: "رقم البطاقة مطلوب",
-    cardNumberHasToBe16Digits: "يجب أن يكون رقم البطاقة 16 رقمًا",
-    theLengthOfCvcHasToBe3: "يجب أن يكون طول CVC 3",
+    cardNumberHasToBe16Digits: "يجب أن يكون رقم البطاقة ١٦ رقمًا",
+    theLengthOfCvcHasToBe3: "  ٣أرقام CVC يجب أن يكون طول ",
     expirationDateIsRequiredAndHasToBeValid: "تاريخ الانتهاء مطلوب ويجب أن يكون صالحًا",
     expirationMonthIsRequired: "شهر الانتهاء مطلوب",
     expirationYearIsRequired: "سنة الانتهاء مطلوبة",
     wrongExpireDate: "تاريخ انتهاء خاطئ",
   },
   postDetailsScreen: {
-    notFound: "Post doesn't exist",
+    notFound: 'منشور غير متواجد',
   },
   listContentsScreen: {
     noContentYet: "لا يوجد {{content}} حتى الآن",
-    loadingMoreContent: "جاري تحميل المزيد من {{content}}...",
+    loadingMoreContent: "... {{content}} جاري تحميل المزيد من ",
     posts: "المنشورات",
     products: "المنتجات",
   },
