@@ -28,8 +28,7 @@ const ar: Translations = {
   },
   welcomeScreen: {
     slogan: "تفاعل مع فريقك بشكل ما جربته من قبل",
-    letsGetStarted: "هيا بنا نبدأ
-.",
+    letsGetStarted: "هيا بنا نبدأ.",
   },
   signIn: {
     slogan: "مرحبًا مرة أخرى",
@@ -89,14 +88,12 @@ const ar: Translations = {
   onboardingCarousel: {
     getExclusiveAccess: {
       heading: "احصل على وصول حصري",
-      subHeading: "خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة 
-",
+      subHeading: "خليك في اللعبة مع نتائج فورية، أحداث مهمة وأخبار عاجلة ",
       actionButtonText: "متابعة",
     },
     pickYourFavorites: {
       heading: " اختر مفضلاتك",
-      subHeading: "خليك في اللعبة مع نتائج فورية،أحداث مهمةوأخبار عاجلة 
-",
+      subHeading: "خليك في اللعبة مع نتائج فورية،أحداث مهمةوأخبار عاجلة ",
       actionButtonText: "متابعة",
     },
     neverMissABeat: {
