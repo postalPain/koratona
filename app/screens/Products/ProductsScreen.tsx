@@ -41,7 +41,7 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
   )
 
   return (
-    <Screen preset="fixed" contentContainerStyle={$container}>
+    <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={['top']}>
       {productsStore.isFetchingProductsErrored && <Text tx="errors.somethingWentWrong" />}
       <FlashList<Product>
         data={[...productsStore.products]}
@@ -108,6 +108,6 @@ const useStyles = createUseStyles(() => ({
 }))
 
 const $container: ViewStyle = {
-  paddingTop: spacing.xxl,
+  paddingTop: spacing.xl,
   flex: 1,
 }
