@@ -105,11 +105,12 @@ export const PostsStoreModel = types
             post.usersToFavoritePosts.push(updatedPostFavoriteInfo)
             post.favoriteCount++
           }
+          yield toggleFavorite({
+            postId,
+            userId: user.userId,
+            action: ifPostWasAlreadyFavorited ? "remove" : "add",
+          })
         }
-        yield toggleFavorite({
-          postId,
-          userId: user.userId,
-        })
       } catch (error) {
         console.log("Error adding post to favorite: ", error)
         console.tron.error?.(`Error adding post to favorite: ${JSON.stringify(error)}`, [])

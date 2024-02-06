@@ -15,7 +15,7 @@ import { NoMoreContent } from "app/components/NoMoreContent"
 import { translate } from "app/i18n"
 
 const YouTubeIcon = require("assets/images/youtube.png")
-const circleLogo = require("assets/images/circleLogo.png")
+const circleLogo = require("assets/images/circleLogo_black.png")
 const containerBgColor = "#efefef"
 
 export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(function (_props) {
@@ -28,7 +28,13 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
     LeftActionComponent: <View style={styles.headerLeftContentPlaceholder} />,
     rightIconSize: 32,
     onRightPress: () => _props.navigation.navigate("widgets"),
-    children: <Image source={circleLogo} />,
+    children: (
+      <Image
+        source={circleLogo}
+        style={styles.headerIcon}
+        resizeMode="contain"
+      />
+    ),
     backgroundColor: "#fff",
   })
 
@@ -119,5 +125,11 @@ const useStyles = createUseStyles(() => ({
     color: "#333865",
     marginTop: spacing.sm,
     fontFamily: typography.fonts.instrumentSans.medium,
+  },
+  headerIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 30,
+    height: 30,
   },
 }))

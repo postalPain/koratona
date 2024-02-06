@@ -60,14 +60,25 @@ export const fetchPostById: FeedTypes.FetchPostByIdService = async (id) => {
   }
 }
 
-export const toggleFavorite: FeedTypes.TogglePostFavoriteService = async ({ postId, userId }) => {
+export const toggleFavorite: FeedTypes.TogglePostFavoriteService = async ({
+  postId,
+  userId,
+  action,
+}) => {
   let response = {} as ApiResponse<Post>
 
   try {
-    response = await api.apisauce.post(`user/favorite/post/${postId}`, {
-      userId,
-    })
-
+    if (action === "remove") {
+      response = await api.apisauce.delete(`user/favorite/post/${postId}`, {
+        data: {
+          userId,
+        },
+      })
+    } else {
+      response = await api.apisauce.post(`user/favorite/post/${postId}`, {
+        userId,
+      })
+    }
     // the typical ways to die when calling an api
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
