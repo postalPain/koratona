@@ -123,7 +123,7 @@ export const PostsStoreModel = types
     },
     get getPostById() {
       return (id: number) => {
-        if (self.openedPostDetails && self.openedPostDetails.id === id) {
+        if (self.openedPostDetails && self.openedPostDetails.id.toString() === id.toString()) {
           return self.openedPostDetails
         }
         return self.posts.find((post) => post.id.toString() === id.toString())

@@ -1,4 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import CircularProgress from "@stryberventures/gaia-react-native.circular-progress"
 import { Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
 import { getWritingDirection } from "app/i18n"
@@ -138,7 +139,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
       </View>
       <View style={styles.containerCenter}>
         {postsStore.isFetchingPost ? (
-          <View />
+          <CircularProgress />
         ) : (
           <Text tx="postDetailsScreen.notFound" />
         )}
