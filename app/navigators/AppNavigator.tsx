@@ -24,6 +24,8 @@ import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler, setNavigationReady } from "./navigationUtilities"
+import RNRestart from "react-native-restart"
+import { LANGUAGE_KEY, setLanguage } from "app/i18n"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -77,7 +79,7 @@ const AppStack = observer(function AppStack(_props) {
 
   React.useEffect(() => {
     const loadLanguageFromStorage = async () => {
-      const language = await storage.load("language")
+      const language = await storage.load(LANGUAGE_KEY)
       return language as "en" | "ar" | null
     }
 
@@ -86,10 +88,14 @@ const AppStack = observer(function AppStack(_props) {
       if (language) {
         I18n.locale = language
         RTLByDefault = language === "ar"
+        I18nManager.allowRTL(RTLByDefault)
+        I18nManager.forceRTL(RTLByDefault)
+        setIsLangLoading(false)
+      } else {
+        setLanguage("ar", () => {
+          RNRestart.restart()
+        })
       }
-      I18nManager.allowRTL(RTLByDefault)
-      I18nManager.forceRTL(RTLByDefault)
-      setIsLangLoading(false)
     })
   }, [])
 
