@@ -54,6 +54,7 @@ export const TeamPlayersTab = observer(function (_props: Props) {
           onEndReached={playerStore.fetchMorePlayers}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           numColumns={2}
+          disableAutoLayout
           keyExtractor={(item) => item?.id?.toString()}
           renderItem={({ item, index }) => (
             <View
