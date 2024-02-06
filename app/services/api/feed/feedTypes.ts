@@ -34,8 +34,10 @@ export type FetchPostByIdService = (
 export type TogglePostFavoritePayload = {
   postId: number
   userId: string
+  action: "add" | "remove"
 }
 export type TogglePostFavoriteService = ({
+  action,
   postId,
   userId,
 }: TogglePostFavoritePayload) => Promise<{ kind: "ok" } | GeneralApiProblem>
