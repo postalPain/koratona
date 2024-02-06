@@ -1,6 +1,6 @@
 import * as Device from "expo-device"
 import messaging from "@react-native-firebase/messaging"
-import { Alert, Platform, Clipboard } from "react-native"
+import { Alert, Platform } from "react-native"
 
 export * from "./hooks"
 
@@ -27,8 +27,6 @@ export async function registerForPushNotifications(): Promise<string | null> {
         return null
       }
       token = await messaging().getToken()
-      Clipboard.setString(token)
-      Alert.alert('Token copied to clipboard', `token is: ${token}`)
       return token
     } else {
       alert("Must use physical device for Push Notifications")
