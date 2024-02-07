@@ -30,7 +30,7 @@ export const Support = () => {
           LeftComponent={
             <View>
               <Text text="Whatsapp" weight="semiBold" style={styles.listItemTitleText} />
-              <Text text="+966 123456789" style={styles.listItemValueText} />
+              <Text text="+966 537694960" style={styles.listItemValueText} />
             </View>
           }
           RightComponent={<WhatsAppIcon />}
