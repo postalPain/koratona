@@ -1,6 +1,6 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
-import { getWritingDirection, translate } from "app/i18n"
+import { getWritingDirection, isRTL, translate } from "app/i18n"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
@@ -83,14 +83,14 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
           withShadow
           textContainerStyle={[
             styles.phoneInputTextStyleContainer,
-            Platform.OS === "android" ? styles.borderRightForAndroid : {},
+            Platform.OS === "android" && isRTL() ? styles.borderRightForAndroid : {},
           ]}
           containerStyle={[
             styles.phoneInputContainer,
             isPhoneNumberValid ? {} : styles.phoneInputContainerInvalid,
-            Platform.OS === "android" ? styles.reversedDirectionForAndroid : {},
+            Platform.OS === "android" && isRTL() ? styles.reversedDirectionForAndroid : {},
           ]}
-          layout={Platform.OS === "android" ? "second" : "first"}
+          layout={Platform.OS === "android" && isRTL() ? "second" : "first"}
         />
         <Button
           style={[
