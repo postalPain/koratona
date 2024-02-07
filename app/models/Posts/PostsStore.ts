@@ -72,7 +72,7 @@ export const PostsStoreModel = types
       self.isFetchingPostErrored = false
       try {
         const response = yield fetchPostById(id)
-        self.openedPostDetails = response.data.data
+        self.openedPostDetails = response.data
       } catch (error) {
         self.isFetchingPostErrored = true
         console.log("Error fetching post by id: ", error)
@@ -122,7 +122,12 @@ export const PostsStoreModel = types
       return self.posts.length
     },
     get getPostById() {
-      return (id: number) => self.posts.find((post) => post.id.toString() === id.toString())
+      return (id: number) => {
+        if (self.openedPostDetails && self.openedPostDetails.id.toString() === id.toString()) {
+          return self.openedPostDetails
+        }
+        return self.posts.find((post) => post.id.toString() === id.toString())
+      }
     },
   }))
 

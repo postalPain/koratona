@@ -11,7 +11,7 @@ import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
+import React, { FC, useEffect } from "react"
 import { ImageBackground, Pressable, View, useWindowDimensions } from "react-native"
 import { RefreshControl, ScrollView } from "react-native-gesture-handler"
 import RenderHtml from "react-native-render-html"
@@ -30,36 +30,121 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const topInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width, height } = useWindowDimensions()
-  const post = _props.route.params.id && postsStore.getPostById(_props.route.params.id);
+  const postId = _props.route.params.id;
+  const post = postsStore.getPostById(postId);
 
-  if (!post) {
+  useEffect(() => {
+    if (!post) {
+      postsStore.fetchPostById(postId);
+    }
+  }, [])
+
+  const renderPostView = () => {
+    const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
+      (user) => user.userId === authUserStore.user.userId,
+    )
     return (
-      <View
-        style={[
-        topInsets,
-        styles.pageContainer,
-      ]}>
-        <View style={styles.header}>
-          <GoBackComponent
-            color="#333"
-            onPress={() => {
-              _props.navigation.goBack()
-            }}
-          />
-        </View>
-        <View style={styles.containerCenter}>
-          {postsStore.isFetchingPost ? (
-            <CircularProgress />
-          ) : (
-            <Text tx="postDetailsScreen.notFound" />
+      <>
+        <ImageBackground
+          style={styles.bgImage}
+          source={
+            post?.coverImageUrl ? { uri: post?.coverImageUrl } : require("assets/temp/cardBg.png")
+          }
+          resizeMode="cover"
+        >
+          <LinearGradient
+            colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
+            style={styles.gradient}
+            start={{ x: 0.1, y: 0.3 }}
+            end={{ x: 0.1, y: 0.7 }}
+          >
+            <LinearGradient
+              colors={["transparent", "rgba(0, 0, 0, 0.7)"]}
+              end={{ x: 0.1, y: 0.1 }}
+              start={{ x: 0.1, y: 0.9 }}
+            >
+              <View style={styles.header}>
+                <GoBackComponent
+                  color="#fff"
+                  onPress={() => {
+                    _props.navigation.goBack()
+                  }}
+                />
+                <Pressable
+                  onPress={() => {
+                    if (post) {
+                      postsStore.toggleFavorite(post.id)
+                    }
+                  }}
+                  style={styles.favoriteInfoContainer}
+                >
+                  <Text
+                    style={[
+                      styles.favoriteCountText,
+                      isPostAddedToFavorite && styles.favoriteCountTextHighlighted,
+                    ]}
+                    text={`${post?.favoriteCount || ""}`}
+                  />
+                  <HeartIconIcon focused={!!isPostAddedToFavorite} />
+                </Pressable>
+              </View>
+            </LinearGradient>
+            <View style={styles.headerText}>
+              {!!post && post[handleArLang<Post>("title")] && (
+                <Text style={styles.heading} text={post[handleArLang<Post>("title")]} />
+              )}
+              {!!post && post[handleArLang<Post>("subtitle")] && (
+                <Text style={styles.subHeading} text={post[handleArLang<Post>("subtitle")]} />
+              )}
+            </View>
+          </LinearGradient>
+        </ImageBackground>
+        <View style={styles.articleContainer}>
+          {!!post && post[handleArLang<Post>("content")] && (
+            <RenderHtml
+              contentWidth={width}
+              source={{
+                html: post[handleArLang<Post>("content")] || "",
+              }}
+            />
+          )}
+          {post?.video && (
+            <View style={styles.videoContainer}>
+              <YoutubePlayer height={255} videoId={getYouTubeVideoId(post.video)} play={false} />
+            </View>
+          )}
+          {!!post && post[handleArLang<Post>("quiz")] && (
+            <View style={styles.quizContainer}>
+              <WebView
+                webviewDebuggingEnabled
+                source={{ uri: post[handleArLang<Post>("quiz")] }}
+                style={styles.webviewStyles}
+              />
+            </View>
           )}
         </View>
-      </View>
+      </>
     )
   }
 
-  const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
-    (user) => user.userId === authUserStore.user.userId,
+  const renderEmptyView = () => (
+    <View style={styles.pageContainer}>
+      <View style={styles.header}>
+        <GoBackComponent
+          color="#333"
+          onPress={() => {
+            _props.navigation.goBack()
+          }}
+        />
+      </View>
+      <View style={styles.containerCenter}>
+        {postsStore.isFetchingPost ? (
+          <CircularProgress />
+        ) : (
+          <Text tx="postDetailsScreen.notFound" />
+        )}
+      </View>
+    </View>
   )
 
   return (
@@ -72,89 +157,15 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
       ]}
       refreshControl={
         <RefreshControl
-          refreshing={postsStore.isFetchingPosts}
-          onRefresh={() => postsStore.fetchPostById(_props.route.params.id)}
+          refreshing={postsStore.isFetchingPost}
+          onRefresh={() => postsStore.fetchPostById(postId)}
         />
       }
     >
-      <ImageBackground
-        style={styles.bgImage}
-        source={
-          post?.coverImageUrl ? { uri: post?.coverImageUrl } : require("assets/temp/cardBg.png")
-        }
-        resizeMode="cover"
-      >
-        <LinearGradient
-          colors={["transparent", "rgba(0, 0, 0, 0.8)"]}
-          style={styles.gradient}
-          start={{ x: 0.1, y: 0.3 }}
-          end={{ x: 0.1, y: 0.7 }}
-        >
-          <LinearGradient
-            colors={["transparent", "rgba(0, 0, 0, 0.7)"]}
-            end={{ x: 0.1, y: 0.1 }}
-            start={{ x: 0.1, y: 0.9 }}
-          >
-            <View style={styles.header}>
-              <GoBackComponent
-                color="#fff"
-                onPress={() => {
-                  _props.navigation.goBack()
-                }}
-              />
-              <Pressable
-                onPress={() => {
-                  if (post) {
-                    postsStore.toggleFavorite(post.id)
-                  }
-                }}
-                style={styles.favoriteInfoContainer}
-              >
-                <Text
-                  style={[
-                    styles.favoriteCountText,
-                    isPostAddedToFavorite && styles.favoriteCountTextHighlighted,
-                  ]}
-                  text={`${post?.favoriteCount || ""}`}
-                />
-                <HeartIconIcon focused={!!isPostAddedToFavorite} />
-              </Pressable>
-            </View>
-          </LinearGradient>
-          <View style={styles.headerText}>
-            {!!post && post[handleArLang<Post>("title")] && (
-              <Text style={styles.heading} text={post[handleArLang<Post>("title")]} />
-            )}
-            {!!post && post[handleArLang<Post>("subtitle")] && (
-              <Text style={styles.subHeading} text={post[handleArLang<Post>("subtitle")]} />
-            )}
-          </View>
-        </LinearGradient>
-      </ImageBackground>
-      <View style={styles.articleContainer}>
-        {!!post && post[handleArLang<Post>("content")] && (
-          <RenderHtml
-            contentWidth={width}
-            source={{
-              html: post[handleArLang<Post>("content")] || "",
-            }}
-          />
-        )}
-        {post?.video && (
-          <View style={styles.videoContainer}>
-            <YoutubePlayer height={255} videoId={getYouTubeVideoId(post.video)} play={false} />
-          </View>
-        )}
-        {!!post && post[handleArLang<Post>("quiz")] && (
-          <View style={styles.quizContainer}>
-            <WebView
-              webviewDebuggingEnabled
-              source={{ uri: post[handleArLang<Post>("quiz")] }}
-              style={styles.webviewStyles}
-            />
-          </View>
-        )}
-      </View>
+      {(!!post && !postsStore.isFetchingPostErrored)
+        ? renderPostView()
+        : renderEmptyView()
+      }
     </ScrollView>
   )
 })
