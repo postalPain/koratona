@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { AppTabScreenProps } from "../../navigators/AppHomeNavigator"
 import { ProfileScreen } from "./ProfileScreen"
-import { FavoritePlayersModal } from "./FavoritePlayersModal"
 
 type ProfileStackParamList = {
   profileScreen: undefined
@@ -30,14 +29,6 @@ export const ProfileStackNavigator: FC<AppTabScreenProps<"ProfileNavigator">> = 
         component={ProfileScreen}
         options={{
           headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="favoritePlayersScreen"
-        component={FavoritePlayersModal}
-        options={{
-          headerShown: false,
-          presentation: "modal",
         }}
       />
     </Stack.Navigator>

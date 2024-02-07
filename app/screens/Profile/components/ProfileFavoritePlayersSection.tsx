@@ -1,20 +1,22 @@
-import { useNavigation } from "@react-navigation/native"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
 import { useStores } from "app/models"
+import useFetchFavoritePlayerList from "app/screens/hooks/useGetFavoritePlayerList"
 import { typography } from "app/theme"
 import EditIcon from "assets/icons/svgs/EditIcon"
+import { t } from "i18n-js"
+import capitalize from "lodash.capitalize"
+import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
 import { FavoritePlayerItem } from "./FavoritePlayerItem"
-import useFetchFavoritePlayerList from "app/screens/hooks/useGetFavoritePlayerList"
-import { observer } from "mobx-react-lite"
-import { t } from "i18n-js"
-import capitalize from "lodash.capitalize"
 
-export const ProfileFavoritePlayersSection = observer(function () {
+type Props = {
+  handleOpenFavoritePlayersPanel: () => void
+}
+
+export const ProfileFavoritePlayersSection = observer(function (_props: Props) {
   const styles = useStyles()
-  const navigation = useNavigation()
   const {
     playerStore,
     authUserStore: { user },
@@ -47,7 +49,7 @@ export const ProfileFavoritePlayersSection = observer(function () {
         style={styles.addToFavoritesButton}
         textStyle={styles.addToFavoritesButtonText}
         onPress={() => {
-          navigation.navigate("favoritePlayersScreen" as never)
+          _props.handleOpenFavoritePlayersPanel()
         }}
       />
     </View>

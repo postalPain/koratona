@@ -25,6 +25,7 @@ import { ProfileEditingSection } from "./components/ProfileEditingSection"
 import { ProfileFavoritePlayersSection } from "./components/ProfileFavoritePlayersSection"
 import { ProfilePolicies } from "./components/ProfilePolicies"
 import { ProfileStatsSection } from "./components/ProfileStatsSection"
+import FavoritePlayersPanel from "./components/bottomPanels/FavoritePlayersPanel"
 import { SettingsKey } from "./components/bottomPanels/SettingsContentController"
 import SettingsBottomPanel from "./components/bottomPanels/SettingsPanel"
 
@@ -51,6 +52,8 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   const [isJerseyNumberEditing, setIsJerseyNumberEditing] = React.useState<boolean>(false)
 
   const settingBottomPanelRef = React.useRef<BottomSheet>(null)
+  const favoritePlayersBottomPanelRef = React.useRef<BottomSheet>(null)
+
   const tShortNumberInputRef = React.useRef<TextInput>(null)
 
   useEffect(() => {
@@ -173,7 +176,11 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
             <ProfileEditingSection openSettingsBottomPanel={openSettingsBottomPanel} />
           </View>
           <ProfileStatsSection />
-          <ProfileFavoritePlayersSection />
+          <ProfileFavoritePlayersSection
+            handleOpenFavoritePlayersPanel={() => {
+              favoritePlayersBottomPanelRef.current?.expand()
+            }}
+          />
           <View style={styles.policiesWrapper}>
             <ProfilePolicies />
           </View>
@@ -187,6 +194,12 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
         }}
         handleClose={() => {
           settingBottomPanelRef.current?.close()
+        }}
+      />
+      <FavoritePlayersPanel
+        ref={favoritePlayersBottomPanelRef}
+        handleClose={() => {
+          favoritePlayersBottomPanelRef.current?.close()
         }}
       />
     </>
