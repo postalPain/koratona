@@ -124,7 +124,11 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
                       ref={tShortNumberInputRef}
                       inputAccessoryViewID="userTShirtNumberID"
                       inputWrapperStyle={styles.tShirtInputWrapperStyle}
-                      containerStyle={styles.tShirtNumberInputContainer}
+                      containerStyle={[
+                        styles.tShirtNumberInputContainer,
+                        // eslint-disable-next-line react-native/no-inline-styles
+                        Platform.OS === "android" ? { height: 125 } : {},
+                      ]}
                       style={styles.tShirtNumberTextInput}
                       inputMode="numeric"
                       maxLength={2}
@@ -210,7 +214,7 @@ const useStyles = createUseStyles((theme) => ({
   tShirtNumberTextInput: {
     fontFamily: typography.fonts.instrumentSansCondensed.bold,
     fontSize: 96,
-    height: 117,
+    height: 125,
     paddingTop: 18,
     marginLeft: 14,
     color: "#fff",
