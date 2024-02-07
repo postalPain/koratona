@@ -185,6 +185,7 @@ const ar: Translations = {
       "{{name}} هو واحد من أشد المعجبين لدينا. تمت مشاركة {{favoriteTeam}} لـ {{appName}} لأول مرة في {{debutDate}}، عندما كان عمره {{age}}.",
     restart: "إعادة تشغيل",
     toApplyTheChangesRestartApp: "لتطبيق التغييرات، أعد تشغيل التطبيق.",
+    termsOfService: "الشروط والأحكام",
   },
   widgets: {
     tabs: {
