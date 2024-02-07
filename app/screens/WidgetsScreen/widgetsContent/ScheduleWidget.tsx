@@ -1,4 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { getLanguage } from "app/i18n"
 import { extractNumberFromId } from "app/utils/extractFixtureId"
 import React from "react"
 import { useWindowDimensions } from "react-native"
@@ -11,6 +12,7 @@ type Props = {
 export const ScheduleWidget: React.FC<Props> = ({ onMatchPress }) => {
   const styles = useStyles()
   const { height, width } = useWindowDimensions()
+  const lang = getLanguage()
 
   return (
     <WebView
@@ -42,7 +44,8 @@ export const ScheduleWidget: React.FC<Props> = ({ onMatchPress }) => {
         data-switchtheme="false"
         data-tz="Asia/Riyadh"
         data-paginated="false"
-        data-brand="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axfbamifisvy/b/bucket-20231126-2014/o/Logo1widget%20logo%20(4).png"
+        data-lang="${lang}
+        data-brand="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axfbamifisvy/b/bucket-20240124-1411/o/logoDefault_145px%20(1).png"
       ></div>
       <script>
         document.querySelector('script[src="https://widgets.sportmonks.com/js/team/seasonSchedule.js"]').addEventListener("load", () => {
