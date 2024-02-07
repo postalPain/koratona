@@ -6,7 +6,7 @@ import { typography } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
-import { ActivityIndicator, Keyboard, TouchableWithoutFeedback, View } from "react-native"
+import { ActivityIndicator, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native"
 import PhoneInput from "react-native-phone-number-input"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import { AuthPolicies } from "./AuthPolicies"
@@ -75,16 +75,22 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
               placeholder: translate("signIn.phoneFilterPlaceholder"),
               style: {
                 writingDirection: getWritingDirection(),
+                direction: "ltr",
               },
             },
           }}
           disableArrowIcon
           withShadow
-          textContainerStyle={styles.phoneInputTextStyleContainer}
+          textContainerStyle={[
+            styles.phoneInputTextStyleContainer,
+            Platform.OS === "android" ? styles.borderRightForAndroid : {},
+          ]}
           containerStyle={[
             styles.phoneInputContainer,
             isPhoneNumberValid ? {} : styles.phoneInputContainerInvalid,
+            Platform.OS === "android" ? styles.reversedDirectionForAndroid : {},
           ]}
+          layout={Platform.OS === "android" ? "second" : "first"}
         />
         <Button
           style={[
@@ -161,4 +167,11 @@ const useStyles = createUseStyles(() => ({
     fontFamily: typography.fonts.instrumentSans.bold,
   },
   phoneInputContainerInvalid: { borderColor: "#FF0000", borderWidth: 1 },
+  borderRightForAndroid: {
+    borderRightColor: "#D0D5DD",
+    borderRightWidth: 1,
+  },
+  reversedDirectionForAndroid: {
+    flexDirection: "row-reverse",
+  },
 }))

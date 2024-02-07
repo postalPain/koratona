@@ -1,5 +1,6 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
+import { isRTL } from "app/i18n"
 import { typography } from "app/theme"
 import EditIcon from "assets/icons/svgs/EditIcon"
 import NotificationIcon from "assets/icons/svgs/NotificationIcon"
@@ -16,6 +17,8 @@ type Props = {
 
 export const ProfileEditingSection = observer(function (_props: Props) {
   const styles = useStyles()
+  const getBorderStyle = () =>
+    isRTL() ? styles.buttonsContainerFirstCell : styles.buttonsContainerFirstCellRTL
 
   return (
     <View style={styles.buttonsContainer}>
@@ -25,7 +28,7 @@ export const ProfileEditingSection = observer(function (_props: Props) {
           style={[
             styles.buttonsContainerRowCell,
             styles.buttonsContainerFirstRowCell,
-            styles.buttonsContainerFirstCell,
+            getBorderStyle(),
           ]}
         >
           <EditIcon />
@@ -42,7 +45,7 @@ export const ProfileEditingSection = observer(function (_props: Props) {
       <View style={styles.buttonsContainerRow}>
         <Pressable
           onPress={_props.openSettingsBottomPanel("support")}
-          style={[styles.buttonsContainerRowCell, styles.buttonsContainerFirstCell]}
+          style={[styles.buttonsContainerRowCell, getBorderStyle()]}
         >
           <SupportIcon />
           <Text style={styles.editProfileButtonText} tx="profile.getSupport" />
@@ -74,7 +77,11 @@ const useStyles = createUseStyles((theme) => ({
   },
   buttonsContainerFirstCell: {
     borderRightColor: "rgba(0, 0, 0, 0.10)",
-    borderRightWidth: 1,
+    borderRightWidth: 0.5,
+  },
+  buttonsContainerFirstCellRTL: {
+    borderLeftColor: "rgba(0, 0, 0, 0.10)",
+    borderLeftWidth: 0.5,
   },
   buttonsContainerRow: {
     flexDirection: "row",
