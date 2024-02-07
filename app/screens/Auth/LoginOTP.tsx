@@ -81,9 +81,6 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
           disableArrowIcon
           withShadow
           textContainerStyle={styles.phoneInputTextStyleContainer}
-          textInputStyle={{
-            writingDirection: getWritingDirection(),
-          }}
           containerStyle={[
             styles.phoneInputContainer,
             isPhoneNumberValid ? {} : styles.phoneInputContainerInvalid,
@@ -144,6 +141,7 @@ const useStyles = createUseStyles(() => ({
     borderRadius: 4,
     width: "100%",
     overflow: "hidden",
+    direction: "ltr",
   },
   phoneInputTextStyleContainer: {
     backgroundColor: "#fff",
