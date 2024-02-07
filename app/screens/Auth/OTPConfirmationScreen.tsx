@@ -164,6 +164,12 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
               focusedPinCodeContainerStyle: otpCodeInvalid
                 ? styles.activePinCodeContainerInvalid
                 : styles.activePinCodeContainer,
+              inputsContainerStyle:
+                Platform.OS === "android"
+                  ? {
+                      flexDirection: "row-reverse",
+                    }
+                  : {},
             }}
           />
           <View style={styles.resendActionsInfo}>
@@ -253,6 +259,7 @@ const useStyles = createUseStyles(() => ({
     paddingVertical: 32,
     paddingHorizontal: 16,
     direction: "ltr",
+    writingDirection: "ltr",
   },
   pinCodeContainer: {
     width: 64,
