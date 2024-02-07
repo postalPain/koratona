@@ -7,7 +7,8 @@
  */
 export default {
   BASE_API_URL: "https://dev-be.koratona.stryber.io/api/",
-  PRIVACY_POLICIES_URL: "https://google.com",
+  PRIVACY_POLICIES_URL: "https://www.koratona.com/privacy-policy",
+  TERMS_AND_CONDITIONS_URL: "https://www.koratona.com/terms-and-conditions",
   APS_DATA: {
     access_code: "BZulFMQjtW6b6GSF2fKj",
     merchant_identifier: "nOqvxuQg",
