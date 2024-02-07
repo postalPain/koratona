@@ -50,7 +50,6 @@ const useStyles = createUseStyles((theme) => ({
   },
   root: {
     flex: 1,
-    paddingLeft: theme.spacing[24],
   },
   headerBackButton: {
     paddingLeft: theme.spacing[24],
