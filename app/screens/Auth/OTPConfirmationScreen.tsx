@@ -252,6 +252,7 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "center",
     paddingVertical: 32,
     paddingHorizontal: 16,
+    direction: "ltr",
   },
   pinCodeContainer: {
     width: 64,

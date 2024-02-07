@@ -110,7 +110,13 @@ const AppStack = observer(function AppStack(_props) {
     >
       {authenticationStore.isAuthenticated ? (
         <>
-          <Stack.Screen name="Home" component={AppHomeNavigator} />
+          <Stack.Screen
+            name="Home"
+            component={AppHomeNavigator}
+            options={{
+              gestureEnabled: false,
+            }}
+          />
           <Stack.Screen name="UserInfo" component={Screens.UserInfoScreen} />
           <Stack.Screen
             name="InitialProfileSettings"
