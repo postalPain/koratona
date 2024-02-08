@@ -14,6 +14,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen"
 import { useStores } from "app/models"
 import { showToast } from "app/utils/showToast"
 import useApp from "./hooks/useSMSApp"
+import { isRTL } from "app/i18n"
 
 interface ScreenProps extends AppStackScreenProps<"OTPConfirmation"> {}
 
@@ -165,7 +166,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
                 ? styles.activePinCodeContainerInvalid
                 : styles.activePinCodeContainer,
               inputsContainerStyle:
-                Platform.OS === "android"
+                Platform.OS === "android" && isRTL()
                   ? {
                       flexDirection: "row-reverse",
                     }
