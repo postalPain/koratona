@@ -9,9 +9,11 @@
       "extends": "production",
       "distribution": "internal",
       "android": {
+        "image": "default",
         "gradleCommand": ":app:assembleDebug"
       },
       "ios": {
+        "image": "latest",
         "buildConfiguration": "Debug",
         "simulator": true
       }
@@ -20,6 +22,7 @@
       "extends": "development",
       "distribution": "internal",
       "ios": {
+        "image": "latest",
         "buildConfiguration": "Debug",
         "simulator": false
       }
@@ -28,6 +31,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
+        "image": "latest",
         "simulator": true
       }
     },
@@ -35,24 +39,29 @@
       "extends": "production",
       "distribution": "internal",
       "ios": {
+        "image": "latest",
         "simulator": true
       },
       "android": {
+        "image": "default",
         "buildType": "apk"
       }
     },
     "preview:device": {
       "extends": "preview",
       "ios": {
+        "image": "latest",
         "simulator": false
       }
     },
     "production": {
       "autoIncrement": true,
       "android": {
+        "image": "default",
         "buildType": "app-bundle"
       },
       "ios": {
+        "image": "latest",
         "buildConfiguration": "Release",
         "simulator": false
       }
@@ -61,10 +70,12 @@
   "submit": {
     "production": {
       "android": {
+        "image": "default",
         "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
         "track": "internal"
       },
       "ios": {
+        "image": "latest",
         "appleId": "vladyslav.levchenko@stryber.com",
         "ascAppId": "6473923229",
         "appleTeamId": "NSST29B577"
