@@ -70,7 +70,6 @@
   "submit": {
     "production": {
       "android": {
-        "image": "default",
         "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
         "track": "internal"
       },
