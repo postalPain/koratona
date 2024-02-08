@@ -4,7 +4,6 @@ import { Instance, SnapshotIn, SnapshotOut, flow, getRoot, types } from "mobx-st
 import { withSetPropAction } from "../helpers/withSetPropAction"
 import { PostModel } from "./Post"
 import { ListPaginationMetaModel } from "../ListPaginationMetaModel"
-import { Alert } from "react-native"
 
 export const PostsStoreModel = types
   .model("PostsStore")
@@ -77,7 +76,6 @@ export const PostsStoreModel = types
       } catch (error) {
         self.isFetchingPostErrored = true
         console.log("Error fetching post by id: ", error)
-        Alert.alert('Post fetching error', `${JSON.stringify(error)}`)
         console.tron.error?.(`Error fetching post by id: ${JSON.stringify(error)}`, [])
       } finally {
         self.isFetchingPost = false
