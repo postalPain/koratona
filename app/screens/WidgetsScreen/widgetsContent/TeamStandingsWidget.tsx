@@ -1,5 +1,4 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { getLanguage } from "app/i18n"
 import React from "react"
 import { useWindowDimensions } from "react-native"
 import WebView from "react-native-webview"
@@ -7,7 +6,6 @@ import WebView from "react-native-webview"
 export const TeamStandingsWidget: React.FC = () => {
   const styles = useStyles()
   const { height, width } = useWindowDimensions()
-  const lang = getLanguage()
 
   return (
     <WebView
@@ -30,7 +28,6 @@ export const TeamStandingsWidget: React.FC = () => {
                     data-brand="https://objectstorage.me-jeddah-1.oraclecloud.com/n/axfbamifisvy/b/bucket-20240124-1411/o/logoDefault_145px%20(1).png"
                     data-switchtheme="false"
                     data-tz="Asia/Riyadh"
-                    data-lang="${lang}"
                   ></div>
                     <script type="text/javascript" src="https://widgets.sportmonks.com/js/team/standings.js"></script>
                   </body>
