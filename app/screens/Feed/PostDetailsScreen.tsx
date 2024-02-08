@@ -37,7 +37,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
     if (!post) {
       postsStore.fetchPostById(postId);
     }
-  }, [])
+  }, [postId])
 
   const renderPostView = () => {
     const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
