@@ -63,16 +63,24 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
             window.ReactNativeWebView.postMessage(JSON.stringify({
               documentHeight: document.documentElement.scrollHeight
             }));
+            document.getElementsByTagName('body')[0].setAttribute('class', 'loaded');
           })
         </script>
         <style type="text/css">
           img {
             width: 100%;
           }
+          body {
+           opacity: 0;
+            transition: 1s;
+          }
+          .loaded {
+            opacity: 1;
+          }
         </style>
       </head>
-      <body>
-        ${!!post && post[handleArLang<Post>("content")] || ""}
+      <body class="container">
+        ${!!post && post[handleArLang<Post>("content")] || ""}       
       </body>
       </html>  
     `;
