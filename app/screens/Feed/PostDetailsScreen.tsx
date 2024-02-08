@@ -12,7 +12,7 @@ import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React, { FC, useEffect } from "react"
-import { ImageBackground, Pressable, View, useWindowDimensions } from "react-native"
+import { ImageBackground, Pressable, View, useWindowDimensions, Alert } from "react-native"
 import { RefreshControl, ScrollView } from "react-native-gesture-handler"
 import RenderHtml from "react-native-render-html"
 import { WebView } from "react-native-webview"
@@ -31,6 +31,8 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { width, height } = useWindowDimensions()
   const postId = _props.route.params.id;
+  console.log(`post id: ${postId}`)
+  Alert.alert('Post id', `Id is ${postId}`)
   const post = postsStore.getPostById(postId);
 
   useEffect(() => {
