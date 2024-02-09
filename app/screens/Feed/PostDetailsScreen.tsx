@@ -29,8 +29,8 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const topInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { height } = useWindowDimensions()
-  const postId = _props.route.params.id;
-  const post = postsStore.getPostById(postId);
+  const postId = _props.route.params.id
+  const post = postsStore.getPostById(postId)
   const [articleWebviewHeight, setArticleWebviewHeight] = useState(1) // Android crashes with zero height
 
   type TArticleWebviewMessage = {
@@ -39,13 +39,13 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
 
   useEffect(() => {
     if (!post) {
-      postsStore.fetchPostById(postId);
+      postsStore.fetchPostById(postId)
     }
   }, [postId])
 
   const onArticleWebviewMessage = (e: WebViewMessageEvent) => {
-    const data = JSON.parse(e.nativeEvent.data) as TArticleWebviewMessage;
-    setArticleWebviewHeight(data.documentHeight);
+    const data = JSON.parse(e.nativeEvent.data) as TArticleWebviewMessage
+    setArticleWebviewHeight(data.documentHeight)
   }
 
   const renderPostView = () => {
@@ -80,10 +80,10 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
         </style>
       </head>
       <body class="container">
-        ${!!post && post[handleArLang<Post>("content")] || ""}       
+        ${(!!post && post[handleArLang<Post>("content")]) || ""}
       </body>
-      </html>  
-    `;
+      </html>
+    `
     return (
       <>
         <ImageBackground
@@ -143,7 +143,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
         <View style={styles.articleContainer}>
           <WebView
             source={{ html: articleContent }}
-            style={{ height: articleWebviewHeight }}
+            style={[styles.webviewStyles, { height: articleWebviewHeight }]}
             onMessage={onArticleWebviewMessage}
           />
           {post?.video && (
@@ -199,10 +199,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
         />
       }
     >
-      {(!!post && !postsStore.isFetchingPostErrored)
-        ? renderPostView()
-        : renderEmptyView()
-      }
+      {!!post && !postsStore.isFetchingPostErrored ? renderPostView() : renderEmptyView()}
     </ScrollView>
   )
 })
@@ -285,12 +282,12 @@ const useStyles = createUseStyles(() => ({
   },
   pageContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   containerCenter: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  }
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+  },
 }))
