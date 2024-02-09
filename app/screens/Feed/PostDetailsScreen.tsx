@@ -31,7 +31,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const { height } = useWindowDimensions()
   const postId = _props.route.params.id;
   const post = postsStore.getPostById(postId);
-  const [articleWebviewHeight, setArticleWebviewHeight] = useState(0)
+  const [articleWebviewHeight, setArticleWebviewHeight] = useState(1) // Android crashes with zero height
 
   type TArticleWebviewMessage = {
     documentHeight: number
@@ -72,7 +72,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           }
           body {
            opacity: 0;
-            transition: 1s;
+            transition: 0.5s;
           }
           .loaded {
             opacity: 1;
