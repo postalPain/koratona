@@ -86,7 +86,7 @@ export const PostsStoreModel = types
         const {
           authUserStore: { user },
         } = getRoot(self) as any
-        const post = self.posts.find((post) => post.id === postId)
+        const post = self.posts.find((post) => post.id === postId) || self.openedPostDetails
         if (post) {
           const updatedPostFavoriteInfo = {
             userId: user.userId,
