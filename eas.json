@@ -45,6 +45,10 @@
       "android": {
         "image": "default",
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_BASE_API_URL_DEV": "https://dev-be.koratona.stryber.io/api/",
+        "EXPO_PUBLIC_BASE_API_URL_PROD": "https://dev-be.koratona.stryber.io/api/"
       }
     },
     "preview:device": {
@@ -52,6 +56,10 @@
       "ios": {
         "image": "latest",
         "simulator": false
+      },
+      "env": {
+        "EXPO_PUBLIC_BASE_API_URL_DEV": "https://dev-be.koratona.stryber.io/api/",
+        "EXPO_PUBLIC_BASE_API_URL_PROD": "https://dev-be.koratona.stryber.io/api/"
       }
     },
     "production": {
