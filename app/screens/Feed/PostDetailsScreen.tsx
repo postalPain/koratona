@@ -254,9 +254,10 @@ const useStyles = createUseStyles(() => ({
   videoContainer: {
     marginVertical: 24,
   },
+  // Webview issues fixes https://github.com/react-native-webview/react-native-webview/issues/811#issuecomment-570813204
   webviewStyles: {
-    opacity: 0.99,
-    overflow: "hidden",
+    opacity: 0.99, // Prevents Android from crashes
+    overflow: "hidden", //  Prevents that the background will be visible
   },
   headerText: {
     paddingHorizontal: 18,
