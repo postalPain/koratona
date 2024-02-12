@@ -2,7 +2,7 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import CircularProgress from "@stryberventures/gaia-react-native.circular-progress"
 import { Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
-import { getWritingDirection } from "app/i18n"
+import { getLanguage, getWritingDirection } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { useStores } from "app/models"
 import { Post } from "app/models/Posts/Post"
@@ -11,11 +11,10 @@ import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
-import React, { FC, useEffect } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { ImageBackground, Pressable, View, useWindowDimensions } from "react-native"
 import { RefreshControl, ScrollView } from "react-native-gesture-handler"
-import RenderHtml from "react-native-render-html"
-import { WebView } from "react-native-webview"
+import { WebView, WebViewMessageEvent } from "react-native-webview"
 import YoutubePlayer from "react-native-youtube-iframe"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { getYouTubeVideoId } from "../Onboarding/utils/getYouTubeVideoId"
@@ -29,20 +28,62 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   const { postsStore, authUserStore } = useStores()
   const topInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
-  const { width, height } = useWindowDimensions()
-  const postId = _props.route.params.id;
-  const post = postsStore.getPostById(postId);
+  const { height } = useWindowDimensions()
+  const postId = _props.route.params.id
+  const post = postsStore.getPostById(postId)
+  const [articleWebviewHeight, setArticleWebviewHeight] = useState(1) // Android crashes with zero height
+
+  type TArticleWebviewMessage = {
+    documentHeight: number
+  }
 
   useEffect(() => {
     if (!post) {
-      postsStore.fetchPostById(postId);
+      postsStore.fetchPostById(postId)
     }
   }, [postId])
+
+  const onArticleWebviewMessage = (e: WebViewMessageEvent) => {
+    const data = JSON.parse(e.nativeEvent.data) as TArticleWebviewMessage
+    setArticleWebviewHeight(data.documentHeight)
+  }
 
   const renderPostView = () => {
     const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
       (user) => user.userId === authUserStore.user.userId,
     )
+    const articleContent = `
+      <!DOCTYPE html>
+      <html lang="${getLanguage()}" dir="${getWritingDirection()}">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="application/javascript">
+          window.addEventListener('load', function () {
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+              documentHeight: document.documentElement.scrollHeight
+            }));
+            document.getElementsByTagName('body')[0].setAttribute('class', 'loaded');
+          })
+        </script>
+        <style type="text/css">
+          img {
+            width: 100%;
+          }
+          body {
+           opacity: 0;
+            transition: 0.5s;
+          }
+          .loaded {
+            opacity: 1;
+          }
+        </style>
+      </head>
+      <body class="container">
+        ${(!!post && post[handleArLang<Post>("content")]) || ""}
+      </body>
+      </html>
+    `
     return (
       <>
         <ImageBackground
@@ -100,14 +141,11 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           </LinearGradient>
         </ImageBackground>
         <View style={styles.articleContainer}>
-          {!!post && post[handleArLang<Post>("content")] && (
-            <RenderHtml
-              contentWidth={width}
-              source={{
-                html: post[handleArLang<Post>("content")] || "",
-              }}
-            />
-          )}
+          <WebView
+            source={{ html: articleContent }}
+            style={[styles.webviewStyles, { height: articleWebviewHeight }]}
+            onMessage={onArticleWebviewMessage}
+          />
           {post?.video && (
             <View style={styles.videoContainer}>
               <YoutubePlayer height={255} videoId={getYouTubeVideoId(post.video)} play={false} />
@@ -116,7 +154,6 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
           {!!post && post[handleArLang<Post>("quiz")] && (
             <View style={styles.quizContainer}>
               <WebView
-                webviewDebuggingEnabled
                 source={{ uri: post[handleArLang<Post>("quiz")] }}
                 style={styles.webviewStyles}
               />
@@ -162,10 +199,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
         />
       }
     >
-      {(!!post && !postsStore.isFetchingPostErrored)
-        ? renderPostView()
-        : renderEmptyView()
-      }
+      {!!post && !postsStore.isFetchingPostErrored ? renderPostView() : renderEmptyView()}
     </ScrollView>
   )
 })
@@ -220,9 +254,10 @@ const useStyles = createUseStyles(() => ({
   videoContainer: {
     marginVertical: 24,
   },
+  // Webview issues fixes https://github.com/react-native-webview/react-native-webview/issues/811#issuecomment-570813204
   webviewStyles: {
-    opacity: 0.99,
-    overflow: "hidden",
+    opacity: 0.99, // Prevents Android from crashes
+    overflow: "hidden", //  Prevents that the background will be visible
   },
   headerText: {
     paddingHorizontal: 18,
@@ -248,12 +283,12 @@ const useStyles = createUseStyles(() => ({
   },
   pageContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   containerCenter: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  }
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+  },
 }))
