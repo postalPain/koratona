@@ -19,7 +19,7 @@ import DevConfig from "./config.dev"
 
 let ExtraConfig = ProdConfig
 
-if (__DEV__) {
+if (__DEV__ || process.env.EXPO_PUBLIC_ENV === "development") {
   ExtraConfig = DevConfig
 }
 
