@@ -8,6 +8,7 @@
     "development": {
       "extends": "production",
       "distribution": "internal",
+      "channel": "development",
       "android": {
         "image": "default",
         "gradleCommand": ":app:assembleDebug"
@@ -21,6 +22,7 @@
     "development:device": {
       "extends": "development",
       "distribution": "internal",
+      "channel": "development",
       "ios": {
         "image": "latest",
         "buildConfiguration": "Debug",
@@ -30,6 +32,7 @@
     "development-simulator": {
       "developmentClient": true,
       "distribution": "internal",
+      "channel": "development",
       "ios": {
         "image": "latest",
         "simulator": true
@@ -38,6 +41,7 @@
     "preview": {
       "extends": "production",
       "distribution": "internal",
+      "channel": "preview",
       "ios": {
         "image": "latest",
         "simulator": true
@@ -49,12 +53,14 @@
     },
     "preview:device": {
       "extends": "preview",
+      "channel": "preview",
       "ios": {
         "image": "latest",
         "simulator": false
       }
     },
     "production": {
+      "channel": "production",
       "autoIncrement": true,
       "android": {
         "image": "default",
