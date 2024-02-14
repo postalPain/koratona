@@ -1,20 +1,19 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Button, Screen, Text } from "app/components"
+import { Screen, Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
+import { isRTL } from "app/i18n"
+import { useStores } from "app/models"
 import { AppStackScreenProps, getActiveRouteName } from "app/navigators"
 import { typography } from "app/theme"
+import { showToast } from "app/utils/showToast"
 import EnvelopeIconSmall from "assets/icons/svgs/EnvelopeIconSmall"
 import { t } from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { ActivityIndicator, Keyboard, Platform, Pressable, View } from "react-native"
+import { Keyboard, Platform, Pressable, View } from "react-native"
 import { OtpInput, OtpInputRef } from "react-native-otp-entry"
 import { Colors } from "react-native/Libraries/NewAppScreen"
-
-import { useStores } from "app/models"
-import { showToast } from "app/utils/showToast"
 import useApp from "./hooks/useSMSApp"
-import { isRTL } from "app/i18n"
 
 interface ScreenProps extends AppStackScreenProps<"OTPConfirmation"> {}
 
@@ -138,9 +137,10 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
             }}
           />
           <Text tx="signIn.enterLoginCode" style={styles.formTitleText} weight="bold" />
+          <Text tx="signIn.weHaveSentCodeTo" style={styles.formSubTitleText} />
           <Text
-            text={`${t("signIn.weHaveSentCodeTo")}\n${phoneNumber}`}
-            style={styles.formSubTitleText}
+            text={`${phoneNumber}`}
+            style={[styles.formSubTitleText, styles.formSubTitleTextPhoneNumber]}
           />
           <OtpInput
             ref={OTPInputRef}
@@ -192,18 +192,6 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
             )}
           </View>
         </View>
-        <Button
-          style={[
-            styles.goToPurchasesButton,
-            otpCode.length !== OTP_CODE_LENGTH ? styles.invalidFieldButton : {},
-          ]}
-          pressedStyle={styles.goToPurchasesButton}
-          onPress={() => handleConfirmOTPCode()}
-          disabled={!otpCode}
-        >
-          {!isLoading && <Text style={styles.goToPurchasesButtonText} tx="common.continue" />}
-          {isLoading && <ActivityIndicator />}
-        </Button>
       </Pressable>
     </Screen>
   )
@@ -243,17 +231,9 @@ const useStyles = createUseStyles(() => ({
     color: "#475467",
     textAlign: "center",
   },
-  goToPurchasesButton: {
-    backgroundColor: "#333865",
-    borderColor: "#333865",
-    marginTop: 16,
-    width: "100%",
-  },
-  goToPurchasesButtonText: {
-    color: "#FFF",
-    fontSize: 16,
-    lineHeight: 24,
-    fontFamily: typography.fonts.instrumentSans.bold,
+  formSubTitleTextPhoneNumber: {
+    writingDirection: "ltr",
+    direction: "ltr",
   },
   otpInputContainer: {
     justifyContent: "center",
