@@ -138,10 +138,8 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
             }}
           />
           <Text tx="signIn.enterLoginCode" style={styles.formTitleText} weight="bold" />
-          <Text
-            text={`${t("signIn.weHaveSentCodeTo")}\n${phoneNumber}`}
-            style={styles.formSubTitleText}
-          />
+          <Text tx="signIn.weHaveSentCodeTo" style={styles.formSubTitleText} />
+          <Text text={`${phoneNumber}`} style={[styles.formSubTitleText, styles.formSubTitleTextPhoneNumber]} />
           <OtpInput
             ref={OTPInputRef}
             autoFocus
@@ -242,6 +240,10 @@ const useStyles = createUseStyles(() => ({
     lineHeight: 16.8,
     color: "#475467",
     textAlign: "center",
+  },
+  formSubTitleTextPhoneNumber: {
+    writingDirection: "ltr",
+    direction: "ltr",
   },
   goToPurchasesButton: {
     backgroundColor: "#333865",
