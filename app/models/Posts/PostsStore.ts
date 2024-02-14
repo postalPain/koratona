@@ -67,8 +67,10 @@ export const PostsStoreModel = types
         self.isFetchingMorePosts = false
       }
     }),
-    fetchPostById: flow(function* (id: number) {
-      self.isFetchingPost = true
+    fetchPostById: flow(function* (id: number, avoidLoading = false) {
+      if (!avoidLoading) {
+        self.isFetchingPost = true
+      }
       self.isFetchingPostErrored = false
       try {
         const response = yield fetchPostById(id)
@@ -81,7 +83,7 @@ export const PostsStoreModel = types
         self.isFetchingPost = false
       }
     }),
-    toggleFavorite: flow(function* (postId: number) {
+    toggleFavorite: flow(function* (postId: number, cb?: () => void) {
       try {
         const {
           authUserStore: { user },
@@ -97,19 +99,20 @@ export const PostsStoreModel = types
             ({ userId }) => userId === user.userId,
           )
           if (ifPostWasAlreadyFavorited) {
+            post.favoriteCount--
             post.usersToFavoritePosts = post.usersToFavoritePosts.filter(
               ({ userId }) => userId !== user.userId,
             ) as any
-            post.favoriteCount--
           } else {
-            post.usersToFavoritePosts.push(updatedPostFavoriteInfo)
             post.favoriteCount++
+            post.usersToFavoritePosts.push(updatedPostFavoriteInfo)
           }
           yield toggleFavorite({
             postId,
             userId: user.userId,
             action: ifPostWasAlreadyFavorited ? "remove" : "add",
           })
+          cb && cb()
         }
       } catch (error) {
         console.log("Error adding post to favorite: ", error)
@@ -127,6 +130,18 @@ export const PostsStoreModel = types
           return self.openedPostDetails
         }
         return self.posts.find((post) => post.id.toString() === id.toString())
+      }
+    },
+    get isPostByIdFavorited() {
+      const {
+        authUserStore: { user },
+      } = getRoot(self) as any
+      return (id: number) => {
+        const post = self.posts.find((post) => post.id === id) || self.openedPostDetails
+        if (post) {
+          return post.usersToFavoritePosts.some(({ userId }) => userId === user.userId)
+        }
+        return false
       }
     },
   }))
