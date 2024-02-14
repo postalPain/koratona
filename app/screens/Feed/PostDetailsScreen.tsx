@@ -25,7 +25,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   _props,
 ) {
   const styles = useStyles()
-  const { postsStore, authUserStore } = useStores()
+  const { postsStore } = useStores()
   const topInsets = useSafeAreaInsetsStyle(["top"])
   const bottomInsets = useSafeAreaInsetsStyle(["bottom"])
   const { height } = useWindowDimensions()
@@ -49,9 +49,7 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
   }
 
   const renderPostView = () => {
-    const isPostAddedToFavorite = post?.usersToFavoritePosts.find(
-      (user) => user.userId === authUserStore.user.userId,
-    )
+    const isPostAddedToFavorite = postsStore.isPostByIdFavorited(postId)
     const articleContent = `
       <!DOCTYPE html>
       <html lang="${getLanguage()}" dir="${getWritingDirection()}">
@@ -114,7 +112,9 @@ export const PostDetailsScreen: FC<PostDetailsScreenProps> = observer(function P
                 <Pressable
                   onPress={() => {
                     if (post) {
-                      postsStore.toggleFavorite(post.id)
+                      postsStore.toggleFavorite(post.id, () => {
+                        postsStore.fetchPostById(post.id, true)
+                      })
                     }
                   }}
                   style={styles.favoriteInfoContainer}
