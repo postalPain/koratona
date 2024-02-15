@@ -60,7 +60,7 @@
       },
       "android": {
         "image": "default",
-        "buildType": "apk"
+        "buildType": "app-bundle"
       },
       "env": {
         "EXPO_PUBLIC_ENV": "production"
