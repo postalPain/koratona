@@ -58,6 +58,15 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
 
   useEffect(() => {
     setJerseyNumber(`${user.jerseyNumber || "1"}`)
+    const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      if (tShortNumberInputRef.current?.isFocused() && Platform.OS === 'android') {
+        tShortNumberInputRef.current?.blur();
+      }
+    })
+
+    return () => {
+      keyboardDidHideSubscription.remove();
+    }
   }, [])
 
   const openSettingsBottomPanel = (key: SettingsKey) => () => {
@@ -124,6 +133,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
                       ref={tShortNumberInputRef}
                       inputAccessoryViewID="userTShirtNumberID"
                       inputWrapperStyle={styles.tShirtInputWrapperStyle}
+                      selectTextOnFocus
                       containerStyle={[
                         styles.tShirtNumberInputContainer,
                         // eslint-disable-next-line react-native/no-inline-styles
@@ -139,11 +149,6 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
                       onBlur={() => {
                         handleSaveTheNumber()
                         setIsJerseyNumberEditing(false)
-                      }}
-                      onFocus={() => {
-                        tShortNumberInputRef.current?.setNativeProps({
-                          selection: { start: 0, end: jerseyNumber.length },
-                        })
                       }}
                     />
                   </>
