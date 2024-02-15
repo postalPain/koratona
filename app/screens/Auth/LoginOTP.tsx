@@ -68,7 +68,7 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
             setFormattedPhoneNumber(text)
           }}
           countryPickerProps={{
-            withAlphaFilter: true,
+            withAlphaFilter: Platform.OS === "ios",
             withCallingCodeButton: true,
             withCallingCode: true,
             filterProps: {
