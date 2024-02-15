@@ -63,9 +63,17 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
         tShortNumberInputRef.current?.blur();
       }
     })
-
     return () => {
       keyboardDidHideSubscription.remove();
+    }
+  }, [])
+
+  useEffect(() => {
+    const unsubscribeNavigationBlur = _props.navigation.addListener('blur', () => {
+      settingBottomPanelRef.current?.close();
+    });
+    return () => {
+      unsubscribeNavigationBlur();
     }
   }, [])
 
