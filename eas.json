@@ -16,19 +16,6 @@
       "ios": {
         "image": "latest",
         "buildConfiguration": "Debug",
-        "simulator": true
-      },
-      "env": {
-        "EXPO_PUBLIC_ENV": "development"
-      }
-    },
-    "development:device": {
-      "extends": "development",
-      "distribution": "internal",
-      "channel": "development",
-      "ios": {
-        "image": "latest",
-        "buildConfiguration": "Debug",
         "simulator": false
       },
       "env": {
@@ -53,7 +40,7 @@
       "channel": "preview",
       "ios": {
         "image": "latest",
-        "simulator": true
+        "simulator": false
       },
       "android": {
         "image": "default",
@@ -63,28 +50,17 @@
         "EXPO_PUBLIC_ENV": "development"
       }
     },
-    "preview:device": {
-      "extends": "preview",
-      "channel": "preview",
-      "ios": {
-        "image": "latest",
-        "simulator": false
-      },
-      "env": {
-        "EXPO_PUBLIC_ENV": "development"
-      }
-    },
     "production": {
       "channel": "production",
       "autoIncrement": true,
-      "android": {
-        "image": "default",
-        "buildType": "app-bundle"
-      },
       "ios": {
         "image": "latest",
         "buildConfiguration": "Release",
         "simulator": false
+      },
+      "android": {
+        "image": "default",
+        "buildType": "app-bundle"
       },
       "env": {
         "EXPO_PUBLIC_ENV": "production"
@@ -97,7 +73,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_ENV": "production",
+        "EXPO_PUBLIC_ENV": "production"
       }
     }
   },
