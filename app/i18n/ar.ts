@@ -9,7 +9,7 @@ const ar: Translations = {
     and: " و ",
     login: "تسجيل الدخول",
     backToLogin: "العودة إلى تسجيل الدخول",
-    skipText: "ربما لاحقًا",
+    skipText: "يمكن مرة ثانية",
     saveChanges: "حفظ التغييرات",
     done: "تم",
     goBack: "ارجع",
@@ -17,9 +17,9 @@ const ar: Translations = {
     continue: "كمل",
     in: "في",
     thatAllForNow: "هذا كل شيء للآن",
-    youSeeAllContent: "لقد رأيت كل المحتوى الجديد منذ المرة الأخيرة",
+    youSeeAllContent: "تم الاطلاع على كافة المحتوى الجديد",
     yesterday: "أمس",
-    loading: "...جاري التحميل",
+    loading: "جاري التحميل",
   },
   policies: {
     agreement: "من خلال إنشاء حسابك، فإنك توافق على",
@@ -28,17 +28,17 @@ const ar: Translations = {
   },
   welcomeScreen: {
     slogan: "تفاعل مع فريقك بشكل ما جربته من قبل",
-    letsGetStarted: "هيا بنا نبدأ.",
+    letsGetStarted: "يلا نبدأ",
   },
   signIn: {
-    slogan: "مرحبًا مرة أخرى",
+    slogan: "مرحبًا من جديد",
     enterLoginCode: "أدخل رمز تسجيل الدخول",
-    weHaveSentCodeTo: "لقد قمنا بإرسال رمز إلى",
+    weHaveSentCodeTo: "تم إرسال الرمز إلى",
     resendCode: "إعادة إرسال الرمز",
-    wrongCode: "رمز خاطئ",
+    wrongCode: "الرمز خاطئ",
     enterCode: "أدخل الرمز",
     codeSent: "تم إرسال الرمز",
-    enterPhoneNumber: "أدخل رقم الهاتف",
+    enterPhoneNumber: "أدخل رقم الجوال",
     phoneFilterPlaceholder: "البحث عن بلد",
   },
   forgotPassword: {
@@ -48,7 +48,7 @@ const ar: Translations = {
   resetPassword: {
     slogan: "إنشاء كلمة مرور جديدة",
     passwordFieldLabel: "كلمة المرور الجديدة",
-    repeatPasswordField: "تكرار كلمة المرور الجديدة",
+    repeatPasswordField: "كرر كلمة المرور الجديدة",
     savePassword: "حفظ كلمة المرور",
   },
   errorScreen: {
@@ -58,7 +58,7 @@ const ar: Translations = {
     traceTitle: "%{name}خطأ من مكدس الأخطاء ",
   },
   errors: {
-    somethingWentWrong: "حدث خطأ ما",
+    somethingWentWrong: "عذراً فيه شي خطأ",
   },
   emptyStateComponent: {
     generic: {
@@ -97,13 +97,13 @@ const ar: Translations = {
       actionButtonText: "متابعة",
     },
     neverMissABeat: {
-      heading: "لا تفوت لحظة",
+      heading: "لا تفوت أي لحظة",
       subHeading: "استكشف تجربة المعجبين اللا محدودة واستمتع بالامتيازات الحصرية",
       actionButtonText: "السماح بالإشعارات",
       skipButton: "المرات الجاية",
     },
     setProfile: {
-      heading: "لا تفوت لحظة",
+      heading: "لا تفوت أي لحظة",
       subHeading: "استكشف تجربة المعجبين اللا محدودةواستمتع بالامتيازات الحصرية",
       actionButtonText: "إعدادالملف الشخصي",
     },
@@ -116,7 +116,7 @@ const ar: Translations = {
   },
   appHomeNavigator: {
     home: "الرئيسية",
-    products: "الخبرات",
+    products: "الفعاليات",
     userProfile: "حسابي ",
   },
   productsScreen: {
@@ -135,7 +135,7 @@ const ar: Translations = {
     experience: "خبرات",
     validUntil: "صالح حتى",
     viewMyPurchases: "عرض مشترياتي",
-    outOfStock: "نفدت الكمية!",
+    outOfStock: "انتهت الكمية",
     paymentDetails: "بيانات الدفع",
     youArePurchasing: "{{experience}} أنت تشتري ",
     email: "البريد الإلكتروني",
@@ -149,19 +149,19 @@ const ar: Translations = {
     cardNumberIsRequired: "رقم البطاقة مطلوب",
     cardNumberHasToBe16Digits: "يجب أن يكون رقم البطاقة ١٦ رقمًا",
     theLengthOfCvcHasToBe3: "  ٣أرقام CVC يجب أن يكون طول ",
-    expirationDateIsRequiredAndHasToBeValid: "تاريخ الانتهاء مطلوب ويجب أن يكون صالحًا",
+    expirationDateIsRequiredAndHasToBeValid: "تاريخ الانتهاء مطلوب ويجب أن يكون غير منتهي",
     expirationMonthIsRequired: "شهر الانتهاء مطلوب",
     expirationYearIsRequired: "سنة الانتهاء مطلوبة",
     wrongExpireDate: "تاريخ انتهاء خاطئ",
   },
   postDetailsScreen: {
-    notFound: 'منشور غير متواجد',
+    notFound: 'منشور غير موجود',
   },
   listContentsScreen: {
     noContentYet: "لا يوجد {{content}} حتى الآن",
-    loadingMoreContent: "... {{content}} جاري تحميل المزيد من ",
+    loadingMoreContent: "جاري تحميل المزيد من {{content}} ",
     posts: "المنشورات",
-    products: "المنتجات",
+    products: "الفعاليات",
   },
   profile: {
     yourProfile: "ملفك الشخصي",
@@ -196,7 +196,7 @@ const ar: Translations = {
   },
   teams: {
     meetTeam: "التعرف على الفريق",
-    loadingMorePlayers: "جاري تحميل المزيد من اللاعبين...",
+    loadingMorePlayers: "جاري تحميل المزيد من اللاعبين",
     player: {
       country: "دولة",
       position: "منصب",
@@ -218,13 +218,13 @@ const ar: Translations = {
       passes: "التمريرات",
       shotAccuracy: "دقة التسديد",
       passAccuracy: "دقة التمرير",
-      successfulDribbles: "الكرات المراوغة الناجحة",
+      successfulDribbles: "المراوغة الناجحة",
       keyPasses: "التمريرات الرئيسية",
       defense: "الدفاع",
       tackles: "العرقلات",
       total: "المجموع",
       interceptions: "الاعتراضات",
-      blocks: "الكتل",
+      blocks: "التصديات",
       duelsWon: "المنازعات الفاز بها",
       fouls: "المخالفات",
       foulCards: "بطاقات الإنذار",
@@ -242,10 +242,10 @@ const ar: Translations = {
     },
     offline: {
       title: "خطأ في الشبكة",
-      description: "يرجى التحقق من اتصالك بالشبكة أو الاتصال بالدعم إذا استمرت المشكلة.",
+      description: "تحقق من اتصالك بالشبكة أو اتصل بالدعم إذا استمرت المشكلة",
     },
     serverError: {
-      title: "خطأ في الخدمات",
+      title: "خطأ في الخدمة",
       description:
         "نأسف ولكن يبدو أن خدماتنا غير متوفرة في الوقت الحالي. يرجى المحاولة مرة أخرى بعد دقيقة.",
     },
@@ -258,7 +258,7 @@ const ar: Translations = {
     DOB: "تاريخ الميلاد",
     email: "البريد الإلكتروني",
     emailPlaceholder: "أدخل البريد الإلكتروني",
-    phoneNumber: "رقم الهاتف",
+    phoneNumber: "رقم الجوال",
     thisFieldIsRequired: "هذا الحقل مطلوب",
     invalidEmailFormat: "تنسيق البريد الإلكتروني غير صالح",
   },

@@ -43,7 +43,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
       <FeedCard
         onPress={() => _props.navigation.navigate("postDetails", { id: item.id })}
         bgImage={item.coverImageUrl}
-        bgColor={containerBgColor}
+        style={styles.feedItem}
         post={item}
         underTitleIcon={item.video ? YouTubeIcon : undefined}
         favoriteCount={item.favoriteCount}
@@ -102,13 +102,16 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
 })
 
 const $container: ViewStyle = {
-  paddingHorizontal: spacing.lg,
   flex: 1,
   paddingTop: spacing.sm,
   backgroundColor: containerBgColor,
 }
 
 const useStyles = createUseStyles(() => ({
+  feedItem: {
+    marginHorizontal: spacing.lg,
+    backgroundColor: containerBgColor,
+  },
   headerLeftContentPlaceholder: {
     width: 52,
   },

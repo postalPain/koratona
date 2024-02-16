@@ -15,6 +15,7 @@ import {
   Pressable,
   View,
   useWindowDimensions,
+  ViewStyle,
 } from "react-native"
 import RenderHtml from "react-native-render-html"
 import HeartIconIcon from "../../assets/icons/svgs/HeartIcon"
@@ -30,9 +31,9 @@ export interface FeedCardProps {
   bgImage: any
 
   /**
-   * Background color. Requires to optimize shadows rendering on iOS.
+   * Root element styles
    */
-  bgColor?: string
+  style?: ViewStyle
 
   /**
    * Icon that will be displayed under the title
@@ -79,22 +80,18 @@ export const FeedCard = React.memo(
   observer(function FeedCard({
     post,
     bgImage,
-    bgColor = "transparent",
     underTitleIcon,
     onPress,
     addedToFavorite,
     favoriteCount,
     onFavoritePress,
+    style,
   }: FeedCardProps) {
     const styles = useStyles()
-    const extraContainerWrapperStyles = {
-      backgroundColor: bgColor,
-    }
-
     const { width } = useWindowDimensions()
 
     return (
-      <Pressable style={[styles.containerWrapper, extraContainerWrapperStyles]} onPress={onPress}>
+      <Pressable style={[styles.containerWrapper, style]} onPress={onPress}>
         <View style={styles.container}>
           <ImageBackground
             style={styles.bgImage}
