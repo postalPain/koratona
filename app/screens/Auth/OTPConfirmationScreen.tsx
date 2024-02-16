@@ -10,7 +10,7 @@ import EnvelopeIconSmall from "assets/icons/svgs/EnvelopeIconSmall"
 import { t } from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { Keyboard, Platform, Pressable, View } from "react-native"
+import { ActivityIndicator, Keyboard, Platform, Pressable, View } from "react-native"
 import { OtpInput, OtpInputRef } from "react-native-otp-entry"
 import { Colors } from "react-native/Libraries/NewAppScreen"
 import useApp from "./hooks/useSMSApp"
@@ -48,6 +48,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
 
   React.useEffect(() => {
     setResendCodeIn(RESEND_CODE_IN_SECONDS)
+    OTPInputRef.current?.focus()
   }, [isPageActive])
 
   React.useEffect(() => {
@@ -106,6 +107,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
       showToast(t("signIn.enterCode"))
       return
     }
+    Keyboard.dismiss()
     setIsLoading(true)
     const deviceId = authUserStore.notificationToken
 
@@ -173,6 +175,9 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
                   : {},
             }}
           />
+          {isLoading && (
+            <ActivityIndicator color="#333865" size="large" style={styles.activityIndicator} />
+          )}
           <View style={styles.resendActionsInfo}>
             <EnvelopeIconSmall color={disabledResendCode ? "#B3B8C2" : "#333865"} />
             <Pressable onPress={requestCode}>
@@ -284,5 +289,8 @@ const useStyles = createUseStyles(() => ({
     lineHeight: 16.8,
     color: "#475467",
     marginLeft: 8,
+  },
+  activityIndicator: {
+    marginBottom: 16,
   },
 }))
