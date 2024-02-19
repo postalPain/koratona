@@ -2,13 +2,12 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
 import { getWritingDirection, isRTL, translate } from "app/i18n"
 import { useStores } from "app/models"
-import { typography } from "app/theme"
+import { typographyPresets } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
 import { ActivityIndicator, Keyboard, Platform, TouchableWithoutFeedback, View } from "react-native"
 import PhoneInput from "react-native-phone-number-input"
-import { Colors } from "react-native/Libraries/NewAppScreen"
 import { AuthPolicies } from "./AuthPolicies"
 
 type Props = {
@@ -136,8 +135,9 @@ const useStyles = createUseStyles(() => ({
     marginRight: 12,
   },
   formTitleText: {
+    ...typographyPresets["h4-bold"],
+    color: "#121212",
     fontSize: 22,
-    color: Colors.black,
     marginBottom: 26,
   },
   phoneInputContainer: {
@@ -162,9 +162,7 @@ const useStyles = createUseStyles(() => ({
   },
   buttonText: {
     color: "#FFF",
-    fontSize: 16,
-    lineHeight: 24,
-    fontFamily: typography.fonts.instrumentSans.bold,
+    ...typographyPresets["btn1-bold"],
   },
   phoneInputContainerInvalid: { borderColor: "#FF0000", borderWidth: 1 },
   borderRightForAndroid: {

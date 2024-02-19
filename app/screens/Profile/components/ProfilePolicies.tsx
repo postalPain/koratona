@@ -2,6 +2,7 @@ import { Text } from "app/components"
 import Config from "app/config"
 import React from "react"
 import { Alert, Linking, TextStyle } from "react-native"
+import { typographyPresets } from "../../../theme/typography"
 
 export const ProfilePolicies = () => {
   const handleOpenPolicies = (url: string) => async () => {
@@ -43,4 +44,5 @@ const $textWrapper: TextStyle = {
 const $text: TextStyle = {
   color: "#808080",
   opacity: 0.5,
+  ...typographyPresets["p3-semibold"],
 }

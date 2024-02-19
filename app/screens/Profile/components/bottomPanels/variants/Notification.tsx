@@ -1,12 +1,12 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text, Toggle } from "app/components"
 import { useStores } from "app/models"
-import { typography } from "app/theme"
+import { isPermissionsRequested, registerForPushNotifications } from "app/services/notifications"
+import { typographyPresets } from "app/theme"
+import { openSettings } from "expo-linking"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
-import { openSettings } from "expo-linking"
-import { registerForPushNotifications, isPermissionsRequested } from "app/services/notifications"
 
 export const Notification = observer(function () {
   const styles = useStyles()
@@ -48,9 +48,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   title: {
     textAlign: "center",
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    letterSpacing: -0.64,
-    fontSize: 32,
+    ...typographyPresets["h4-bold"],
     lineHeight: 40,
     marginBottom: theme.spacing[24],
   },
@@ -64,8 +62,7 @@ const useStyles = createUseStyles((theme) => ({
     textAlign: "center",
   },
   toggleLabelText: {
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
-    fontSize: 20,
+    ...typographyPresets["p1-regular"],
     lineHeight: 24,
     color: "#475467",
   },

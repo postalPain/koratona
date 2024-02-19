@@ -4,12 +4,12 @@ import Input from "@stryberventures/gaia-react-native.input"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Banner, Screen, Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
-import { translate, getWritingDirection } from "app/i18n"
+import { getWritingDirection, translate } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { useStores } from "app/models"
 import { Product } from "app/models/Products/Product"
 import { APS_STATUSES, submitPayment } from "app/services/aps"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import { formatPrice } from "app/utils/currencyFormatter"
 import { isDateValid, isMonthValid } from "app/utils/validation"
 import { observer } from "mobx-react-lite"
@@ -207,11 +207,9 @@ const useStyles = createUseStyles((theme) => ({
     paddingBottom: theme.spacing[32],
   },
   heading: {
-    fontSize: 32,
-    lineHeight: 32,
-    letterSpacing: -0.64,
+    ...typographyPresets["h4-bold"],
+    lineHeight: 40,
     marginTop: theme.spacing["24"],
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     marginBottom: theme.spacing["32"],
     color: "#101828",
     writingDirection: getWritingDirection(),
@@ -223,16 +221,12 @@ const useStyles = createUseStyles((theme) => ({
     borderColor: "#1A1F51",
   },
   submitButtonText: {
-    fontFamily: typography.fonts.instrumentSans.bold,
-    fontSize: 16,
-    lineHeight: 24,
+    ...typographyPresets["p2-semibold"],
     color: "#fff",
   },
   inputLabel: {
     color: "#475467",
-    fontSize: 14,
-    fontFamily: typography.fonts.instrumentSans.semiBold,
-    lineHeight: 16.8,
+    ...typographyPresets["p2-semibold"],
     marginBottom: theme.spacing["8"],
   },
   purchaseDescription: {

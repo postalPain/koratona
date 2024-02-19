@@ -4,7 +4,7 @@ import { GoBackComponent } from "app/components/GoBack"
 import { isRTL } from "app/i18n"
 import { useStores } from "app/models"
 import { AppStackScreenProps, getActiveRouteName } from "app/navigators"
-import { typography } from "app/theme"
+import { typographyPresets } from "app/theme"
 import { showToast } from "app/utils/showToast"
 import EnvelopeIconSmall from "assets/icons/svgs/EnvelopeIconSmall"
 import { t } from "i18n-js"
@@ -217,17 +217,14 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "center",
   },
   formTitleText: {
-    fontSize: 28,
-    lineHeight: 34,
-    letterSpacing: -0.56,
+    ...typographyPresets["h4-bold"],
     color: Colors.black,
     marginBottom: 26,
     marginTop: 46,
     textAlign: "center",
   },
   formSubTitleText: {
-    fontSize: 14,
-    lineHeight: 16.8,
+    ...typographyPresets["p2-regular"],
     color: "#475467",
     textAlign: "center",
   },
@@ -270,9 +267,7 @@ const useStyles = createUseStyles(() => ({
     justifyContent: "center",
   },
   resendActionsInfoText: {
-    fontFamily: typography.fonts.instrumentSans.semiBold,
-    fontSize: 14,
-    lineHeight: 16.8,
+    ...typographyPresets["p2-semibold"],
     marginLeft: 8,
     color: "#333865",
   },
@@ -280,8 +275,7 @@ const useStyles = createUseStyles(() => ({
     color: "#B3B8C2",
   },
   resendActionsInfoCounterText: {
-    fontSize: 14,
-    lineHeight: 16.8,
+    ...typographyPresets["p2-regular"],
     color: "#475467",
     marginLeft: 8,
   },

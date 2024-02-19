@@ -1,6 +1,6 @@
 import Button from "@stryberventures/gaia-react-native.button"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import { observer } from "mobx-react-lite"
 import * as React from "react"
 import { Image, StyleProp, View, ViewStyle } from "react-native"
@@ -81,7 +81,7 @@ export const ProductCard = observer(function Products({
       />
       <ExclusiveBadge />
       <View style={styles.infoBox}>
-        <Text style={styles.name} text={name} weight="bold" />
+        <Text style={styles.name} text={name} />
         <Text style={styles.description} text={description} />
         <Text style={styles.price} text={formatPrice(+price)} weight="semiBold" />
       </View>
@@ -108,9 +108,7 @@ const useStyles = createUseStyles((theme) => ({
     paddingBottom: theme.spacing[16],
   },
   actionButtonText: {
-    fontFamily: typography.fonts.instrumentSans.bold,
-    fontSize: 16,
-    lineHeight: 24,
+    ...typographyPresets["p2-semibold"],
   },
   button: {
     marginTop: theme.spacing["32"],
@@ -135,19 +133,16 @@ const useStyles = createUseStyles((theme) => ({
     color: "#98A2B3",
   },
   name: {
-    fontSize: 32,
-    lineHeight: 32,
+    ...typographyPresets["h4-bold"],
+    lineHeight: 40,
     textAlign: "center",
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
     color: "#101828",
     textTransform: "uppercase",
-    letterSpacing: -0.64,
   },
   description: {
+    ...typographyPresets["p2-regular"],
     paddingVertical: theme.spacing[12],
     color: "#475467",
-    fontSize: 14,
-    lineHeight: 16.8,
     textAlign: "center",
   },
   price: {

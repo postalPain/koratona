@@ -6,8 +6,8 @@ import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 import PentagonPlayerCardIcon from "assets/icons/svgs/PegtagonPlayerCard"
 import { LinearGradient } from "expo-linear-gradient"
 import React from "react"
-import { Image, Pressable, View, Platform } from "react-native"
-const PentagonImage = require("assets/icons/pentagon.png");
+import { Image, Platform, Pressable, View } from "react-native"
+const PentagonImage = require("assets/icons/pentagon.png")
 
 type Props = {
   player: Player
@@ -33,7 +33,11 @@ export const PlayerCard: React.FC<Props> = ({
             <HeartIconIcon focused={addedToFavorite} />
           </Pressable>
           <View style={styles.pentagonContainer}>
-            {Platform.OS === 'android' ? <Image source={PentagonImage} /> : <PentagonPlayerCardIcon />}
+            {Platform.OS === "android" ? (
+              <Image source={PentagonImage} />
+            ) : (
+              <PentagonPlayerCardIcon />
+            )}
           </View>
           <View style={styles.imageContainer}>
             {player.pictureUrl && (
