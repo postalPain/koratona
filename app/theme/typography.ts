@@ -14,7 +14,7 @@ import {
   NotoSansArabic_400Regular as notoSansArabicRegular,
   NotoSansArabic_600SemiBold as notoSansArabicSemiBold,
 } from "@expo-google-fonts/noto-sans-arabic"
-import { Platform } from "react-native"
+import { Platform, TextStyle } from "react-native"
 import { isRTL } from "app/i18n"
 
 // Instrumental Sans
@@ -191,7 +191,7 @@ export const typography = {
 
 const fontDependOnLanguage = isRTL() ? "notoSansArabic" : "generalSans"
 
-export const typographyPresets = {
+export const typographyPresets: Record<string, TextStyle> = {
   "h3-bold": {
     fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
     fontSize: 32,
@@ -199,6 +199,7 @@ export const typographyPresets = {
   "h4-bold": {
     fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
     fontSize: 24,
+    lineHeight: isRTL() ? 34 : 28,
   },
   "p1-regular": {
     fontFamily: typography.fonts[fontDependOnLanguage].regular,
