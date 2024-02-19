@@ -63,8 +63,7 @@ const ar: Translations = {
   emptyStateComponent: {
     generic: {
       heading: "هنا فارغة... حزينة جدًا",
-      content:
-        "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
+      content: "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
       button: "خلينا نجرب مرة ثانية",
     },
   },
@@ -130,8 +129,7 @@ const ar: Translations = {
     termsOfOfConditions: "الشروط والأحكام",
     thankYouForYour: "شكرًا لك على",
     purchase: "الشراء!",
-    checkYourEmailInboxForRedemptionDetails:
-      "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
+    checkYourEmailInboxForRedemptionDetails: "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
     experience: "خبرات",
     validUntil: "صالح حتى",
     viewMyPurchases: "عرض مشترياتي",
@@ -155,7 +153,7 @@ const ar: Translations = {
     wrongExpireDate: "تاريخ انتهاء خاطئ",
   },
   postDetailsScreen: {
-    notFound: 'منشور غير موجود',
+    notFound: "منشور غير موجود",
   },
   listContentsScreen: {
     noContentYet: "لا يوجد {{content}} حتى الآن",

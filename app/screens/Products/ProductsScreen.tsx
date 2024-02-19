@@ -41,7 +41,7 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
   )
 
   return (
-    <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={['top']}>
+    <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={["top"]}>
       {productsStore.isFetchingProductsErrored && <Text tx="errors.somethingWentWrong" />}
       <FlashList<Product>
         data={[...productsStore.products]}

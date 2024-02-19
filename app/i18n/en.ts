@@ -151,7 +151,7 @@ const en = {
     wrongExpireDate: "Wrong expire date",
   },
   postDetailsScreen: {
-    notFound: 'Post doesn\'t exist',
+    notFound: "Post doesn't exist",
   },
   listContentsScreen: {
     noContentYet: "No {{content}} yet",
