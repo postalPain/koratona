@@ -1,7 +1,7 @@
 import { NativeSegmentedControlIOSChangeEvent } from "@react-native-segmented-control/segmented-control"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import React from "react"
 import { ActivityIndicator, Alert, NativeSyntheticEvent, View } from "react-native"
 // @ts-ignore
@@ -79,8 +79,8 @@ export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSh
           onChange={(event: NativeSyntheticEvent<NativeSegmentedControlIOSChangeEvent>) => {
             setSelectedIndex(event.nativeEvent.selectedSegmentIndex)
           }}
-          activeFontStyle={styles.fontStyle}
-          fontStyle={styles.fontStyle}
+          activeFontStyle={styles.segmentFontStyle}
+          fontStyle={styles.segmentFontStyle}
         />
       </View>
       <Button style={styles.button} onPress={onSaveChanges} disabled={authUserStore.isLoading}>
@@ -100,13 +100,11 @@ const useStyles = createUseStyles((theme) => ({
   },
   title: {
     textAlign: "center",
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    letterSpacing: -0.64,
-    fontSize: 32,
+    ...typographyPresets["h4-bold"],
     lineHeight: 40,
     marginBottom: theme.spacing[24],
   },
-  fontStyle: {
+  segmentFontStyle: {
     color: "#000000",
     fontFamily: typography.fonts.inter.normal,
     fontSize: 12,
@@ -120,6 +118,7 @@ const useStyles = createUseStyles((theme) => ({
   buttonText: {
     color: "#fff",
     textAlign: "center",
+    ...typographyPresets["p2-semibold"],
   },
   segmentControlContainer: {
     paddingVertical: theme.spacing[12],

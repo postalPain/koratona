@@ -1,8 +1,8 @@
 import { Text } from "app/components"
 import Config from "app/config"
-import { typography } from "app/theme"
 import React from "react"
 import { Alert, Linking, TextStyle, View } from "react-native"
+import { typographyPresets } from "../../theme/typography"
 
 export const ProductPurchasePolicies = () => {
   const handleOpenPolicies = async () => {
@@ -33,9 +33,12 @@ const $textWrapper: TextStyle = {
 
 const $lighter: TextStyle = {
   color: "#808080",
+  lineHeight: 24,
+  ...typographyPresets["p2-semibold"],
 }
 
 const $darker: TextStyle = {
   color: "#000000",
-  fontFamily: typography.fonts.instrumentSans.medium,
+  lineHeight: 24,
+  ...typographyPresets["p2-semibold"],
 }

@@ -15,7 +15,8 @@ import ProfileIconSvg from "../../assets/icons/svgs/bottomNavbar/ProfileIcon"
 import { Icon } from "../components"
 import { translate } from "../i18n"
 import { DemoDebugScreen } from "../screens"
-import { colors, spacing, typography } from "../theme"
+import { colors, spacing } from "../theme"
+import { typographyPresets } from "../theme/typography"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 export type AppHomeTabParamList = {
@@ -110,9 +111,7 @@ const $tabBarItem: ViewStyle = {
 }
 
 const $tabBarLabel: TextStyle = {
-  fontSize: 14,
-  fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
-  lineHeight: 16.8,
+  ...typographyPresets["p2-regular"],
   flex: 1,
   marginTop: 4,
 }

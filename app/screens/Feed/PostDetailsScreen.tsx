@@ -1,12 +1,12 @@
-import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import CircularProgress from "@stryberventures/gaia-react-native.circular-progress"
+import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
-import { getLanguage, getWritingDirection } from "app/i18n"
+import { getLanguage, getWritingDirection, isRTL } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { useStores } from "app/models"
 import { Post } from "app/models/Posts/Post"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import HeartIconIcon from "assets/icons/svgs/HeartIcon"
 import { LinearGradient } from "expo-linear-gradient"
@@ -228,19 +228,21 @@ const useStyles = createUseStyles(() => ({
     height: "100%",
   },
   heading: {
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
+    ...(isRTL()
+      ? typographyPresets["h3-bold"]
+      : {
+          fontSize: 14,
+          fontFamily: typography.fonts.instrumentSansSemiCondensed.regularItalic,
+          letterSpacing: 1.68,
+        }),
+    lineHeight: 56,
     textTransform: "uppercase",
     color: "#fff",
-    fontSize: 48,
-    lineHeight: 56,
-    letterSpacing: -0.96,
     writingDirection: getWritingDirection(),
   },
   subHeading: {
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
+    ...typographyPresets["p2-regular"],
     color: "#D0D5DD",
-    fontSize: 14,
-    lineHeight: 17,
     marginTop: 6,
     writingDirection: getWritingDirection(),
   },

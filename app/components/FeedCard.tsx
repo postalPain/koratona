@@ -3,7 +3,7 @@ import { Text } from "app/components/Text"
 import { getWritingDirection } from "app/i18n"
 import { handleArLang } from "app/i18n/handleArLang"
 import { Post } from "app/models/Posts/Post"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import { getPostCreationTime } from "app/utils/formatCreatedTime"
 import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
@@ -14,11 +14,12 @@ import {
   ImageSourcePropType,
   Pressable,
   View,
-  useWindowDimensions,
   ViewStyle,
+  useWindowDimensions,
 } from "react-native"
 import RenderHtml from "react-native-render-html"
 import HeartIconIcon from "../../assets/icons/svgs/HeartIcon"
+import { isRTL } from "../i18n/getIsRTL"
 
 export interface FeedCardProps {
   /**
@@ -126,9 +127,13 @@ export const FeedCard = React.memo(
                 tagsStyles={{
                   p: {
                     color: "#475467",
-                    fontSize: 14,
-                    lineHeight: 16.8,
-                    fontFamily: typography.fonts.instrumentSans.regular,
+                    ...(isRTL()
+                      ? typographyPresets["p2-regular"]
+                      : {
+                          fontSize: 14,
+                          lineHeight: 16.8,
+                          fontFamily: typography.fonts.instrumentSans.regular,
+                        }),
                     writingDirection: getWritingDirection(),
                   },
                 }}
@@ -185,13 +190,17 @@ const useStyles = createUseStyles(() => ({
     padding: 18,
   },
   heading: {
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
+    ...(isRTL()
+      ? typographyPresets["h4-bold"]
+      : {
+          fontFamily: typography.fonts.instrumentSansCondensed.bold,
+          fontSize: 36,
+          letterSpacing: -0.32,
+        }),
+    lineHeight: 36,
     textTransform: "uppercase",
     color: "#fff",
-    fontSize: 36,
-    lineHeight: 36,
-    letterSpacing: -0.32,
-    writingDirection: getWritingDirection()
+    writingDirection: getWritingDirection(),
   },
   underTitleIcon: {
     marginBottom: 18,

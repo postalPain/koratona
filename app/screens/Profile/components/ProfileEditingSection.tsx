@@ -1,7 +1,7 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { isRTL } from "app/i18n"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import EditIcon from "assets/icons/svgs/EditIcon"
 import NotificationIcon from "assets/icons/svgs/NotificationIcon"
 import SettingsIcon from "assets/icons/svgs/SettingsIcon"
@@ -94,9 +94,13 @@ const useStyles = createUseStyles((theme) => ({
   },
   editProfileButtonText: {
     color: "#475467",
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
-    fontSize: 16,
-    lineHeight: 20,
     marginTop: 6,
+    ...(isRTL()
+      ? typographyPresets["p2-semibold"]
+      : {
+          fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
+          fontSize: 16,
+          lineHeight: 20,
+        }),
   },
 }))

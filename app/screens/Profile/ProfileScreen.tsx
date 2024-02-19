@@ -1,7 +1,8 @@
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { isRTL } from "app/i18n"
 import { useStores } from "app/models"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import LogOutIconSvg from "assets/icons/svgs/LogOutIcon"
 import PentagonIcon from "assets/icons/svgs/Pegtagon"
@@ -58,13 +59,13 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
 
   useEffect(() => {
     setJerseyNumber(`${user.jerseyNumber || "1"}`)
-    const keyboardDidHideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-      if (tShortNumberInputRef.current?.isFocused() && Platform.OS === 'android') {
-        tShortNumberInputRef.current?.blur();
+    const keyboardDidHideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      if (tShortNumberInputRef.current?.isFocused() && Platform.OS === "android") {
+        tShortNumberInputRef.current?.blur()
       }
     })
     return () => {
-      keyboardDidHideSubscription.remove();
+      keyboardDidHideSubscription.remove()
     }
   }, [])
 
@@ -74,7 +75,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
       favoritePlayersBottomPanelRef.current?.close();
     });
     return () => {
-      unsubscribeNavigationBlur();
+      unsubscribeNavigationBlur()
     }
   }, [])
 
@@ -262,9 +263,8 @@ const useStyles = createUseStyles((theme) => ({
   logoutText: {
     marginLeft: theme.spacing[8],
     color: "#fff",
-    fontSize: 16,
     opacity: 0.5,
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.regular,
+    ...typographyPresets["p3-semibold"],
   },
   gradient: {
     flex: 1,
@@ -282,11 +282,15 @@ const useStyles = createUseStyles((theme) => ({
     opacity: 0.5,
     top: 50,
     textAlign: "center",
-    fontSize: 14,
     textTransform: "uppercase",
     width: 80,
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.regularItalic,
-    letterSpacing: 1.68,
+    ...(isRTL()
+      ? typographyPresets["p2-semibold"]
+      : {
+          fontSize: 14,
+          fontFamily: typography.fonts.instrumentSansSemiCondensed.regularItalic,
+          letterSpacing: 1.68,
+        }),
   },
   tShirtContainer: {
     position: "relative",
@@ -333,8 +337,12 @@ const useStyles = createUseStyles((theme) => ({
     textTransform: "uppercase",
     textAlign: "center",
     color: "#B2D5F7",
-    fontFamily: typography.fonts.instrumentSansCondensed.medium,
-    fontSize: 16,
+    ...(isRTL()
+      ? typographyPresets["p2-semibold"]
+      : {
+          fontFamily: typography.fonts.instrumentSansCondensed.medium,
+          fontSize: 16,
+        }),
   },
   contentWrapper: {
     paddingHorizontal: theme.spacing[24],
@@ -347,7 +355,7 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: "#fff",
     textAlign: "right",
     fontWeight: "bold",
-    color: "#1375FE",
+    color: "er",
     marginRight: theme.spacing[12],
     paddingBottom: theme.spacing[12],
   },

@@ -1,10 +1,12 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
+import { isRTL } from "app/i18n"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
+import { typographyPresets } from "../../../theme/typography"
 
 export const ProfileStatsSection = observer(function () {
   const styles = useStyles()
@@ -49,9 +51,8 @@ const useStyles = createUseStyles((theme) => ({
   playerDescriptionText: {
     textAlign: "center",
     color: "#475467",
-    fontSize: 14,
-    lineHeight: 20,
     paddingBottom: 36,
+    ...typographyPresets["p2-regular"],
   },
   playerStats: {
     borderColor: "rgba(0, 0, 0, 0.10)",
@@ -70,18 +71,26 @@ const useStyles = createUseStyles((theme) => ({
   },
   playerStatsValueText: {
     color: "#101828",
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    fontSize: 24,
-    lineHeight: 32,
-    letterSpacing: -0.48,
     textAlign: "center",
+    ...(isRTL()
+      ? typographyPresets["p1-medium"]
+      : {
+          fontFamily: typography.fonts.instrumentSansCondensed.bold,
+          fontSize: 24,
+          lineHeight: 32,
+          letterSpacing: -0.48,
+        }),
   },
   playerStatsTitleText: {
     color: "#98A2B3",
-    fontFamily: typography.fonts.instrumentSansCondensed.medium,
-    textTransform: "uppercase",
-    fontSize: 14,
-    lineHeight: 20,
     textAlign: "center",
+    textTransform: "uppercase",
+    ...(isRTL()
+      ? typographyPresets["p2-semibold"]
+      : {
+          fontFamily: typography.fonts.instrumentSansCondensed.medium,
+          fontSize: 14,
+          lineHeight: 20,
+        }),
   },
 }))

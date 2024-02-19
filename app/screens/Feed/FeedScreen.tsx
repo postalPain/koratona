@@ -35,13 +35,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
     LeftActionComponent: <View style={styles.headerLeftContentPlaceholder} />,
     rightIconSize: 32,
     onRightPress: () => _props.navigation.navigate("widgets"),
-    children: (
-      <Image
-        source={circleLogo}
-        style={styles.headerIcon}
-        resizeMode="contain"
-      />
-    ),
+    children: <Image source={circleLogo} style={styles.headerIcon} resizeMode="contain" />,
     backgroundColor: "#fff",
   })
 
