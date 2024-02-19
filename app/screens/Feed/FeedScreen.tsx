@@ -1,8 +1,9 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { useScrollToTop } from '@react-navigation/native';
 import { useStores } from "app/models"
 import { useHeader } from "app/utils/useHeader"
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useRef } from "react"
 import { ActivityIndicator, Image, View, ViewStyle } from "react-native"
 import { FeedCard, Screen, Text } from "../../components"
 
@@ -20,8 +21,14 @@ const containerBgColor = "#efefef"
 
 export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(function (_props) {
   const styles = useStyles()
+  const contentListRef = useRef<FlashList<Post>>(null)
   const { postsStore, authUserStore } = useStores()
   useFetchPosts()
+  useScrollToTop(useRef({
+    scrollToTop: () => {
+      contentListRef.current?.scrollToOffset({ offset: 0 });
+    }
+  }))
 
   useHeader({
     rightIcon: "teamsIcon",
@@ -60,6 +67,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
     <Screen backgroundColor="#fff" preset="fixed" contentContainerStyle={$container}>
       {postsStore.isFetchingPostsErrored && <Text tx="errors.somethingWentWrong" />}
       <FlashList<Post>
+        ref={contentListRef}
         data={[...postsStore.posts]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         onRefresh={postsStore.fetchPosts}
