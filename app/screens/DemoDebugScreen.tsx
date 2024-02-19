@@ -1,13 +1,13 @@
+import { isRTL } from "app/i18n"
+import { clear } from "app/utils/storage"
 import * as Application from "expo-application"
+import * as Updates from "expo-updates"
 import React, { FC } from "react"
 import { Platform, TextStyle, View, ViewStyle } from "react-native"
 import { Button, ListItem, Screen, Text } from "../components"
-
 import { useStores } from "../models"
 import { AppTabScreenProps } from "../navigators/AppHomeNavigator"
 import { colors, spacing } from "../theme"
-import { clear } from "app/utils/storage"
-import { isRTL } from "app/i18n"
 
 export const DemoDebugScreen: FC<AppTabScreenProps<"DemoDebug">> = function DemoDebugScreen(
   _props,
@@ -39,6 +39,20 @@ export const DemoDebugScreen: FC<AppTabScreenProps<"DemoDebug">> = function Demo
     [],
   )
 
+  async function onFetchUpdateAsync() {
+    try {
+      const update = await Updates.checkForUpdateAsync()
+
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync()
+        await Updates.reloadAsync()
+      }
+    } catch (error) {
+      // You can also add an alert() to see the error message in case of an error when fetching updates.
+      alert(`Error fetching latest Expo update: ${error}`)
+    }
+  }
+
   return (
     <Screen preset="scroll" safeAreaEdges={["top"]} contentContainerStyle={$container}>
       <Text style={$title} preset="heading" tx="demoDebugScreen.title" />
@@ -65,6 +79,39 @@ export const DemoDebugScreen: FC<AppTabScreenProps<"DemoDebug">> = function Demo
           onPress={() => {
             clear()
           }}
+        />
+        <Button text="check for updates" onPress={onFetchUpdateAsync} />
+        <ListItem
+          LeftComponent={
+            <View style={$item}>
+              <Text preset="bold">Updates updateId</Text>
+              <Text>{Updates.updateId}</Text>
+            </View>
+          }
+        />
+        <ListItem
+          LeftComponent={
+            <View style={$item}>
+              <Text preset="bold">Updates channel</Text>
+              <Text>{Updates.channel}</Text>
+            </View>
+          }
+        />
+        <ListItem
+          LeftComponent={
+            <View style={$item}>
+              <Text preset="bold">Updates is check automatically</Text>
+              <Text>{Updates.checkAutomatically}</Text>
+            </View>
+          }
+        />
+        <ListItem
+          LeftComponent={
+            <View style={$item}>
+              <Text preset="bold">Updates is EmbeddedLaunch</Text>
+              <Text>{Updates.isEmbeddedLaunch}</Text>
+            </View>
+          }
         />
         <ListItem
           LeftComponent={

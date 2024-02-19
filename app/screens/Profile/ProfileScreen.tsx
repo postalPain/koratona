@@ -70,9 +70,10 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   }, [])
 
   useEffect(() => {
-    const unsubscribeNavigationBlur = _props.navigation.addListener("blur", () => {
-      settingBottomPanelRef.current?.close()
-    })
+    const unsubscribeNavigationBlur = _props.navigation.addListener('blur', () => {
+      settingBottomPanelRef.current?.close();
+      favoritePlayersBottomPanelRef.current?.close();
+    });
     return () => {
       unsubscribeNavigationBlur()
     }
