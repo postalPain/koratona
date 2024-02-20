@@ -23,7 +23,7 @@ import { ActivityIndicator, I18nManager, useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
-import { navigationRef, useBackButtonHandler, setNavigationReady } from "./navigationUtilities"
+import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import RNRestart from "react-native-restart"
 import { LANGUAGE_KEY, setLanguage } from "app/i18n"
 
@@ -152,15 +152,12 @@ export interface NavigationProps
 export const AppNavigator = observer(function AppNavigator(props: NavigationProps) {
   const colorScheme = useColorScheme()
 
-  useBackButtonHandler((routeName) => exitRoutes.includes(routeName))
+  useBackButtonHandler((routeName) => exitRoutes.includes(routeName));
 
   return (
     <NavigationContainer
       ref={navigationRef}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-      onReady={() => {
-        setNavigationReady()
-      }}
       {...props}
     >
       <AppStack />

@@ -3,7 +3,7 @@ import { Screen, Text } from "app/components"
 import { GoBackComponent } from "app/components/GoBack"
 import { isRTL } from "app/i18n"
 import { useStores } from "app/models"
-import { AppStackScreenProps, getActiveRouteName } from "app/navigators"
+import { AppStackScreenProps, getActiveRoute } from "app/navigators"
 import { typographyPresets } from "app/theme"
 import { showToast } from "app/utils/showToast"
 import EnvelopeIconSmall from "assets/icons/svgs/EnvelopeIconSmall"
@@ -23,7 +23,7 @@ const OTP_CODE_LENGTH = 4
 export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props) {
   const styles = useStyles()
   const { authenticationStore, authUserStore } = useStores()
-  const isPageActive = getActiveRouteName(_props.navigation.getState()) === "OTPConfirmation"
+  const isPageActive = getActiveRoute(_props.navigation.getState()).name === "OTPConfirmation"
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
