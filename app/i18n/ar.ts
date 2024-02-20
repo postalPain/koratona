@@ -69,7 +69,7 @@ const ar: Translations = {
   },
   onboardingScreen: {
     yourProfile: "ملفك الشخصي",
-    moreDetails: "نحتاج تفاصيل أكثر لتكملة ملف المعجبين",
+    moreDetails: "نحتاج تفاصيل أكثر لتكملة ملف المشجعين",
     personalDetails: "تفاصيل شخصية",
     chooseYourTeam: "اختر فريقك",
     join: "انضم إلى",
