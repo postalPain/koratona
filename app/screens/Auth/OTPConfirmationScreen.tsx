@@ -120,6 +120,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
       (user) => {
         authUserStore.setUserData(user)
         setIsLoading(false)
+        _props.navigation.navigate("Welcome")
       },
       () => {
         setOtpCodeInvalid(true)
