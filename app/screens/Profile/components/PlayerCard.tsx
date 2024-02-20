@@ -7,6 +7,7 @@ import PentagonPlayerCardIcon from "assets/icons/svgs/PegtagonPlayerCard"
 import { LinearGradient } from "expo-linear-gradient"
 import React from "react"
 import { Image, Platform, Pressable, View } from "react-native"
+import { isRTL } from "app/i18n"
 const PentagonImage = require("assets/icons/pentagon.png")
 
 type Props = {
@@ -97,7 +98,7 @@ const useStyles = createUseStyles(() => ({
     position: "absolute",
     bottom: 10,
     left: "50%",
-    transform: [{ translateX: -43 }],
+    transform: [{ translateX: 43 * (isRTL() ? 1 : -1) }],
   },
   favoriteIcon: {
     position: "absolute",
