@@ -221,6 +221,7 @@ export const typographyPresets: Record<string, TextStyle> = {
   "p2-semibold": {
     fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
     fontSize: 14,
+    lineHeight: isRTL() ? 28 : 20,
   },
   "p3-regular": {
     fontFamily: isRTL() ? typography.fonts.notoSansArabic.regular : typography.fonts.inter.normal,
