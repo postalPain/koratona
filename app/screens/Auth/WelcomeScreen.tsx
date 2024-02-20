@@ -11,13 +11,13 @@ import { LoginOTP } from "./LoginOTP"
 const welcomeLogo = require("assets/images/logo.png")
 const welcomeBackGround = require("assets/backgrounds/welcome-screen.png")
 
-interface WelcomeScreenProps extends AppStackScreenProps<"welcome"> {}
+interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 
 export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function WelcomeScreen(_props) {
   const styles = useStyles()
 
   const navigateToOTPConfirmation = (phoneNumber: string) => {
-    _props.navigation.navigate("OTPConfirmation", { phoneNumber })
+    _props.navigation.replace("OTPConfirmation", { phoneNumber })
   }
 
   return (

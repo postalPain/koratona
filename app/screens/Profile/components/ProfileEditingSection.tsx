@@ -80,8 +80,8 @@ const useStyles = createUseStyles((theme) => ({
     borderRightWidth: 0.5,
   },
   buttonsContainerFirstCellRTL: {
-    borderLeftColor: "rgba(0, 0, 0, 0.10)",
-    borderLeftWidth: 0.5,
+    borderRightColor: "rgba(0, 0, 0, 0.10)",
+    borderRightWidth: 0.5,
   },
   buttonsContainerRow: {
     flexDirection: "row",
