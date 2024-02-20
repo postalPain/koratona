@@ -26,7 +26,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
   useFetchPosts()
   useScrollToTop(useRef({
     scrollToTop: () => {
-      contentListRef.current?.scrollToOffset({ offset: 0 });
+      contentListRef.current?.scrollToOffset({ offset: 0, animated: true });
     }
   }))
 
