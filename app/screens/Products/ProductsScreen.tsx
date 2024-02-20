@@ -24,7 +24,7 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
   useFetchProducts()
   useScrollToTop(useRef({
     scrollToTop: () => {
-      contentListRef.current?.scrollToOffset({ offset: 0 });
+      contentListRef.current?.scrollToOffset({ offset: 0, animated: true });
     }
   }))
 
