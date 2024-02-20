@@ -2,9 +2,9 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Screen, Text } from "app/components"
 import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
-import { typography } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
+import { typographyPresets } from "../../theme/typography"
 import EditProfileForm from "../Profile/components/EditProfileForm"
 import useFetchFavoriteTeam from "../hooks/useGetFavoriteTeam"
 import useFetchTeamList from "../hooks/useTeamList"
@@ -55,28 +55,23 @@ const useStyles = createUseStyles((theme) => ({
     paddingLeft: theme.spacing[24],
   },
   title: {
-    fontFamily: typography.fonts.instrumentSans.bold,
-    fontSize: 28,
+    ...typographyPresets["h4-bold"],
     lineHeight: 34,
-    letterSpacing: -0.54,
     textAlign: "center",
     marginBottom: theme.spacing[12],
     color: "#121212",
     marginTop: theme.spacing[32],
   },
   subTitle: {
+    ...typographyPresets["p2-regular"],
     textAlign: "center",
     color: "#333865",
-    fontSize: 14,
-    lineHeight: 20,
     marginBottom: theme.spacing[32],
   },
   formTitle: {
+    ...typographyPresets["p2-semibold"],
     color: "#121212",
     textAlign: "center",
-    fontSize: 14,
-    lineHeight: 16.8,
     marginBottom: theme.spacing[8],
-    fontFamily: typography.fonts.instrumentSans.semiBold,
   },
 }))

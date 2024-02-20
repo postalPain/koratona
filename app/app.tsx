@@ -84,6 +84,7 @@ function App(props: AppProps) {
   const {
     initialNavigationState,
     onNavigationStateChange,
+    onReady,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
@@ -123,6 +124,7 @@ function App(props: AppProps) {
                 linking={linking}
                 initialState={initialNavigationState}
                 onStateChange={onNavigationStateChange}
+                onReady={onReady}
               />
             </RootSiblingParent>
           </GestureHandlerRootView>

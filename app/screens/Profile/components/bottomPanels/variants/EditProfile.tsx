@@ -3,7 +3,7 @@ import { Text } from "app/components"
 import { useFetchAuthUser } from "app/screens/Auth/hooks/useAuth"
 import useFetchFavoriteTeam from "app/screens/hooks/useGetFavoriteTeam"
 import useFetchTeamList from "app/screens/hooks/useTeamList"
-import { typography } from "app/theme"
+import { typographyPresets } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
@@ -39,9 +39,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   title: {
     textAlign: "center",
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    letterSpacing: -0.64,
-    fontSize: 32,
+    ...typographyPresets["h4-bold"],
     lineHeight: 40,
     marginBottom: theme.spacing[24],
   },

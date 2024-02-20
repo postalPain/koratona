@@ -9,17 +9,17 @@ const ar: Translations = {
     and: " و ",
     login: "تسجيل الدخول",
     backToLogin: "العودة إلى تسجيل الدخول",
-    skipText: "ربما لاحقًا",
+    skipText: "يمكن مرة ثانية",
     saveChanges: "حفظ التغييرات",
     done: "تم",
     goBack: "ارجع",
     skip: "تخطى",
     continue: "كمل",
     in: "في",
-    thatAllForNow: "هذا كل ما لدينا حاليًا",
-    youSeeAllContent: "لقد رأيت كل المحتوى الجديد منذ المرة الأخيرة",
+    thatAllForNow: "هذا كل شيء للآن",
+    youSeeAllContent: "تم الاطلاع على كافة المحتوى الجديد",
     yesterday: "أمس",
-    loading: "...جاري التحميل",
+    loading: "جاري التحميل",
   },
   policies: {
     agreement: "من خلال إنشاء حسابك، فإنك توافق على",
@@ -31,14 +31,14 @@ const ar: Translations = {
     letsGetStarted: "هيا بنا نبدأ.",
   },
   signIn: {
-    slogan: "مرحبًا مرة أخرى",
+    slogan: "مرحبًا من جديد",
     enterLoginCode: "أدخل رمز تسجيل الدخول",
-    weHaveSentCodeTo: "لقد قمنا بإرسال رمز إلى",
+    weHaveSentCodeTo: "تم إرسال الرمز إلى",
     resendCode: "إعادة إرسال الرمز",
-    wrongCode: "رمز خاطئ",
+    wrongCode: "الرمز خاطئ",
     enterCode: "أدخل الرمز",
     codeSent: "تم إرسال الرمز",
-    enterPhoneNumber: "أدخل رقم الهاتف",
+    enterPhoneNumber: "أدخل رقم الجوال",
     phoneFilterPlaceholder: "البحث عن بلد",
   },
   forgotPassword: {
@@ -48,7 +48,7 @@ const ar: Translations = {
   resetPassword: {
     slogan: "إنشاء كلمة مرور جديدة",
     passwordFieldLabel: "كلمة المرور الجديدة",
-    repeatPasswordField: "تكرار كلمة المرور الجديدة",
+    repeatPasswordField: "كرر كلمة المرور الجديدة",
     savePassword: "حفظ كلمة المرور",
   },
   errorScreen: {
@@ -58,13 +58,12 @@ const ar: Translations = {
     traceTitle: "%{name}خطأ من مكدس الأخطاء ",
   },
   errors: {
-    somethingWentWrong: "حدث خطأ ما",
+    somethingWentWrong: "عذراً فيه شي خطأ",
   },
   emptyStateComponent: {
     generic: {
       heading: "هنا فارغة... حزينة جدًا",
-      content:
-        "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
+      content: "ما حصلنا البيانات لحد الآن. اضغط على الزر لتحديث التطبيق أو إعادة تحميله",
       button: "خلينا نجرب مرة ثانية",
     },
   },
@@ -116,7 +115,7 @@ const ar: Translations = {
   },
   appHomeNavigator: {
     home: "الرئيسية",
-    products: "الخبرات",
+    products: "الفعاليات",
     userProfile: "حسابي ",
   },
   productsScreen: {
@@ -130,12 +129,11 @@ const ar: Translations = {
     termsOfOfConditions: "الشروط والأحكام",
     thankYouForYour: "شكرًا لك على",
     purchase: "الشراء!",
-    checkYourEmailInboxForRedemptionDetails:
-      "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
+    checkYourEmailInboxForRedemptionDetails: "شيّك على بريدك الإلكتروني لمعرفة تفاصيل الاستراد",
     experience: "خبرات",
     validUntil: "صالح حتى",
     viewMyPurchases: "عرض مشترياتي",
-    outOfStock: "نفدت الكمية!",
+    outOfStock: "انتهت الكمية",
     paymentDetails: "بيانات الدفع",
     youArePurchasing: "{{experience}} أنت تشتري ",
     email: "البريد الإلكتروني",
@@ -149,19 +147,19 @@ const ar: Translations = {
     cardNumberIsRequired: "رقم البطاقة مطلوب",
     cardNumberHasToBe16Digits: "يجب أن يكون رقم البطاقة ١٦ رقمًا",
     theLengthOfCvcHasToBe3: "  ٣أرقام CVC يجب أن يكون طول ",
-    expirationDateIsRequiredAndHasToBeValid: "تاريخ الانتهاء مطلوب ويجب أن يكون صالحًا",
+    expirationDateIsRequiredAndHasToBeValid: "تاريخ الانتهاء مطلوب ويجب أن يكون غير منتهي",
     expirationMonthIsRequired: "شهر الانتهاء مطلوب",
     expirationYearIsRequired: "سنة الانتهاء مطلوبة",
     wrongExpireDate: "تاريخ انتهاء خاطئ",
   },
   postDetailsScreen: {
-    notFound: 'منشور غير متواجد',
+    notFound: "منشور غير موجود",
   },
   listContentsScreen: {
     noContentYet: "لا يوجد {{content}} حتى الآن",
-    loadingMoreContent: "... {{content}} جاري تحميل المزيد من ",
+    loadingMoreContent: "جاري تحميل المزيد من {{content}} ",
     posts: "المنشورات",
-    products: "المنتجات",
+    products: "الفعاليات",
   },
   profile: {
     yourProfile: "ملفك الشخصي",
@@ -224,7 +222,7 @@ const ar: Translations = {
       tackles: "العرقلات",
       total: "المجموع",
       interceptions: "الاعتراضات",
-      blocks: "صد",
+      blocks: "التصديات",
       duelsWon: "المنازعات الفاز بها",
       fouls: "المخالفات",
       foulCards: "بطاقات الأخطاء",
@@ -242,12 +240,12 @@ const ar: Translations = {
     },
     offline: {
       title: "خطأ في الشبكة",
-      description: "يرجى التحقق من اتصالك بالشبكة أو الاتصال بالدعم إذا استمرت المشكلة.",
+      description: "تحقق من اتصالك بالشبكة أو اتصل بالدعم إذا استمرت المشكلة",
     },
     serverError: {
-      title: "خطأ في الخادم",
+      title: "خطأ في الخدمة",
       description:
-        "نأسف ولكن يبدو أن خوادمنا غير متوفرة في الوقت الحالي. يرجى المحاولة مرة أخرى في دقيقة.",
+        "نأسف ولكن يبدو أن خدماتنا غير متوفرة في الوقت الحالي. يرجى المحاولة مرة أخرى بعد دقيقة.",
     },
   },
   editProfileForm: {
@@ -258,7 +256,7 @@ const ar: Translations = {
     DOB: "تاريخ الميلاد",
     email: "البريد الإلكتروني",
     emailPlaceholder: "أدخل البريد الإلكتروني",
-    phoneNumber: "رقم الهاتف",
+    phoneNumber: "رقم الجوال",
     thisFieldIsRequired: "هذا الحقل مطلوب",
     invalidEmailFormat: "تنسيق البريد الإلكتروني غير صالح",
   },

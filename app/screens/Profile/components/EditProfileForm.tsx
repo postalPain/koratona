@@ -6,7 +6,7 @@ import { Text } from "app/components"
 import { translate } from "app/i18n"
 import { useStores } from "app/models"
 import { Team } from "app/models/Team/Team"
-import { typography } from "app/theme"
+import { typographyPresets } from "app/theme"
 import { formatDate } from "app/utils/formatDate"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
@@ -356,7 +356,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
         {authUserStore.isLoading || teamStore.isTeamListLoading ? (
           <ActivityIndicator />
         ) : (
-          <Text weight="bold" tx="common.saveChanges" style={styles.loginButtonText} />
+          <Text tx="common.saveChanges" style={styles.buttonText} />
         )}
       </Button>
     </View>
@@ -374,10 +374,8 @@ const useStyles = createUseStyles((theme) => ({
   },
   formTitle: {
     textAlign: "center",
-    fontSize: 14,
-    lineHeight: 16.8,
+    ...typographyPresets["p2-semibold"],
     marginBottom: theme.spacing[12],
-    fontFamily: typography.fonts.instrumentSans.semiBold,
   },
   datePicker: {
     marginBottom: -20,
@@ -458,9 +456,10 @@ const useStyles = createUseStyles((theme) => ({
     borderColor: "#333865",
     minHeight: 58,
   },
-  loginButtonText: {
+  buttonText: {
     color: "#fff",
     textAlign: "center",
+    ...typographyPresets["p2-semibold"],
   },
   hintsStyles: {
     position: "absolute",

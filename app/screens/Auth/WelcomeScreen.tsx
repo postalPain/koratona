@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { Image, ImageBackground, Keyboard, TouchableWithoutFeedback, View } from "react-native"
 import { AppStackScreenProps } from "../../navigators"
-import { typography } from "../../theme"
+import { typographyPresets } from "../../theme"
 import { LoginOTP } from "./LoginOTP"
 
 const welcomeLogo = require("assets/images/logo.png")
@@ -67,15 +67,13 @@ const useStyles = createUseStyles(() => ({
     height: 26,
   },
   slogan: {
+    ...typographyPresets["h4-bold"],
     color: "#fff",
     textAlign: "center",
-    fontSize: 22,
-    letterSpacing: -0.44,
-    fontFamily: typography.fonts.instrumentSans.bold,
     marginTop: 47,
   },
   sloganWrapper: {
-    width: 220,
+    width: 282,
     alignSelf: "center",
   },
   centered: {

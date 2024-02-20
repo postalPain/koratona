@@ -1,8 +1,9 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { useScrollToTop } from '@react-navigation/native';
 import { useStores } from "app/models"
 import { useHeader } from "app/utils/useHeader"
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useRef } from "react"
 import { ActivityIndicator, Image, View, ViewStyle } from "react-native"
 import { FeedCard, Screen, Text } from "../../components"
 
@@ -20,21 +21,21 @@ const containerBgColor = "#efefef"
 
 export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(function (_props) {
   const styles = useStyles()
+  const contentListRef = useRef<FlashList<Post>>(null)
   const { postsStore, authUserStore } = useStores()
   useFetchPosts()
+  useScrollToTop(useRef({
+    scrollToTop: () => {
+      contentListRef.current?.scrollToOffset({ offset: 0 });
+    }
+  }))
 
   useHeader({
     rightIcon: "teamsIcon",
     LeftActionComponent: <View style={styles.headerLeftContentPlaceholder} />,
     rightIconSize: 32,
     onRightPress: () => _props.navigation.navigate("widgets"),
-    children: (
-      <Image
-        source={circleLogo}
-        style={styles.headerIcon}
-        resizeMode="contain"
-      />
-    ),
+    children: <Image source={circleLogo} style={styles.headerIcon} resizeMode="contain" />,
     backgroundColor: "#fff",
   })
 
@@ -43,7 +44,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
       <FeedCard
         onPress={() => _props.navigation.navigate("postDetails", { id: item.id })}
         bgImage={item.coverImageUrl}
-        bgColor={containerBgColor}
+        style={styles.feedItem}
         post={item}
         underTitleIcon={item.video ? YouTubeIcon : undefined}
         favoriteCount={item.favoriteCount}
@@ -60,6 +61,7 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
     <Screen backgroundColor="#fff" preset="fixed" contentContainerStyle={$container}>
       {postsStore.isFetchingPostsErrored && <Text tx="errors.somethingWentWrong" />}
       <FlashList<Post>
+        ref={contentListRef}
         data={[...postsStore.posts]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         onRefresh={postsStore.fetchPosts}
@@ -102,13 +104,16 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
 })
 
 const $container: ViewStyle = {
-  paddingHorizontal: spacing.lg,
   flex: 1,
   paddingTop: spacing.sm,
   backgroundColor: containerBgColor,
 }
 
 const useStyles = createUseStyles(() => ({
+  feedItem: {
+    marginHorizontal: spacing.lg,
+    backgroundColor: containerBgColor,
+  },
   headerLeftContentPlaceholder: {
     width: 52,
   },

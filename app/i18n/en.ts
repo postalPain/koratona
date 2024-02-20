@@ -151,7 +151,7 @@ const en = {
     wrongExpireDate: "Wrong expire date",
   },
   postDetailsScreen: {
-    notFound: 'Post doesn\'t exist',
+    notFound: "Post doesn't exist",
   },
   listContentsScreen: {
     noContentYet: "No {{content}} yet",
@@ -179,7 +179,7 @@ const en = {
     editFavoritePlayers: "Edit favorite players",
     favoritePlayers: "favorite players",
     descriptionComposition:
-      "{{name}} is one of our most passionate fans. The {{age}} old's {{appName}} {{favoriteTeam}} debut was on {{debutDate}}.",
+      "{{name}} is one of our most passionate fans. The {{age}} year old's {{appName}} debut was on {{debutDate}}.",
     restart: "Restart",
     toApplyTheChangesRestartApp: "To apply changes, restart the app.",
   },

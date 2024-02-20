@@ -8,6 +8,7 @@
     "development": {
       "extends": "production",
       "distribution": "internal",
+      "channel": "development",
       "android": {
         "image": "default",
         "gradleCommand": ":app:assembleDebug"
@@ -15,55 +16,64 @@
       "ios": {
         "image": "latest",
         "buildConfiguration": "Debug",
-        "simulator": true
-      }
-    },
-    "development:device": {
-      "extends": "development",
-      "distribution": "internal",
-      "ios": {
-        "image": "latest",
-        "buildConfiguration": "Debug",
         "simulator": false
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "development"
       }
     },
     "development-simulator": {
       "developmentClient": true,
       "distribution": "internal",
+      "channel": "development",
       "ios": {
         "image": "latest",
         "simulator": true
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "development"
       }
     },
     "preview": {
       "extends": "production",
       "distribution": "internal",
+      "channel": "preview",
       "ios": {
         "image": "latest",
-        "simulator": true
+        "simulator": false
       },
       "android": {
         "image": "default",
         "buildType": "apk"
-      }
-    },
-    "preview:device": {
-      "extends": "preview",
-      "ios": {
-        "image": "latest",
-        "simulator": false
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "development"
       }
     },
     "production": {
+      "channel": "production",
       "autoIncrement": true,
-      "android": {
-        "image": "default",
-        "buildType": "app-bundle"
-      },
       "ios": {
         "image": "latest",
         "buildConfiguration": "Release",
         "simulator": false
+      },
+      "android": {
+        "image": "default",
+        "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "production"
+      }
+    },
+    "production:apk": {
+      "autoIncrement": true,
+      "android": {
+        "image": "default",
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_ENV": "production"
       }
     }
   },

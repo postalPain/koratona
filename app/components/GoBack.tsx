@@ -1,5 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { typography } from "app/theme"
+import { typographyPresets } from "app/theme"
 import BackIconSvg from "assets/icons/svgs/BackIcon"
 import React from "react"
 import { Pressable, StyleProp, View, ViewStyle } from "react-native"
@@ -42,9 +42,7 @@ const useStyles = createUseStyles(() => ({
   leftHeaderComponentText: {
     paddingLeft: 8,
     color: "#667085",
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
-    fontSize: 16,
-    lineHeight: 24,
+    ...typographyPresets["p2-semibold"],
   },
   header: {
     flexDirection: "row",

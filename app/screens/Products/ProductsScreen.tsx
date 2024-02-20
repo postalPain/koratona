@@ -1,7 +1,8 @@
 import { FlashList, ListRenderItem } from "@shopify/flash-list"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { useScrollToTop } from '@react-navigation/native';
 import { useStores } from "app/models"
-import React, { FC } from "react"
+import React, { FC, useRef } from "react"
 import { ActivityIndicator, View, ViewStyle } from "react-native"
 import { ProductCard, Screen, Text } from "../../components"
 import { spacing, typography } from "../../theme"
@@ -17,9 +18,15 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
   _props,
 ) {
   const styles = useStyles()
+  const contentListRef = useRef<FlashList<Product>>(null)
   const { productsStore } = useStores()
 
   useFetchProducts()
+  useScrollToTop(useRef({
+    scrollToTop: () => {
+      contentListRef.current?.scrollToOffset({ offset: 0 });
+    }
+  }))
 
   const renderItem: ListRenderItem<Product> = React.useCallback(
     ({ item }) => (
@@ -41,9 +48,10 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
   )
 
   return (
-    <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={['top']}>
+    <Screen preset="fixed" contentContainerStyle={$container} safeAreaEdges={["top"]}>
       {productsStore.isFetchingProductsErrored && <Text tx="errors.somethingWentWrong" />}
       <FlashList<Product>
+        ref={contentListRef}
         data={[...productsStore.products]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         onRefresh={productsStore.fetchProducts}

@@ -1,6 +1,6 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { ListItem, Text } from "app/components"
-import { typography } from "app/theme"
+import { typographyPresets } from "app/theme"
 import EnvelopeIcon from "assets/icons/svgs/EnvelopeIcon"
 import WhatsAppIcon from "assets/icons/svgs/WhatsUpIcon"
 import React from "react"
@@ -52,9 +52,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   title: {
     textAlign: "center",
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    letterSpacing: -0.64,
-    fontSize: 32,
+    ...typographyPresets["h4-bold"],
     lineHeight: 40,
     marginBottom: theme.spacing[24],
   },
@@ -73,6 +71,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   listItemTitleText: {
     color: "#101828",
+    ...typographyPresets["p3-semibold"],
     fontSize: 16,
     lineHeight: 24,
   },
