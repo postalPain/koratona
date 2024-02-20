@@ -7,7 +7,7 @@ export const ProductModel = types.model("Product").props({
   description: types.optional(types.string, ""),
   descriptionAr: types.optional(types.maybeNull(types.string), ""),
   outOfStock: types.optional(types.boolean, false),
-  teamId: types.optional(types.number, 0),
+  teamId: types.maybeNull(types.number),
   price: types.optional(types.string, ""),
   quantity: types.optional(types.number, 0),
   createdAt: types.optional(types.string, ""),
