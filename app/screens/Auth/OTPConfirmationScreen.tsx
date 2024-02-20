@@ -53,7 +53,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
 
   React.useEffect(() => {
     if (!phoneNumber) {
-      _props.navigation.navigate("welcome")
+      _props.navigation.navigate("Welcome")
     }
   }, [phoneNumber])
 
@@ -135,7 +135,7 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
         <View>
           <GoBackComponent
             onPress={() => {
-              _props.navigation.navigate("welcome")
+              _props.navigation.navigate("Welcome")
             }}
           />
           <Text tx="signIn.enterLoginCode" style={styles.formTitleText} weight="bold" />
