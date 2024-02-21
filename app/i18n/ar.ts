@@ -180,7 +180,7 @@ const ar: Translations = {
     editFavoritePlayers: "تعديل اللاعبين المفضلين",
     favoritePlayers: "اللاعبين المفضلين",
     descriptionComposition:
-      "{{name}} هو واحد من أشد المعجبين لدينا. تمت مشاركة {{favoriteTeam}} لـ {{appName}} لأول مرة في {{debutDate}}، عندما كان عمره {{age}}.",
+      "{{name}} هو واحد من أشد المعجبين لدينا. تمت مشاركة {{appName}} لأول مرة في {{debutDate}}، عندما كان عمره {{age}}.",
     restart: "إعادة تشغيل",
     toApplyTheChangesRestartApp: "لتطبيق التغييرات، أعد تشغيل التطبيق.",
     termsOfService: "الشروط والأحكام",
