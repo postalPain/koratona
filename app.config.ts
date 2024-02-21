@@ -50,7 +50,8 @@ module.exports = (): Partial<ExpoConfig> => {
             "category": ["BROWSABLE", "DEFAULT"]
           }
         ],
-        "googleServicesFile": `./google-services${DEV_BUILD ? '_dev' : ''}.json`
+        "googleServicesFile": `./google-services${DEV_BUILD ? '_dev' : ''}.json`,
+        "blockedPermissions": ["com.google.android.gms.permission.AD_ID"]
       },
       "ios": {
         "icon": "./assets/images/app-icon-ios.png",
