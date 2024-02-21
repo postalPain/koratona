@@ -5,8 +5,6 @@ import { useStores } from "app/models"
 import useFetchFavoritePlayerList from "app/screens/hooks/useGetFavoritePlayerList"
 import { typography } from "app/theme"
 import EditIcon from "assets/icons/svgs/EditIcon"
-import { t } from "i18n-js"
-import capitalize from "lodash.capitalize"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
@@ -26,16 +24,15 @@ export const ProfileFavoritePlayersSection = observer(function (_props: Props) {
 
   useFetchFavoritePlayerList()
 
-  const getSectionTitle = () => {
-    if (user.firstName) {
-      return `${user.firstName}’s ${t("profile.favoritePlayers")}`
-    }
-    return capitalize(t("profile.favoritePlayers"))
-  }
-
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText} text={getSectionTitle()} />
+      <Text
+        style={styles.titleText}
+        tx="profile.favoritePlayers"
+        txOptions={{
+          userName: user?.firstName || "Your",
+        }}
+      />
       <View style={styles.favoritePlayersSection}>
         {playerStore.favoritePlayerList.map((player) => (
           <FavoritePlayerItem

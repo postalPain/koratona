@@ -177,7 +177,7 @@ const en = {
     enableNotifications: "Enable notifications",
     sendEmail: "Send an email",
     editFavoritePlayers: "Edit favorite players",
-    favoritePlayers: "favorite players",
+    favoritePlayers: "{{userName}}'s favorite players",
     descriptionComposition:
       "{{name}} is one of our most passionate fans. The {{age}} year old's {{appName}} debut was on {{debutDate}}.",
     restart: "Restart",

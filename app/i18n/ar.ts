@@ -178,7 +178,7 @@ const ar: Translations = {
     enableNotifications: "السماح الإشعارات",
     sendEmail: "إرسال بريد إلكتروني",
     editFavoritePlayers: "تعديل اللاعبين المفضلين",
-    favoritePlayers: "اللاعبين المفضلين",
+    favoritePlayers: "اللاعبين المفضلين لـ{{userName}}",
     descriptionComposition:
       "{{name}} هو واحد من أشد المعجبين لدينا. تمت مشاركة {{appName}} لأول مرة في {{debutDate}}، عندما كان عمره {{age}}.",
     restart: "إعادة تشغيل",
