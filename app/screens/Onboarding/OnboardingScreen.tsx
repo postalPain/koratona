@@ -3,7 +3,7 @@ import { Button, Screen, Text } from "app/components"
 import { useStores } from "app/models"
 import { AppStackScreenProps } from "app/navigators"
 import { registerForPushNotifications } from "app/services/notifications"
-import { typography } from "app/theme"
+import { typography, typographyPresets } from "app/theme"
 import { LinearGradient } from "expo-linear-gradient"
 import debounce from "lodash.debounce"
 import { observer } from "mobx-react-lite"
@@ -157,18 +157,22 @@ const useStyles = createUseStyles((theme) => ({
   },
   text: {
     textAlign: "center",
+    ...typographyPresets["h4-bold"],
   },
   subHeading: {
-    fontSize: 14,
-    lineHeight: 20,
+    ...typographyPresets["p2-regular"],
     color: "#7D706C",
     marginBottom: theme.spacing[48],
+    marginTop: theme.spacing[8],
   },
   actionButton: {
     backgroundColor: "#333865",
   },
   actionButtonText: {
     color: "#FFFFFF",
+    ...typographyPresets["p2-semibold"],
+    lineHeight: 32,
+    fontSize: 16,
   },
   centered: {
     flex: 1,

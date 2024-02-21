@@ -1,0 +1,8 @@
+name: EAS update preview on open pull request to master
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - synchronize

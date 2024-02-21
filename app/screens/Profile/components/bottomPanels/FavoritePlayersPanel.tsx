@@ -2,9 +2,11 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetScrollView } from "@gorhom
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { TeamPlayersTab } from "app/screens/WidgetsScreen/TeamTab"
-import { spacing, typography } from "app/theme"
+import { spacing } from "app/theme"
 import React from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { typography, typographyPresets } from "app/theme/typography"
+import { isRTL } from "app/i18n/getIsRTL"
 
 type Props = {
   handleClose: () => void
@@ -44,10 +46,15 @@ const useStyles = createUseStyles(() => ({
     paddingTop: spacing.sm,
   },
   title: {
-    textAlign: "center",
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    letterSpacing: -0.64,
-    fontSize: 32,
-    lineHeight: 40,
+    ...(isRTL()
+      ? typographyPresets["h3-bold"]
+      : {
+          fontFamily: typography.fonts.instrumentSansCondensed.bold,
+          letterSpacing: -0.64,
+          fontSize: 32,
+          lineHeight: 40,
+        }),
+    marginHorizontal: 24,
+    marginTop: 24,
   },
 }))

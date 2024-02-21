@@ -23,7 +23,7 @@ import { ActivityIndicator, I18nManager, useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
-import { navigationRef, useBackButtonHandler, setNavigationReady } from "./navigationUtilities"
+import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 import RNRestart from "react-native-restart"
 import { LANGUAGE_KEY, setLanguage } from "app/i18n"
 
@@ -41,7 +41,7 @@ import { LANGUAGE_KEY, setLanguage } from "app/i18n"
  *   https://reactnavigation.org/docs/typescript/#organizing-types
  */
 export type AppStackParamList = {
-  welcome: undefined
+  Welcome: undefined
   Home: NavigatorScreenParams<AppHomeTabParamList>
   // 🔥 Your screens go here
   UserInfo: undefined
@@ -106,7 +106,7 @@ const AppStack = observer(function AppStack(_props) {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, navigationBarColor: colors.background }}
-      initialRouteName={authenticationStore.isAuthenticated ? "Home" : "welcome"}
+      initialRouteName={authenticationStore.isAuthenticated ? "Home" : "Welcome"}
     >
       {authenticationStore.isAuthenticated ? (
         <>
@@ -131,7 +131,7 @@ const AppStack = observer(function AppStack(_props) {
         <>
           <Stack.Screen name="OTPConfirmation" component={Screens.OTPConfirmation} />
           <Stack.Screen
-            name="welcome"
+            name="Welcome"
             component={Screens.WelcomeScreen}
             options={{
               gestureEnabled: false,
@@ -158,9 +158,6 @@ export const AppNavigator = observer(function AppNavigator(props: NavigationProp
     <NavigationContainer
       ref={navigationRef}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-      onReady={() => {
-        setNavigationReady()
-      }}
       {...props}
     >
       <AppStack />

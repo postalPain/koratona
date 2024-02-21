@@ -1,14 +1,14 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
+import { isRTL } from "app/i18n"
 import { useStores } from "app/models"
 import useFetchFavoritePlayerList from "app/screens/hooks/useGetFavoritePlayerList"
 import { typography } from "app/theme"
 import EditIcon from "assets/icons/svgs/EditIcon"
-import { t } from "i18n-js"
-import capitalize from "lodash.capitalize"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { View } from "react-native"
+import { typographyPresets } from "../../../theme/typography"
 import { FavoritePlayerItem } from "./FavoritePlayerItem"
 
 type Props = {
@@ -24,16 +24,15 @@ export const ProfileFavoritePlayersSection = observer(function (_props: Props) {
 
   useFetchFavoritePlayerList()
 
-  const getSectionTitle = () => {
-    if (user.firstName) {
-      return `${user.firstName}’s ${t("profile.favoritePlayers")}`
-    }
-    return capitalize(t("profile.favoritePlayers"))
-  }
-
   return (
     <View style={styles.container}>
-      <Text style={styles.titleText} text={getSectionTitle()} />
+      <Text
+        style={styles.titleText}
+        tx="profile.favoritePlayers"
+        txOptions={{
+          userName: user?.firstName || "Your",
+        }}
+      />
       <View style={styles.favoritePlayersSection}>
         {playerStore.favoritePlayerList.map((player) => (
           <FavoritePlayerItem
@@ -62,9 +61,8 @@ const useStyles = createUseStyles((theme) => ({
   },
   titleText: {
     color: "#475467",
-    fontSize: 16,
-    fontFamily: typography.fonts.instrumentSans.semiBold,
     textAlign: "center",
+    ...typographyPresets["p1-medium"],
   },
   favoritePlayersSection: {
     marginVertical: theme.spacing[24],
@@ -88,9 +86,13 @@ const useStyles = createUseStyles((theme) => ({
   },
   addToFavoritesButtonText: {
     color: "#475467",
-    fontSize: 16,
-    lineHeight: 20,
-    fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
     marginLeft: theme.spacing[8],
+    ...(isRTL()
+      ? { ...typographyPresets["p2-semibold"], lineHeight: 28 }
+      : {
+          fontSize: 16,
+          lineHeight: 20,
+          fontFamily: typography.fonts.instrumentSansSemiCondensed.medium,
+        }),
   },
 }))

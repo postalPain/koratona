@@ -41,7 +41,7 @@ export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 const prefix = Linking.createURL("/")
 const config = {
   screens: {
-    Welcome: "welcome",
+    Welcome: "Welcome",
     UserInfo: "userInfo",
     Onboarding: "onboarding",
     Home: {
@@ -84,6 +84,7 @@ function App(props: AppProps) {
   const {
     initialNavigationState,
     onNavigationStateChange,
+    onReady,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
 
@@ -123,6 +124,7 @@ function App(props: AppProps) {
                 linking={linking}
                 initialState={initialNavigationState}
                 onStateChange={onNavigationStateChange}
+                onReady={onReady}
               />
             </RootSiblingParent>
           </GestureHandlerRootView>

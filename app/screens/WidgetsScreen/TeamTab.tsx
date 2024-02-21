@@ -2,8 +2,10 @@ import { useNavigation } from "@react-navigation/native"
 import { FlashList } from "@shopify/flash-list"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
+import { NoMoreContent } from "app/components/NoMoreContent"
+import { isRTL } from "app/i18n"
 import { useStores } from "app/models"
-import { spacing, typography } from "app/theme"
+import { spacing, typography, typographyPresets } from "app/theme"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import {
@@ -17,7 +19,6 @@ import { Player } from "../../models/Player/Player"
 import { PlayerCard } from "../Profile/components/PlayerCard"
 import useFetchFavoritePlayerList from "../hooks/useGetFavoritePlayerList"
 import useFetchPlayerList from "../hooks/useGetPlayerList"
-import { NoMoreContent } from "app/components/NoMoreContent"
 
 type Props = {
   height?: DimensionValue
@@ -123,10 +124,14 @@ const useStyles = createUseStyles((theme) => ({
     fontFamily: typography.fonts.instrumentSans.medium,
   },
   title: {
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    letterSpacing: -0.64,
-    fontSize: 32,
-    lineHeight: 40,
+    ...(isRTL()
+      ? { ...typographyPresets["h3-bold"], lineHeight: 48 }
+      : {
+          fontFamily: typography.fonts.instrumentSansCondensed.bold,
+          letterSpacing: -0.64,
+          fontSize: 32,
+          lineHeight: 40,
+        }),
     marginBottom: theme.spacing[24],
   },
   titleContainer: {
@@ -142,6 +147,6 @@ const useStyles = createUseStyles((theme) => ({
   loadingText: {
     marginLeft: 24,
     color: "#333865",
-    fontFamily: typography.fonts.instrumentSans.medium,
+    ...typographyPresets["p2-semibold"],
   },
 }))

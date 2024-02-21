@@ -9,21 +9,21 @@ import { isNotificationsPermitted, registerForPushNotifications } from "./index"
 import { untilNavigationReady } from "../../navigators/navigationUtilities"
 
 type TMessage = {
-  postId?: string;
-};
+  postId?: string
+}
 export const useNotifications = () => {
   const {
     authUserStore: { notificationToken, setNotificationToken, updateUser },
     authenticationStore: { isAuthenticated },
-  } = useStores();
-  const navigation = useNavigation();
+  } = useStores()
+  const navigation = useNavigation()
 
   const messageDataHandler = ({ postId }: TMessage) => {
     if (postId) {
       // @ts-ignore
-      navigation.navigate("postDetails", { id: postId });
+      navigation.navigate("postDetails", { id: postId })
     }
-  };
+  }
 
   useCallOnAppState(
     "active",
@@ -60,21 +60,23 @@ export const useNotifications = () => {
       notifee.createChannel({
         id: "default",
         name: "Default Channel",
-      });
+      })
     }
-    (async () => {
-      const message = await messaging().getInitialNotification();
+    ;(async () => {
+      const message = await messaging().getInitialNotification()
       if (message?.data) {
-        await untilNavigationReady;
-        messageDataHandler(message.data as TMessage);
+        await untilNavigationReady
+        messageDataHandler(message.data as TMessage)
       }
-    })();
-    const unsubscribeOpenAppListener = messaging().onNotificationOpenedApp(message => {
+    })()
+    const unsubscribeOpenAppListener = messaging().onNotificationOpenedApp((message) => {
       if (message.data) {
-        messageDataHandler(message.data);
+        messageDataHandler(message.data)
       }
-    });
-    messaging().setBackgroundMessageHandler(async () => {});
+    })
+    messaging().setBackgroundMessageHandler(async () => {
+      console.log("Background message handled")
+    })
 
     const unsubscribeForegroundListener = messaging().onMessage(async (message) => {
       await notifee.displayNotification({
@@ -90,15 +92,15 @@ export const useNotifications = () => {
         },
         data: message.data,
       })
-    });
+    })
     notifee.onForegroundEvent(({ type, detail }) => {
       if (type === EventType.PRESS && detail.notification && detail.notification.data) {
-        messageDataHandler(detail.notification.data);
+        messageDataHandler(detail.notification.data)
       }
-    });
+    })
     return () => {
-      unsubscribeForegroundListener();
-      unsubscribeOpenAppListener();
+      unsubscribeForegroundListener()
+      unsubscribeOpenAppListener()
     }
   }, [])
 }

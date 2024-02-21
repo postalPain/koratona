@@ -5,6 +5,7 @@ import {
   PartialState,
   createNavigationContainerRef,
 } from "@react-navigation/native"
+import analytics from '@react-native-firebase/analytics';
 import Config from "../config"
 import { PersistNavigationConfig } from "app/config/config.base"
 import { useIsMounted } from "../utils/useIsMounted"
@@ -29,14 +30,14 @@ export const navigationRef = createNavigationContainerRef<AppStackParamList>()
 /**
  * Gets the current screen from any navigation state.
  */
-export function getActiveRouteName(state: NavigationState | PartialState<NavigationState>): string {
+export function getActiveRoute(state: NavigationState | PartialState<NavigationState>) {
   const route = state.routes[state.index ?? 0]
 
-  // Found the active route -- return the name
-  if (!route.state) return route.name as keyof AppStackParamList
+  // Found the active route -- return it
+  if (!route.state) return route
 
   // Recursive call to deal with nested routers
-  return getActiveRouteName(route.state as NavigationState<AppStackParamList>)
+  return getActiveRoute(route.state as NavigationState<AppStackParamList>)
 }
 
 /**
@@ -63,7 +64,7 @@ export function useBackButtonHandler(canExit: (routeName: string) => boolean) {
       }
 
       // grab the current route
-      const routeName = getActiveRouteName(navigationRef.getRootState())
+      const routeName = getActiveRoute(navigationRef.getRootState()).name
 
       // are we allowed to exit?
       if (canExitRef.current(routeName)) {
@@ -115,23 +116,26 @@ export function useNavigationPersistence(storage: Storage, persistenceKey: strin
 
   const routeNameRef = useRef<keyof AppStackParamList | undefined>()
 
-  const onNavigationStateChange = (state: NavigationState | undefined) => {
+  const onNavigationStateChange = async (state: NavigationState | undefined) => {
     const previousRouteName = routeNameRef.current
     if (state !== undefined) {
-      const currentRouteName = getActiveRouteName(state)
+      const currentRoute = getActiveRoute(state)
+      const currentRouteName = currentRoute.name;
+      const currentRouteParams = currentRoute.params || {};
 
       if (previousRouteName !== currentRouteName) {
         // track screens.
         if (__DEV__) {
           console.tron.log?.(currentRouteName)
         }
+        await analytics().logEvent(`${currentRouteName}__open`, currentRouteParams);
       }
 
       // Save the current route name for later comparison
       routeNameRef.current = currentRouteName as keyof AppStackParamList
 
       // Persist state to storage
-      storage.save(persistenceKey, state)
+      await storage.save(persistenceKey, state)
     }
   }
 
@@ -144,11 +148,15 @@ export function useNavigationPersistence(storage: Storage, persistenceKey: strin
     }
   }
 
+  const onReady = () => {
+    setNavigationReady()
+  }
+
   useEffect(() => {
     if (!isRestored) restoreState()
   }, [isRestored])
 
-  return { onNavigationStateChange, restoreState, isRestored, initialNavigationState }
+  return { onNavigationStateChange, restoreState, onReady, isRestored, initialNavigationState }
 }
 
 /**
@@ -186,14 +194,17 @@ export function resetRoot(
   }
 }
 
-export const { untilNavigationReady, setNavigationReady } = ((): { untilNavigationReady: Promise<boolean>, setNavigationReady: () => void} => {
-  let setReady: (value: (boolean | PromiseLike<boolean>)) => void;
-  const untilNavigationReady = new Promise<boolean>((resolveHandler) => {
-    setReady = resolveHandler;
-  });
+export const { untilNavigationReady, setNavigationReady } = ((): {
+  untilNavigationReady: Promise<boolean>
+  setNavigationReady: () => void
+} => {
+  let setReady: (value: boolean | PromiseLike<boolean>) => void
+  const untilNavigationReady = new Promise<boolean>((resolve) => {
+    setReady = resolve
+  })
 
   return {
     setNavigationReady: () => setTimeout(() => setReady(true), 50),
-    untilNavigationReady
+    untilNavigationReady,
   }
-})();
+})()
