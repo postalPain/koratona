@@ -14,7 +14,7 @@ import { formatPrice } from "app/utils/currencyFormatter"
 import { isDateValid, isMonthValid } from "app/utils/validation"
 import { observer } from "mobx-react-lite"
 import React, { FC, useState } from "react"
-import { ActivityIndicator, Image, Keyboard, View } from "react-native"
+import { ActivityIndicator, Image, Keyboard, Platform, View } from "react-native"
 import * as yup from "yup"
 import { ProductPurchasePolicies } from "./ProductsPurchasePolicies"
 import { ProductsStackScreenProps } from "./ProductsStackNavigator"
@@ -113,7 +113,11 @@ export const ProductPurchaseScreen: FC<ProductPurchaseScreenProps> = observer(
     const productPrice = +(product?.price || 0)
 
     return (
-      <Screen preset="auto" safeAreaEdges={["top"]} contentContainerStyle={styles.container}>
+      <Screen
+        preset={Platform.OS === "android" ? "scroll" : "auto"}
+        safeAreaEdges={["top", "bottom"]}
+        contentContainerStyle={styles.container}
+      >
         <View style={styles.contentWrapper}>
           <GoBackComponent onPress={_props.navigation.goBack} />
           <Text tx="productsScreen.completePurchase" style={styles.heading} />
