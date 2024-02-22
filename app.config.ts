@@ -1,4 +1,4 @@
-import { ExpoConfig } from "@expo/config"
+import { AppJSONConfig } from "@expo/config"
 
 /**
  * Use ts-node here so we can use TypeScript for our Config Plugins
@@ -6,11 +6,10 @@ import { ExpoConfig } from "@expo/config"
  */
 require("ts-node/register")
 
-module.exports = (): Partial<ExpoConfig> => {
+module.exports = (): AppJSONConfig => {
   const DEV_BUILD = process.env.EXPO_PUBLIC_ENV !== 'production';
-  const config: Partial<ExpoConfig> = {
+  const config: AppJSONConfig = {
     "name": "FootballApp",
-    // @ts-ignore
     "displayName": "Fanfinity",
     "expo": {
       "owner": "stryber",
@@ -106,13 +105,11 @@ module.exports = (): Partial<ExpoConfig> => {
       "version": "9.0.2"
     }
   };
-  const existingPlugins = config.plugins ?? []
 
-  return {
-    ...config,
-    plugins: [
-      ...existingPlugins,
-      require("./plugins/withSplashScreen").withSplashScreen,
-    ],
-  }
+  config.expo.plugins   = [
+    ...(config.expo.plugins || []),
+    require("./plugins/withSplashScreen").withSplashScreen,
+  ];
+
+  return config;
 }
