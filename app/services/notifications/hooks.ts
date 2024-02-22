@@ -1,7 +1,7 @@
 import React from "react"
 import { Platform } from "react-native"
 import messaging from "@react-native-firebase/messaging"
-import notifee, { EventType } from "@notifee/react-native"
+import notifee, { EventType, AndroidStyle } from "@notifee/react-native"
 import { useCallOnAppState } from "app/utils/useCallOnAppState"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
@@ -89,6 +89,30 @@ export const useNotifications = () => {
           pressAction: {
             id: "default",
           },
+          ...(() => {
+            const imageUrl = message.notification?.android?.imageUrl;
+            return imageUrl
+              ? {
+                style: {
+                  type: AndroidStyle.BIGPICTURE,
+                  picture: imageUrl,
+                }
+              }: {}
+          })()
+        },
+        ios: {
+          ...(() => {
+            type TFCMOptions = {
+              image?: string;
+            }
+            const fcmOptions: TFCMOptions =  (message?.data?.fcm_options || {}) as TFCMOptions;
+            const imageUrl = fcmOptions.image;
+            return imageUrl
+              ? {
+                attachments: [{ url: imageUrl }]
+              }
+              : {}
+          })()
         },
         data: message.data,
       })
