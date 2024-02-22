@@ -27,8 +27,8 @@
     "web": "npx expo start --web",
     "bundle:web": "npx expo export --platform web",
     "serve:web": "npx server dist",
-    "prebuild:clean": "npx expo prebuild --clean",
-    "prebuild": "npx expo prebuild"
+    "prebuild:clean": "EXPO_DEBUG=1 npx expo prebuild --clean",
+    "prebuild": "EXPO_DEBUG=1 npx expo prebuild"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
