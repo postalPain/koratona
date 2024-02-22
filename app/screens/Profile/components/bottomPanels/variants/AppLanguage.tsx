@@ -15,43 +15,54 @@ import RNRestart from "react-native-restart"
 type Props = {
   onCloseBottomSheet: () => void
 }
-const languages = ["English", "Arabic"] as const
 
 export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSheet }) {
   const styles = useStyles()
   const { authUserStore } = useStores()
+  const languages = ["English", "Arabic"]
+  const currentLanguage = authUserStore.user?.lang || getLanguage()
+
+  if (currentLanguage === "ar") {
+    languages.reverse()
+  }
 
   const getIndexOfCurrentLanguage = () => {
-    const currentLanguage = authUserStore.user?.lang || getLanguage()
+    let languageName;
+
     switch (currentLanguage) {
       case "en":
-        return 0
+        languageName = "English";
+        break;
       case "ar":
-        return 1
+        languageName = "Arabic";
+        break;
       default:
-        return 0
+        languageName = "English";
     }
+
+    return languages.indexOf(languageName);
   }
+
   const [selectedIndex, setSelectedIndex] = React.useState(getIndexOfCurrentLanguage)
   const languageName = languages[selectedIndex]
 
   const onSaveChanges = () => {
-    let shortLang = "en"
+    let shortLangName = "en"
 
     switch (languageName) {
       case "English": {
-        shortLang = "en"
+        shortLangName = "en"
         break
       }
       case "Arabic":
-        shortLang = "ar"
+        shortLangName = "ar"
         break
 
       default:
         break
     }
 
-    authUserStore.updateUser({ lang: shortLang }, () => {
+    authUserStore.updateUser({ lang: shortLangName }, () => {
       onCloseBottomSheet()
       Alert.alert(
         translate("profile.restart"),
