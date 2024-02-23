@@ -65,12 +65,13 @@ export const ProductCard = observer(function Products({
   description,
   onActionPress,
   bgImage,
+  style,
   outOfStock,
 }: ProductsProps) {
   const styles = useStyles()
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <Image
         source={
           bgImage ? { uri: bgImage, cache: "force-cache" } : require("assets/temp/cardBg.png")
