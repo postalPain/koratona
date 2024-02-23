@@ -129,7 +129,6 @@ const AppStack = observer(function AppStack(_props) {
         </>
       ) : (
         <>
-          <Stack.Screen name="OTPConfirmation" component={Screens.OTPConfirmation} />
           <Stack.Screen
             name="Welcome"
             component={Screens.WelcomeScreen}
@@ -137,6 +136,7 @@ const AppStack = observer(function AppStack(_props) {
               gestureEnabled: false,
             }}
           />
+          <Stack.Screen name="OTPConfirmation" component={Screens.OTPConfirmation} />
         </>
       )}
 
