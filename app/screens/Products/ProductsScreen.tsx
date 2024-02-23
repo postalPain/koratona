@@ -29,13 +29,14 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
   }))
 
   const renderItem: ListRenderItem<Product> = React.useCallback(
-    ({ item }) => (
+    ({ item, index }) => (
       <ProductCard
         outOfStock={item.outOfStock}
         name={item[handleArLang<Product>("name")]}
         description={item[handleArLang<Product>("description")]}
         price={item.price}
         bgImage={item.imageUrl}
+        style={index === 0 ? {} : styles.productCardSeparator}
         onActionPress={() => {
           if (item.outOfStock) {
             return
@@ -53,7 +54,6 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
       <FlashList<Product>
         ref={contentListRef}
         data={[...productsStore.products]}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
         onRefresh={productsStore.fetchProducts}
         refreshing={productsStore.isFetchingProducts}
         onEndReached={productsStore.fetchMoreProducts}
@@ -93,8 +93,8 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
 })
 
 const useStyles = createUseStyles(() => ({
-  separator: {
-    height: spacing.lg,
+  productCardSeparator: {
+    marginTop: spacing.lg,
   },
   fetchingMoreProducts: {
     paddingVertical: spacing.xl,
