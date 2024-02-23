@@ -34,7 +34,7 @@ export const ProfileStatsSection = observer(function () {
           <Text style={styles.playerStatsTitleText} tx="profile.age" />
         </View>
         {user.joinedDateFormatted && (
-          <View style={styles.playerStatsInfoBox}>
+          <View style={[styles.playerStatsInfoBox, styles.playerStatsInfoBoxLastChild]}>
             <Text style={styles.playerStatsValueText} text={user.joinedDateFormatted} />
             <Text style={styles.playerStatsTitleText} tx="profile.memberSince" />
           </View>
@@ -62,6 +62,9 @@ const useStyles = createUseStyles((theme) => ({
   playerStatsInfoBoxFirstChild: {
     borderRightColor: "rgba(0, 0, 0, 0.10)",
     borderRightWidth: 0.5,
+  },
+  playerStatsInfoBoxLastChild: {
+    flex: 1,
   },
   playerStatsInfoBox: {
     paddingVertical: 20,
