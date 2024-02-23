@@ -1,7 +1,7 @@
 import React from "react"
 import { Platform } from "react-native"
 import messaging from "@react-native-firebase/messaging"
-import notifee, { EventType } from "@notifee/react-native"
+import notifee, { EventType, AndroidStyle } from "@notifee/react-native"
 import { useCallOnAppState } from "app/utils/useCallOnAppState"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "app/models"
@@ -10,6 +10,9 @@ import { untilNavigationReady } from "../../navigators/navigationUtilities"
 
 type TMessage = {
   postId?: string
+}
+type TFCMOptions = {
+  image?: string;
 }
 export const useNotifications = () => {
   const {
@@ -79,6 +82,7 @@ export const useNotifications = () => {
     })
 
     const unsubscribeForegroundListener = messaging().onMessage(async (message) => {
+      const fcmOptions =  (message?.data?.fcm_options || {}) as TFCMOptions;
       await notifee.displayNotification({
         title: message.notification?.title,
         body: message.notification?.body,
@@ -89,6 +93,17 @@ export const useNotifications = () => {
           pressAction: {
             id: "default",
           },
+          ...(message.notification?.android?.imageUrl && {
+            style: {
+              type: AndroidStyle.BIGPICTURE,
+              picture: message.notification?.android?.imageUrl,
+            }
+          })
+        },
+        ios: {
+          ...(fcmOptions.image && {
+            attachments: [{ url: fcmOptions.image }]
+          })
         },
         data: message.data,
       })
