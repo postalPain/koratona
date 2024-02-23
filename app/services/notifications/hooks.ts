@@ -11,6 +11,9 @@ import { untilNavigationReady } from "../../navigators/navigationUtilities"
 type TMessage = {
   postId?: string
 }
+type TFCMOptions = {
+  image?: string;
+}
 export const useNotifications = () => {
   const {
     authUserStore: { notificationToken, setNotificationToken, updateUser },
@@ -79,6 +82,7 @@ export const useNotifications = () => {
     })
 
     const unsubscribeForegroundListener = messaging().onMessage(async (message) => {
+      const fcmOptions =  (message?.data?.fcm_options || {}) as TFCMOptions;
       await notifee.displayNotification({
         title: message.notification?.title,
         body: message.notification?.body,
@@ -89,30 +93,17 @@ export const useNotifications = () => {
           pressAction: {
             id: "default",
           },
-          ...(() => {
-            const imageUrl = message.notification?.android?.imageUrl;
-            return imageUrl
-              ? {
-                style: {
-                  type: AndroidStyle.BIGPICTURE,
-                  picture: imageUrl,
-                }
-              }: {}
-          })()
+          ...(message.notification?.android?.imageUrl && {
+            style: {
+              type: AndroidStyle.BIGPICTURE,
+              picture: message.notification?.android?.imageUrl,
+            }
+          })
         },
         ios: {
-          ...(() => {
-            type TFCMOptions = {
-              image?: string;
-            }
-            const fcmOptions: TFCMOptions =  (message?.data?.fcm_options || {}) as TFCMOptions;
-            const imageUrl = fcmOptions.image;
-            return imageUrl
-              ? {
-                attachments: [{ url: imageUrl }]
-              }
-              : {}
-          })()
+          ...(fcmOptions.image && {
+            attachments: [{ url: fcmOptions.image }]
+          })
         },
         data: message.data,
       })
