@@ -180,7 +180,9 @@ export const OTPConfirmation: React.FC<ScreenProps> = observer(function (_props)
             <ActivityIndicator color="#333865" size="large" style={styles.activityIndicator} />
           )}
           <View style={styles.resendActionsInfo}>
-            <EnvelopeIconSmall color={disabledResendCode ? "#B3B8C2" : "#333865"} />
+            <View>
+              <EnvelopeIconSmall color={disabledResendCode ? "#B3B8C2" : "#333865"} />
+            </View>
             <Pressable onPress={requestCode}>
               <Text
                 tx="signIn.resendCode"
@@ -276,6 +278,7 @@ const useStyles = createUseStyles(() => ({
     ...typographyPresets["p2-semibold"],
     marginLeft: 8,
     color: "#333865",
+    lineHeight: 30,
   },
   resendActionsInfoTextDisabled: {
     color: "#B3B8C2",
@@ -284,6 +287,7 @@ const useStyles = createUseStyles(() => ({
     ...typographyPresets["p2-regular"],
     color: "#475467",
     marginLeft: 8,
+    lineHeight: 28,
   },
   activityIndicator: {
     marginBottom: 16,
