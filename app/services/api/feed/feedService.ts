@@ -2,19 +2,23 @@ import { ApiResponse } from "apisauce"
 import { api } from "../api"
 import { getGeneralApiProblem } from "../apiProblem"
 import * as FeedTypes from "./feedTypes"
-import { Post } from "../../../models/Posts/Post"
+import { Post } from "app/models/Posts/Post"
 
 export const fetchPosts: FeedTypes.FetchPostsService = async ({
   page = 1,
   take = 50,
   order = "DESC",
+  teamIds,
 }) => {
   let response = {} as ApiResponse<FeedTypes.PostsResponse>
+  let query = `post?order=${order}&page=${page}&take=${take}&status=published`
+  teamIds?.forEach((id) => {
+    const newQuery = (query += `&teamIds=${id}`)
+    return newQuery
+  })
 
   try {
-    response = await api.apisauce.get(
-      `post?order=${order}&page=${page}&take=${take}&status=published`,
-    )
+    response = await api.apisauce.get(query)
 
     // the typical ways to die when calling an api
     if (!response.ok) {

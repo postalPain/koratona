@@ -34,6 +34,7 @@ export const TeamStoreModel = types
       updatedAt: "",
       deletedAt: "",
     }),
+    allFavoriteTeams: types.optional(types.array(TeamModel), []),
     paginationMeta: types.optional(ListPaginationMetaModel, {
       page: 1,
       take: 5,
@@ -99,6 +100,8 @@ export const TeamStoreModel = types
           .map(({ team }: { team: Team }) => team)
 
         detach(self.favoriteTeam)
+        detach(self.allFavoriteTeams)
+        self.allFavoriteTeams = mappedData
         self.favoriteTeam = mappedData[0]
       } catch (error) {
         showToast("Error fetching favorite team list")
@@ -109,6 +112,9 @@ export const TeamStoreModel = types
   .views((self) => ({
     get selectedFavoriteTeam() {
       return self.favoriteTeam
+    },
+    get allSelectedFavoriteTeams() {
+      return self.allFavoriteTeams
     },
   }))
 

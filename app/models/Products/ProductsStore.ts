@@ -26,11 +26,11 @@ export const ProductsStoreModel = types
   })
   .actions(withSetPropAction)
   .actions((self) => ({
-    fetchProducts: flow(function* () {
+    fetchProducts: flow(function* (teamIds: number[] = []) {
       self.isFetchingProducts = true
       self.isFetchingProductsErrored = false
       try {
-        const response = yield fetchProducts({ take: self.productPaginationMeta.take })
+        const response = yield fetchProducts({ take: self.productPaginationMeta.take, teamIds })
 
         self.products = response?.data?.data
         self.productPaginationMeta = response?.data?.meta
@@ -41,7 +41,7 @@ export const ProductsStoreModel = types
         self.isFetchingProducts = false
       }
     }),
-    fetchMoreProducts: flow(function* () {
+    fetchMoreProducts: flow(function* (teamIds: number[] = []) {
       self.isFetchingMoreProducts = true
       self.isFetchingProductsErrored = false
 
@@ -57,6 +57,7 @@ export const ProductsStoreModel = types
         const { data: response }: { data: ProductsResponse } = yield fetchProducts({
           page: nextPage,
           take: self.productPaginationMeta.take,
+          teamIds,
         })
         const validatedProduct = response.data.map((productData) =>
           ProductModel.create(productData),

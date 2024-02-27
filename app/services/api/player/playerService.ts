@@ -7,10 +7,16 @@ export const fetchPlayerList: PlayerServiceTypes.FetchPlayerListService = async 
   page = 1,
   take = 50,
   order = "ASC",
+  teamIds = [],
 }) => {
   let response = {} as ApiResponse<PlayerServiceTypes.PlayerListResponse>
   try {
-    response = await api.apisauce.get(`player?order=${order}&page=${page}&take=${take}`)
+    let query = `player?order=${order}&page=${page}&take=${take}`
+    teamIds?.forEach((id) => {
+      const newQuery = (query += `&teamIds=${id}`)
+      return newQuery
+    })
+    response = await api.apisauce.get(query)
 
     // the typical ways to die when calling an api
     if (!response.ok) {

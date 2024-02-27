@@ -13,10 +13,12 @@ export type FetchProductsService = ({
   page,
   take,
   order,
+  teamIds,
 }: {
   page?: number
   take?: number
-  order?: "ASC" | "DESC"
+  order?: "ASC" | "DESC",
+  teamIds?: number[]
 }) => Promise<{ kind: "ok"; data: ProductsResponse } | GeneralApiProblem>
 
 export type FetchProductByIdService = (

@@ -1,12 +1,12 @@
 import { FlashList, ListRenderItem } from "@shopify/flash-list"
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { useScrollToTop } from '@react-navigation/native';
+import { useScrollToTop } from "@react-navigation/native"
 import { useStores } from "app/models"
 import React, { FC, useRef } from "react"
 import { ActivityIndicator, View, ViewStyle } from "react-native"
 import { ProductCard, Screen, Text } from "../../components"
 import { spacing, typography } from "../../theme"
-import useFetchProducts from "../hooks/useProducts"
+import useFetchProducts, { useFetchMoreProducts, useFetchFreshProducts } from "../hooks/useProducts"
 import { ProductsStackScreenProps } from "./ProductsStackNavigator"
 import { observer } from "mobx-react-lite"
 import { Product } from "../../models/Products/Product"
@@ -20,13 +20,17 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
   const styles = useStyles()
   const contentListRef = useRef<FlashList<Product>>(null)
   const { productsStore } = useStores()
+  const fetchMoreProducts = useFetchMoreProducts()
+  const fetchFreshProducts = useFetchFreshProducts()
 
   useFetchProducts()
-  useScrollToTop(useRef({
-    scrollToTop: () => {
-      contentListRef.current?.scrollToOffset({ offset: 0, animated: true });
-    }
-  }))
+  useScrollToTop(
+    useRef({
+      scrollToTop: () => {
+        contentListRef.current?.scrollToOffset({ offset: 0, animated: true })
+      },
+    }),
+  )
 
   const renderItem: ListRenderItem<Product> = React.useCallback(
     ({ item, index }) => (
@@ -54,9 +58,9 @@ export const ProductsScreen: FC<ProductsStackScreenProps<"productsScreen">> = ob
       <FlashList<Product>
         ref={contentListRef}
         data={[...productsStore.products]}
-        onRefresh={productsStore.fetchProducts}
+        onRefresh={fetchFreshProducts}
         refreshing={productsStore.isFetchingProducts}
-        onEndReached={productsStore.fetchMoreProducts}
+        onEndReached={fetchMoreProducts}
         ListEmptyComponent={() =>
           !productsStore.isFetchingProducts && (
             <Text

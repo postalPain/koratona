@@ -18,7 +18,7 @@ import {
 import { Player } from "../../models/Player/Player"
 import { PlayerCard } from "../Profile/components/PlayerCard"
 import useFetchFavoritePlayerList from "../hooks/useGetFavoritePlayerList"
-import useFetchPlayerList from "../hooks/useGetPlayerList"
+import useFetchPlayerList, {useFetchFreshPlayerList, useFetchMorePlayers} from "../hooks/useGetPlayerList"
 
 type Props = {
   height?: DimensionValue
@@ -28,6 +28,8 @@ export const TeamPlayersTab = observer(function (_props: Props) {
   const styles = useStyles()
   const navigation = useNavigation()
   const { playerStore } = useStores()
+  const fetchPlayerList = useFetchFreshPlayerList()
+  const fetchMorePlayers = useFetchMorePlayers()
 
   useFetchPlayerList()
   useFetchFavoritePlayerList()
@@ -50,9 +52,9 @@ export const TeamPlayersTab = observer(function (_props: Props) {
         <FlashList<Player>
           contentContainerStyle={styles.list}
           data={[...playerStore.playerList]}
-          onRefresh={playerStore.fetchPlayerList}
+          onRefresh={fetchPlayerList}
           refreshing={playerStore.isPlayerListLoading}
-          onEndReached={playerStore.fetchMorePlayers}
+          onEndReached={fetchMorePlayers}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           numColumns={2}
           disableAutoLayout
