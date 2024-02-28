@@ -26,11 +26,11 @@ export const PostsStoreModel = types
   })
   .actions(withSetPropAction)
   .actions((self) => ({
-    fetchPosts: flow(function* () {
+    fetchPosts: flow(function* (teamIds: number[] = []) {
       self.isFetchingPosts = true
       self.isFetchingPostsErrored = false
       try {
-        const response = yield fetchPosts({ take: self.postsPaginationMeta.take })
+        const response = yield fetchPosts({ take: self.postsPaginationMeta.take, teamIds })
         self.posts = response?.data?.data
         self.postsPaginationMeta = response?.data?.meta
       } catch (error) {
@@ -40,7 +40,7 @@ export const PostsStoreModel = types
         self.isFetchingPosts = false
       }
     }),
-    fetchMorePosts: flow(function* () {
+    fetchMorePosts: flow(function* (teamIds: number[] = []) {
       self.isFetchingMorePosts = true
       self.isFetchingPostsErrored = false
       try {
@@ -55,6 +55,7 @@ export const PostsStoreModel = types
         const { data: response }: { data: PostsResponse } = yield fetchPosts({
           page: nextPage,
           take: self.postsPaginationMeta.take,
+          teamIds,
         })
         const validatedPosts = response.data.map((postData) => PostModel.create(postData))
         self.posts.push(...validatedPosts)

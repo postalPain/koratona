@@ -21,10 +21,12 @@ export type FetchPostsService = ({
   page,
   take,
   order,
+  teamIds,
 }: {
   page?: number
   take?: number
   order?: "ASC" | "DESC"
+  teamIds?: number[]
 }) => Promise<{ kind: "ok"; data: PostsResponse } | GeneralApiProblem>
 
 export type FetchPostByIdService = (

@@ -8,13 +8,18 @@ export const fetchProducts: ProductTypes.FetchProductsService = async ({
   page = 1,
   take = 50,
   order = "DESC",
+  teamIds,
 }) => {
   let response = {} as ApiResponse<ProductTypes.ProductsResponse>
 
+  let query = `product?order=${order}&page=${page}&take=${take}`
+  teamIds?.forEach((id) => {
+    const newQuery = (query += `&teamIds=${id}`)
+    return newQuery
+  })
+
   try {
-    response = await api.apisauce.get(
-      `product?order=${order}&page=${page}&take=${take}&outOfStock=${false}`,
-    )
+    response = await api.apisauce.get(query)
     // the typical ways to die when calling an api
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)

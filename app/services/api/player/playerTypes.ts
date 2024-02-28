@@ -23,6 +23,7 @@ export type FetchPlayerListService = ({
   page?: number
   take?: number
   order?: "ASC" | "DESC"
+  teamIds?: number[]
 }) => Promise<{ kind: "ok"; data: PlayerListResponse } | GeneralApiProblem>
 
 export type FetchPlayerByIdService = (

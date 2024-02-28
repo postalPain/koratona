@@ -1,5 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { useScrollToTop } from '@react-navigation/native';
+import { useScrollToTop } from "@react-navigation/native"
 import { useStores } from "app/models"
 import { useHeader } from "app/utils/useHeader"
 import { observer } from "mobx-react-lite"
@@ -11,7 +11,7 @@ import { FlashList, ListRenderItem } from "@shopify/flash-list"
 import { Post } from "app/models/Posts/Post"
 import { HomeFeedStackScreenProps } from "../../navigators/HomeStackNavigator"
 import { spacing, typography } from "../../theme"
-import useFetchPosts from "../hooks/usePosts"
+import useFetchPosts, { useFetchFreshPosts, useFetchMorePosts } from "../hooks/usePosts"
 import { NoMoreContent } from "app/components/NoMoreContent"
 import { translate } from "app/i18n"
 
@@ -23,12 +23,18 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
   const styles = useStyles()
   const contentListRef = useRef<FlashList<Post>>(null)
   const { postsStore, authUserStore } = useStores()
+
   useFetchPosts()
-  useScrollToTop(useRef({
-    scrollToTop: () => {
-      contentListRef.current?.scrollToOffset({ offset: 0, animated: true });
-    }
-  }))
+  const fetchFreshPosts = useFetchFreshPosts()
+  const fetchMorePosts = useFetchMorePosts()
+
+  useScrollToTop(
+    useRef({
+      scrollToTop: () => {
+        contentListRef.current?.scrollToOffset({ offset: 0, animated: true })
+      },
+    }),
+  )
 
   useHeader({
     rightIcon: "teamsIcon",
@@ -64,9 +70,9 @@ export const FeedScreen: React.FC<HomeFeedStackScreenProps<"feed">> = observer(f
         ref={contentListRef}
         data={[...postsStore.posts]}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        onRefresh={postsStore.fetchPosts}
+        onRefresh={fetchFreshPosts}
         refreshing={postsStore.isFetchingPosts}
-        onEndReached={postsStore.fetchMorePosts}
+        onEndReached={fetchMorePosts}
         ListEmptyComponent={() =>
           !postsStore.isFetchingPosts && (
             <Text
