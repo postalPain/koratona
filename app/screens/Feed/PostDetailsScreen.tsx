@@ -229,13 +229,16 @@ const useStyles = createUseStyles(() => ({
   },
   heading: {
     ...(isRTL()
-      ? typographyPresets["h3-bold"]
+      ? {
+          ...typographyPresets["h3-bold"],
+          lineHeight: 56,
+        }
       : {
           fontSize: 36,
           fontFamily: typography.fonts.instrumentSansSemiCondensed.bold,
           letterSpacing: -0.72,
+          lineHeight: 40,
         }),
-    lineHeight: 56,
     textTransform: "uppercase",
     color: "#fff",
     writingDirection: getWritingDirection(),
