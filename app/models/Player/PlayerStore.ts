@@ -30,11 +30,11 @@ export const PlayerStoreModel = types
   })
   .actions(withSetPropAction)
   .actions((self) => ({
-    fetchPlayerList: flow(function* (teamIds: number[] = []) {
+    fetchPlayerList: flow(function* (teamId: number) {
       self.isPlayerListLoading = true
       self.isPlayerListErrored = false
       try {
-        const { data } = yield fetchPlayerList({ teamIds })
+        const { data } = yield fetchPlayerList({ teamId })
 
         self.playerList = data.data
         self.paginationMeta = data.meta
@@ -46,7 +46,7 @@ export const PlayerStoreModel = types
         self.isPlayerListLoading = false
       }
     }),
-    fetchMorePlayers: flow(function* (teamIds) {
+    fetchMorePlayers: flow(function* (teamId) {
       self.isFetchingMorePlayers = true
       self.isFetchingPlayersErrored = false
 
@@ -62,7 +62,7 @@ export const PlayerStoreModel = types
         const { data } = yield fetchPlayerList({
           page: nextPage,
           take: self.paginationMeta.take,
-          teamIds,
+          teamId,
         })
 
         self.playerList.push(...data.data)
