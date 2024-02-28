@@ -1,4 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { useStores } from "app/models"
 import { extractNumberFromId } from "app/utils/extractFixtureId"
 import React from "react"
 import { useWindowDimensions } from "react-native"
@@ -11,6 +12,8 @@ type Props = {
 export const ScheduleWidget: React.FC<Props> = ({ onMatchPress }) => {
   const styles = useStyles()
   const { height, width } = useWindowDimensions()
+  const { teamStore } = useStores()
+  const teamApiIdFallback = "7011"
 
   return (
     <WebView
@@ -36,7 +39,7 @@ export const ScheduleWidget: React.FC<Props> = ({ onMatchPress }) => {
       <div
         id="sportmonks-widget"
         data-widget="team-schedule"
-        data-team="7011"
+        data-team=${teamStore.selectedFavoriteTeam?.id || teamApiIdFallback}
         data-info="Akz+5Vd6n/4SrlMQvrpfL/nZm9ywX20M7vRb5qZ71+CV2ILbnxUejLgB9Kq+vUZQ+xvl9WIlWb6T5cHhivldBmUC3Wq7T3YKUg35evLIkG39ZbvZPrqXCugPuGcJHTNfvFaX23hFwAtqIwV0jXXZEyD5pJzFOvApu9IufVEQsSIiFElX4HWO/UcVgUB4t4CpHmF+l9J/XB7LdNsgQIODCNuXX2V0w9VK+fys3xZ0NazcMwck8uL0el8/ajk+8KR0eNsZTatzk6yLNSUdJBrHZoPe/iwzBh775zp4yeN9+bi1EelEgqdhslqgaNpgybScSgqhIqGdClDYw7XHtcAKOABa2t/6wAeHHAGhJYtgWwiUDRdgS+xzOHdQbEoIOtyXQxL6Fzz9enstNizLE50Zy0gw+3hpBAYL9N/Bjjh1D8JsA/QkDjSdDtncpUIVmMmoxW0bU/54aSkOwA6UQvGdemz4wHW9hJCqX9SYqAcVgxcz9DB7hyKW2gqitwZA04emEggU5yCyyUstWU+JEIhyKkDOSTJcu5namHkzahoR9wvdZMnJxSN5x6pE7UZYoLJy6kZqcpnrH5EWfNBzEXzfKC9lQ23N9VRMX4+0N7vpI/bwfdjm+pCII4xBf0J5eYb8arEiivzo5daqR5t/0VBEnBaZxX8QC0Je4Ds5Zf0GUuY="
         data-colors="#00063E,#00063E,#D0D0D9,#1A1F51"
         data-switchtheme="false"
