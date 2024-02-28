@@ -125,6 +125,7 @@ export const FeedCard = React.memo(
                   html: `<p>${post[handleArLang<Post>("subtitle")]}</p>`,
                 }}
                 tagsStyles={{
+                  // @ts-ignore
                   p: {
                     color: "#475467",
                     ...(isRTL()
