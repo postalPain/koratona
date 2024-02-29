@@ -59,21 +59,25 @@ const FavoriteTeamsStep: React.FC<FavoriteTeamsStepProps> = ({ style, onNext }) 
         <View style={styles.headingBox}>
           <Text style={styles.text} tx={"onboardingCarousel.pickYourFavorites.heading"} preset="heading" />
         </View>
-        <ScrollView contentContainerStyle={styles.teamList} style={styles.teamListContainer}>
-          {teamStore.teamList?.map((team) => {
-            const favorite = !!favoriteMap[team.id];
-            return (
-              <FavoriteTeamItem
-                key={team.id}
-                name={team.name}
-                image={team.logoUrl}
-                favorite={favorite}
-                disabled={!favorite && favoriteTeams.length >= MAX_FAVORITE_COUNT}
-                style={styles.teamListItem}
-                onToggle={(favorite) => onFavoriteToggle(team.id, favorite)}
-              />
-           )})}
-        </ScrollView>
+        <View style={styles.teamListContainer}>
+          <ScrollView>
+            <View style={styles.teamList}>
+              {teamStore.teamList?.map((team) => {
+                const favorite = !!favoriteMap[team.id];
+                return (
+                  <FavoriteTeamItem
+                    key={team.id}
+                    name={team.name}
+                    image={team.logoUrl}
+                    favorite={favorite}
+                    disabled={!favorite && favoriteTeams.length >= MAX_FAVORITE_COUNT}
+                    style={styles.teamListItem}
+                    onToggle={(favorite) => onFavoriteToggle(team.id, favorite)}
+                  />
+                )})}
+            </View>
+          </ScrollView>
+        </View>
         <View style={styles.noteBox}>
           <Text style={[styles.text, styles.note]} tx={"onboardingCarousel.pickYourFavorites.note"} preset="subheading" />
         </View>
@@ -103,6 +107,7 @@ const useStyles = createUseStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     paddingHorizontal: theme.spacing[24],
+    paddingTop: theme.spacing["96"],
     paddingBottom: theme.spacing["32"],
   },
   content: {
@@ -148,7 +153,7 @@ const useStyles = createUseStyles((theme) => ({
     fontSize: 16,
   },
   teamListContainer: {
-    maxHeight: 330,
+    height: 350,
   },
   teamList: {
     display: 'flex',
@@ -162,6 +167,7 @@ const useStyles = createUseStyles((theme) => ({
     width: 100,
   },
   noteBox: {
-    marginTop: theme.spacing["24"],
+    flex: 1,
+    marginTop: theme.spacing["16"],
   }
 }))
