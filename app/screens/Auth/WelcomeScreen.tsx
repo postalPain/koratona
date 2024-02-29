@@ -1,6 +1,5 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Screen, Text } from "app/components"
-import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { Image, ImageBackground, Keyboard, TouchableWithoutFeedback, View } from "react-native"
@@ -32,14 +31,9 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
         },
       }}
     >
-      <ImageBackground source={welcomeBackGround}>
+      <ImageBackground source={welcomeBackGround} resizeMode="stretch">
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <LinearGradient
-            colors={["rgba(26, 31, 81, 0.9)", "rgba(0, 6, 62, 0.4)", "transparent", "transparent"]}
-            style={styles.gradient}
-            start={{ x: 0.1, y: 0.1 }}
-            end={{ x: 0.1, y: 0.5 }}
-          >
+          <View style={styles.content}>
             <View style={styles.centered}>
               <View style={styles.sloganWrapper}>
                 <Image style={styles.logoImage} source={welcomeLogo} resizeMode="contain" />
@@ -47,37 +41,38 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
               </View>
             </View>
             <LoginOTP goToOTPConfirmation={navigateToOTPConfirmation} />
-          </LinearGradient>
+          </View>
         </TouchableWithoutFeedback>
       </ImageBackground>
     </Screen>
   )
 })
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles((theme) => ({
   container: {
     flex: 1,
   },
-  gradient: {
-    justifyContent: "space-between",
+  content: {
+    alignItems: 'flex-start',
     height: "100%",
   },
   logoImage: {
-    width: "100%",
-    height: 26,
+    height: 35,
+    aspectRatio: 4.31,
   },
   slogan: {
-    ...typographyPresets["h4-bold"],
+    ...typographyPresets["h3-bold"],
+    fontSize: 40,
+    lineHeight: 58,
     color: "#fff",
-    textAlign: "center",
-    marginTop: 47,
+    marginTop: 16,
   },
   sloganWrapper: {
-    width: 282,
-    alignSelf: "center",
+    paddingHorizontal: theme.spacing["24"],
+    paddingBottom: theme.spacing["24"],
   },
   centered: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
 }))

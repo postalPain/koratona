@@ -115,7 +115,7 @@ const useStyles = createUseStyles(() => ({
   container: {
     backgroundColor: "#fff",
     paddingHorizontal: 26,
-    paddingVertical: 39,
+    paddingTop: 39,
   },
   fieldInvalidStyles: {
     backgroundColor: "#D0D5DD",
@@ -155,10 +155,9 @@ const useStyles = createUseStyles(() => ({
     borderLeftWidth: 1,
   },
   button: {
-    backgroundColor: "#333865",
-    borderColor: "#333865",
+    backgroundColor: "#1983FF",
+    borderWidth: 0,
     marginTop: 16,
-    width: "100%",
   },
   buttonText: {
     color: "#FFF",
