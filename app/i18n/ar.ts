@@ -27,7 +27,7 @@ const ar: Translations = {
     terms: "شروط الخدمة",
   },
   welcomeScreen: {
-    slogan: "تفاعل مع فريقك بطريقة جديدة كليًا",
+    slogan: "أكثر من مجرد مشجع",
     letsGetStarted: "هيا بنا نبدأ.",
   },
   signIn: {

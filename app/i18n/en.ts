@@ -25,7 +25,7 @@ const en = {
     terms: "Terms of Service",
   },
   welcomeScreen: {
-    slogan: "Engage with your team like never before.",
+    slogan: "More than just a fan club.",
     letsGetStarted: "Let’s get started.",
   },
   signIn: {
