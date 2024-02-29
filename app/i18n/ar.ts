@@ -93,6 +93,7 @@ const ar: Translations = {
     pickYourFavorites: {
       heading: " اختر مفضلاتك",
       subHeading: "خليك بالجو مع نتائج فورية،أحداث مهمة وأخبار عاجلة ",
+      note: "Choose up-to 3 favorites",
       actionButtonText: "متابعة",
     },
     neverMissABeat: {

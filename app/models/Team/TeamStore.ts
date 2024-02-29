@@ -1,5 +1,6 @@
 import {
   addTeamToFavorite,
+  updateFavoriteTeams,
   fetchTeamList,
   getUsersFavoriteTeamList,
   removeTeamFromFavorite,
@@ -106,6 +107,34 @@ export const TeamStoreModel = types
       } catch (error) {
         showToast("Error fetching favorite team list")
         console.tron.error?.(`Error fetching favorite team: ${JSON.stringify(error)}`, [])
+      }
+    }),
+    updateFavoriteTeams: flow(function* (ids: number[], successCallback?: () => void) {
+      self.isTeamListLoading = true
+      self.isTeamListErrored = false
+      try {
+        const {
+          authUserStore: { user },
+        } = getRoot(self) as any
+        if (self.favoriteTeam.id !== 0) {
+          yield removeTeamFromFavorite(self.favoriteTeam.id, user.userId)
+        }
+        const response = yield updateFavoriteTeams(ids, user.userId)
+        const mappedData = response.data
+          .filter(({ team }: { team: Team }) => !!team)
+          .map(({ team }: { team: Team }) => team)
+
+        detach(self.favoriteTeam)
+        detach(self.allFavoriteTeams)
+        self.allFavoriteTeams = mappedData
+        self.favoriteTeam = mappedData[0]
+        successCallback && successCallback()
+      } catch (error) {
+        showToast("Error adding team to favorite")
+        self.isTeamListErrored = true
+        console.tron.error?.(`Error adding team to favorite: ${JSON.stringify(error)}`, [])
+      } finally {
+        self.isTeamListLoading = false
       }
     }),
   }))

@@ -59,3 +59,14 @@ export type RemoveTeamFromFavoriteService = (
     }
   | GeneralApiProblem
 >
+
+export type UpdateFavoriteTeamsService = (
+  ids: number[],
+  userId: string,
+) => Promise<
+  | {
+  kind: "ok"
+  // data: FavoriteTeam
+}
+  | GeneralApiProblem
+>

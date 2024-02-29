@@ -66,7 +66,7 @@ const en = {
     },
   },
   onboardingScreen: {
-    yourProfile: "Your profile",
+    yourProfile: "Complete your profile",
     moreDetails: "We need a few more details so we can complete your fan profile",
     personalDetails: "Personal details",
     chooseYourTeam: "Choose your team",
@@ -91,6 +91,7 @@ const en = {
     pickYourFavorites: {
       heading: "Pick your favorites",
       subHeading: "Stay in the game with instant scores, highlights, and breaking news",
+      note: "Choose up-to 3 favorites",
       actionButtonText: "Continue",
     },
     neverMissABeat: {

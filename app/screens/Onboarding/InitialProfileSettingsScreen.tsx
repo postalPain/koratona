@@ -27,10 +27,11 @@ export const InitialProfileSettingsScreen: React.FC<InitialProfileSettingsScreen
         contentContainerStyle={styles.containerStyle}
       >
         <Text style={styles.title} tx="onboardingScreen.yourProfile" />
-        <Text style={styles.subTitle} tx="onboardingScreen.moreDetails" />
         <Text style={styles.formTitle} tx="onboardingScreen.personalDetails" weight="semiBold" />
         <EditProfileForm
+          onboarding
           disableBottomSheetInternal
+          style={styles.formContent}
           afterSubmit={() => {
             _props.navigation.navigate("Home", { screen: "FeedNavigator" })
             authenticationStore.setShowingOnboarding(false)
@@ -46,6 +47,7 @@ const useStyles = createUseStyles((theme) => ({
     marginLeft: "auto",
     marginRight: "auto",
     width: "100%",
+    height: '100%',
     paddingHorizontal: theme.spacing[24],
   },
   root: {
@@ -55,23 +57,21 @@ const useStyles = createUseStyles((theme) => ({
     paddingLeft: theme.spacing[24],
   },
   title: {
-    ...typographyPresets["h4-bold"],
-    lineHeight: 34,
+    ...typographyPresets["h3-bold"],
+    lineHeight: 48,
     textAlign: "center",
-    marginBottom: theme.spacing[12],
+    marginBottom: theme.spacing["48"],
     color: "#121212",
-    marginTop: theme.spacing[32],
-  },
-  subTitle: {
-    ...typographyPresets["p2-regular"],
-    textAlign: "center",
-    color: "#333865",
-    marginBottom: theme.spacing[32],
+    marginTop: theme.spacing["48"],
   },
   formTitle: {
     ...typographyPresets["p2-semibold"],
     color: "#121212",
     textAlign: "center",
     marginBottom: theme.spacing[8],
+  },
+  formContent: {
+    flex: 1,
+    marginBottom: theme.spacing["48"],
   },
 }))

@@ -1,81 +1,44 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
-import { Button, Screen, Text } from "app/components"
-import { useStores } from "app/models"
+import {  Screen } from "app/components"
 import { AppStackScreenProps } from "app/navigators"
-import { registerForPushNotifications } from "app/services/notifications"
-import { typography, typographyPresets } from "app/theme"
-import { LinearGradient } from "expo-linear-gradient"
-import debounce from "lodash.debounce"
 import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
-import { Dimensions, View } from "react-native"
-import Pagination from "./components/Pagination"
-import onboardingData from "./constants/onboardingData"
-import FireIconSvg from "./icons/FireIcon"
-import PresentIconSvg from "./icons/PresentIcon"
-import TogetherIconSvg from "./icons/TogetherIcon"
+import React, { FC, useRef, useEffect } from "react"
+import { Dimensions, View, ScrollView } from "react-native"
+import NotificationsStep from "./components/NotificationsStep"
+import FavoriteTeamsStep from "./components/FavoriteTeamsStep"
+import { useStores } from "app/models"
 
-interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {
-  currentStep?: number
-}
+interface OnboardingScreenProps extends AppStackScreenProps<"Onboarding"> {}
 
+const { width } = Dimensions.get("window")
 export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function OnboardingScreen({
   navigation,
-  route,
+  route
 }) {
+  const { currentStep = 0 } = route.params;
   const styles = useStyles()
-  const { authUserStore } = useStores()
-  const isNotificationTurnedOn = authUserStore.notificationToken
-
-  const [showFinalButton, setShowFinalButton] = React.useState<boolean>(false)
-
-  const currentStep = route.params?.currentStep || 0
-
-  const {
-    heading = "",
-    subHeading = "",
-    actionButtonText = "",
-    skipButton = false,
-  } = onboardingData[currentStep]
-
-  const isNotificationScreen = onboardingData[currentStep].notifications
-
-  const handleSetNotifications = async () => {
-    const token = await registerForPushNotifications()
-    authUserStore.setNotificationToken(token)
-    await authUserStore.updateUser({ deviceId: token })
-    setShowFinalButton(true)
+  const { authUserStore } = useStores();
+  const stepsCount = 2;
+  const scrollViewRef = useRef<ScrollView | null>(null);
+  const scrollToStep = (step: number) => {
+    scrollViewRef.current?.scrollTo({
+      x: width * step,
+      y: 0,
+      animated: true,
+    });
   }
-
   const onNextButtonPress = () => {
-    if (showFinalButton) {
+    if (currentStep >= stepsCount - 1) {
       navigation.navigate("InitialProfileSettings")
     } else {
       authUserStore.setOnboardingCardsSaw()
-      navigation.push("Onboarding", { currentStep: currentStep + 1 })
+      const nextStep = currentStep + 1;
+      navigation.navigate("Onboarding", { currentStep: nextStep });
     }
   }
-
-  const debouncedOnNextButtonPress = React.useCallback(
-    debounce(onNextButtonPress, 500, { leading: true }),
-    [],
-  )
-
-  const listOfIcons = [
-    <PresentIconSvg key="presentIconSvg" />,
-    <TogetherIconSvg key="togetherIconSvg" />,
-    <FireIconSvg key="fireIconSvg" />,
-  ]
-
-  React.useEffect(() => {
-    const isFirstStep = navigation.getState().routes.length === 1
-    if (currentStep !== 0 || isFirstStep) return
-
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Onboarding", params: { currentStep: 0 } }],
-    })
-  }, [navigation, currentStep])
+  useEffect(() => {
+    scrollToStep(currentStep);
+  }, [currentStep])
 
   return (
     <Screen
@@ -83,112 +46,43 @@ export const OnboardingScreen: FC<OnboardingScreenProps> = observer(function Onb
       safeAreaEdges={["bottom"]}
       contentContainerStyle={styles.contentContainer}
     >
-      <View style={styles.centered}>
-        <LinearGradient
-          style={styles.gradient}
-          colors={["rgba(250, 223, 215, 1)", "rgba(255, 242, 239, 1)"]}
-          start={{ x: 0.1, y: 0.9 }}
-          end={{ x: 0.1, y: 0.1 }}
-        >
-          {listOfIcons[currentStep]}
-        </LinearGradient>
-        <Text style={styles.text} text={heading} preset="heading" />
-        <Text style={[styles.text, styles.subHeading]} text={subHeading} preset="subheading" />
-        <Pagination size={onboardingData.length} paginationIndex={currentStep} />
-      </View>
-      <View>
-        {skipButton && !isNotificationTurnedOn && !showFinalButton && (
-          <Text
-            style={styles.maybeLaterButton}
-            onPress={() => {
-              setShowFinalButton(true)
-            }}
-            tx="common.skipText"
-            weight="bold"
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={false}
+        style={styles.steps}
+      >
+        <View style={[styles.stepsRuler, { width: width * stepsCount }]}>
+          <NotificationsStep
+            style={styles.step}
+            onNext={onNextButtonPress}
           />
-        )}
-        <View>
-          {!showFinalButton && (
-            <Button
-              onPress={isNotificationScreen ? handleSetNotifications : debouncedOnNextButtonPress}
-              text={actionButtonText}
-              textStyle={styles.actionButtonText}
-              pressedStyle={styles.actionButton}
-              style={styles.actionButton}
-            />
-          )}
-          {showFinalButton && (
-            <Button
-              onPress={() => {
-                navigation.navigate("InitialProfileSettings")
-              }}
-              tx="onboardingScreen.setUpProfile"
-              textStyle={styles.actionButtonText}
-              pressedStyle={styles.actionButton}
-              style={styles.actionButton}
-            />
-          )}
+          <FavoriteTeamsStep
+            style={styles.step}
+            onNext={onNextButtonPress}
+          />
         </View>
-      </View>
+      </ScrollView>
     </Screen>
   )
 })
 
-const { width } = Dimensions.get("window")
-
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles(() => ({
   contentContainer: {
     flex: 1,
     width,
-    paddingHorizontal: theme.spacing[24],
-    paddingBottom: theme.spacing[40],
   },
-  gradient: {
-    marginLeft: "auto",
-    marginRight: "auto",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: theme.spacing[64],
-    height: 154,
-    width: 154,
-    borderRadius: 10,
-    borderColor: "rgba(0, 0, 0, 0.10)",
-    borderWidth: 0.5,
+  steps: {
+    width,
   },
-  text: {
-    textAlign: "center",
-    ...typographyPresets["h4-bold"],
+  step: {
+    width,
   },
-  subHeading: {
-    ...typographyPresets["p2-regular"],
-    color: "#7D706C",
-    marginBottom: theme.spacing[48],
-    marginTop: theme.spacing[8],
-  },
-  actionButton: {
-    backgroundColor: "#333865",
-  },
-  actionButtonText: {
-    color: "#FFFFFF",
-    ...typographyPresets["p2-semibold"],
-    lineHeight: 32,
-    fontSize: 16,
-  },
-  centered: {
+  stepsRuler: {
     flex: 1,
-    justifyContent: "center",
-  },
-  maybeLaterButton: {
-    color: "#333865",
-    fontWeight: "bold",
-    lineHeight: 24,
-    textAlign: "center",
-    marginBottom: theme.spacing[24],
-  },
-  skipButton: {
-    textAlign: "center",
-    fontFamily: typography.fonts.instrumentSans.semiBold,
-    color: "#333865",
-    marginBottom: theme.spacing[24],
+    display: 'flex',
+    flexDirection: 'row',
   },
 }))

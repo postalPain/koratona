@@ -18,11 +18,14 @@ import {
   Pressable,
   TextInputChangeEventData,
   View,
+  ViewStyle,
 } from "react-native"
 import DateTimePickerModal from "react-native-modal-datetime-picker"
 import SelectDropdown from "react-native-select-dropdown"
 
 type Props = {
+  style?: ViewStyle,
+  onboarding?: boolean;
   afterSubmit: () => void
   disableBottomSheetInternal?: boolean
 }
@@ -42,7 +45,12 @@ type FormFields = {
 const MAXIMUM_DATE = new Date(new Date().setFullYear(new Date().getFullYear() - 6))
 const MINIMUM_DATE = new Date(new Date().setFullYear(new Date().getFullYear() - 100))
 
-const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInternal }: Props) {
+const EditProfileForm = observer(function ({
+  style,
+  onboarding = false,
+  afterSubmit,
+  disableBottomSheetInternal
+}: Props) {
   const styles = useStyles()
   const { shouldHandleKeyboardEvents } = disableBottomSheetInternal
     ? { shouldHandleKeyboardEvents: { value: false } }
@@ -149,7 +157,8 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
     }
     const filteredData = filterAndClearNonDirtyData(data)
     if (selectedTeam?.id !== teamStore.selectedFavoriteTeam.id) {
-      teamStore.addTeamToFavorite(selectedTeam?.id)
+      // TODO make multiple teams selection, when design will be ready
+      teamStore.updateFavoriteTeams([selectedTeam?.id])
     }
     if (Object.keys(filteredData).length === 0) {
       afterSubmit()
@@ -195,7 +204,7 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
   }
 
   return (
-    <View style={styles.formContent}>
+    <View style={[styles.formContent, style]}>
       <View style={styles.inputContainer}>
         <Input
           name="firstName"
@@ -291,67 +300,76 @@ const EditProfileForm = observer(function ({ afterSubmit, disableBottomSheetInte
             checkIsFieldValid("email")
           }}
         />
-        <Input
-          name="phone"
-          label={translate("editProfileForm.phoneNumber")}
-          mask="XXX XXXXXXXXX"
-          value={user.phone}
-          editable={false}
-          disabled
-        />
-      </View>
-      <Text style={styles.formTitle} tx="profile.yourTeam" weight="semiBold" />
-
-      <SelectDropdown
-        data={teamStore.teamList}
-        onSelect={(selectedItem) => {
-          setSelectedTeam(selectedItem)
-        }}
-        defaultValueByIndex={0}
-        buttonStyle={styles.teamPickerButton}
-        buttonTextStyle={styles.teamPickerButtonText}
-        dropdownStyle={styles.teamPickerDropdown}
-        renderCustomizedButtonChild={() => (
-          <View style={styles.teamPickerButtonListItem}>
-            <View style={styles.teamPickerButtonListItemLogo}>
-              <Image
-                width={25}
-                height={25}
-                resizeMode="contain"
-                source={getTeamLogoOrPlaceholder(selectedTeam?.logoUrl)}
-              />
-            </View>
-            <Text style={styles.teamPickerButtonText} text={selectedTeam?.name || ""} />
-          </View>
-        )}
-        renderCustomizedRowChild={(item: Team) => {
-          const isSelected = item.id === selectedTeam?.id
-          return (
-            <View
-              style={[
-                styles.teamPickerButtonListItem,
-                isSelected ? styles.teamPickerListItemSelected : {},
-              ]}
-            >
-              <View style={styles.teamPickerButtonListItemLogo}>
-                <Image
-                  width={25}
-                  height={25}
-                  resizeMode="contain"
-                  source={getTeamLogoOrPlaceholder(item?.logoUrl)}
-                />
-              </View>
-              <Text
-                text={item.name}
-                style={[
-                  styles.teamPickerButtonText,
-                  isSelected ? styles.teamPickerListItemTextSelected : {},
-                ]}
-              />
-            </View>
+        {
+          !onboarding && (
+            <Input
+              name="phone"
+              label={translate("editProfileForm.phoneNumber")}
+              mask="XXX XXXXXXXXX"
+              value={user.phone}
+              editable={false}
+              disabled
+            />
           )
-        }}
-      />
+        }
+      </View>
+      {
+        !onboarding && (
+          <>
+            <Text style={styles.formTitle} tx="profile.yourTeam" weight="semiBold" />
+            <SelectDropdown
+              data={teamStore.teamList}
+              onSelect={(selectedItem) => {
+                setSelectedTeam(selectedItem)
+              }}
+              defaultValueByIndex={0}
+              buttonStyle={styles.teamPickerButton}
+              buttonTextStyle={styles.teamPickerButtonText}
+              dropdownStyle={styles.teamPickerDropdown}
+              renderCustomizedButtonChild={() => (
+                <View style={styles.teamPickerButtonListItem}>
+                  <View style={styles.teamPickerButtonListItemLogo}>
+                    <Image
+                      width={25}
+                      height={25}
+                      resizeMode="contain"
+                      source={getTeamLogoOrPlaceholder(selectedTeam?.logoUrl)}
+                    />
+                  </View>
+                  <Text style={styles.teamPickerButtonText} text={selectedTeam?.name || ""} />
+                </View>
+              )}
+              renderCustomizedRowChild={(item: Team) => {
+                const isSelected = item.id === selectedTeam?.id
+                return (
+                  <View
+                    style={[
+                      styles.teamPickerButtonListItem,
+                      isSelected ? styles.teamPickerListItemSelected : {},
+                    ]}
+                  >
+                    <View style={styles.teamPickerButtonListItemLogo}>
+                      <Image
+                        width={25}
+                        height={25}
+                        resizeMode="contain"
+                        source={getTeamLogoOrPlaceholder(item?.logoUrl)}
+                      />
+                    </View>
+                    <Text
+                      text={item.name}
+                      style={[
+                        styles.teamPickerButtonText,
+                        isSelected ? styles.teamPickerListItemTextSelected : {},
+                      ]}
+                    />
+                  </View>
+                )
+              }}
+            />
+          </>
+        )
+      }
       <Button style={styles.button} onPress={handleSubmitForm}>
         {authUserStore.isLoading || teamStore.isTeamListLoading ? (
           <ActivityIndicator />
@@ -452,8 +470,8 @@ const useStyles = createUseStyles((theme) => ({
   },
   button: {
     marginTop: theme.spacing["32"],
-    backgroundColor: "#333865",
-    borderColor: "#333865",
+    borderWidth: 0,
+    backgroundColor: "#1983FF",
     minHeight: 58,
   },
   buttonText: {

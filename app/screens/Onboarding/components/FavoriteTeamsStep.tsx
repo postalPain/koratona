@@ -1,0 +1,167 @@
+import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import React, { useState, useEffect } from "react"
+import { View, ViewStyle, ScrollView } from "react-native"
+import { Button, Text } from "app/components"
+import { typographyPresets } from "app/theme"
+import { useStores } from "app/models"
+import useFetchTeamList from "../../hooks/useTeamList"
+import useGetFavoriteTeam from "../../hooks/useGetFavoriteTeam";
+import FavoriteTeamItem from "../components/FavoriteTeamItem";
+
+type FavoriteTeamsStepProps = {
+  style?: ViewStyle,
+  onNext: () => void;
+}
+
+const MAX_FAVORITE_COUNT = 3;
+
+const FavoriteTeamsStep: React.FC<FavoriteTeamsStepProps> = ({ style, onNext }) => {
+  const styles = useStyles();
+  const { teamStore } = useStores();
+  const [favoriteTeams, setFavoriteTeams] = useState<number[]>([]);
+  const onFavoriteToggle = (id: number, favorite: boolean) => {
+    if (!favorite || (favoriteTeams.length < MAX_FAVORITE_COUNT)) {
+      const itemIndex = favoriteTeams.indexOf(id);
+      const newFavoriteTeams = !favorite && itemIndex > -1
+        ? [...favoriteTeams.slice(0, itemIndex), ...favoriteTeams.slice(itemIndex + 1,)]
+        : favorite && itemIndex === -1
+          ? [...favoriteTeams, id]
+          : favoriteTeams;
+
+      setFavoriteTeams([
+        ...newFavoriteTeams,
+      ]);
+    }
+  };
+  const onContinue = () => {
+    teamStore.updateFavoriteTeams(favoriteTeams)
+    onNext();
+  }
+
+  useEffect(() => {
+    const fetchedAllFavoriteTeams = teamStore.allFavoriteTeams.map(item => item.id);
+    setFavoriteTeams([
+      ...fetchedAllFavoriteTeams,
+    ])
+  }, [teamStore.allFavoriteTeams])
+
+  useFetchTeamList();
+  useGetFavoriteTeam();
+
+  const favoriteMap = favoriteTeams.reduce((obj: { [key: number]: boolean }, teamId) => {
+    obj[teamId] = true;
+    return obj;
+  }, {});
+
+  return (
+    <View style={[styles.container, style]}>
+      <View style={styles.content}>
+        <View style={styles.headingBox}>
+          <Text style={styles.text} tx={"onboardingCarousel.pickYourFavorites.heading"} preset="heading" />
+        </View>
+        <ScrollView contentContainerStyle={styles.teamList} style={styles.teamListContainer}>
+          {teamStore.teamList?.map((team) => {
+            const favorite = !!favoriteMap[team.id];
+            return (
+              <FavoriteTeamItem
+                key={team.id}
+                name={team.name}
+                image={team.logoUrl}
+                favorite={favorite}
+                disabled={!favorite && favoriteTeams.length >= MAX_FAVORITE_COUNT}
+                style={styles.teamListItem}
+                onToggle={(favorite) => onFavoriteToggle(team.id, favorite)}
+              />
+           )})}
+        </ScrollView>
+        <View style={styles.noteBox}>
+          <Text style={[styles.text, styles.note]} tx={"onboardingCarousel.pickYourFavorites.note"} preset="subheading" />
+        </View>
+      </View>
+      <View style={styles.buttonPanel}>
+        <Button
+          onPress={onContinue}
+          tx={"onboardingCarousel.pickYourFavorites.actionButtonText"}
+          textStyle={styles.actionButtonText}
+          pressedStyle={styles.actionButton}
+          disabled={favoriteTeams.length === 0}
+          style={[
+            styles.actionButton,
+            favoriteTeams.length === 0 ? styles.actionButtonDisabled : {},
+          ]}
+        />
+      </View>
+    </View>
+  )
+}
+
+export default FavoriteTeamsStep;
+
+const useStyles = createUseStyles((theme) => ({
+  container: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    paddingHorizontal: theme.spacing[24],
+    paddingBottom: theme.spacing["32"],
+  },
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headingBox: {
+    width: 300,
+    marginBottom: theme.spacing["24"],
+  },
+  buttonPanel: {},
+  text: {
+    textAlign: "center",
+    ...typographyPresets["h3-bold"],
+  },
+  note: {
+    ...typographyPresets["btn1-bold"],
+    lineHeight: 24,
+    opacity: 0.5,
+    color: theme.colors.text.headline,
+    marginBottom: theme.spacing[48],
+    marginTop: theme.spacing[8],
+  },
+  maybeLaterButton: {
+    color: "#333865",
+    fontWeight: "bold",
+    lineHeight: 24,
+    textAlign: "center",
+    marginBottom: theme.spacing[24],
+  },
+  actionButton: {
+    borderWidth: 0,
+    backgroundColor: "#1983FF",
+  },
+  actionButtonDisabled: {
+    backgroundColor: '#E4E7EC',
+  },
+  actionButtonText: {
+    color: "#FFFFFF",
+    ...typographyPresets["p2-semibold"],
+    lineHeight: 32,
+    fontSize: 16,
+  },
+  teamListContainer: {
+    maxHeight: 330,
+  },
+  teamList: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    columnGap: 6,
+    rowGap: 6,
+  },
+  teamListItem: {
+    width: 100,
+  },
+  noteBox: {
+    marginTop: theme.spacing["24"],
+  }
+}))
