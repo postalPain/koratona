@@ -189,50 +189,52 @@ export const typography = {
   code: Platform.select({ ios: fonts.courier, android: fonts.monospace }),
 }
 
-const fontDependOnLanguage = isRTL() ? "notoSansArabic" : "generalSans"
-
-export const typographyPresets: Record<string, TextStyle> = {
-  "h3-bold": {
-    fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
-    fontSize: 32,
-    lineHeight: isRTL() ? 48 : 36,
-  },
-  "h4-bold": {
-    fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
-    fontSize: 24,
-    lineHeight: isRTL() ? 34 : 28,
-  },
-  "p1-regular": {
-    fontFamily: typography.fonts[fontDependOnLanguage].regular,
-    fontSize: 16,
-  },
-  "p1-medium": {
-    fontFamily: typography.fonts[fontDependOnLanguage].medium,
-    fontSize: 16,
-  },
-  "p2-regular": {
-    fontFamily: typography.fonts[fontDependOnLanguage].regular,
-    fontSize: 14,
-  },
-  "p2-medium": {
-    fontFamily: typography.fonts[fontDependOnLanguage].medium,
-    fontSize: 14,
-  },
-  "p2-semibold": {
-    fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
-    fontSize: 14,
-    lineHeight: isRTL() ? 28 : 18,
-  },
-  "p3-regular": {
-    fontFamily: isRTL() ? typography.fonts.notoSansArabic.regular : typography.fonts.inter.normal,
-    fontSize: 12,
-  },
-  "p3-semibold": {
-    fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
-    fontSize: 12,
-  },
-  "btn1-bold": {
-    fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
-    fontSize: 16,
-  },
+export const getTypographyPresets = (): Record<string, TextStyle> => {
+  const fontDependOnLanguage = isRTL() ? "notoSansArabic" : "generalSans"
+  return {
+    "h3-bold": {
+      fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
+      fontSize: 32,
+      lineHeight: isRTL() ? 48 : 36,
+    },
+    "h4-bold": {
+      fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
+      fontSize: 24,
+      lineHeight: isRTL() ? 34 : 28,
+    },
+    "p1-regular": {
+      fontFamily: typography.fonts[fontDependOnLanguage].regular,
+      fontSize: 16,
+    },
+    "p1-medium": {
+      fontFamily: typography.fonts[fontDependOnLanguage].medium,
+      fontSize: 16,
+    },
+    "p2-regular": {
+      fontFamily: typography.fonts[fontDependOnLanguage].regular,
+      fontSize: 14,
+    },
+    "p2-medium": {
+      fontFamily: typography.fonts[fontDependOnLanguage].medium,
+      fontSize: 14,
+    },
+    "p2-semibold": {
+      fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
+      fontSize: 14,
+      lineHeight: isRTL() ? 28 : 18,
+    },
+    "p3-regular": {
+      fontFamily: isRTL() ? typography.fonts.notoSansArabic.regular : typography.fonts.inter.normal,
+      fontSize: 12,
+    },
+    "p3-semibold": {
+      fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
+      fontSize: 12,
+    },
+    "btn1-bold": {
+      fontFamily: typography.fonts[fontDependOnLanguage].semiBold,
+      fontSize: 16,
+    },
+  }
 }
+export const typographyPresets: Record<string, TextStyle> = getTypographyPresets();

@@ -4,7 +4,8 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { Image, ImageBackground, Keyboard, TouchableWithoutFeedback, View } from "react-native"
 import { AppStackScreenProps } from "../../navigators"
-import { typographyPresets } from "../../theme"
+import { getTypographyPresets } from "../../theme"
+import { isRTL } from "app/i18n"
 import { LoginOTP } from "./LoginOTP"
 
 const welcomeLogo = require("assets/images/logo.png")
@@ -61,11 +62,11 @@ const useStyles = createUseStyles((theme) => ({
     aspectRatio: 4.31,
   },
   slogan: {
-    ...typographyPresets["h3-bold"],
+    ...getTypographyPresets()["h3-bold"],
     fontSize: 40,
-    lineHeight: 58,
+    lineHeight: isRTL() ? 68 : 40,
     color: "#fff",
-    marginTop: 16,
+    marginTop: 20,
   },
   sloganWrapper: {
     paddingHorizontal: theme.spacing["24"],

@@ -2,7 +2,7 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Button, Text } from "app/components"
 import { getWritingDirection, isRTL, translate } from "app/i18n"
 import { useStores } from "app/models"
-import { typographyPresets } from "app/theme"
+import { getTypographyPresets } from "app/theme"
 import { useSafeAreaInsetsStyle } from "app/utils/useSafeAreaInsetsStyle"
 import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
@@ -135,7 +135,7 @@ const useStyles = createUseStyles(() => ({
     marginRight: 12,
   },
   formTitleText: {
-    ...typographyPresets["h4-bold"],
+    ...getTypographyPresets()["h4-bold"],
     color: "#121212",
     fontSize: 22,
     marginBottom: 26,
@@ -161,7 +161,7 @@ const useStyles = createUseStyles(() => ({
   },
   buttonText: {
     color: "#FFF",
-    ...typographyPresets["btn1-bold"],
+    ...getTypographyPresets()["btn1-bold"],
   },
   phoneInputContainerInvalid: { borderColor: "#FF0000", borderWidth: 1 },
   borderRightForAndroid: {
