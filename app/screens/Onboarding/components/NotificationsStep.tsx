@@ -2,7 +2,7 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import React from "react"
 import { View, ViewStyle, StyleSheet } from "react-native"
 import { Button, Text } from "app/components"
-import { typographyPresets } from "app/theme"
+import { getTypographyPresets } from "app/theme"
 import OnboardingIconBg from '../icons/OnboardingIconBg';
 import FireIconSvg from '../icons/FireIcon';
 import { registerForPushNotifications } from "app/services/notifications"
@@ -102,10 +102,10 @@ const useStyles = createUseStyles((theme) => ({
   buttonPanel: {},
   text: {
     textAlign: "center",
-    ...typographyPresets["h3-bold"],
+    ...getTypographyPresets()["h3-bold"],
   },
   subheading: {
-    ...typographyPresets["p2-regular"],
+    ...getTypographyPresets()["p2-regular"],
     lineHeight: 20,
     color: theme.colors.text.secondary,
     marginBottom: theme.spacing[48],
@@ -123,9 +123,7 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: "#1983FF",
   },
   actionButtonText: {
-    color: "#FFFFFF",
-    ...typographyPresets["p2-semibold"],
-    lineHeight: 32,
-    fontSize: 16,
+    color: "#fff",
+    ...getTypographyPresets()["btn1-bold"],
   },
 }))

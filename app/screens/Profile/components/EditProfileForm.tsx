@@ -6,7 +6,7 @@ import { Text } from "app/components"
 import { translate } from "app/i18n"
 import { useStores } from "app/models"
 import { Team } from "app/models/Team/Team"
-import { typographyPresets } from "app/theme"
+import { getTypographyPresets } from "app/theme"
 import { formatDate } from "app/utils/formatDate"
 import { format, isValid } from "date-fns"
 import { observer } from "mobx-react-lite"
@@ -392,7 +392,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   formTitle: {
     textAlign: "center",
-    ...typographyPresets["p2-semibold"],
+    ...getTypographyPresets()["p2-semibold"],
     marginBottom: theme.spacing[12],
   },
   datePicker: {
@@ -477,7 +477,7 @@ const useStyles = createUseStyles((theme) => ({
   buttonText: {
     color: "#fff",
     textAlign: "center",
-    ...typographyPresets["btn1-bold"],
+    ...getTypographyPresets()["btn1-bold"],
   },
   hintsStyles: {
     position: "absolute",

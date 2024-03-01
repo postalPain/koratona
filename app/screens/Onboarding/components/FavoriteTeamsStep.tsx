@@ -2,7 +2,7 @@ import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import React, { useState, useEffect } from "react"
 import { View, ViewStyle, ScrollView } from "react-native"
 import { Button, Text } from "app/components"
-import { typographyPresets } from "app/theme"
+import { getTypographyPresets } from "app/theme"
 import { useStores } from "app/models"
 import useFetchTeamList from "../../hooks/useTeamList"
 import useGetFavoriteTeam from "../../hooks/useGetFavoriteTeam";
@@ -122,10 +122,10 @@ const useStyles = createUseStyles((theme) => ({
   buttonPanel: {},
   text: {
     textAlign: "center",
-    ...typographyPresets["h3-bold"],
+    ...getTypographyPresets()["h3-bold"],
   },
   note: {
-    ...typographyPresets["btn1-bold"],
+    ...getTypographyPresets()["btn1-bold"],
     lineHeight: 24,
     opacity: 0.5,
     color: theme.colors.text.headline,
@@ -148,7 +148,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   actionButtonText: {
     color: "#FFFFFF",
-    ...typographyPresets["p2-semibold"],
+    ...getTypographyPresets()["btn1-bold"],
     lineHeight: 32,
     fontSize: 16,
   },
