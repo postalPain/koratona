@@ -477,7 +477,7 @@ const useStyles = createUseStyles((theme) => ({
   buttonText: {
     color: "#fff",
     textAlign: "center",
-    ...typographyPresets["p2-semibold"],
+    ...typographyPresets["btn1-bold"],
   },
   hintsStyles: {
     position: "absolute",
