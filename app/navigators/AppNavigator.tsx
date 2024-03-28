@@ -11,21 +11,22 @@ import {
   NavigatorScreenParams,
 } from "@react-navigation/native"
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
+import { LANGUAGE_KEY, setLanguage } from "app/i18n"
 import * as Screens from "app/screens"
 import { useShowOnboardingScreen } from "app/screens/hooks/useShowOnboardingScreen"
 import { useNotifications } from "app/services/notifications"
 import { colors } from "app/theme"
+import { useUpdateThemeBasedOnTeam } from "app/theme/useUpdateThemeBasedOnTeam"
 import * as storage from "app/utils/storage"
 import I18n from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { ActivityIndicator, I18nManager, useColorScheme } from "react-native"
+import RNRestart from "react-native-restart"
 import Config from "../config"
 import { useStores } from "../models"
 import { AppHomeNavigator, AppHomeTabParamList } from "./AppHomeNavigator"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
-import RNRestart from "react-native-restart"
-import { LANGUAGE_KEY, setLanguage } from "app/i18n"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -76,6 +77,7 @@ const AppStack = observer(function AppStack(_props) {
 
   useNotifications()
   useShowOnboardingScreen()
+  useUpdateThemeBasedOnTeam()
 
   React.useEffect(() => {
     const loadLanguageFromStorage = async () => {

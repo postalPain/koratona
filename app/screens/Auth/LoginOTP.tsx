@@ -111,7 +111,7 @@ export const LoginOTP: React.FC<Props> = observer(function ({ goToOTPConfirmatio
   )
 })
 
-const useStyles = createUseStyles(() => ({
+const useStyles = createUseStyles((theme) => ({
   container: {
     backgroundColor: "#fff",
     paddingHorizontal: 26,
@@ -155,7 +155,7 @@ const useStyles = createUseStyles(() => ({
     borderLeftWidth: 1,
   },
   button: {
-    backgroundColor: "#1983FF",
+    backgroundColor: theme.colors.primary.main500,
     borderWidth: 0,
     marginTop: 16,
   },

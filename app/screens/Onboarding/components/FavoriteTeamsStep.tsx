@@ -5,65 +5,66 @@ import { Button, Text } from "app/components"
 import { getTypographyPresets } from "app/theme"
 import { useStores } from "app/models"
 import useFetchTeamList from "../../hooks/useTeamList"
-import useGetFavoriteTeam from "../../hooks/useGetFavoriteTeam";
-import FavoriteTeamItem from "../components/FavoriteTeamItem";
+import useGetFavoriteTeam from "../../hooks/useGetFavoriteTeam"
+import FavoriteTeamItem from "../components/FavoriteTeamItem"
 
 type FavoriteTeamsStepProps = {
-  style?: ViewStyle,
-  onNext: () => void;
+  style?: ViewStyle
+  onNext: () => void
 }
 
-const MAX_FAVORITE_COUNT = 3;
+const MAX_FAVORITE_COUNT = 3
 
 const FavoriteTeamsStep: React.FC<FavoriteTeamsStepProps> = ({ style, onNext }) => {
-  const styles = useStyles();
-  const { teamStore } = useStores();
-  const [favoriteTeams, setFavoriteTeams] = useState<number[]>([]);
+  const styles = useStyles()
+  const { teamStore } = useStores()
+  const [favoriteTeams, setFavoriteTeams] = useState<number[]>([])
   const onFavoriteToggle = (id: number, favorite: boolean) => {
-    if (!favorite || (favoriteTeams.length < MAX_FAVORITE_COUNT)) {
-      const itemIndex = favoriteTeams.indexOf(id);
-      const newFavoriteTeams = !favorite && itemIndex > -1
-        ? [...favoriteTeams.slice(0, itemIndex), ...favoriteTeams.slice(itemIndex + 1,)]
-        : favorite && itemIndex === -1
+    if (!favorite || favoriteTeams.length < MAX_FAVORITE_COUNT) {
+      const itemIndex = favoriteTeams.indexOf(id)
+      const newFavoriteTeams =
+        !favorite && itemIndex > -1
+          ? [...favoriteTeams.slice(0, itemIndex), ...favoriteTeams.slice(itemIndex + 1)]
+          : favorite && itemIndex === -1
           ? [...favoriteTeams, id]
-          : favoriteTeams;
+          : favoriteTeams
 
-      setFavoriteTeams([
-        ...newFavoriteTeams,
-      ]);
+      setFavoriteTeams([...newFavoriteTeams])
     }
-  };
+  }
   const onContinue = () => {
     teamStore.updateFavoriteTeams(favoriteTeams)
-    onNext();
+    onNext()
   }
 
   useEffect(() => {
-    const fetchedAllFavoriteTeams = teamStore.allFavoriteTeams.map(item => item.id);
-    setFavoriteTeams([
-      ...fetchedAllFavoriteTeams,
-    ])
+    const fetchedAllFavoriteTeams = teamStore.allFavoriteTeams.map((item) => item.id)
+    setFavoriteTeams([...fetchedAllFavoriteTeams])
   }, [teamStore.allFavoriteTeams])
 
-  useFetchTeamList();
-  useGetFavoriteTeam();
+  useFetchTeamList()
+  useGetFavoriteTeam()
 
   const favoriteMap = favoriteTeams.reduce((obj: { [key: number]: boolean }, teamId) => {
-    obj[teamId] = true;
-    return obj;
-  }, {});
+    obj[teamId] = true
+    return obj
+  }, {})
 
   return (
     <View style={[styles.container, style]}>
       <View style={styles.content}>
         <View style={styles.headingBox}>
-          <Text style={styles.text} tx={"onboardingCarousel.pickYourFavorites.heading"} preset="heading" />
+          <Text
+            style={styles.text}
+            tx={"onboardingCarousel.pickYourFavorites.heading"}
+            preset="heading"
+          />
         </View>
         <View style={styles.teamListContainer}>
           <ScrollView>
             <View style={styles.teamList}>
               {teamStore.teamList?.map((team) => {
-                const favorite = !!favoriteMap[team.id];
+                const favorite = !!favoriteMap[team.id]
                 return (
                   <FavoriteTeamItem
                     key={team.id}
@@ -74,12 +75,17 @@ const FavoriteTeamsStep: React.FC<FavoriteTeamsStepProps> = ({ style, onNext }) 
                     style={styles.teamListItem}
                     onToggle={(favorite) => onFavoriteToggle(team.id, favorite)}
                   />
-                )})}
+                )
+              })}
             </View>
           </ScrollView>
         </View>
         <View style={styles.noteBox}>
-          <Text style={[styles.text, styles.note]} tx={"onboardingCarousel.pickYourFavorites.note"} preset="subheading" />
+          <Text
+            style={[styles.text, styles.note]}
+            tx={"onboardingCarousel.pickYourFavorites.note"}
+            preset="subheading"
+          />
         </View>
       </View>
       <View style={styles.buttonPanel}>
@@ -99,21 +105,21 @@ const FavoriteTeamsStep: React.FC<FavoriteTeamsStepProps> = ({ style, onNext }) 
   )
 }
 
-export default FavoriteTeamsStep;
+export default FavoriteTeamsStep
 
 const useStyles = createUseStyles((theme) => ({
   container: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     paddingHorizontal: theme.spacing[24],
     paddingTop: theme.spacing["96"],
     paddingBottom: theme.spacing["32"],
   },
   content: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   headingBox: {
     width: 300,
@@ -141,10 +147,10 @@ const useStyles = createUseStyles((theme) => ({
   },
   actionButton: {
     borderWidth: 0,
-    backgroundColor: "#1983FF",
+    backgroundColor: theme.colors.primary.main500,
   },
   actionButtonDisabled: {
-    backgroundColor: '#E4E7EC',
+    backgroundColor: "#E4E7EC",
   },
   actionButtonText: {
     color: "#FFFFFF",
@@ -156,10 +162,10 @@ const useStyles = createUseStyles((theme) => ({
     height: 350,
   },
   teamList: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "wrap",
     columnGap: 6,
     rowGap: 6,
   },
@@ -169,5 +175,5 @@ const useStyles = createUseStyles((theme) => ({
   noteBox: {
     flex: 1,
     marginTop: theme.spacing["16"],
-  }
+  },
 }))

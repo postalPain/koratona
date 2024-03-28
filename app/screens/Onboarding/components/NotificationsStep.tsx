@@ -112,7 +112,8 @@ const useStyles = createUseStyles((theme) => ({
     marginTop: theme.spacing[8],
   },
   maybeLaterButton: {
-    color: "#125CB3",
+    // @ts-ignore
+    color:  theme.colors.primary.gradientMiddle,
     fontWeight: "bold",
     lineHeight: 24,
     textAlign: "center",
@@ -120,7 +121,7 @@ const useStyles = createUseStyles((theme) => ({
   },
   actionButton: {
     borderWidth: 0,
-    backgroundColor: "#1983FF",
+    backgroundColor: theme.colors.primary.main500,
   },
   actionButtonText: {
     color: "#fff",

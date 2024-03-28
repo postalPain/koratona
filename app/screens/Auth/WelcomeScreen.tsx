@@ -1,15 +1,15 @@
 import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
 import { Screen, Text } from "app/components"
+import { isRTL } from "app/i18n"
+import { LinearGradient } from "expo-linear-gradient"
 import { observer } from "mobx-react-lite"
 import React from "react"
-import { Image, ImageBackground, Keyboard, TouchableWithoutFeedback, View } from "react-native"
+import { Image, Keyboard, TouchableWithoutFeedback, View } from "react-native"
 import { AppStackScreenProps } from "../../navigators"
 import { getTypographyPresets } from "../../theme"
-import { isRTL } from "app/i18n"
 import { LoginOTP } from "./LoginOTP"
 
 const welcomeLogo = require("assets/images/logo.png")
-const welcomeBackGround = require("assets/backgrounds/welcome-screen.png")
 
 interface WelcomeScreenProps extends AppStackScreenProps<"Welcome"> {}
 
@@ -32,19 +32,19 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = observer(function Wel
         },
       }}
     >
-      <ImageBackground source={welcomeBackGround} resizeMode="stretch">
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.content}>
-            <View style={styles.centered}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.content}>
+          <View style={styles.centered}>
+            <LinearGradient colors={["transparent", "rgba(0, 0, 0, 0.8)"]} style={styles.gradient}>
               <View style={styles.sloganWrapper}>
                 <Image style={styles.logoImage} source={welcomeLogo} resizeMode="contain" />
                 <Text style={styles.slogan} tx="welcomeScreen.slogan" />
               </View>
-            </View>
-            <LoginOTP goToOTPConfirmation={navigateToOTPConfirmation} />
+            </LinearGradient>
           </View>
-        </TouchableWithoutFeedback>
-      </ImageBackground>
+          <LoginOTP goToOTPConfirmation={navigateToOTPConfirmation} />
+        </View>
+      </TouchableWithoutFeedback>
     </Screen>
   )
 })
@@ -54,7 +54,7 @@ const useStyles = createUseStyles((theme) => ({
     flex: 1,
   },
   content: {
-    alignItems: 'flex-start',
+    alignItems: "flex-start",
     height: "100%",
   },
   logoImage: {
@@ -74,6 +74,12 @@ const useStyles = createUseStyles((theme) => ({
   },
   centered: {
     flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: theme.colors.primary.main500,
+    width: "100%",
+  },
+  gradient: {
+    height: "100%",
     justifyContent: "flex-end",
   },
 }))

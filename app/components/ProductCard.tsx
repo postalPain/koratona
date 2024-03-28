@@ -114,8 +114,8 @@ const useStyles = createUseStyles((theme) => ({
   button: {
     marginTop: theme.spacing["32"],
     minHeight: 59,
-    backgroundColor: "#1A1F51",
-    borderColor: "#333865",
+    backgroundColor: theme.colors.primary.main500,
+    borderColor: theme.colors.primary.main500,
   },
   disabledButton: {
     marginTop: theme.spacing["32"],
@@ -124,7 +124,7 @@ const useStyles = createUseStyles((theme) => ({
     borderColor: "#F2F4F7",
   },
   buttonText: {
-    color: "#fff",
+    color: '#fff',
   },
   buttonContainer: {
     width: "100%",

@@ -221,8 +221,8 @@ const useStyles = createUseStyles((theme) => ({
   button: {
     minHeight: 59,
     marginTop: theme.spacing["8"],
-    backgroundColor: "#1A1F51",
-    borderColor: "#1A1F51",
+    backgroundColor: theme.colors.primary.main500,
+    borderColor: theme.colors.primary.main500,
   },
   submitButtonText: {
     ...typographyPresets["p2-semibold"],

@@ -27,20 +27,20 @@ export const AppLanguage: React.FC<Props> = observer(function ({ onCloseBottomSh
   }
 
   const getIndexOfCurrentLanguage = () => {
-    let languageName;
+    let languageName
 
     switch (currentLanguage) {
       case "en":
-        languageName = "English";
-        break;
+        languageName = "English"
+        break
       case "ar":
-        languageName = "Arabic";
-        break;
+        languageName = "Arabic"
+        break
       default:
-        languageName = "English";
+        languageName = "English"
     }
 
-    return languages.indexOf(languageName);
+    return languages.indexOf(languageName)
   }
 
   const [selectedIndex, setSelectedIndex] = React.useState(getIndexOfCurrentLanguage)
@@ -123,8 +123,8 @@ const useStyles = createUseStyles((theme) => ({
   },
   button: {
     marginTop: theme.spacing["32"],
-    backgroundColor: "#333865",
-    borderColor: "#333865",
+    backgroundColor: theme.colors.primary.main500,
+    borderColor: theme.colors.primary.main500,
   },
   buttonText: {
     color: "#fff",

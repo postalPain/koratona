@@ -1,5 +1,5 @@
 import BottomSheet from "@gorhom/bottom-sheet/lib/typescript/components/bottomSheet/BottomSheet"
-import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { createUseStyles, useTheme } from "@stryberventures/gaia-react-native.theme"
 import { isRTL } from "app/i18n"
 import { useStores } from "app/models"
 import { typography, typographyPresets } from "app/theme"
@@ -31,7 +31,6 @@ import { SettingsKey } from "./components/bottomPanels/SettingsContentController
 import SettingsBottomPanel from "./components/bottomPanels/SettingsPanel"
 
 const logoImage = require("assets/images/logo.png")
-const tShirtImage = require("assets/images/tShirt.png")
 
 export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = observer(function (
   _props,
@@ -43,6 +42,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
     authUserStore: { user, updateUser },
     authenticationStore: { logout },
   } = useStores()
+  const { theme } = useTheme()
 
   const [settingBottomPanelKey, setSettingBottomPanelKey] = React.useState<SettingsKey | null>(
     "profile",
@@ -70,10 +70,10 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
   }, [])
 
   useEffect(() => {
-    const unsubscribeNavigationBlur = _props.navigation.addListener('blur', () => {
-      settingBottomPanelRef.current?.close();
-      favoritePlayersBottomPanelRef.current?.close();
-    });
+    const unsubscribeNavigationBlur = _props.navigation.addListener("blur", () => {
+      settingBottomPanelRef.current?.close()
+      favoritePlayersBottomPanelRef.current?.close()
+    })
     return () => {
       unsubscribeNavigationBlur()
     }
@@ -90,12 +90,18 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
       setIsJerseyNumberEditing(false)
     })
   }
-
   return (
     <>
       <Screen preset="auto" backgroundColor="#fff">
         <LinearGradient
-          colors={["#047EEB", "#047EEB", "#333865"]}
+          colors={[
+            theme.colors.primary.main500,
+            theme.colors.primary.main500,
+            // @ts-ignore
+            theme.colors.primary.gradientMiddle,
+          ]}
+          start={{ x: 0.5, y: 0 }}
+          end={{ x: 0.5, y: 0.94 }}
           style={[
             {
               ...styles.gradient,
@@ -114,11 +120,16 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
           </View>
           <View>
             <View style={styles.pentagonContainer}>
-              <PentagonIcon />
+              <PentagonIcon color={theme.colors.secondary.dark600} />
               <Text tx="profile.yourProfile" style={styles.pentagonText} />
             </View>
             <View style={styles.tShirtContainer}>
-              <Image source={tShirtImage} />
+              <Image
+                source={
+                  // @ts-ignore
+                  theme.profileTShirt
+                }
+              />
               <View style={styles.shirtTextContainer}>
                 <Text style={styles.tShirtName} text={user.lastName || ""} />
                 {isJerseyNumberEditing && (
@@ -180,10 +191,7 @@ export const ProfileScreen: FC<ProfileStackScreenProps<"profileScreen">> = obser
               >
                 <TShirtIcon />
                 <Text
-                  style={[
-                    styles.editTShirtNumberText,
-                    isJerseyNumberEditing && styles.editTShirtNumberTextBold,
-                  ]}
+                  style={styles.editTShirtNumberText}
                   tx={isJerseyNumberEditing ? "profile.saveShirtNumber" : "profile.editShirtNumber"}
                 />
               </Pressable>
@@ -259,11 +267,14 @@ const useStyles = createUseStyles((theme) => ({
     height: 40,
     flexDirection: "row",
     alignItems: "center",
+    backgroundColor: "rgba(56, 56, 56, 0.5)",
+    paddingHorizontal: 12,
+    borderRadius: 20,
   },
   logoutText: {
     marginLeft: theme.spacing[8],
     color: "#fff",
-    opacity: 0.5,
+    opacity: 0.7,
     ...typographyPresets["p3-semibold"],
   },
   gradient: {
@@ -329,14 +340,10 @@ const useStyles = createUseStyles((theme) => ({
     alignItems: "center",
     paddingTop: 20,
   },
-  editTShirtNumberTextBold: {
-    fontFamily: typography.fonts.instrumentSansCondensed.bold,
-    color: "#fff",
-  },
   editTShirtNumberText: {
     textTransform: "uppercase",
     textAlign: "center",
-    color: "#B2D5F7",
+    color: theme.colors.secondary.light200,
     ...(isRTL()
       ? typographyPresets["p2-semibold"]
       : {

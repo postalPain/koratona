@@ -471,7 +471,7 @@ const useStyles = createUseStyles((theme) => ({
   button: {
     marginTop: theme.spacing["32"],
     borderWidth: 0,
-    backgroundColor: "#1983FF",
+    backgroundColor: theme.colors.primary.main500,
     minHeight: 58,
   },
   buttonText: {
