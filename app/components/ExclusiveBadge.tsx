@@ -1,4 +1,4 @@
-import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { createUseStyles, useTheme } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components/Text"
 import { typographyPresets } from "app/theme"
 import { LinearGradient } from "expo-linear-gradient"
@@ -19,11 +19,11 @@ export interface ExclusiveBadgeProps {
  */
 export const ExclusiveBadge = observer(function ExclusiveBadge() {
   const styles = useStyles()
-
+  const { theme } = useTheme()
   return (
     <LinearGradient
       style={styles.container}
-      colors={["rgba(250, 223, 215, 0)", "rgba(250, 223, 215, 0.2)"]}
+      colors={[theme.colors.primary.dark600, theme.colors.primary.gradientMiddle]}
       start={{ x: 0.4, y: 0.4 }}
       end={{ x: 0.4, y: 0.9 }}
     >
@@ -46,7 +46,7 @@ const useStyles = createUseStyles(() => ({
   },
   text: {
     ...typographyPresets["p2-semibold"],
-    color: "#FADFD7",
+    color: "#fff",
     marginLeft: 4,
     marginRight: 4,
   },

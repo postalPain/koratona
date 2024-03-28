@@ -1,4 +1,4 @@
-import { createUseStyles } from "@stryberventures/gaia-react-native.theme"
+import { createUseStyles, useTheme } from "@stryberventures/gaia-react-native.theme"
 import { Text } from "app/components"
 import { useStores } from "app/models"
 import { typography } from "app/theme"
@@ -16,11 +16,12 @@ const TopContentContainer: React.FC<Props> = ({ playerId }) => {
   const styles = useStyles()
   const { playerStore } = useStores()
   const player = playerStore.getPlayerById(playerId)
+  const { theme } = useTheme()
 
   return (
     <>
       <View style={styles.bgLayoutContainer}>
-        <PentagonIcon />
+        <PentagonIcon color={theme.colors.secondary.dark600} />
         <View style={styles.bgLayoutImageContainer}>
           <Image
             source={player?.pictureUrl ? { uri: player?.pictureUrl } : require("")}
@@ -29,7 +30,10 @@ const TopContentContainer: React.FC<Props> = ({ playerId }) => {
           />
         </View>
       </View>
-      <LinearGradient colors={["transparent", "transparent", "#080A18"]} style={styles.gradient}>
+      <LinearGradient
+        colors={[theme.colors.primary.main500, "transparent"]}
+        style={styles.gradient}
+      >
         <View />
         <View style={styles.generalPlayerInfo}>
           <Text text={formatPlayerInfoValue(player?.jerseyNumber)} style={styles.playerNumber} />

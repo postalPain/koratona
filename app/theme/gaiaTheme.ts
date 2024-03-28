@@ -2,15 +2,16 @@ const appTheme = {
   colors: {
     primary: {
       dark600: "#00063E",
-      main500: "#1A1F51",
+      main500: "#FFD02D",
       medium400: "#333865",
       medium300: "#4D5178",
-      light200: "#80839F",
+      light200: "#B2D5F7",
       light100: "#B3B4C5",
       extraLight50: "#E6E6EC",
+      gradientMiddle: "#07213C",
     },
     secondary: {
-      dark600: "#191615",
+      dark600: "#07213C",
       main500: "#4B4340",
       medium400: "#7D706C",
       medium300: "#AF9C97",
